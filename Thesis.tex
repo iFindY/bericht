@@ -6,30 +6,6 @@
 %If want to write a dedication, modify the following.
 %\dedication{Zitat, kluger Spruch oder Widmung}
 
-%
-\newpage
-%\pagestyle{empty}
-~\vfill
-\noindent \textbf{Candidate}\smallskip{}
-\\
-First-name Last-name \smallskip{}
-\\
-\noindent \textbf{Matr. number}\smallskip{}
-\\
-XXYYYZZ \smallskip{}
-\\
-\textbf{Working period}\smallskip{}
-\\
-01.\,01.\,2016 -- 01.\,06.\,2016 \smallskip{}
-\\
-\textbf{Examiner}\smallskip{}
-\\
-Prof.~Dr.~Vorname Name\smallskip{}
-\\
-\textbf{Supervisor}\smallskip{}
-\\
-First-name Last-name\\
-
 \newpage
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
@@ -51,6 +27,8 @@ Kurzfassung auf Deutsch
 %}
 \linespread{1.25}\selectfont
 
+% Wenn ihr Pakete braucht dann bindet die bitte in layout.tex ein und scheibt eine mail rum damit alle anderen merge konflikte vermeiden können.
+
 \tableofcontents % indice dei contenuti
 \listoffigures  %lista delle figure
 \listoftables
@@ -58,37 +36,21 @@ Kurzfassung auf Deutsch
 \blankpage
 \input{Chapter1-Intro.tex}
 \input{Chapter2.tex}
-\input{Chapter3.tex}
-\input{Chapter4.tex}
-\input{Chapter5.tex}
-\input{Chapter6.tex}
+\input{Chapter3-Conclusion.tex}
 
 \blankpage
 
 % usare questo invece di usare \appendix perchè l'altro dà un ref sbagliato sul primo link dell'indice
 \begin{appendices}
 	\input{AppendixA-Glossary.tex}\blankpage
-	\input{AppendixB.tex}
-	%\input{AppendixC.tex}
+	\input{Cassandra.tex}
+	\input{BigTable.tex}
+	\input{Dynamo.tex}
+	\input{Spark.tex}
+	\input{MapReduce.tex}
+	\input{ElasticSearch.tex}
 	%\input{AppendixD.tex}
 \end{appendices}
-
-%Declaration
-\pagestyle{empty}
-\newpage
-\section*{Erklärung}
-
-Hiermit erkläre ich, dass ich diese Abschlussarbeit selbständig verfasst
-habe, keine anderen als die angegebenen Quellen/Hilfsmittel verwendet
-habe und alle Stellen, die wörtlich oder sinngemäß aus veröffentlichten
-Schriften entnommen wurden, als solche kenntlich gemacht habe. Darüber
-hinaus erkläre ich, dass diese Abschlussarbeit nicht, auch nicht auszugsweise,
-bereits für eine andere Prüfung angefertigt wurde.\\
-\begin{tabular}{lp{3em}l}
-\vspace{1cm}
- \hspace{6cm}   && \hspace{6cm} \\\cline{1-1}\cline{3-3}
- Ort, Datum     && Unterschrift
-\end{tabular}
 
 % Esempio
 %\index{Esempio |see{Esempio 2}}
@@ -98,6 +60,8 @@ bereits für eine andere Prüfung angefertigt wurde.\\
 %Indice analitico per il momento non verra' messo.
 %\printindex %indice analitico
 
+% load multiple reference files like this
+%\bibliography{references, ref_cassandra}
 \bibliography{references}
 \end{document}
 
