@@ -1,10 +1,11 @@
-*aux
-*bbl
-*blg
-*idx
-*lof
-*log
-*lot
-*synctex.gz
-*toc
+*.aux
+*.bbl
+*.blg
+*.idx
+*.lof
+*.log
+*.lot
+*.synctex.gz
+*.toc
+*.out
 
