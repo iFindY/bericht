@@ -13,6 +13,7 @@
 \BOOKMARK [0][-]{chapter.3}{Cassandra}{}% 13
 \BOOKMARK [1][-]{section.3.1}{Datenverwaltung}{chapter.3}% 14
 \BOOKMARK [2][-]{subsection.3.1.1}{Datenschema}{section.3.1}% 15
+<<<<<<< Updated upstream
 \BOOKMARK [1][-]{section.3.2}{Cassandrareader}{chapter.3}% 16
 \BOOKMARK [2][-]{subsection.3.2.1}{Architektur}{section.3.2}% 17
 \BOOKMARK [1][-]{section.3.3}{Use Cases}{chapter.3}% 18
@@ -48,3 +49,34 @@
 \BOOKMARK [1][-]{section.a.F.2}{Section 2}{Appendix.a.F}% 48
 \BOOKMARK [0][-]{Appendix.a.G}{Appendix D}{}% 49
 \BOOKMARK [1][-]{section.a.G.1}{Section 1}{Appendix.a.G}% 50
+=======
+\BOOKMARK [1][-]{section.3.2}{Use Cases}{chapter.3}% 16
+\BOOKMARK [2][-]{subsection.3.2.1}{Subtopic1}{section.3.2}% 17
+\BOOKMARK [2][-]{subsection.3.2.2}{Webserver \040Frontend}{section.3.2}% 18
+\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 19
+\BOOKMARK [1][-]{section.4.1}{Future work}{chapter.4}% 20
+\BOOKMARK [0][-]{Appendix.a.A}{Glossary}{}% 21
+\BOOKMARK [0][-]{Appendix.a.B}{Cassandra}{}% 22
+\BOOKMARK [1][-]{section.a.B.1}{Daten Model}{Appendix.a.B}% 23
+\BOOKMARK [1][-]{section.a.B.2}{System}{Appendix.a.B}% 24
+\BOOKMARK [2][-]{subsection.a.B.2.1}{Partitionierung}{section.a.B.2}% 25
+\BOOKMARK [2][-]{subsection.a.B.2.2}{Replikation}{section.a.B.2}% 26
+\BOOKMARK [2][-]{subsection.a.B.2.3}{Persistenz}{section.a.B.2}% 27
+\BOOKMARK [1][-]{section.a.B.3}{CQL}{Appendix.a.B}% 28
+\BOOKMARK [0][-]{Appendix.a.C}{Appendix C}{}% 29
+\BOOKMARK [1][-]{section.a.C.1}{Einf\374hrung}{Appendix.a.C}% 30
+\BOOKMARK [1][-]{section.a.C.2}{Datenmodell}{Appendix.a.C}% 31
+\BOOKMARK [1][-]{section.a.C.3}{Refinments}{Appendix.a.C}% 32
+\BOOKMARK [1][-]{section.a.C.4}{Performance Auswertung}{Appendix.a.C}% 33
+\BOOKMARK [0][-]{Appendix.a.D}{Appendix C}{}% 34
+\BOOKMARK [1][-]{section.a.D.1}{Section 1}{Appendix.a.D}% 35
+\BOOKMARK [1][-]{section.a.D.2}{Section 2}{Appendix.a.D}% 36
+\BOOKMARK [0][-]{Appendix.a.E}{Appendix C}{}% 37
+\BOOKMARK [1][-]{section.a.E.1}{Section 1}{Appendix.a.E}% 38
+\BOOKMARK [1][-]{section.a.E.2}{Section 2}{Appendix.a.E}% 39
+\BOOKMARK [0][-]{Appendix.a.F}{Appendix C}{}% 40
+\BOOKMARK [1][-]{section.a.F.1}{Section 1}{Appendix.a.F}% 41
+\BOOKMARK [1][-]{section.a.F.2}{Section 2}{Appendix.a.F}% 42
+\BOOKMARK [0][-]{Appendix.a.G}{Appendix D}{}% 43
+\BOOKMARK [1][-]{section.a.G.1}{Section 1}{Appendix.a.G}% 44
+>>>>>>> Stashed changes
