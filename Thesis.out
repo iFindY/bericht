@@ -22,29 +22,39 @@
 \BOOKMARK [2][-]{subsection.3.3.4}{Abfragen von Usern}{section.3.3}% 22
 \BOOKMARK [2][-]{subsection.3.3.5}{Abrufen der Timeline}{section.3.3}% 23
 \BOOKMARK [2][-]{subsection.3.3.6}{Absenden/Speichern von Tweets}{section.3.3}% 24
-\BOOKMARK [0][-]{chapter.4}{Conclusion}{}% 25
-\BOOKMARK [1][-]{section.4.1}{Future work}{chapter.4}% 26
-\BOOKMARK [0][-]{Appendix.a.A}{Glossary}{}% 27
-\BOOKMARK [0][-]{Appendix.a.B}{Cassandra}{}% 28
-\BOOKMARK [1][-]{section.a.B.1}{Daten Model}{Appendix.a.B}% 29
-\BOOKMARK [1][-]{section.a.B.2}{System}{Appendix.a.B}% 30
-\BOOKMARK [2][-]{subsection.a.B.2.1}{Partitionierung}{section.a.B.2}% 31
-\BOOKMARK [2][-]{subsection.a.B.2.2}{Replikation}{section.a.B.2}% 32
-\BOOKMARK [2][-]{subsection.a.B.2.3}{Persistenz}{section.a.B.2}% 33
-\BOOKMARK [1][-]{section.a.B.3}{CQL}{Appendix.a.B}% 34
-\BOOKMARK [0][-]{Appendix.a.C}{Appendix C}{}% 35
-\BOOKMARK [1][-]{section.a.C.1}{Einf\374hrung}{Appendix.a.C}% 36
-\BOOKMARK [1][-]{section.a.C.2}{Datenmodell}{Appendix.a.C}% 37
-\BOOKMARK [1][-]{section.a.C.3}{Refinments}{Appendix.a.C}% 38
-\BOOKMARK [1][-]{section.a.C.4}{Performance Auswertung}{Appendix.a.C}% 39
-\BOOKMARK [0][-]{Appendix.a.D}{Appendix C}{}% 40
-\BOOKMARK [1][-]{section.a.D.1}{Section 1}{Appendix.a.D}% 41
-\BOOKMARK [1][-]{section.a.D.2}{Section 2}{Appendix.a.D}% 42
-\BOOKMARK [0][-]{Appendix.a.E}{Appendix C}{}% 43
-\BOOKMARK [1][-]{section.a.E.1}{Section 1}{Appendix.a.E}% 44
-\BOOKMARK [1][-]{section.a.E.2}{Section 2}{Appendix.a.E}% 45
-\BOOKMARK [0][-]{Appendix.a.F}{Appendix C}{}% 46
-\BOOKMARK [1][-]{section.a.F.1}{Section 1}{Appendix.a.F}% 47
-\BOOKMARK [1][-]{section.a.F.2}{Section 2}{Appendix.a.F}% 48
-\BOOKMARK [0][-]{Appendix.a.G}{Appendix D}{}% 49
-\BOOKMARK [1][-]{section.a.G.1}{Section 1}{Appendix.a.G}% 50
+\BOOKMARK [1][-]{section.3.4}{Webserver und Frontend}{chapter.3}% 25
+\BOOKMARK [2][-]{subsection.3.4.1}{Frontend}{section.3.4}% 26
+\BOOKMARK [2][-]{subsection.3.4.2}{Webserver}{section.3.4}% 27
+\BOOKMARK [0][-]{chapter.4}{Umsetzung von Kommunikationsschemen \374ber Kafka}{}% 28
+\BOOKMARK [1][-]{section.4.1}{Grundlagen Kafka}{chapter.4}% 29
+\BOOKMARK [2][-]{subsection.4.1.1}{Registrieren eines Consumers}{section.4.1}% 30
+\BOOKMARK [2][-]{subsection.4.1.2}{Nachrichtenverteilung}{section.4.1}% 31
+\BOOKMARK [1][-]{section.4.2}{Realisierung der Kommunikationsschemen}{chapter.4}% 32
+\BOOKMARK [2][-]{subsection.4.2.1}{Beliebiger Kommunikationspartner}{section.4.2}% 33
+\BOOKMARK [2][-]{subsection.4.2.2}{Ausgew\344hlter Kommunikationspartner}{section.4.2}% 34
+\BOOKMARK [0][-]{chapter.5}{Conclusion}{}% 35
+\BOOKMARK [1][-]{section.5.1}{Future work}{chapter.5}% 36
+\BOOKMARK [0][-]{Appendix.a.A}{Glossary}{}% 37
+\BOOKMARK [0][-]{Appendix.a.B}{Cassandra}{}% 38
+\BOOKMARK [1][-]{section.a.B.1}{Daten Model}{Appendix.a.B}% 39
+\BOOKMARK [1][-]{section.a.B.2}{System}{Appendix.a.B}% 40
+\BOOKMARK [2][-]{subsection.a.B.2.1}{Partitionierung}{section.a.B.2}% 41
+\BOOKMARK [2][-]{subsection.a.B.2.2}{Replikation}{section.a.B.2}% 42
+\BOOKMARK [2][-]{subsection.a.B.2.3}{Persistenz}{section.a.B.2}% 43
+\BOOKMARK [1][-]{section.a.B.3}{CQL}{Appendix.a.B}% 44
+\BOOKMARK [0][-]{Appendix.a.C}{Appendix C}{}% 45
+\BOOKMARK [1][-]{section.a.C.1}{Einf\374hrung}{Appendix.a.C}% 46
+\BOOKMARK [1][-]{section.a.C.2}{Datenmodell}{Appendix.a.C}% 47
+\BOOKMARK [1][-]{section.a.C.3}{Refinments}{Appendix.a.C}% 48
+\BOOKMARK [1][-]{section.a.C.4}{Performance Auswertung}{Appendix.a.C}% 49
+\BOOKMARK [0][-]{Appendix.a.D}{Appendix C}{}% 50
+\BOOKMARK [1][-]{section.a.D.1}{Section 1}{Appendix.a.D}% 51
+\BOOKMARK [1][-]{section.a.D.2}{Section 2}{Appendix.a.D}% 52
+\BOOKMARK [0][-]{Appendix.a.E}{Appendix C}{}% 53
+\BOOKMARK [1][-]{section.a.E.1}{Section 1}{Appendix.a.E}% 54
+\BOOKMARK [1][-]{section.a.E.2}{Section 2}{Appendix.a.E}% 55
+\BOOKMARK [0][-]{Appendix.a.F}{Appendix C}{}% 56
+\BOOKMARK [1][-]{section.a.F.1}{Section 1}{Appendix.a.F}% 57
+\BOOKMARK [1][-]{section.a.F.2}{Section 2}{Appendix.a.F}% 58
+\BOOKMARK [0][-]{Appendix.a.G}{Appendix D}{}% 59
+\BOOKMARK [1][-]{section.a.G.1}{Section 1}{Appendix.a.G}% 60
