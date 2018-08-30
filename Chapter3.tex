@@ -66,36 +66,6 @@ Als weitere Schnittstellen für erweiterte Funktionen haben wir eine API für Vo
 
 \subsection{Abrufen der Timeline}
 
-<<<<<<< Updated upstream
 \subsection{Absenden/Speichern von Tweets}
-=======
-\subsection{Webserver & Frontend}
-Der Zugriff auf unsere Anwendung wurde mit dem Framework Angular realisiert. Als Schnittstelle zwischen Frontend und dem Message-Broker Kafka wurde ein Webserver geschaltet. Somit muss nur die Verbindung zwischen Frontend und dem Webserver abgesichert werden. Jede weitere Kommunikation innerhalb der einzelnen Prozesse findet in einem eigenen Netzwerk statt, welches keinen Zugriff von außerhalb bietet. 
 
-\subsubsection{Frontend}
 
-\subsubsection{Webserver}
-Der Webserver wurde mit dem Framework NodeJs erstellt. Dieser Webserver bietet verschiedene REST-Schnittstellen, welche mit Hilfe des Paket \textit{express} bereitgestellt wurden. Da der Webserver nur als Vermittler fungiert, wurde eine Funktion implementiert welche zwei Parameter benötigt. Der erste Parameter dient dem Frage-Topic an den Kafka Server und der zweite für die Antwort in Kafka. Zusätzlich zu diesen zwei Parameter wurde eine REST-Schnittstelle definiert, welche das Frontend mittels einer REST-Methode ansprechen kann. Zusätzlich wurde diese Funktion ein Aufruf-Path zugeteilt. Der folgende Teil beschreibt die oben beschriebene Funktion: \\
-
-Es wurde ein LoginController erstellt welcher mit den zwei Parameter \textit{USER\_ISSUES\_LOGIN} und \textit{LOGIN\_RESULT\_IS\_PROVIDED} die oben beschriebene Funktion aufruft: \\
-
-\begin{lstlisting}
-	var kommunikationHandler = new KommunikationHandler.constructor('USER_ISSUES_LOGIN', 'LOGIN_RESULT_IS_PROVIDED');
-\end{lstlisting}
-
-Diese zwei Topics wurden in dem Kaptiel XYZ definiert. Im folgenden Code-Beispiel wird der LoginController mit einer REST-Schnittstelle \textit{/users/login} verknüpft. \\
-
-\begin{lstlisting}
-	var LoginController = require('./endpoints/loginController');
-	app.use('/users/login', LoginController);
-\end{lstlisting}
-
-Durch dieses Vorgehen, konnte ohne großes verändern des Webservers verschiedene REST-Endpunkte mit hinterlegten Topics für das Frontend definiert werden. \\
-
-Für die Kommunikation zwischen dem Frontend und der Springboot Anwendung musste ein ausreichender Timeout gesetzt werden, damit die REST-Anfrage vom Frontend nicht frühzeitig wegen eines Timeouts beendet wurde.
-Zusätzlich generiert der Webserver eine Session-Id, damit sich im Frontend nur einmal eingeloggt werden musste. Dafür musste die Session-ID bei jedem weiteren REST-Anfrage mitgesendet werden. 
-
-%Damit so eine Session-ID verwendet werden kann, wird zwingend eine https Verschlüsselung vorausgesetzt, da sonst die Session-ID in Klartext übertragen wird. In unserem Projekt konnten wir nicht mit einem verifizierten https Zertifikat arbeiten, da wir kein öffentlich erreichbar Zugriffspunkt besaßen. \\
-
-Nachdem diese Funktionalität reibungslos funktionierte wurde der Webserver erweitert. Das Ziel war es, mehrere Webserver parallel am laufen zu haben, damit ein "Load Balancing" simuliert werden konnte. Dafür musste Manuell auf dem Frontend noch ein Port definiert werden, an welchen Webserver die Anfrage gesendet werden soll. Die Hürde hierbei war es, auf eine Anfrage vom Frontend das passende Ergebnis zurück zuliefern. Da wir davon ausgegangen sind, dass mehrere User gleichzeitig anfragen im Frontend an den gleichen Webserver absenden. Gelöst wurde dieses Problem mittels einer Request-ID. Jeder eingehende REST-Anfrage wurde mit einer inkrementierten ID versehen. Diese ID wurde dann dem JSON-Dokument, welches an Kafka zur Bearbeitung weiter gereicht wurde, hinzugefügt. Das Antwort-Topic enthielt diese zu beginn hinzugefügte Request-ID. Somit konnte der Webserver mehrere Anfragen gleichzeitig bearbeiten und es wurde sichergestellt, dass keine Anfrage an einen falschen Client versendet wurde.
->>>>>>> Stashed changes
