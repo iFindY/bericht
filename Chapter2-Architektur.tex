@@ -1,0 +1,356 @@
+\chapter{Architektur}
+
+\section{Einführung}
+Ziel des Projekt ist es einen Twitter-Klon zu entwickeln. Als Mikroblogging-Dienst ist die zentrale Funktionalität:
+\begin{itemize}
+  \item Senden von Tweets
+  \item Finden von Tweets (Anzeigen der Tweets in der eigenen Timeline, Suchen nach Schlüsselwörten/Hashtags)
+\end{itemize}
+Zusätzlich ist selbstverständlich eine Benutzerverwaltung nötig. Ebenso interessant sind Analytics-Funktionalitäten.
+
+In diesem Projekt liegt der Fokus auf der Entwicklung  einer Architektur, die besondere Nicht-Funktionale Anforderungen
+erfüllt. Diese ergeben sich aus den Anforderungen an das reale Twitter:
+\begin{itemize}
+  \item Skalierbarkeit
+  \item Erweiterbarkeit um zusätzliche Funktionalität.
+\end{itemize}
+
+Geprägt ist Twitter durch enorme Datengeschwindigkeit (Velocity in Gartners Vs). Jede Sekunde werden im
+Durchschnitt 6000 Tweets weltweit abgesetzt. Diese Zahlen varieren zudem
+stark: Der Rekord liegt bei 140.000 Tweets pro Sekunde. Zudem werden viele Features von Twitter nach und nach eingeführt,
+ohne das Twitter in Wartungspausen geht (gehen musste).
+
+Diesen Herausforderungen sind herkömmliche Webarchitekturen nicht gewachsen. Dieses Projekt entwickelt einen Twitter-Clon
+mit den Technologien und einer Architektur, die diesen Anforderen im Prinzip gewachsen ist.
+
+\section*{Quellen}
+\url{https://www.brandwatch.com/de/blog/twitter-statistiken/}
+\url{http://www.gegen-den-strom.org/twitter/}
+
+\section{Entwicklung der neuen Architektur}
+Ausgangspunkt der Entwicklung der neuen Architektur ist eine einfache Client-Server-Architektur. Es gibt in ihr einen Server
+mit viel Rechnenleistung sowie viele Clients. Die Clients verbinden sich mit dem Server, der sie parallel bedient. Die Parallellisierung
+erfolgt also auf Thread-/Prozessebene.
+
+Der nächste Schritt ist es, die Datenhaltung in eine Datenbank auszulagern. Es gibt jetzt drei Komponenten: die Clients,
+der Webserver und der Datenbankserver. Wenn die Leistung des Serversystems nicht ausreicht gibt es unterschiedliche Möglichkeiten
+für mehr Leistung zu sorgen:
+\begin{itemize}
+  \item Die einzelnen Server mit mehr Leistung auszustatten
+  \item Mehr Webserver einzuführen
+\end{itemize}
+Möglichkeit 1 würde ein Aufrüsten der Server mit schnelleren Prozessoren, mehr Arbeitsspeicher, schnelleren Festplatten etc.
+bedeuten. Möglichkeit 2 ist schon etwas komplizierter. Zwar werden die Daten zentral vom Datenbankserver gehalten,
+trotzdem können nicht einfach mehr Webserver eingeführt werden. Die Clients müssen noch auf die Webserver verteilt werden.
+
+Diese Aufgabe kann wieder auf zwei Arten erfolgen: Im Netzwerkprotokoll (z.B: über Anycast) oder durch eine zusätzliche
+Komponente im Server, nämlich dem Load-Balancer. An ihn kommen alle Anfragen an die Webserver und der Loadbalancer
+entscheidet mit mehr oder weniger komplexe Techniken welcher Webserver genutzt werden soll und leitet
+den anfragenden Client an diesen Webserver weiter. Dabei achtet diese Komponete z.B. darauf, dass bereits stark
+ausgelastete Webserver keine neuen Clients mehr zugewiesen bekommen, sondern nur Webserver mit aktuell
+niedriger Auslastung.
+
+Die Parallelisierung erfolgt in dieser Architektur bereits auf vielen Ebenen: Im Loadbalancer, in den Webservern und in der
+Datenbank. Die Datenbank führt dafür ausgefeilte Mechansimen zur Verwaltung der parallelen Anfragen und zur
+Datenkonsistenz aus.
+
+Diese Architektur wird häufig mit dem LAMP Softwarestack implementiert: Linux als Betriebssystem der Server,
+Apache als Webserver, MySQL als Datenbank und PHP als Serverprogrammiersprache.
+
+So weit eine erste Einführung in die Verteilung von Webanwendungen mit herkömmlichen Architekturen.
+Nun wollen wir die Art der Verteilung analysieren um darzustellen, weshalb eine andere Architektur für noch
+mehr Verteilung nötig ist.
+
+\subsection{Analyse der Verteilung}
+Es kommen zwei Techniken der Verteilung zu Einsatz
+\begin{itemize}
+  \item Erhöhung der Rechenleistung der einzelnen Komponenten
+  \item Loadbalancing
+\end{itemize}
+
+Die erste Technik wird auch Scale-Up genannt. Durch potentere Hardware kann ein Leistungszuwachs erzielt werden.
+Allerdings - und das ist ein zentrales Problem, dass unsere neue Architektur lösen wird - sind dieser Möglichkeit
+vergleichsweise enge Grenzen gesetzt. Der Prozessorgeschwindigkeit sind durch die Eigenschaften des verwendeten
+Silizium und der Wärmeentwicklung enge Grenzen gesetzt. Über 5 GHz gehen die Taktraten nicht mehr hinaus.
+Damit ist bereits bei einem Faktor von ca. 2,5 der Geschwindigkeitserhöhung hier ein Ende gesetzt. Von 2 GHz
+geht es bis maximal 5 GHz hoch (und selbst 5 GHz erreichen die wenigsten Prozessoren). Ein Leistungszuwachs
+kann jetzt nur noch durch mehr Prozessorkerne und mehr Prozessoren erreicht werden. Durch mehrere Sockel
+in den Server (leicht bis zu 4 Stück) und mehr Kernen in den Prozessoren (leicht bis zu 20 Stück) lässt sich hier
+bei sehr guter Parallelisierbarkeit der Anwendung\footnote{Amdahl‘s Law zeigt, dass sich durch mehr
+Hardware die Geschwindigkeit nicht linear erhöht} theoretisch eine Erhöhung um das 80-fache erreichen.
+
+Hier ist nun die Grenze für das Scale-Up erreicht. Herkömmliche Server lassen sich nun kaum mehr beschleunigen.
+Sobald also eine Komponente in unserer Architektur mehr Leistung benötigt weil mehr Client-Anfragen kommen,
+als sie bearbeiten kann, müssen wir etwas in der Architektur ändern. Die Ausnahme sind hier die Webserver.
+In unserer Architektur können wir bereits mehr Webserver hinzufügen und die Last auf mehr Rechner verteilen,
+anstatt auf schnellere Rechner. Das ist ein Grundgedanke unserer neuen Architektur. Im Gegensatz zum Scale-Up
+wird dieser Ansatz Scale-Out genannt.
+
+Die Komponente, die dementsprechend als erstes in unserer Architektur geändert werden muss, ist die Datenbank.
+Damit beschäftigen wir uns im nächsten Abschnitt.
+
+\subsection{Die Verteilung der Datenbank}
+Wir müssen also unsere Datenbank beschleunigen. Wir nehmen an, dass wir kein Scale-Up mehr durchführen können oder
+wollen.
+
+Eine Möglichkeit wäre noch die Nutzung von sehr spezialisierter Datenbankhardware. Diese hat sehr große Investitionskosten
+und legt einen auf eine spezielle Datenbanksoftware fest. Wir möchten diese deshalb nicht betrachten.
+
+Ein erster Ansatz wäre es, das Load-Balancing der Webserver zu wiederholen. Mehr Datenbankserver und eine Komponente,
+die die Anfragen an einen Datenbankserver mit genug verfügbarer Kapazität weiterleitet. Allerdings geht das
+nicht mehr so einfach wie bei den Webservern. Die Webserver waren untereinander unabhängig. Die Datenbank ist
+das nicht. Man kann nicht einfach einen Datenbankserver nehmen und dort Daten ändern. Wird der Nutzer nun
+bei seiner nächsten Anfrage an einen anderen Datenbankserver geleitet, sind die Änderungen dort nicht vorgenommen.
+Das ist also keine Alternative.
+
+Aber diesen Ansatz kann man noch verfeinern und schlussendlich gewinnbringend einsetzen.  Das Problem war,
+dass die geänderten Daten nur auf einem Server verändert wurden und der User plötzlich auf einen anderen
+Datenbankserver landete. Dann muss der Nutzer also immer auf dem gleichen Datenbankserver landen.
+Eine einfache Möglichkeit der Verteilung wäre es also, die Nutzer fest auf die Datenbankserver zu verteilen.
+Beispielsweise werden alle Nutzer mit Nachnamen, die mit A-K beginnen auf den ersten Datenbankserver zugewiesen,
+die anderen auf den zweiten Datenbankserver. In Verwaltungseinrichtungen wird so etwas sogar physisch betrieben.
+Wenn der Nutzer nun ein zweites Mal kommt, wird er wieder an den gleichen Datenbankserver weitergeleitet und
+seine Daten sind dort aktuell. Diese Aufteilung muss dann aber in der Applikationslogik fest eingebaut werden.
+Besser wäre es, wenn das automatisch passieren würde.
+
+Der andere Ansatz wäre es nicht den Benutzer immer auf den gleichen Datenbankserver weiterzuleiten, sondern
+die Datenbankserver alle aktuell zu halten. Dann wäre es wieder egal, welchen Datenbankserver er beim nächsten
+Besuch nutzt. Allerdings sieht man sofort, dass dann sehr viel Netzwerkverkehr nötig wäre um die Daten auf allen
+Server aktuell zu halten. Es ist also zweifelhaft, ob das so viel schneller wäre.
+
+Das wiederum hängt vom Nutzungsprofil ab. Wenn Daten z.B. nur selten geändert werden, aber häufig gelesen,
+dann ergibt das wieder Sinn. Der Overhead für das Aktuellhalten der Daten wäre dann sehr gering und
+der Leseoperationen würden skalieren. 
+
+\subsection{Ein erste Blick auf die neue Architektur}
+Im vorigen Abschnitt haben wir gesehen, dass es nötig wird die Datenbank verteilt auszulegen. Die eine Möglichkeit war
+die händische Aufteilung der Anfragen auf verschiedene, unabhängige Datenbankserver. Diese Möglichkeit ist aufwendig.
+Eine andere Möglichkeit war das Spiegeln auf mehrere Datenbankserver. Das funktioniert nur dann, wenn die Leseoperationen
+die Schreiboperationen weit übertreffen und die Schreiboperationen nur eine Last erzeugen, die ein einzelner Datenbankserver
+bearbeiten kann.
+
+Nun betrachten wir eine dritte Möglichkeit: die Verwendung verteilter Datenbanken. Damit werden Datenbankprogramme
+bezeichnet, die für den Einsatz auf mehreren Servern gebaut wurden. Sie sind eine Spielart der so genannten NoSQL-Datenbanken.
+Zur Skalierung verwenden sie den Scale-Out-Ansatz statt des Scale-Up-Ansatzes. D.h. sie sind so designed, dass man mehr
+Leistungsfähigkeit durch das Einbinden weiterer Server erreichen kann. Diese Server bestehen aus herkömmlicher Serverhardware.
+Es ist keine spezialisierte Hardware erforderlich. Die Koordinierung erfolgt über Netzwerkprotokolle. Damit wandert die
+Skalierbarkeit in die Software. Die Realisierung wird weiter untem in einem gesonderten Kapitel beschrieben.
+
+In der herkömmlichen Architektur wird nun die SQL-Datenbank durch eine verteilte Datenbank ersetzt. Jetzt lässt sich
+die benötigte Leistung durch die Verteilung der Datenbank auf genügend Server erreichen. Diese Komponente ist
+zusätzlich noch skalierbar, d.h. wenn mehr Leistung benötigt wird, können weitere Server hinzugefügt werden.
+
+Das ist ein Prinzip unserer neuen Architektur: Nicht skalierbare Softwarekomponenten werden durch skalierbare
+Softwarekomponenten ausgetauscht. Wir haben mit der Datenbank begonnen. Jetzt ist es Zeit die benötigten Komponenten
+für unseren Twitter-Klon zu ermitteln. Im nächsten Schritt setzen wir für die Komponenten Software ein, die skalierbar ist.
+
+\subsection{Benötigte Komponenten}
+Unser Twitter-Klon soll die folgende Funktionalität haben:
+\begin{itemize}
+  \item Nutzerverwaltung: Benutzerkonto mit Login-Funktionalitöt
+  \item Kernfunktionalität: Tweets senden und lesen
+  \item Tweets entdecken: Tweets suchen und Empfehlungen bekommen
+  \item Statistische Auswertungen der Tweets
+\end{itemize}
+
+Es gibt offensichtlich eine Frontend-Komponente. Das Backend besteht nun aus verschiedenen Komponenten. Eine Komponente
+für die Nutzerverwaltung und eine Komponente für die Kernfunktionalität. Sie greifen auf die Daten in der verteilten Datenbank
+zu. Da ein eindeutiger Schlüssel bekannt ist, unterscheidet sich der Zugriff nur in Details vom der Nutzung einer normalen
+SQL-Datenbank. Die verteilte Datenbank ist in der Lage die Datenmengen zu handeln und die benötigten Information zurückzuliefern.
+
+Wir verwenden als verteilte Datenbank Cassandra.
+
+Das ist anders beim Suchen der Tweets: Wir gehen davon aus, dass sich enorme Mengen von Tweets in der Datenbank befinden.
+Ein naives Durchsuchen wäre sehr teuer und wird deshalb nicht von der verteilten Datenbank angeboten. Wir brauchen also
+eine Komponente für das Durchsuchen der Tweets.  Für sie definiert man Kriterien, nach denen gesucht werden kann,
+dann liest sie alle Tweets ein und erstellt die entsprechenden verteilten Indexstrukturen. Ab dann ist die Komponente einsatzbereit
+und kann dann ebenfalls verteilt unter Zuhilfenahme der vorher erstellten Indexstrukturen die Suchanfragen beantworten.
+Zudem hat sie Methoden des Rankings aus dem Dokument Retrieval implementiert um die Suchergebnisse gewerten zurückzugeben.
+
+Die nächste Funktionalität, nämlich die statistische Auswertung der Tweets benötigt wiederum eine eigene Komponente, die
+wiederum verteilt arbeiten muss. Für die statistischen Auswertungen werden in Regelfall alle Tweets untersucht,
+damit handelt es sich wieder um enorme Datenmengen. Diese können nicht auf einen einzelnen Server geladen werden
+und dort ausgewertet werden. Zumindest nehmen wir das bei der Entwicklung der Architektur an. Diese Komponente muss
+also verteilte Auswertung unterstützen. Wie das funktioniert, wird ebenso später beschrieben.
+
+Die Komponenten für die Suche existieren bereits und auch die Komponente für die verteilte Auswertung existiert schon:
+ElasticSearch für die Suche und Empfehlung und Spark für die verteilte Auswertung.
+
+WIr fassen nochmal zusammen:
+\begin{itemize}
+  \item Kernfunktionalität: Tweets rein wie raus
+  \item Suche und Empfehlung: On-Demand-Berechnung von Antworten auf Suchanfragen unter Nutzung vorbereiter Datenstrukturen
+  \item Analytics: Vorberechnung der Analyseergebnisse und dann einfache Rückgabe dieser Ergebnisse auf Anfrage
+  \item Realtime-Analytics: Analyse von Stromdaten.
+\end{itemize}
+
+Es reicht nicht aus, skalierbare, verteilte Komponenten zu benutzen. Zwischen den Komponenten werden enorme
+Datenmengen ausgetauscht. Damit hier keine Flaschenhälse entstehen, müssen auch die Verbindungen zwischen
+den Komponenten verteilt sein, wenn sie die ganzen Daten auf einmal verarbeiten. Alternativ müssen die
+Komponenten die Daten durchgehend während ihre Entstehung laden.
+
+Es lohnt sich den Datenfluss in unserer Twitter-Klon-Architektur sich genauer anzuschauen.
+
+\subsection{Datenfluss: Stromdatenverarbeitung}
+Um zu verdeutlichen, wie der Datenfluss aussieht, betrachten wir kurz unterschiedliche Webanwendungen mit hohem
+Leistungsanforderungen
+\begin{itemize}
+  \item Nachrichtenportal: Hier stehen viele Artikel zum Lesen bereit. Die Anzahl Lesezugriffe (Abrufe von Artikeln)
+  übersteigt die Anzahl Schreibzugriffe (Einstellen von neuen Artikeln) deutlich. Es geht also im Wesentlichen darum,
+  immer wieder neue Artikel sehr häufig auszuliefern.
+  \item Video-On-Demand: Ähnlich wie das Nachrichtportal, nur dass die auszulieferenden Einheiten viel größer
+  sind (Videos vs. Texte). Dafür müssen nicht so viele Einheiten in kurzer Zeit ausgeliefert werden
+  Auch hier steht die Auslieferung im Vordergrund.
+\end{itemize}
+Das Anforderungsprofil eines Mikroblogging-Dienst ist etwas anders. Zum einen sind die einzelnen Einheiten sehr klein
+(Tweets), zum anderen werden diese von den Nutzern selbst generiert. Und zwar sehr viele in sehr kurzer Zeit.
+Die Tweets besonders populäre Nutzer müssen ebenfalls millionfach ausgeliefert werden. Der Fokus liegt aber
+längst nicht mehr auf der Auslieferung von Daten. Vielmehr geht es um einen ständigen Strom von Daten
+in das System ebenso wie aus dem System heraus. Es geht also um Stromdatenverabeitung.
+
+Dieses Anforderungsprofil harmoniert mit dem Parallelisierungskonzept unser Architektur. Die einzelnen Komponenten
+sind verteilt ausgelegt und verteilen die Arbeit auf mehrere einzelne Server. Das geht nun recht einfach. Die
+einzelnen Tweets können als (nahezu) unabhängig voneinander betrachtet werden. Sie können insbesondere unabhängig
+voneinander gespeichert werden. Damit können die Tweets zur Speicherung an einen beliebigen Datenbankserver weitergeleitet
+werden.
+
+Es gibt Ausnahmen von der Unabhängigkeit. Bei einer Folge von Tweets kann es sich um ein Gespräch handeln, d.h. Tweets
+antworten aufeinander. Es ist wünschenswert, dass solche Folgen auch vollständig angezeigt werden (können) und nicht
+plötzlich ein Tweet im Gespräch fehlt. Über die Realisierung solcher Anforderungen findet sich unten mehr.
+
+Neben der Skalierbarkeit hat unsere Architektur auch weitere Ziele. Es stellt sich noch die Frage, wie die einzelnen
+Komponenten verbunden werden und was sie funktional machen.
+
+\subsection{Microservice-Architektur}
+Eine ständige Herausforderung bei der Entwicklung von großen System ist die Aufteilung in kleinere Einheiten, die
+dann besser gehandelt werden können. Schließlich werden diese Systeme meist von vielen Entwicklern geschrieben,
+die häufig auch noch an verschiedenen Standorten sitzen. In unserem Fall werden sogar einige unterschiedliche Technologien
+im Backend genutzt.
+
+Der Ansatz der Aufteilung ist es, einzelne Komponenten mit jeweils einer Aufgabe zu entwickeln. Diese Komponenten sollen
+unabhänig voneinander entwickelt werden können. Offensichtlich hängen die einzelnen Komponenten in unserem
+Twitter-Clon stark voneinander ab. Alle brauchen zum Beispiel Zugriff auf die Tweets. Das ist kein Widerspruch zum 
+Microservice-Ansatz, es müssen nur die Schnittstellen vorher erstellt werden (und später eingehalten werden).
+
+Dabei ist es wichtig, dass die Schnittstellen nicht eine spezielle Technologie (insbesondere eine spezielle) Programmiersprache
+voraussetzen. In unserer Architektur ist das Austauschformat an den Schnittstellen meist JSON. Die Tweets sind z.B.
+JSON-Dateien bei ihrer Erzeugung. Das andere Austauschformat sind die Datenbanktabellen. Für die Datenbank existieren
+Connectoren in diversen Programmiersprachen. Die einzelnen Spalten sind zum einen universale Datentypen (Ints, Strings, \dots)
+zum anderen Verschachtelungen von den universalen Datentypen.
+
+Hier soll nicht verschwiegen werden, dass dieses Konzept der definierten Schnittstellen vor allem ein Ideal darstellt.
+Von ihm wird (und muss) manchmal davon abgewichen werden. Beispielsweise zeigt sich später, dass für die eine
+Komponente zusätzliche Felder im JSON notwendig sind. Es ist nicht möglich, dass von Anfang alles
+vollständig zu wissen. Zudem sind die Komponenten unabhängig voneinander.
+Und nicht alle Komponenten stehen in der Kontrolle der Entwicklungsteams. Werden Daten von außen verwenden,
+in unserem Fall benutzen wird Daten von Twitter, so können die das Format festlegen und auch ohne Nachfrage ändern.
+In diesem Projekt ist das auch mehrmals passiert. Zwar lässt sich das häufig mit Wrappern, Schema Matching oder auch durch Anpassung
+an die Änderungen von außen lösen. Allerdings darf der Aufwand dafür nicht unterschätzt werden.
+
+Der zweite Punkt, der hier kritisch angemerkt werden soll, ist das diese Architektur auch nicht vor den typischen
+Data Cleaning-Aufgaben schützt. Eine Definition des Austauschformats bedeutet nicht, dass  a. alle Felder Werte haben,
+b. das die Werte korrekt sind und c. dass das Format eingehalten wird. Bei den Twitterdaten heißt das z.B. das bei
+weitem nicht alle Tweets Geodaten haben. Trotzdem sind dafür einige Felder vorgesehen. Auch dieses Problem lässt sich
+meist lösen. Es zeigte sich aber, dass in unserem Fall einer der Connectoren zur verteilten Datenbank grobe Schwierigkeiten
+mit Null-Werten hatte.
+
+Die Microservice-Architektur wird bei uns mit weiteren Konzepten erweitert, wodurch ihr Nutzen nochmal deutlicher
+wird. Ohne diese Erweiterungen ist die Mikroservicearchitektur vor allem eine Empfehlung an die Systemdesigner Komponenten möglichst unabhängig
+voneinader zu designen und dadurch eine niedrige Kopplung zu erreichen. Das bedeutet auch, programmiersprachenunabhängige Schnittstellen zu bevorzugen.
+
+Wir erweitern das Microservice-Konzept um eine Publish-Subscribe-Architektur und später durch ein Denken in Ereignissen.
+Das führt zu einer guten Erweiterbarkeit.
+
+\subsection{Die Publish-Subscribe-Architektur}
+Zur Übertragung der Datenströme zwischen den Komponenten nutzen wir Kafka. Es handelt sich dabei um eine verteilte
+Streaming Plattform.  Diese Software kümmert sich um die Umsetzung der Datenströme. Sie ist selbst wieder natürlich
+skalierbar, und zwar scale-out skalierbar. Im Kern geht es um die Weiterleitung von Nachrichten an alle interessierten Komponenten.
+Ein Datenstrom besteht also aus einer Folge von Nachrichten.
+
+Im Kern von Kafka steht das Publish-Subscribe-Modell. Es werden Kanäle angelegt, so genannte Topics. Eine Komponente
+kann sich nun bei Kafka für diesen Kanal anmelden ("subscribe") und bekommt ab dann alle Nachrichten von Kafka zugestellt.
+Eine Komponente kann dann auch Nachrichten an den Kanal schicken ("publish") und Kafka kümmert sich dann um die Verteilung
+an alle Subscriber.
+
+Dies ist eine der Stellen, bei der leicht ein Flaschenhals entstehen kann. Die verteilte Datenbank kann sich nicht direkt
+mit Kafka verbinden. Stattdessen muss eine Komponente dazwischen geschaltet werden. Diese Komponente
+muss wiederrum verteilt arbeiten. Ansonsten werden alle Tweets über einen Server geleitet. Bis zu einer gewissen
+Geschwindigkeit (Tweets pro Zeiteinheit) mag das gut gehen, aber unsere Architektur soll ja gerade so designed sein,
+dass man in diesem Fall einfach weitere Server hinzufügen kann.
+
+Ein weiterer Fall sind die Webserver. Wenn sie für den Nutzer Tweets aus der Datenbank anfordern, dann läuft das wieder
+über ein solches Topic in Kafka. Das Problem entsteht dann, wenn sich einfach alle Webserver auf das Topic subscriben.
+Denn dann erhalten alle Webserver alle Tweets, die von Webservern angefordert worden. Sie sollen aber nur die
+Tweets bekommen, die sie auch selbst angefordert haben. Kafka löst das Problem mit so genannten Consumer Groups.
+Wie das genau funktioniert, wird weiter unten beschrieben.
+
+Nun wollen wir uns noch anschauen, wie unsere Architektur Erweiterbarkeit unterstützt.
+
+\subsection{Erweiterbarkeit des Systems}
+Wir schauen uns das am Beispiel der Realtime-Analytics an. Ihre Aufgabe ist es einfache statistische Auswertungen zu den 
+akutell abgesendeten Tweets zu liefern, z.B. die Top 10 Hashtags der aktuellen Stunde. Es gibt jetzt verschiedene Möglichkeiten
+an die dafür benötigten Tweets zu kommen:
+\begin{itemize}
+  \item die Tweets aus der Datenbank lesen
+  \item die Tweets vom Webserver nicht nur in die Datenbank schreiben lassen, sondern auch an die Realtime-Analytics-Komponente
+zu schicken
+\end{itemize}
+Beide Verfahren haben erhebliche Nachteile. Das erste Verfahren würde in sehr vielen Datenbankanfragen münden, wenn man
+die Stastistiken z.B. jede Sekunde aktualisieren möchte. Das zweite Verfahren würde eine Änderung des Webservers benötigen.
+
+Beide Verfahren sind also nicht geeignet genug. Unsere Architektur kann das Problem hier komfortabel lösen. Es ist ähnlich dem
+zweiten Verfahren. Allerdings sendet nicht der Webserver die Daten an die Realtime-Analytics-Komponente. Stattdessen
+subscribt sie sich die Realtime-Analytics-Komponente auf das Topic, auf dem der Webserver die Tweets an die Datenbank
+sendet. Und schon kümmert sich Kafka darum, dass die Tweets auch dieser Komponente in Echtzeit zur Verfügung gestellt werden.
+Es müssen weder Änderungen am Webserver vorgenommen werden, noch an der Datenbank.
+
+Ebenso einfach könnte man die Realtime-Analytics-Komponente auch wieder entfernen. Man meldet sie einfach von Kafka ab.
+
+Hier sieht man, dass eine kleine Änderung im Verständnis der Komponenten vorteilhaft ist: Statt ein Topic für eine Aufgabe
+zu benutzen, benutzt man eine Topic für Ereignis in der Realwelt.
+
+\subsection{Denken in Ereignissen}
+Bleiben wir im Beispiel des Hinzufügens der Realtime-Analytics-Komponente. Möglicherweise hätte man das Topic, in dem
+der Webserver seine Tweets an die Datenbank schickt auch so benannt und gedacht: WebserverTweetsToDatabase. Sobald
+jetzt aber die Realtime-Analytics-Komponente hinzugefügt werden soll, passt der Name nicht mehr. Eine Erweiterung auf
+WebserverTweetsToDatabaseAndRealtimeAnalytics löst das Problem nicht. Sobald man die nächste Komponente hinzufügen
+will, muss man wieder das Topic ändern. Also ziehen wir es zusammen zu WebserverTweetsToX. 
+
+Unsere Architektur schlägt vor nicht in den verbundenen Komponenten zu denken, sondern in Realweltereignissen.
+Was wäre nämlich dann, wenn Tweets nicht nur über Webserver gesendet werden könnten, sondern auch über Bots?
+Dann würde man schnell bei XTweetsToY als Beschreibung landen. Und das zugehörige Ereignis in der Realwelt wäre:
+Der Nutzer sendet einen Tweet ab. Und so sollte nach dieser Regel in der Architektur das Topic auch UserIssuesTweet genannt
+werden.
+
+
+\subsection{Ausfallsicherheit}
+
+Zusätzlich zur Skalierbarkeit der Verteilung können die Komponenten eine gewisse Ausfalltoleranz sicherstellen.
+Dadurch dass die Daten auf unterschiedliche Server verteilt werden, können die Daten auch jeweils an mehr als
+einen Server geschickt werden.  Bei einer Datenbank können die Daten dann auf mehreren Servern gespeichert werden.
+Dadurch entstehen lokale Kopien der Daten. Diese Kopien können dann beim Ausfall die Rolle des ausgefallen
+Server übernehmen. Auch die verteilte Auswertesoftware hat ein Mechanismus zur Ausfallsicherheit.
+
+Dabei handelt es sich um einen Tradeoff. Zum einen beim Speicherplatz. Je häufiger die Daten
+gespeichert werden, desto mehr Platz wird für die gleiche Menge Daten benötigt. Zum anderen in zeitlicher Hinsicht.
+Die Daten werden über das Netzwerk an die Server gesendet. Wenn man nun sicher gehen möchte, dass die Kopien
+auch vorhanden sind, muss darauf warten dass die Server Erfolg signalisieren. Dies kann bei mehr als einem Server deutlich
+länger dauern als bei einem Server.
+
+Diese Überlegung führt zu Grenzen der Architektur. Durch die Verbindung über das Netzwerk können nicht alle gewünschten
+Eigenschaften sichergestellt werden.
+
+\subsection{Grenzen der Architektur}
+Normalerweise wird die Software aus unserer Architektur in IP-basierten Netzwerken verwendet werden. Dies sind
+so genannte asynchrone Netzwerke. Das heißt, dass die Nachrichtenlaufzeit zwischen zwei Servern ist nicht durch
+einen festen Wert begrenzt. Das bedeutet, dass man nicht feststellen kann, ob einen Server ("Knoten") ausgefallen ist
+oder die Nachricht nur verzögert ist und noch zugestellt werden würde. In der Praxis wird diese Eigenschaft simuliert,
+indem nach einem gewissen Timeout angenommen wird, dass der andere Knoten ausgefallen ist. Er wird dann aus
+dem System genommen.
+
+Zum anderen kommt es zu Problemen, wenn die Rechner untereinander nicht mehr erreichbar sind. Dadurch, dass die
+Ausführung verteilt wird, sind auch mehrere Server zum Funktionieren erfordert. Dadurch steigt die Ausfallwahrscheinlichkeit
+mit der Anzahl der Rechner. Deshalb sind auch Mechanismen zur Ausfallsicherheit notwendig. Trotzdem besteht die
+Möglichkeit, dass das Netzwerk zwischen den Servern ausfällt. Das CAP-Theorem besagt, dass in diesem Fall nur
+entweder das System an jedem Knoten erreichbar bleibt oder konsistent ist. Für was man sich entscheidet, hängt von den
+gewünschten Zieleigenschaften der Architektur ab.
