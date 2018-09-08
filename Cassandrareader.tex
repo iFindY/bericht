@@ -8,9 +8,9 @@ Wir habe uns entschieden das Twitter Datenschema zu übernehmen. Da allerdings d
 \subsection{Datenschema}
 \label{subsec:schema}
 Nach einer eingehenden Untersuchung aller möglichen Use Cases sind wir zum Schluss gekommen, dass uns fünf Tabelle alle Funktionen bieten die wir brauchen. Wir haben dabei zwei Tabellen für die User user\_by\_id und user\_by\_screen\_name entworfen wie man in Abbildung \ref{fig:schema}.
-\begin{figure}
+\begin{figure}[htbp!]
 	\centering
-	\includegraphics[scale=0.5, draft]{pics/schema.png}
+	\includegraphics[scale=0.725]{pics/schema.PNG}
 	\caption{Cassandra Schema}
 	\label{fig:schema}
 \end{figure}
@@ -22,7 +22,7 @@ Die zentrale Applikation in der alle Funktionen und Schnittstellen umgesetzt wer
 Für die Verbindung von Java zu Cassandra haben wir der DataStax Treiber genutzt \cite{DataStax}. Er biete eine generische Schnittstelle über die man mit Cassandra über CQL kommunizieren kann. Da er gut dokumentiert ist und es sehr viele Beispiele für verschiedene Anwendungen im Internet gibt, verlief die Einarbeitung in die Nutzung des DataStax Treibers sehr schnell.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5, draft]{pics/cassandrareader_stack.png}
+	\includegraphics[scale=0.5]{pics/tech_stack.png}
 	\caption{Technologie Stack des cassandrareaders}
 	\label{fig:techStackCass}
 \end{figure}
