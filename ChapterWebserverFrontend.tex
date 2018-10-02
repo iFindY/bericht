@@ -25,36 +25,26 @@ Die klassischen Probleme bei der Erstellung der Webanwendung war das zugreifen a
 
 
 \subsection{Webserver}
-Der Webserver wurde mit dem Framework NodeJs erstellt. Dieser bietet verschiedene REST-Schnittstellen, welche mit Hilfe des Paket \textit{express} bereitgestellt wurden. Außerdem wurde eine Bibliothek für die Anbindung an Kafka implementiert. Da der Webserver nur als Vermittler fungiert, wurde eine Funktion implementiert welche zwei Parameter benötigt um das ganze so automatisiert wie möglich zu gestalten. Der erste Parameter dient dem Frage-Topic an den Kafka Server und der zweite für die Antwort in Kafka. Zusätzlich zu diesen zwei Parameter wurde eine Schnittstelle definiert, welche das Frontend mittels einer  HTTP REST-Methode ansprechen kann. Der folgende Teil beschreibt die oben beschriebene Funktion: \\
-
+Der Webserver wurde mit dem Framework NodeJs erstellt. Dieser bietet verschiedene REST-Schnittstellen, welche mit Hilfe des Paket \textit{express} bereitgestellt wurden. Außerdem wurde eine Bibliothek für die Anbindung an Kafka implementiert. Da der Webserver nur als Vermittler fungiert, wurde eine Funktion implementiert welche zwei Parameter benötigt um das ganze so automatisiert wie möglich zu gestalten. Der erste Parameter dient dem Frage-Topic an den Kafka Server und der zweite für die Antwort in Kafka. Zusätzlich zu diesen zwei Parameter wurde eine Schnittstelle definiert, welche das Frontend mittels einer  HTTP REST-Methode ansprechen kann. Der folgende Teil beschreibt die oben beschriebene Funktion: 
 Es wurde ein LoginController erstellt welcher mit den zwei Parameter \textit{USER\_ISSUES\_LOGIN} und \textit{LOGIN\_RESULT\_IS\_PROVIDED} die oben beschriebene Funktion aufruft: \\
-
-\begin{lstlisting}[language=Java] 
-	var kommunikationHandler = new KommunikationHandler
-			.constructor('USER_ISSUES_LOGIN'
-				, 'LOGIN_RESULT_IS_PROVIDED');
+\begin{lstlisting}[language=Java, basicstyle=\small] 
+var kommunikationHandler = new KommunikationHandler
+.constructor('USER_ISSUES_LOGIN', 'LOGIN_RESULT_IS_PROVIDED');
 \end{lstlisting} 
-
 Diese zwei Topics wurden in dem Kaptiel XYZ definiert. Im folgenden Code-Beispiel wird der LoginController mit einer REST-Schnittstelle \textit{/users/login} verknüpft. \\
-
-\begin{lstlisting}[language=Java] 
-	var LoginController = 
-		require('./endpoints/loginController');
-		
-	app.use('/users/login', LoginController);
+\begin{lstlisting}[language=Java, basicstyle=\small] 
+var LoginController = 	require('./endpoints/loginController');
+app.use('/users/login', LoginController);
 \end{lstlisting}
 
 Durch dieses Vorgehen, konnte ohne großen Aufwand weitere REST-Endpunkte mit hinterlegtem Topics für das Frontend definiert werden. \\
-
 Probleme gab es am Anfang zwischen der Kommunikation vom Frontend und der Springboot Anwendung. Durch die Überlastung der Springboot Anwendung, dauerte eine Antwort sehr lange. Damit der HTTP-Request nicht vorzeitig beendet wurde, musste ein ausreichender Timeout gesetzt werden, ansonsten lief eine Anfrage ins leere. Um die Benutzerfreundlichkeit und Sicherheit zu erhöhen generiert der Webserver nach einer erfolgreichen Authentifizierung eine Session-Id. Somit sind alle weiteren HTTP-Request, welche das Frontend versendet abgesichert. \\
-
-
 Nachdem die Grundfunktionalität funktionierte wurde der Webserver erweitert. \\
-
 Das Ziel war es, mehrere Webserver parallel laufen zu haben, damit ein "Load Balancing" simuliert werden konnte. Da wir aber nur eine Virtuelle Maschine zur Verfügung hatten und außerdem kein Netzwerktraffic simulieren konnten wurde das Frontend um eine weitere Funktion erweitert.
-Im unteren Bereich der Webanwendung kann ein Port definiert werden. Voraussetzung, damit diese Funktion funktioniert, ist dass der Webserver drei mal auf einem verschiedenen Port gestartet wurde. Außerdem ist es nicht möglich, den Webserver während des Betriebs zu wechseln, da die drei Webserver nicht untereinander Kommunizieren und somit keine Session-Ids austauschen.
-
-\TODO{weitere hürden bei mehreren Webserver?} 
+Im unteren Bereich der Webanwendung kann ein Port definiert werden. Voraussetzung, damit diese Funktion funktioniert, ist dass der Webserver drei mal auf einem verschiedenen Port gestartet wurde. Außerdem ist es nicht möglich, den Webserver während des Betriebs zu wechseln, da die drei Webserver nicht untereinander Kommunizieren und somit keine Session-Ids austauschen. \\
+Damit der Webserver auch während des Benutzens des Frontends gewechselt werden kann, müssten weitere Vorkehrungen getroffen werden. Um dieses Szenario zu realisieren gibt es mehrere Möglichkeiten. 
+Eine Möglichkeit wäre eine Sticky-Session-Id. Dabei wird sichergestellt, dass die REST-Anfragen immer nur an den Webserver gesendet wird, von welchem die Session-Id erzeugt wurde. Der Nachteil an einer Sticky-Session-Id ist aber, dass der Vorteil eines Load Balancing verloren geht, da der Client nach einem anmelden an den Webserver gebunden ist. Falls dieser Webserver nicht mehr verfügbar ist, muss sich der Client neu bei der Anwendung anmelden um von einem neuen verfügbaren Webserver eine neue Session-Id zu bekommen.
+Damit ein Client im betrieb unabhängig vom jeweiligen Webserver agieren kann, müssen die Webserver untereinander kommunizieren und ihre verteilten Session-Ids austauschen. Dabei kann der Austausch über deine Datenbank oder ein Dateien-System realisiert werden. Zwar bedeutet die zweite Möglichkeit einen größeren Aufwand, dafür kann die Funktionalität des  Load Balancing voll ausgeschöpft werden. Zudem kann die Performance einer Anwendung deutlich erhört werden, in dem der Load Balancer dem Client jeweils einen Webserver Dynamisch zuteilt welcher im Moment genügen Kapazität zur Verfügung hat.
 
 Wir sind davon ausgegangen, dass mehrere User gleichzeitig Anfragen im Frontend an den gleichen Webserver absenden. Da bei Kafka gesendete Anfragen nicht in der gleichen Reihenfolge abgearbeitet werden, wie sie abgesendet wurden und wir davon ausgehen, dass mehrere Anwender gleichzeitig einen Request an den selben Webserver senden,muss sichergestellt werden, dass die Antwort an den Richtigen Client gesendet wird. 
 Um dieses Problem zu lösen, wurde jede Anfrage von der Webanwendung an den Webserver mit einer inkrementierenden Request-Id versehen.
