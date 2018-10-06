@@ -6,10 +6,11 @@ Cassandra ist die Quelle aller Daten von Twitter, die wir brauchen. Dazu werden 
 Wir habe uns entschieden das Twitter Datenschema zu übernehmen. Da allerdings die Twitter Dokumentation nicht genau genug ist und nicht alle Attribute aller Datentypen übersichtlich darstellt, haben wir eine Applikation geschrieben, die sich Tweets vom Twitter Stream holt und daraus das Datenschema im Json Format zusammen baut. Nach dem wir die Applikation lange genug laufen lassen haben, hat sich an dem Datenschema nichts mehr geändert und wir konnten die Datentypen extrahieren.\\
 
 \subsection{Datenschema}
+\label{subsec:schema}
 Nach einer eingehenden Untersuchung aller möglichen Use Cases sind wir zum Schluss gekommen, dass uns fünf Tabelle alle Funktionen bieten die wir brauchen. Wir haben dabei zwei Tabellen für die User user\_by\_id und user\_by\_screen\_name entworfen wie man in Abbildung \ref{fig:schema}.
-\begin{figure}
+\begin{figure}[htbp!]
 	\centering
-	\includegraphics[scale=0.5, draft]{pics/schema.png}
+	\includegraphics[scale=0.725]{pics/schema.PNG}
 	\caption{Cassandra Schema}
 	\label{fig:schema}
 \end{figure}
@@ -21,7 +22,7 @@ Die zentrale Applikation in der alle Funktionen und Schnittstellen umgesetzt wer
 Für die Verbindung von Java zu Cassandra haben wir der DataStax Treiber genutzt \cite{DataStax}. Er biete eine generische Schnittstelle über die man mit Cassandra über CQL kommunizieren kann. Da er gut dokumentiert ist und es sehr viele Beispiele für verschiedene Anwendungen im Internet gibt, verlief die Einarbeitung in die Nutzung des DataStax Treibers sehr schnell.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[scale=0.5, draft]{pics/cassandrareader_stack.png}
+	\includegraphics[scale=0.5]{pics/tech_stack.png}
 	\caption{Technologie Stack des cassandrareaders}
 	\label{fig:techStackCass}
 \end{figure}
@@ -44,26 +45,34 @@ Bei der Identifizierung der Use Cases die für Cassandra relevant sind haben wir
 \begin{itemize}
 	\item Registrierung von User
 	\item Anmelden von Usern
-	\item Abrufen der Timeline:
-		\begin{itemize}
-			\item Abfragen von Tweets
-			\item Abfragen von Usern
-		\end{itemize}
+	\item Abfragen von Usern
 	\item Absenden/Speichern von Tweets
+	\item Abrufen der Timeline
+	\item Folgen von Usern
 \end{itemize}
-Diese Schnittstellen machen es möglich die Grundfunktionen, also das Erstellen eines Users, das Anmelden, das Senden von Tweets und das Lesen von Tweets über die Timeline von außen über vordefinierte Kafka Nachrichten anzusprechen.
+Diese Schnittstellen machen es möglich die Grundfunktionen, also das Erstellen eines Users, das Anmelden des Users, das Senden und Lesen von Tweets über die Timeline von außen über vordefinierte Kafka Nachrichten anzusprechen.
 Als weitere Schnittstellen für erweiterte Funktionen haben wir eine API für Volltextsuche über Elasticsearch gebaut, die die normale Volltextsuche aber auch Autocompletion unterstützt.\\ \TODO{vielleicht deletion hinzufügen}
 
 \subsection{Registrierung von Usern}
+Die Registrierung von Usern bringt einen direkten Zugriff auf die Datenbank mit sich. Zunächst muss der User deine Anmeldedaten in unserem Frontend hinterlegen. Schickt er diese habe bekommt der Cassandrareader über eine Zwischenstelle eine Nachricht über Kafka auf dem Topic "USER\_ISSUES\_ REGISTRATION" diese Nachricht enthält alle relevanten Daten wie Name, Username, Hashwert des Passworts, etc. die das System braucht um den User anzulegen. Der Cassanfra reader reagiert auf diese Nachricht, indem er den User in den in Abschnitt \ref{subsec:schema} genannten Tabellen für die User ablegt. Der Cassandrareader schickt eine Nachricht auf dem Topic "REGISTRATION\_RESULT\_PROVIDED" als Bestätigung zurück, ob der User erfolgreich in beide Tabellen eingetragen wurde oder nicht. Basierend auf dieser Nachricht wird im Frontend angezeigt, ob die Registrierung erfolgreich war.
 
 \subsection{Anmelden von Usern}
-
-\subsection{Abfragen von Tweets}
+Die Anmeldung von Usern geschieht über den einzigartigen Username und ein selber gewähltes Passwort. Diese Informationen werden Vom Frontend weitergeleitet und kommen beim Cassandrareader in einer Kafka Nachricht auf dem Topic "USER\_ISSUES\_LOGIN" an. Diese Nachricht enthält nur den Username und das gehashte Passwort. Das gehashte Passwort mit dem verglichen, das in der Tabelle user\_by\_screen\_name gespeichert ist. Auch hier findet sich nur ein Hashwert des Passworts. Sind die Werte gleich, so gibt es hier deine Übereinstimmung und und der Login kann genehmigt werden. Als Bestätigung dieses Vorgangs schickt der Cassandrareader eine Nachricht zurück in der es eine Boolean Feld für das Login Ergebnis gibt. War der Login erfolgreich wird das Feld true, sonst false. Diese Nachrich wird vom Cassandrareader wieder über das Topic "LOGIN\_RESULT\_IS\_PROVIDED" verbreitet und somit auch an das Frontend weitergeleitet, das das Ergebnis darstellt und darauf reagiert.
 
 \subsection{Abfragen von Usern}
-
-\subsection{Abrufen der Timeline}
+\label{subsec:Userabfrage}
+Das Abfragen von Usern braucht man vor allem, wenn man die Seite eines Users mit allen seinen Informationen aufrufen möchte. Dazu verarbeitet der Cassandrareader Nachrichten auf dem Topic "USER\_OPENS\_USER\_PAGE"in der eine User-Id angegeben ist, so dass er eine Abfrage auf Cassandra startet, in der er den User aus user\_by\_id abfragt. Dieser User wird dann als JSON in einer Kafka Nachricht über das Topic "USER\_PAGE\_ENTRIES\_PROVIDED" wieder verbreitet. So können die Information dann vom Frontend dann z.B. als User Seite verarbeitet werden.\\
+Ein ähnlicher Use Case ist die Suche nach Usern. Der Cassandrareader bekommmt auf dem Topic "USER\_SEARCH\_ISSUED" eine Nachricht mit einem Usernamen. Da die Tabelle user\_by\_screen\_name nach Usernamen filterbar ist, kann der Cassandrareader eine effizient Abfrage auf die Tabelle ausführen, die alle mit dem Namen aus der Nachricht übereinstimmenden User zurückgibt und danach den besten möglichen auswählt. Dieser wird dann in einer Nachricht auf dem Topic "USER\_SEARCH\_RESULT\_PROVIDED" zurückgeschickt und kann dann weiterverarbeitet werden.
 
 \subsection{Absenden/Speichern von Tweets}
+\label{subsec:Tweetabfrage}
+Das Absenden von Tweets ist im Endeffekt nichts anderes als ein Einfügen eines Tweets in die Datenbank. Da wir hier aber nicht mit einer relationalen Datenbank arbeiten muss man Einfügen vor allem auf die Konsistenz des Datenschemas achten. Jeder Tweet muss nach dem Schema unabhängig von einander in jedem der drei Tweet Tabellen richtig abgelegt werden. Dafür bekommt der Cassandrareader das Tweet Objekt über Kafka auf dem Topic "USER\_ISSUES\_TWEET"  zugeschickt. Dieses Objekt wird dann mit dem Absender als User in die Tabelle tweets\_by\_tweeted eingefügt. Zusätzlich lesen wir alle Hashtags des Tweets aus und speichern ihn in der Tabellen tweets\_by\_hashtag noch einmal für jeden Hashtag, das beschleunigt das Auslesen nach Hashtags. Als letztes wird der Tweet auch noch einmal in der Tabelle tweets\_by\_follower abgespeichert, in der jeder Tweet eines Users für jeder User der ihm folgt abgespeichert werden. Dafür müssen natürlich zunächst er einmal alle Follower des Absenders abgefragt werden, bevor der Tweet für sie gespeichert werden kann. Diese redundante Speicherung von Tweets beschleunigt das Auslesen für spezifische und oft gebrauchte Use Cases ungemein und hat für uns die damit einhergehenden Performance Nachteile beim Speichern von Tweets überwogen. Der Cassandrareader führt diese Einfüge Operationen durch und bestätigt über Kafka auf dem Topic "TWEET\_SAVED", ob das speichern erfolgreich war oder nicht.
 
 
+\subsection{Abrufen der Timeline}
+\label{subsec:Timeline}
+Das Abrufen der Timeline ist einer der zentralen Use Cases unserer Anwendung, da sie der erste Teil ist, den User innerhalb unserer Anwendung sehen und die Basis für jede Aktion nach dem Anmelden ist. Die Timeline eines Users besteht aus den Tweets aller User, denen der eingeloggt User folgt. Daher müsste man diese User zunächst aus der Datenbank abfragen und dann für jeden einzelnen eine einzelne Abfrage starten. Um uns diesen Umweg zu sparen, pflegen wir die Tabelle tweets\_by\_follower. Somit können wir, um die Timeline aufzurufen, einfach eine Abfrage auf diese Tabelle ausführen und bekommen somit direkt den Inhalt der Timeline. Wir nehmen dabei für das Speichern von Tweets mehr Datenbankzugriffe und Redundanzen in Kauf, wie in Unterabschnitt \ref{subsec:Tweetabfrage} beschrieben, um das Auslesen so effizient wie möglich zu gestalten. Die so abgefragten Tweets werden danach als JSON verpackt und auf dem Topic "TIMELINE\_ENTRIES\_PROVIDED" verbreitet. So kann die Nachricht zum Frontend propagiert werden, das die Timeline anzeigt.
+
+
+\subsection{Folgen von Usern}
+Das Folgen von Usern bestimmt vor allem den Aufbau der Timeline, da hier, wie in Unterabschnitt \ref{subsec:Timeline} erwähnt, alle Tweets der gefolgten User angezeigt werden. Um das Folgen von Usern umsetzen zu können, erhält der Cassandrareader einer Nachricht auf dem Topic "USER\_WANTS\_TO\_FOLLOW\_USER", in der die User-Id des anderen Users und des eigenen steht. Followers werden in unserem Datenschema für jeden User als Liste gespeichert, einmal alle User denen ein User folgt und alle User die einem User folgen. Jeder Eintrag für einen User in den Tabellen user\_by\_id und user\_by\_screen\_name enthält beide Listen. Außerdem enthält das User Profil einen Follower Count und eine Friends Count der die Anzahl User zählt denen man selber folgt. Der Cassandrareader führt auf beiden Tabellen jede Folgen Anfrage folgede Aktion durch. Er erhöht beim eigenen User die den Friends Count und beim User, dem gefolgt werden soll, den Follower Count. Danach wird das User Profil des Users, dem gefolgt werden soll, in die Friends Liste des anfragenden Users hinzugefügt und das Profil des anfragenden Users in die Follower Liste der zu folgenden Users. Geschieht das alles ohne Fehler bestätigt der Cassandrareader die Anfrage auf dem "USER\_FOLLOWS\_USER" Topic positiv odder negativ.
