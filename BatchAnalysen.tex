@@ -1,20 +1,5 @@
-% This file was converted to LaTeX by Writer2LaTeX ver. 1.0.2
-% see http://writer2latex.sourceforge.net for more info
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[ngerman]{babel}
-\usepackage{amsmath}
-\usepackage{amssymb,amsfonts,textcomp}
-\usepackage{array}
-\usepackage{listings}
-\usepackage{hhline}
-\usepackage[pdftex]{graphicx}
-\author{}
-\date{2018-10-07T22:20:48.763142593}
-\begin{document}
-\section[Architektur]{\selectlanguage{ngerman} Architektur}
-\subsection[zwei Phasen]{\selectlanguage{ngerman} zwei Phasen}
+\section{Architektur}
+\subsection{zwei Phasen}
 Die Ausführung der Analysen erfolgt in zwei Phasen. Die eine Phase ist
 die eigentliche Batch-Analyse. Dabei werden alle bisher in der
 Datenbank befindliche Tweets ausgewertet. Die andere Phase erfolgt
@@ -23,7 +8,7 @@ Tweets in einer Art ETL-Prozess (extract, transform, load) in die
 Datenbank. Dort werden sie in einem für die Analyse optimierten Format
 gespeichert.
 
-\subsubsection[ETL{}-Prozess]{\selectlanguage{ngerman} ETL-Prozess}
+\subsubsection{ETL-Prozess}
 Der ETL-Prozess wurde ursprünglich notwendig, weil der
 Cassandra-Connector für Spark einen Bug enthielt. Befanden sich an
 speziellen Stellen im orginalen JSON-Objekt von Twitter NULL-Werte und
@@ -60,7 +45,7 @@ führt der ETL-Prozess auch zu deutlich kleineren Tweet-Objekten, was
 die Analyse stark beschleunigt, insbesondere wenn die Tweets über das
 Netzwerk übergeben werden müssen.
 
-\subsubsection[eigentliche Analyse]{\selectlanguage{ngerman} eigentliche
+\subsubsection{eigentliche
 Analyse}
 Nach dem ETL-Prozess kommt die eigentliche Analyse. Der ETL-Prozess wird
 ständig von der Streaming-Komponente ausgeführt, d.h. es werden Tweets
@@ -74,7 +59,7 @@ Hierbei geht es um die Gesamtheit der Tweets. Desweiteren werden
 weitere Parameter ermittelt und Empfehlungen vorbereitet. Diese
 beziehen sich auf einzelne Tweets bzw. User.
 
-\section[Skalierbarkeit]{\selectlanguage{ngerman} Skalierbarkeit}
+\section{Skalierbarkeit}
 Übergeordnetes Ziel dieses Projektes ist ja die Implementierung in einer
 skalierbaren und erweiterbaren Architektur. Das Prinzip dafür lautet:
 nutze skalierbare Komponenten und verbinde sie skalierbar. Mit
@@ -135,24 +120,24 @@ Flaschenhals ist, denn die CPU-Kerne sind max. zu Hälfte ausgelastet.
 Ist das Netzwerk schneller, dann steigt auch die CPU-Auslastung auf
 nahezu 100\%.
 
-\subsubsection[mit Flaschenhals]{\selectlanguage{ngerman} mit
+\subsubsection{mit
 Flaschenhals}
 
 \includegraphics[width=15.24cm,height=5.99cm]{bilder/eigene20PrC3A4sentation-img1.png}
 
 
-\subsubsection[Durcheinander]{\selectlanguage{ngerman} Durcheinander}
+\subsubsection{ Durcheinander}
 
 \includegraphics[width=15.24cm,height=5.99cm]{bilder/eigene20PrC3A4sentation-img2.png}
 
 
-\subsubsection[mit Data Locality]{\selectlanguage{ngerman} mit Data
+\subsubsection{mit Data
 Locality}
 
 \includegraphics[width=15.24cm,height=2.956cm]{bilder/eigene20PrC3A4sentation-img3.png}
 
 
-\section[Use{}-Cases]{\selectlanguage{ngerman} Use-Cases}
+\section{Use-Cases}
 Die Batch-Analytics-Komponente hat vorrangig das Ziel, inhaltlich
 relevante Entwicklungen in den Tweets zu zeigen. Das wären z.B. länger
 trendende Hashtags zu identifizieren.
@@ -205,12 +190,11 @@ den Top 10 der Tweeter nur ein Nutzer auf, nämlich NULL.
 
 Ein dritter Usecase fällt bei der Analyse der Top-Hashtags auf. Am
 27.09. z.B. ist einer der Top10-Hashtag PCA. Das steht für
-People{\textquotesingle}s Choice Award. Es handelt sich hierbei um eine
+Peoples Choice Award. Es handelt sich hierbei um eine
 Online-Abstimmung, die durch Nennungen in den sozialen Medien erfolgt.
 Zur Auswertung ist eine solche Gesamtanalyse natürlich nötig.
 
-\subsection[Erkenntnisse durch grafisch aufbereite
-Statistiken]{\selectlanguage{ngerman} Erkenntnisse durch grafisch
+\subsection{Erkenntnisse durch grafisch
 aufbereite Statistiken}
 Wir haben eine einfache Sentiments-Analyse eingebaut. Ziel ist es, die
 insgesamte Stimmung auf einer Skala von positiv bis negativ einordnen
@@ -228,9 +212,8 @@ entsprechende Anfrage timed out. Für andere Anfragen ist ein geeigneter
 Index notwendig. Dessen Notwendigkeit ist nicht immer im Voraus bekannt
 und eine Nachrüstung kaum möglich.
 
-\section{\selectlanguage{ngerman}
-interessante Analyseergebnisse}
-\subsection[BTS]{\selectlanguage{ngerman} BTS}
+\section{interessante Analyseergebnisse}
+\subsection{BTS}
 Bei unseren Analysen war der Hashtag BTS in verschiedenen Formen immer
 präsent. BTS steht für Bangtan Boys und ist eine koreanische Boyband.
 Ihre hohe Präsenz auf Twitter ist nicht nur Folge hoher Popularität und
@@ -251,7 +234,7 @@ trifft.
 
 \bigskip
 
-\subsection[Twitter{}-Spam]{\selectlanguage{ngerman} Twitter-Spam}
+\subsection{Twitter-Spam}
 Die Analyse der Top 10 Tweeter am 23. und 24.09.2018 zeigt ein weiteres
 interessantes Phänomen: den Twitter-Spam. Mit der Möglichkeit sich an
 bekannte Hashtags hängen zu können, zieht Twitter auch Spammer an. Am
@@ -262,16 +245,15 @@ darauffolgenden Tagen tauchen sie dann nicht mehr auf, was für
 Gegenmaßennahmen auf Seiten Twitters spricht. Am 01.10.2018 tauchen sie
 dann langsam wieder in den Top 10 auf.
 
-\subsection[Trump related]{\selectlanguage{ngerman} Trump related}
+\subsection{Trump related}
 In unseren Daten sind jeden Tag große Mengen von Tweets über/mit Donald
 Trump enthalten. Neben seiner bekanntermaßen hohen Twitterpräsenz liegt
 das auch an dem Selektionskriterium, mit dem wir bei Twitter nach
 Tweets anfragen. Es enthält unter anderem den Selektor Trump.
 
-\section[spezielle Analyseergebnisse]{\selectlanguage{ngerman} spezielle
+\section{spezielle
 Analyseergebnisse}
-\subsection[stream{}-bedingte Ergebnisse]{\selectlanguage{ngerman}
-stream-bedingte Ergebnisse}
+\subsection{stream-bedingte Ergebnisse}
 Es gibt einige Gründe, die unsere Analyseergebnisse verzerren.
 
 Der erste Grund ist die konstante Geschwindigkeit unseres
@@ -290,8 +272,7 @@ und lief zwischen 11 und 12 wieder vollständig (ca 7200 Tweets). Nach
 12 Uhr wurde er wieder unterbrochen und ca.zwischen 14:30 und 15:40
 lief er dann wieder. 
 
-\subsubsection[Sampling verzerrt die absoluten
-Zahlen]{\selectlanguage{ngerman} Sampling verzerrt die absoluten
+\subsubsection{Sampling verzerrt die absoluten
 Zahlen}
 Bei manchen Analysen, z.B. Tweets pro Tag stimmen die absoluten Zahlen
 nicht. Am 24.09.2018 weist die Grafik 353 Tweets aus. Wir wissen aber
@@ -303,14 +284,14 @@ die Analysen schnell ausgeführt werden können (ca. 1 Minute vs. 20
 Minuten). Im Produktivbetrieb würde man dieses Sampling dann nicht mehr
 vornehmen.
 
-\section[genauere Schritte]{\selectlanguage{ngerman} genauere Schritte}
+\section{genauere Schritte}
 Ein großes Hindernis bei der Entwicklung und dem Betrieb der Analysen
 war es, dass die Beispiele und gefundenen Howtos zu einfach sind. Im
 Sinne einer gewissen Wissensweitergabe sollen hier anhand einiger
 Patterns – analog zu Design Patterns – die gewonnen Erkenntnisse
 weitergegeben werden. 
 
-\subsection[doppelter Key]{\selectlanguage{ngerman} doppelter Key}
+\subsection{doppelter Key}
 Eine Herausforderung war es, dass der Mapping-Schritt zwar ein
 Key-Value-Mapping vornimmt, aber nur einen Key unterstützt. Für die
 Analysen wird aber häufig ein mindestens doppelter Key benötigt. Zum
@@ -341,8 +322,7 @@ würde (nämlich neu für jeden Tag).
 Auch deshalb wäre eine bessere Unterstützung durch Spark hier sinnvoll.
 Denn es gibt einen weiteren Fall, der ganz ähnlich ist.
 
-\subsection[Top10 pro Tag nehmen]{\selectlanguage{ngerman} Top10 pro Tag
-nehmen}
+\subsection{Top10 pro Tag nehmen}
 Unsere Analysen sind häufig pro Tag. Das bedeutet, dass wir die Top 10
 für die letzten 14 Tage zum Beispiel nehmen wollen. Wir brauchen also
 14 Top 10s. Die eingebaute Sortierung kann einem hier nur teilweise
@@ -369,7 +349,7 @@ Unterstützung für die Unterteilung von Daten in einzelne Klassen und
 dann Durchführung der selben Operation für alle Klassen separat wäre
 trotzdem sehr hilfreich. \ 
 
-\subsection{\selectlanguage{ngerman} Bausteine}
+\subsection{Bausteine}
 Man sagt, dass Spark mit dem Map-Reduce-Paradigmum verwendet wird. Die
 Daten werden eingelesen und auf ein Ergebnis oder einen Fall gemappt
 und diese dann aggregiert (reduce). Während der Arbeit an den
@@ -446,8 +426,7 @@ auf.
 
 \bigskip
 
-\section[Verbesserungsvorschläge]{\selectlanguage{ngerman}
-Verbesserungsvorschläge}
+\section{Verbesserungsvorschläge}
 Bei der Arbeit an der Spark-Komponente sind einige
 Verbesserungsvorschläge aufgekommen. Man sieht deutlich, dass es sich
 bei Spark und Cassandra noch nicht um jahrzehntelang erprobte und
@@ -456,8 +435,7 @@ verfeinerte Tools handelt.
 
 \bigskip
 
-\subsection[Frühere Fehlererkennung]{\selectlanguage{ngerman} Frühere
-Fehlererkennung}
+\subsection{frühere Fehlererkennung}
 Ein tolles Feature wäre eine frühere Fehlererkennung. Bisher fallen
 gerade Flüchtigkeitsfehler erst bei der Ausführung auf. Das betrifft
 vor allem die zusätzlichen Aufgaben, die durch Spark und die Datenbank
@@ -472,8 +450,7 @@ Sekunden) könnte so wegfallen. Sie könnte z.B. die Datenbank bereits
 kontaktieren und das Mapping ausprobieren oder durch statische
 Codeanalyse Fehler wie die fehlende Serializability finden.
 
-\subsection[inkrementelles Packing]{\selectlanguage{ngerman}
-inkrementelles Packing}
+\subsection{inkrementelles Packing}
 Eine andere Verbesserung wäre das inkrementelle Packen. Ändert man einen
 kleinen Fehler in einer Klasse wird die Fat-Jar mit allen
 Abhängigkeiten erneut gebaut. Allerdings würde der Austausch der
@@ -507,12 +484,11 @@ Würde das automatisch erledigt werden, könnten die Analysen insgesamt
 deutlich schneller werden, da die Daten nur einmal aus der Datenbank
 geholt werden würden.
 
-\section[Probleme]{\selectlanguage{ngerman} Probleme}
+\section{Probleme}
 In diesem Abschnitt soll auf die häufigsten und/oder nervigsten Probleme
 eingegangen werden.
 
-\subsection[sehr lange Ausprobierzeiten]{\selectlanguage{ngerman} sehr
-lange Ausprobierzeiten}
+\subsection{sehr lange Ausprobierzeiten}
 Bedingt durch mehrere Effekte dauert es vom Ändern des Codes bis zur
 fehlerhaften oder erfolgreichen Ausführung vergleichsweise lange. Klar
 lässt sich eine Analyse mit vielen Daten nicht innerhalb kürzester Zeit
@@ -526,8 +502,7 @@ resultierte Fat-Jar ist über 170 Megabyte groß. Deshalb spricht viel
 dafür, dass zu viele unnötige Abhängigkeiten mitgepackt werden und/oder
 dieser Prozess inkrementell beschleunigt werden könnte.
 
-\subsubsection[Spark{}-Job mit vielen Daten dauert sehr
-lang]{\selectlanguage{ngerman} Spark-Job mit vielen Daten dauert sehr
+\subsubsection{Spark-Job mit vielen Daten dauert sehr
 lang}
 Nachdem man die lange Packzeit überstanden hat, dauert das Ausprobieren
 der Analyse mit einer gut gefüllten Datenbank lange, häufig zwischen 10
@@ -538,8 +513,7 @@ Sampling, also die künstliche Verkleinerung der Menge der untersuchten
 Daten, Abhilfe schaffen. Wirklich besser wird es allerdings nur mit der
 Variante take(int n), aber nicht mit dem Sampling.
 
-\subsubsection[und kann bei einem Fehler auch nicht so einfach debugged
-werden]{\selectlanguage{ngerman} und kann bei einem Fehler auch nicht
+\subsubsection{und kann bei einem Fehler auch nicht
 so einfach debugged werden}
 Weiterhin fehlt noch ein Debugger. Trifft Spark auf eine Exception so
 probiert er es entweder noch einige Mal erneut oder bricht die ganze
@@ -588,8 +562,7 @@ extrahiert und mein eigenen Stopwordschecker darauf aufbauend gebaut.
 
 \bigskip
 
-\subsubsection[Beispiele sind meist
-Minimalbeispiele]{\selectlanguage{ngerman} Beispiele sind meist
+\subsubsection{Beispiele sind meist
 Minimalbeispiele}
 Ähnlich verhält es sich mit den Beispielen in der Dokumentation. Sie
 helfen nicht dabei, komplexere Analysen zu schreiben und das wäre
@@ -623,18 +596,16 @@ Exception OperationNotImplemented. Dies ist besonders nervig, da das
 erst nach der Analyse auffallen kann.
 
 
-\subsection[weitere Probleme]{\selectlanguage{ngerman} weitere Probleme}
+\subsection{weitere Probleme}
 
 \bigskip
 
-\subsubsection[Bug im Cassandra{}-Connector]{\selectlanguage{ngerman}
-Bug im Cassandra-Connector}
+\subsubsection{Bug im Cassandra-Connector}
 Besonders nervig war der Bug in Cassandra-Connector, der bereits im
 Abschnitt zum ETL-Prozess beschrieben wurde. Mittlerweile scheinen
 gefixte Versionen vorzuliegen.
 
-\subsubsection[Weiterentwicklung der Tools]{\selectlanguage{ngerman}
-Weiterentwicklung der Tools}
+\subsubsection{Weiterentwicklung der Tools}
 Nicht zu unterschätzen ist auch die Weiterentwicklung der Tools, da sich
 die APIs zum Teil drastisch ändern können. Spark z.B. hat während der
 Laufzeit des Projekts seine API von RDDs auf die inkompatiblen
@@ -653,10 +624,9 @@ einem anderen Port und ist inkompatibel. Anfängliche Versuche mit einer
 nach einigem Suche ließ sich ein funktionsfähiges Minimalprojekt
 finden.
 
-\section[Daten: Input und Output]{\selectlanguage{ngerman} Daten: Input
+\section{Daten: Input
 und Output}
-\subsection[Die verwendete Tabelle für die
-Tweets:]{\selectlanguage{ngerman} Die verwendete Tabelle für die
+\subsection{Die verwendete Tabelle für die
 Tweets:}
 
 \lstinputlisting{bilder/TabelleTweets.txt}
@@ -668,8 +638,7 @@ Tweets:}
 Bis auf die die Attribute und deren Datentyp sowie den PRIMARY KEY haben
 wir die anderen Werte durch Cassandra erezugen lassen.
 
-\subsection[Zeilen für Datenbank (Output)]{\selectlanguage{ngerman}
-Zeilen für Datenbank (Output)}
+\subsection{Zeilen für Datenbank (Output)}
 Es gibt für jede Analyse eine eigene Output-Tabelle. Sie sind sehr
 ähnlich. Beispielsweise hier die Tabelle für die Top 10 Tweeter.
 
@@ -683,7 +652,7 @@ Webserver-Zulieferkomponente diese auch generisch übertragen kann, d.h.
 dass nur der entsprechende Tabellenname benötigt wird und einzelnen
 Anfragen sonst für alle Top 10s gleich laufen können.
 
-\section[Aufbau des Systems]{\selectlanguage{ngerman} Aufbau des
+\section{Aufbau des
 Systems}
 Insgesamt fanden sich beim Aufbau des Analysensystems folgende Schritte:
 
@@ -736,7 +705,7 @@ dieser Zeit ist man zum Nichtstun verdammt.
 Dann wird die kompilierte Jar über das bei Spark mitgelieferte Skript
 submit-job an Spark zur Ausführung übergeben.
 
-\section[Phasen des Spark{}-Jobs]{\selectlanguage{ngerman} Phasen des
+\section{Phasen des
 Spark-Jobs}
 Um die Analyse der von Spark erzeugten Logs zu einer Auführung zu
 erleichern , zählen wir hier die wichtigsten Phasen auf:
@@ -775,6 +744,3 @@ erleichern , zählen wir hier die wichtigsten Phasen auf:
 \centering
 \includegraphics[width=17cm,height=8.645cm]{bilder/BilderAnalyse-img6.png}
 \end{figure}
-
-
-\end{document}
