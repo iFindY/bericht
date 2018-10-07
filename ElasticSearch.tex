@@ -230,7 +230,7 @@ Der Textvervollständigung bietet Funktionen zur automatischen Vervollständigun
 \end{lstlisting}
 
 Die Suche über den Textkörper eines Tweets kann auf zwei Arten getan werden. Im ersten Fall wird eine Match-Suche \textit{metch} durchgeführt, diese normalisiert die Suchterme, verknüpft sie mit \textit{OR} und durchsucht den Textkörper nach Suchbegriff-Treffern. Im zweiten Fall nutzt man die zusammenhängende Suchanfrage \textit{phrase match}, welche im Gegensatz zu \textit{match} die Terme mit \textit{AND} verknüpft und eine Einschränkungen mitbringt, nämlich die Ordnung der Suchterme im Textkörper. Um die Suche flexibler zu gestalten, kann sie aufgeweicht werden, indem man die akzeptable Entfernung der Suchterme mit der \textit{Slope} Eingeschalt beeinflusst. In unseren Fall erlaubt diese eine Entfernung von einem Wort zwischen den Suchbegriffen.
-\\\\
+
 \textbf{Standortabhängige Tweets}
  \begin{lstlisting}[language=json,firstnumber=1]
  {
@@ -245,7 +245,7 @@ Die Suche über den Textkörper eines Tweets kann auf zwei Arten getan werden. I
   }
 }
 \end{lstlisting}
-\\\\
+
 Die \textit{multi match} Abfrage sucht nach Nachrichten, dessen Inhalt einen Ort verweist und der Autor sich in dieser Region befindet. Diese Abfrage verhält sich wie \textit{match}, jedoch über eine Menge von Feldern.
 \\\\
 \textbf{Suche Tweets über den Zeitraum mit referenzierte Benutzer zuerst}
@@ -334,7 +334,7 @@ Allerdings haben die positiv gelisteten Eigenschaften ihre Tücken. Die Konfigur
 
 \subsection{Dokumentation und API}
 Ebenso problematisch sind die Elasticsearch Abfragen, die einerseits gut im JSON-Format beschrieben und dokumentiert sind, jedoch in der Umsetzung, durch die von Elasticsearch zur Verfügung gestellten JAVA Bibliothek in JAVA schwer verständlich und Komplex in der Umsetzung.
-Erst zum Ende des Projekts bin ich auf \textit{Mustach} gestoßen, die \terxtit{JSON-Templats} für die Abfragen erstellt und diese in einer simplen Form an Elasticsearch weiterleitet.  
+Erst zum Ende des Projekts bin ich auf \textit{Mustach} gestoßen, die \textit{JSON-Templats} für die Abfragen erstellt und diese in einer simplen Form an Elasticsearch weiterleitet.  
 
 \subsection{Tools}
 Besondere positiv aufgefallen ist die WebUI Kibnan die mit Elasticsearch über REST Anfragen kommuniziert. Es ist möglich nach Daten zu suchen, den Clusterstatus abzufragen sowie aussagekräftige Grafiken zu erstellen. Diese Werkzeuge bieten dem Entwickler einen einfachen und übersichtlichen Einstig in die Elasticsearch-Umgebung. 
