@@ -50,6 +50,14 @@ So werden z.B. die Anzahl von Hashtag pro Stunde/pro Minute ermittelt, daraus we
 Auch diese Ergebnisse werden in Cassandra gespeichert.
 Um eine Skalierungs zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von mehreren Instanzen geupdated werden können, ohne dass dabei dirty reads oder Überschreibungen auftreten dürfen. Cassandra bietet hier den Datentyp \textbf{Counter}, der atomare \textit{increase} und \textit{decrease} Operationen anbietet. Damit lassen sich die meisten Szenarien realisieren, ohne weitere  komplexe (und möglicherweise verlangsamende) Isolierungsmechaniken zu implementieren.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{../Bericht/streamProcessing}
+\caption{Spark stream processing}
+\label{fig:streamProcessing}
+\end{figure}
+
+
 
 
 
