@@ -56,7 +56,7 @@ Soll ein beliebiger Kommunikationspartner für ein Event ausgewählt werden, kan
 \subsection{Ausgewählter Kommunikationspartner}
 In einigen Fällen ist das \Ev\ allerdings primär nur für eine Instanz entscheidend. So sollte das \Ev, dass die Einträge einer Timeline enthält beispielsweise möglichst direkt die Webserver-Instanz erreichen, an der die Timeline angefragt wurde. Um dies zu realisieren, könnte die Webserver-Instanz der Anfrage ihre ID hinzufügen und dann das Antwort-\T\ nach ihrer ID filtern. Diese Lösung würde allerdings dazu führen, dass die Kommunikation nicht mehr skalierbar wäre, da dann jede Webserver-Instanz jede Antwort auf jede Anfrage erhalten müsste und zum Filtern der Antworten bearbeiten müsste. Dies ließe sich nicht skalierbar realisieren. Die \C\ müssen also der selben \CG\ zugeordnet sein. \\
 Um nun zu gewährleisten, dass die Webserver-Instanz, die die Anfrage gestellt hat, die Antwort erhält, muss die Antwort zum einen in eine feste \Pt\ gelegt werden und zum anderen musste eine Strategie für die Zuordnung von Partitionen auf die \C\ implementiert werden, mit der garantiert werden kann, dass die Antwort auch bei erneuter Verteilung der \Pts\ beim richtigen \C\ landet. Dies können beide von Kafka mitgelieferten Verteilungsstrategien nicht gewährleisten, wie in Abbildung \ref{fig:roundrobin} beispielhaft für das \glqq roundrobin\grqq-Verfahren dargestellt ist.
-\begin{figure}
+\begin{figure}[htbp!]
 	\caption{Beispiel für die Umverteilung der Partitionen mit dem \glqq roundrobin\grqq\ Verfahren: Zwischen Zustand 1 und Zustand 2 wurde der Consumer 2 entfernt.}
 	\label{fig:roundrobin}	
 	\centering

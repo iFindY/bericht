@@ -8,9 +8,10 @@ Das Daten Modell von Cassandra entspricht dem von BigTable, also dem Wide-Column
 \begin{figure}[htbp!]
 	\centering
 	\includegraphics[scale=0.45]{pics/colfam.png}
+	\figuresource{http://wi-wiki.de/doku.php?id=bigdata:spaltendb}
 	\caption{Beispiel Daten Modell}
 	\label{fig:bspDM}
-	%Quelle: http://wi-wiki.de/doku.php?id=bigdata:spaltendb
+
 \end{figure} Column-Families, die wiederum Column-Families beinhalten, bezeichnet man als Super-Column-Families. Bei Cassandra werden bei der Initialisierung einer Tabelle, die auch nichts anderes ist als eine Super-Column-Family, alle möglichen Column-Families angegeben. Sie definiert darüber hinaus den Primary Key über den auf die Werte der Column-Families zugegriffen werden können. Im Unterschied zu herkömmlichen SQL Tabellen ist es aber möglich Werte für diese zu unterschlagen, wie in Abbildung \ref{fig:bspDM} für p1 - p3 dargestellt.\\ 
 Ein KeySpace stellt die oberste Schicht des Datenmodells da. Für den KeySpace werden bei der Initialisierung eine Replikationsstrategie und eine Anzahl Replikas angegeben, die zu erstellen sind. Diese gelten dann für alle Tabellen, die unter dem KeySpace erstellt werden.
 
@@ -46,7 +47,7 @@ Mit CQL (Cassandra Query Language) gibt es eine auf Cassandra zugeschnittene SQL
 \begin{figure}[htbp!]
 	\centering
 	\includegraphics[scale=0.7]{pics/cql_mapping.png}\\
-	\small Quelle: \url{https://www.youtube.com/watch?v=UP74jC1kM3w}
+	\figuresource{\url{https://www.youtube.com/watch?v=UP74jC1kM3w}}
 	\caption{CQL Mapping}
 	\label{fig:mapping}
 \end{figure}
