@@ -31,7 +31,7 @@ Es wurde ein LoginController erstellt welcher mit den zwei Parameter \textit{USE
 var kommunikationHandler = new KommunikationHandler
 .constructor('USER_ISSUES_LOGIN', 'LOGIN_RESULT_IS_PROVIDED');
 \end{lstlisting} 
-Diese zwei Topics wurden in dem Kaptiel XYZ definiert. Im folgenden Code-Beispiel wird der LoginController mit einer REST-Schnittstelle \textit{/users/login} verknüpft. \\
+Diese zwei Topics wurden in dem Kaptiel \ref{chap:Kafka} definiert. Im folgenden Code-Beispiel wird der LoginController mit einer REST-Schnittstelle \textit{/users/login} verknüpft. \\
 \begin{lstlisting}[language=Java, basicstyle=\small] 
 var LoginController = 	require('./endpoints/loginController');
 app.use('/users/login', LoginController);
