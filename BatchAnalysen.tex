@@ -642,10 +642,15 @@ Tweets:}
 \bigskip
 
 
-\bigskip
-
 Bis auf die die Attribute und deren Datentyp sowie den PRIMARY KEY haben
 wir die anderen Werte durch Cassandra erezugen lassen.
+
+\bigskip
+
+In der Tweets Tabelle wird folgender Tweet Type verwendet:
+\lstinputlisting[language=SQL]{bilder/spark_tweet_type.txt}
+\bigskip
+
 
 \subsection{Zeilen für Datenbank (Output)}
 Es gibt für jede Analyse eine eigene Output-Tabelle. Sie sind sehr
@@ -661,8 +666,13 @@ Webserver-Zulieferkomponente diese auch generisch übertragen kann, d.h.
 dass nur der entsprechende Tabellenname benötigt wird und einzelnen
 Anfragen sonst für alle Top 10s gleich laufen können.
 
-\section{Aufbau des
-Systems}
+\bigskip
+
+Die Ergebnisse der Streamanalyse werden je nach Zeitauflösung in verschiedene Tabellen geschrieben.
+Folgend die Tabelle für die stündlichen Ergebnisse:
+\lstinputlisting[language=SQL]{bilder/spark_hourly_counter.txt}
+
+\section{Aufbau des Systems}
 Insgesamt fanden sich beim Aufbau des Analysensystems folgende Schritte:
 
 \begin{itemize}

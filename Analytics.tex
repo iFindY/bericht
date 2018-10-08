@@ -57,7 +57,6 @@ Um eine Skalierungs zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von m
 \label{fig:streamProcessing}
 \end{figure}
 
-....
 \include{BatchAnalysen}
 
 
@@ -73,3 +72,18 @@ Die Kommunikation passiert auch hier über Kafka und festgelegte Topics.
 Es lassen sich beliebig viele Instanzen des Services starten, die Kommunikation skaliert automatisch über die gewählte Kommunikationsarchitektur.
 
 Für die Umsetzung wurde die Platform Node.js mit TypeScrict verwendet. 
+
+
+\section{Darstellung im Frontend}
+
+Für die Darstellung im Frontend wurde ein eigener Bereich auf der Website eingerichtet, der wiederum in die drei Teile
+\textit{Live Analytics}, \textit{Batch Analytics} und Analysen von ElasticSearchs \textit{Kibana} aufgeteilt ist.
+Die Analysen durch Spark werden mittels des Frameworks \textit{Graph.js} dargestellt.
+
+
+
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[width=1.1\textwidth]{pics/analytics/currentlyTrending}
+	\caption{Live Analytics im Frontend}
+\end{figure}

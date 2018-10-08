@@ -1,0 +1,15 @@
+CREATE TYPE twitter_spark.tweet (
+    id varint,
+    id_str text,
+    user text,
+    text text,
+    created_at bigint,
+    lang text,
+    possibly_sensitive boolean,
+    place_type_country text,
+    place_type_place_name text,
+    place_type_country_code text,
+    coordinates_l list<varint>,
+    hashtags list<text>
+);
+
