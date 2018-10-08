@@ -13,9 +13,9 @@ Diese Eigenschaft ermöglicht das Entkoppeln des Such-Service‘es von dem Rests
 Dafür wurden drei Topics erstellt und ein Datenformat vereinbart, das langfristig alle unsere Wünsche abdecken soll. Die Such-Service Use-Cases sind in drei Gruppen eingeteilt, die mit Hilfe von drei Kafka-Topics realisiert wurden: Neue Dokumente indexieren/abspeichern, Anfragen empfangen und Anfragen beantworten.
 %\captionsetup{justification = raggedright,singlelinecheck = false}
 \begin{figure}[htbp!]
-	\includegraphics[scale=0.8]{material/architecture/Elasticsearch.png}
-	\caption{Elasticsearch Service Architectur}
-	\label{fig:ESA}
+  \includegraphics[scale=0.8]{material/architecture/Elasticsearch.png}
+  \caption{Elasticsearch Service Architectur}
+  \label{fig:ESA}
 \end{figure}
 
 Der Such-Service meldet sich an den entsprechenden Kafka-Topics an, öffnet ein Datenstrom und empfängt Nachrichten mit den Speicher-, Suchkriterien, sowie der dazugehörigen Benutzerkennung. Um den Speicherplatz optimal zu nutzen, werden aus der Nachricht nur für die Suche relevante Felder ausgelesen und an die Elasticsearch REST-Schnittstelle weitergeleitet, wie z.B. der Text, die Benutzerkennung, die Tags und der Zeitstempel.  
@@ -115,14 +115,14 @@ Die interne Logik des Suchservices wird von den Java Beans umgesetzt, die im Spr
 Um die Kommunikation und Fähigkeiten des Such Services übersichtlich zu gestalten, wird ein Interface mit den gewünschten Anfragen erstellt und anschließend implementiert. 
 
 \begin{enumerate}
-	\item über die Tags
-	\item über die referenzierten Benutzer
-	\item über angegebenen Standortnamen mit der Textvervollständigung
-	\item über die Term-Suche auf den Tweet-Text
-	\item über die Volltextsuche auf den Tweet-Text
-	\item über den Text wie den Benutzet Standortnamen
-	\item über einen Zeitraum
-	\item über einen Zeitraum mit Benutzer und Tag Präferenz 
+  \item über die Tags
+  \item über die referenzierten Benutzer
+  \item über angegebenen Standortnamen mit der Textvervollständigung
+  \item über die Term-Suche auf den Tweet-Text
+  \item über die Volltextsuche auf den Tweet-Text
+  \item über den Text wie den Benutzet Standortnamen
+  \item über einen Zeitraum
+  \item über einen Zeitraum mit Benutzer und Tag Präferenz 
 \end{enumerate}
 
 \subsection{Such-Implementation}
@@ -303,6 +303,6 @@ Ebenso problematisch sind die Elasticsearch Abfragen, die einerseits gut im JSON
 Erst zum Ende des Projekts bin ich auf \textit{Mustach} gestoßen, die \textit{JSON-Templats} für die Abfragen erstellt und diese in einer simplen Form an Elasticsearch weiterleitet.  
 
 \subsection{Tools}
-Besondere positiv aufgefallen ist die WebUI Kibnan die mit Elasticsearch über REST Anfragen kommuniziert. Es ist möglich nach Daten zu suchen, den Clusterstatus abzufragen sowie aussagekräftige Grafiken zu erstellen. Diese Werkzeuge bieten dem Entwickler einen einfachen und übersichtlichen Einstig in die Elasticsearch-Umgebung. 
+Besondere positiv aufgefallen ist die WebUI Kibana die mit Elasticsearch über REST Anfragen kommuniziert. Es ist möglich nach Daten zu suchen, den Clusterstatus abzufragen sowie aussagekräftige Grafiken zu erstellen. Diese Werkzeuge bieten dem Entwickler einen einfachen und übersichtlichen Einstig in die Elasticsearch-Umgebung.    
 
 \input{SeminararbeitArkadij.tex}
