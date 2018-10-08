@@ -27,14 +27,12 @@ Beispiel:
 Für eine Vielzahl von vorliegenden Dokumenten soll die Wortanzahl ermittelt werden.
 Dann könnten die Map und Reduce Funktionen wie folgt aussehen:
 
-\begin{lstlisting}
-
+\begin{lstlisting}[language=json,firstnumber=1]
 map(String key, String value):
 	// key: document name
 	// value: document contents
 	for each word w in value:
 		EmitIntermediate(w, "1");
-
 
 reduce(String key, Iterator values):
 	// key: a word
