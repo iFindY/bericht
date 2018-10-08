@@ -1,5 +1,5 @@
 \section{Architektur}
-\subsection{zwei Phasen}
+\subsection{Zwei Phasen}
 Die Ausführung der Analysen erfolgt in zwei Phasen. Die eine Phase ist
 die eigentliche Batch-Analyse. Dabei werden alle bisher in der
 Datenbank befindliche Tweets ausgewertet. Die andere Phase erfolgt
@@ -45,7 +45,7 @@ führt der ETL-Prozess auch zu deutlich kleineren Tweet-Objekten, was
 die Analyse stark beschleunigt, insbesondere wenn die Tweets über das
 Netzwerk übergeben werden müssen.
 
-\subsubsection{eigentliche
+\subsubsection{Eigentliche
 Analyse}
 Nach dem ETL-Prozess kommt die eigentliche Analyse. Der ETL-Prozess wird
 ständig von der Streaming-Komponente ausgeführt, d.h. es werden Tweets
@@ -120,18 +120,18 @@ Flaschenhals ist, denn die CPU-Kerne sind max. zu Hälfte ausgelastet.
 Ist das Netzwerk schneller, dann steigt auch die CPU-Auslastung auf
 nahezu 100\%.
 
-\subsubsection{mit
+\subsubsection{Mit
 Flaschenhals}
 
 \includegraphics[width=\textwidth]{bilder/eigene20PrC3A4sentation-img1.png}
 
 
-\subsubsection{ Durcheinander}
+\subsubsection{Durcheinander}
 
 \includegraphics[width=\textwidth]{bilder/eigene20PrC3A4sentation-img2.png}
 
 
-\subsubsection{mit Data
+\subsubsection{Mit Data
 Locality}
 
 \includegraphics[width=\textwidth]{bilder/eigene20PrC3A4sentation-img3.png}
@@ -212,7 +212,7 @@ entsprechende Anfrage timed out. Für andere Anfragen ist ein geeigneter
 Index notwendig. Dessen Notwendigkeit ist nicht immer im Voraus bekannt
 und eine Nachrüstung kaum möglich.
 
-\section{interessante Analyseergebnisse}
+\section{Interessante Analyseergebnisse}
 \subsection{BTS}
 Bei unseren Analysen war der Hashtag BTS in verschiedenen Formen immer
 präsent. BTS steht für Bangtan Boys und ist eine koreanische Boyband.
@@ -251,9 +251,9 @@ Trump enthalten. Neben seiner bekanntermaßen hohen Twitterpräsenz liegt
 das auch an dem Selektionskriterium, mit dem wir bei Twitter nach
 Tweets anfragen. Es enthält unter anderem den Selektor Trump.
 
-\section{spezielle
+\section{Spezielle
 Analyseergebnisse}
-\subsection{stream-bedingte Ergebnisse}
+\subsection{Stream-bedingte Ergebnisse}
 Es gibt einige Gründe, die unsere Analyseergebnisse verzerren.
 
 Der erste Grund ist die konstante Geschwindigkeit unseres
@@ -284,14 +284,14 @@ die Analysen schnell ausgeführt werden können (ca. 1 Minute vs. 20
 Minuten). Im Produktivbetrieb würde man dieses Sampling dann nicht mehr
 vornehmen.
 
-\section{genauere Schritte}
+\section{Genauere Schritte}
 Ein großes Hindernis bei der Entwicklung und dem Betrieb der Analysen
 war es, dass die Beispiele und gefundenen Howtos zu einfach sind. Im
 Sinne einer gewissen Wissensweitergabe sollen hier anhand einiger
 Patterns – analog zu Design Patterns – die gewonnen Erkenntnisse
 weitergegeben werden. 
 
-\subsection{doppelter Key}
+\subsection{Doppelter Key}
 Eine Herausforderung war es, dass der Mapping-Schritt zwar ein
 Key-Value-Mapping vornimmt, aber nur einen Key unterstützt. Für die
 Analysen wird aber häufig ein mindestens doppelter Key benötigt. Zum
@@ -435,7 +435,7 @@ verfeinerte Tools handelt.
 
 \bigskip
 
-\subsection{frühere Fehlererkennung}
+\subsection{Frühere Fehlererkennung}
 Ein tolles Feature wäre eine frühere Fehlererkennung. Bisher fallen
 gerade Flüchtigkeitsfehler erst bei der Ausführung auf. Das betrifft
 vor allem die zusätzlichen Aufgaben, die durch Spark und die Datenbank
@@ -450,7 +450,7 @@ Sekunden) könnte so wegfallen. Sie könnte z.B. die Datenbank bereits
 kontaktieren und das Mapping ausprobieren oder durch statische
 Codeanalyse Fehler wie die fehlende Serializability finden.
 
-\subsection{inkrementelles Packing}
+\subsection{Inkrementelles Packing}
 Eine andere Verbesserung wäre das inkrementelle Packen. Ändert man einen
 kleinen Fehler in einer Klasse wird die Fat-Jar mit allen
 Abhängigkeiten erneut gebaut. Allerdings würde der Austausch der
@@ -459,7 +459,7 @@ möglich wäre, dann würde dies eine große Unannehmlichkeit beheben. In
 der Scala-Variante scheint dies zu erfolgen, hier braucht das Packen
 nicht so lange.
 
-\subsection{automatisches Zusammenlegen von
+\subsection{Automatisches Zusammenlegen von
 Analysen}
 Die dritte Verbesserung betrifft die Ausführung mehreren Analysen. In
 unserem Fall werden sehr ähnliche Analysen auf den gleichen Daten
@@ -488,7 +488,7 @@ geholt werden würden.
 In diesem Abschnitt soll auf die häufigsten und/oder nervigsten Probleme
 eingegangen werden.
 
-\subsection{sehr lange Ausprobierzeiten}
+\subsection{Sehr lange Ausprobierzeiten}
 Bedingt durch mehrere Effekte dauert es vom Ändern des Codes bis zur
 fehlerhaften oder erfolgreichen Ausführung vergleichsweise lange. Klar
 lässt sich eine Analyse mit vielen Daten nicht innerhalb kürzester Zeit
@@ -513,7 +513,7 @@ Sampling, also die künstliche Verkleinerung der Menge der untersuchten
 Daten, Abhilfe schaffen. Wirklich besser wird es allerdings nur mit der
 Variante take(int n), aber nicht mit dem Sampling.
 
-\subsubsection{und kann bei einem Fehler auch nicht
+\subsubsection{Und kann bei einem Fehler auch nicht
 so einfach debugged werden}
 Weiterhin fehlt noch ein Debugger. Trifft Spark auf eine Exception so
 probiert er es entweder noch einige Mal erneut oder bricht die ganze
@@ -522,7 +522,7 @@ dieses Datum zu überspringen (z.B. wenn es einen unverarbeitbaren
 NULL-Wert enthält) oder zur nächsten Analysen überzugehen, wäre
 hilfreich.
 
-\subsection{extrem schwache Dokumentation von Spark}
+\subsection{Extrem schwache Dokumentation von Spark}
 Das mit Abstand nervigste Problem ist allerdings die schwache
 Dokumentation von Spark und dem Cassandra-Connector.
 
@@ -596,7 +596,7 @@ Exception OperationNotImplemented. Dies ist besonders nervig, da das
 erst nach der Analyse auffallen kann.
 
 
-\subsection{weitere Probleme}
+\subsection{Weitere Probleme}
 
 \bigskip
 
