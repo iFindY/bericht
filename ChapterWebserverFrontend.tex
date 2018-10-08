@@ -27,7 +27,7 @@ Die klassischen Probleme bei der Erstellung der Webanwendung war das zugreifen a
 \section{Webserver}
 Der Webserver wurde mit dem Framework NodeJs erstellt. Dieser bietet verschiedene REST-Schnittstellen, welche mit Hilfe des Paket \textit{express} bereitgestellt wurden. Außerdem wurde eine Bibliothek für die Anbindung an Kafka implementiert. Da der Webserver nur als Vermittler fungiert, wurde eine Funktion implementiert welche zwei Parameter benötigt um das ganze so automatisiert wie möglich zu gestalten. Der erste Parameter dient dem Frage-Topic an den Kafka Server und der zweite für die Antwort in Kafka. Zusätzlich zu diesen zwei Parameter wurde eine Schnittstelle definiert, welche das Frontend mittels einer  HTTP REST-Methode ansprechen kann. Der folgende Teil beschreibt die oben beschriebene Funktion: 
 Es wurde ein LoginController erstellt welcher mit den zwei Parameter \textit{USER\_ISSUES\_LOGIN} und \textit{LOGIN\_RESULT\_IS\_PROVIDED} die oben beschriebene Funktion aufruft: \\
-\begin{lstlisting}[language=Java, basicstyle=\small] 
+\begin{lstlisting}[language=Java, basicstyle=\small, firstnumber=1] 
 var kommunikationHandler = new KommunikationHandler
 .constructor('USER_ISSUES_LOGIN', 'LOGIN_RESULT_IS_PROVIDED');
 \end{lstlisting} 
