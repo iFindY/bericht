@@ -1,7 +1,7 @@
-\section{Webserver und Frontend}
+\chapter{Webserver und Frontend}
 Der Zugriff auf unsere Anwendung wurde mit dem Framework Angular realisiert. Als Schnittstelle zwischen Frontend und dem Message-Broker Kafka wurde ein Webserver geschaltet. Damit es von Außerhalb keine Möglichkeit gibt, direkt auf Kafka zuzugreifen. Ein weitere Vorteil bei dieser Konstellation ist, dass nur die Verbindung zwischen Frontend und dem Webserver abgesichert werden. Jede weitere Kommunikation innerhalb der einzelnen Prozesse findet in einem eigenen Netzwerk statt.
 
-\subsection{Frontend}
+\section{Frontend}
 Das Frontend wurde mit dem Framework angularjs erstellt. Es gab keinen speziellen Grund, warum sich das Team für angularjs entschieden hat. Zu beginn der Hamaube wurde auch kein Fokus auf eine Weboberfläche gesetzt. Der Fokus lag auf dem Backend und nicht dem Frontend. Da es keine Pflicht Aufgabe war und es "schnell" gehen sollte, wurde angularjs gewählt, da schon gewissen Vorkenntnisse vorhanden waren. Zudem bietet angularjs einem die Möglichkeit Module zu entwickeln, welche dann passend eingebunden werden. Der Vorteil daran ist, dass nur einmal das Layout eines Tweets definiert werden muss. Wenn der Webserver ein JSON-Dokument mit einer Liste von Tweets an das Frondend bereit stellt, kann einfach über diese Liste iteriert werden um eine Timeline zu erstellen. \\
 
 %]Die Webanwendung sollte am Ende jedoch folgende Punkte ermöglichen.  \TODO{siehe oben?}
@@ -24,7 +24,7 @@ Das Frontend wurde mit dem Framework angularjs erstellt. Es gab keinen spezielle
 Die klassischen Probleme bei der Erstellung der Webanwendung war das zugreifen auf die JSON-Dokumente. Zum Beispiel wurde das Objekt in dem JSON-Dokument in einer anderen Ebene erwartet oder beim Bezeichner wurde die Groß/Kleinschreibung verwechselt.
 
 
-\subsection{Webserver}
+\section{Webserver}
 Der Webserver wurde mit dem Framework NodeJs erstellt. Dieser bietet verschiedene REST-Schnittstellen, welche mit Hilfe des Paket \textit{express} bereitgestellt wurden. Außerdem wurde eine Bibliothek für die Anbindung an Kafka implementiert. Da der Webserver nur als Vermittler fungiert, wurde eine Funktion implementiert welche zwei Parameter benötigt um das ganze so automatisiert wie möglich zu gestalten. Der erste Parameter dient dem Frage-Topic an den Kafka Server und der zweite für die Antwort in Kafka. Zusätzlich zu diesen zwei Parameter wurde eine Schnittstelle definiert, welche das Frontend mittels einer  HTTP REST-Methode ansprechen kann. Der folgende Teil beschreibt die oben beschriebene Funktion: 
 Es wurde ein LoginController erstellt welcher mit den zwei Parameter \textit{USER\_ISSUES\_LOGIN} und \textit{LOGIN\_RESULT\_IS\_PROVIDED} die oben beschriebene Funktion aufruft: \\
 \begin{lstlisting}[language=Java, basicstyle=\small] 
