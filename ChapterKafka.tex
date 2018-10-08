@@ -17,7 +17,7 @@ Die in diesem Abschnitt beschriebenen Grundlagen stammen aus \cite{KafkaIntro} u
 \subsection{Registrieren eines Consumers}
 Wird eine Nachricht über eine Kafka-Instanz verbreitet, so ist sie einem \T\ zugeordnet.
 Möchte eine Komponente von Kafka Nachrichten erhalten, muss sie sich als \C\ registrieren. Hierbei muss sie mindestens ein \T\ angeben, an dem sie interessiert ist, sowie eine \CG. Wird nun eine Nachricht über Kafka verbreitet, wird ein \C\ jeder \CG, der an dem \T\ der Nachricht interessiert ist, ausgewählt und die Nachricht an diesen \C\ weitergeleitet. Abbildung \ref{fig:exampleKafkaConsumerRegistration} zeigt ein Beispiel für die Zuordnung von \Cn\ zu \CGs\ und die Registrierung der \C\ bei verschiedenen \Tcs. Wird in diesem Beispiel ein Nachricht für \T\ 2 hinterlegt, so werden \C\ 1 oder \C\ 2, sowie \C\ 4 informiert. Wird allerdings eine Nachricht für \T\ 1 hinterlegt, wird nur \C\ 1 oder \C\ 2 informiert.
-\begin{figure}
+\begin{figure}[htpb!]
 	\caption{Beispiel für die Zuordnung von \Cn\ zu \CGs\ und \Tcs.}
 	\label{fig:exampleKafkaConsumerRegistration}
 	\centering
