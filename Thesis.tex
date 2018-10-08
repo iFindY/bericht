@@ -33,7 +33,7 @@ Kurzfassung auf Deutsch
 
 \tableofcontents % indice dei contenuti
 \listoffigures  %lista delle figure
-\listoftables
+%\listoftables
 \blankpage
 %\blankpage
 \input{Intro.tex}
@@ -48,8 +48,9 @@ Kurzfassung auf Deutsch
 \blankpage
 
 % usare questo invece di usare \appendix perchè l'altro dà un ref sbagliato sul primo link dell'indice
+\changelocaltocdepth{0}
 \begin{appendices}
-	\input{AppendixA-Glossary.tex}\blankpage
+	%\input{AppendixA-Glossary.tex}\blankpage
 	\input{Cassandra.tex}
 	\input{BigTable.tex}
 	\input{Dynamo.tex}

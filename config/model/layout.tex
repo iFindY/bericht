@@ -6,7 +6,7 @@
 \usepackage{appendix}
 \usepackage{array}
 \usepackage{multirow}
-\usepackage[english,ngerman]{babel}
+\usepackage[ngerman]{babel}
 \usepackage{ucs} %unicode sistema gli accenti
 \usepackage[utf8x]{inputenc} %unicode sistema gli accenti utf8x
 \usepackage[bottom]{footmisc} % posiziona le note in footer sempre in basso
@@ -106,6 +106,12 @@
 	citecolor = black
 }
 %parte per il book
+\newcommand{\changelocaltocdepth}[1]{%
+	\addtocontents{toc}{\protect\setcounter{tocdepth}{#1}}%
+	\setcounter{tocdepth}{#1}%
+}
+
+\setlength{\parindent}{0pt}
 
 % indice analitico
 \usepackage{makeidx}
