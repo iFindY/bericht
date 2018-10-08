@@ -6,8 +6,6 @@
 %If want to write a dedication, modify the following.
 %\dedication{Zitat, kluger Spruch oder Widmung}
 
-\newcommand{\TODO}[1]{\marginpar{\color{red}\emph{\small{{\bf TODO: } #1}}}}
-
 \newpage
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
@@ -15,7 +13,7 @@ Abstract in English
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-Kurzfassung auf Deutsch
+Diese Arbeit behandelt das Thema eines skalierbaren Twitterklons, die Hamaube, mit eingebaute Instant- und Batch-Analyse auf einer NoSQL Datenbank. Die Hamaube benutzt Kafka als Middleware und eine Microservice-Architektur. Somit ist es möglich die Anwendung durch die Skalierung einzelner Services zu skalieren und dies so effizient wie möglich zu gestalten. Die verschiedenen Services sind technisch und thematisch von einander getrennt und kommunizieren über festgelegt APIs. So gelingt es uns, dass die Skalierbarkeit unserer Anwendung der Skalierbarkeit von Kafka entspricht. Cassandra als Datenbank bietet mit einer eigenen SQL-ähnliche Abfragesprache ein vertrautes Interface, ist aber bei der Abspeicherung und den Abfrage nicht durch eine relationales Datenschema in der Performance gehemmt und kann somit beides schneller Ausführen. Zudem ist Cassandra ebenso als Cluster skalierbar was die Datenhaltung vereinfacht. Somit haben wir mit der Hamaube eine leicht an die Last anpassbare Anwendung geschaffen, die die Funktion eines normalen Twitter Clients erweitert.
 
 
 
@@ -30,29 +28,33 @@ Kurzfassung auf Deutsch
 \linespread{1.25}\selectfont
 
 % Wenn ihr Pakete braucht dann bindet die bitte in layout.tex ein und scheibt eine mail rum damit alle anderen merge konflikte vermeiden können.
-
+\changelocaltocdepth{1}
 \tableofcontents % indice dei contenuti
 \listoffigures  %lista delle figure
-\listoftables
+%\listoftables
 \blankpage
 %\blankpage
 \input{Intro.tex}
 \input{Architektur.tex}
-\input{Cassandrareader.tex}
-\input{ChapterWebserverFrontend.tex}
 \input{ChapterKafka.tex}
+\input{ChapterWebserverFrontend.tex}
+\input{UseCases.tex}
+\input{Cassandrareader.tex}
+\input{ElasticSearchHamaube.tex}
+\input{Analytics.tex}
 \input{Conclusion.tex}
 
 \blankpage
 
 % usare questo invece di usare \appendix perchè l'altro dà un ref sbagliato sul primo link dell'indice
+\changelocaltocdepth{0}
 \begin{appendices}
-	\input{AppendixA-Glossary.tex}\blankpage
+	%\input{AppendixA-Glossary.tex}\blankpage
 	\input{Cassandra.tex}
 	\input{BigTable.tex}
 	\input{Dynamo.tex}
-	\input{Spark.tex}
 	\input{MapReduce.tex}
+    \input{Spark.tex}
 	\input{ElasticSearch.tex}
 	%\input{AppendixD.tex}
 \end{appendices}
