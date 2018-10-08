@@ -6,8 +6,6 @@
 %If want to write a dedication, modify the following.
 %\dedication{Zitat, kluger Spruch oder Widmung}
 
-\newcommand{\TODO}[1]{\marginpar{\color{red}\emph{\small{{\bf TODO: } #1}}}}
-
 \newpage
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
@@ -15,7 +13,7 @@ Abstract in English
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-Kurzfassung auf Deutsch
+Diese Arbeit behandelt das Thema eines skalierbaren Twitterklons, die Hamaube, mit eingebaute Instant- und Batch-Analyse auf einer NoSQL Datenbank. Die Hamaube benutzt Kafka als Middleware und eine Microservice-Architektur. Somit ist es möglich die Anwendung durch die Skalierung einzelner Services zu skalieren und dies so effizient wie möglich zu gestalten. Die verschiedenen Services sind technisch und thematisch von einander getrennt und kommunizieren über festgelegt APIs. So gelingt es uns, dass die Skalierbarkeit unserer Anwendung der Skalierbarkeit von Kafka entspricht. Cassandra als Datenbank bietet mit einer eigenen SQL-ähnliche Abfragesprache ein vertrautes Interface, ist aber bei der Abspeicherung und den Abfrage nicht durch eine relationales Datenschema in der Performance gehemmt und kann somit beides schneller Ausführen. Zudem ist Cassandra ebenso als Cluster skalierbar was die Datenhaltung vereinfacht. Somit haben wir mit der Hamaube eine leicht an die Last anpassbare Anwendung geschaffen, die die Funktion eines normalen Twitter Clients erweitert.
 
 
 
