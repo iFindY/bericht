@@ -8,7 +8,7 @@ Das Daten Modell von Cassandra entspricht dem von BigTable, also dem Wide-Column
 \begin{figure}[htbp!]
 	\centering
 	\includegraphics[scale=0.45]{pics/colfam.png}
-	\figuresource{http://wi-wiki.de/doku.php?id=bigdata:spaltendb}
+	\figuresource{\url{http://wi-wiki.de/doku.php?id=bigdata:spaltendb}}
 	\caption{Beispiel Daten Modell}
 	\label{fig:bspDM}
 
@@ -46,7 +46,7 @@ Persistenz erreicht Cassandra über ein ähnliches System wie BigTable \cite{big
 Mit CQL (Cassandra Query Language) gibt es eine auf Cassandra zugeschnittene SQL-ähnliche Abfragesprache, die es den Anwendern konventioneller Datenbanken deutlich leichter macht mit Cassandra zu arbeiten. Dabei ist es wichtig zu wissen, dass CQL bei weitem nicht so ausdrucksstark ist wie SQL. Das liegt daran, dass CQL im wesentlich eine abstrakte API für das Cassandra Datenmodell darstellt. In CQL sind normale Datenbank Typen wie int, text, etc. möglich, allerdings kann man auch von Collections wie List, Set und Map Gebrauch machen, da es dafür direkte Java Typen gibt. Des Weiteren ist es möglich eigene Typen zu definieren, wie schon in Abschnitt \ref{sec:DM} beschrieben.\\
 \begin{figure}[htbp!]
 	\centering
-	\includegraphics[scale=0.7]{pics/cql_mapping.png}\\
+	\includegraphics[scale=0.7]{pics/cql_mapping.png}
 	\figuresource{\url{https://www.youtube.com/watch?v=UP74jC1kM3w}}
 	\caption{CQL Mapping}
 	\label{fig:mapping}
