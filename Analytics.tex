@@ -3,9 +3,9 @@
 \chapter{Analytics}
 \label{Analytics}
 
-Ziel: Analyse von Twitterdaten
+Ziel  Analyse von Twitterdaten
 
-Live analytics und offline batch analytics bla.
+
 \TODO{Some Goalgs to be defined bla}
 
 \begin{figure}[htbp!]
@@ -50,12 +50,49 @@ Das Spark Streaming Framework teilt den Stream dafür in Micro-Batches, die dann
 So werden z.B. die Anzahl von Hashtag pro Stunde/pro Minute ermittelt, daraus werden dann aktuell beliebte Hashtags erkannt.
 Auch diese Ergebnisse werden in Cassandra gespeichert.
 Um eine Skalierungs zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von mehreren Instanzen geupdated werden können, ohne dass dabei dirty reads oder Überschreibungen auftreten dürfen. Cassandra bietet hier den Datentyp \textbf{Counter}, der atomare \textit{increase} und \textit{decrease} Operationen anbietet. Damit lassen sich die meisten Szenarien realisieren, ohne weitere  komplexe (und möglicherweise verlangsamende) Isolierungsmechaniken zu implementieren.
-\begin{figure}[htbp!]
+\begin{figure}[Htbp!]
 \centering
 \includegraphics[width=\linewidth]{pics/analytics/streamProcessing.pdf}
 \caption{Spark stream processing}
 \label{fig:streamProcessing}
 \end{figure}
+
+\subsection*{Beispiel}
+
+Der Spark Streaming Service erhält einen neuen Tweet aus dem Topic \textit{USSER\_ISSUES\_TWEET}.
+Dieser liegt im vom Twitter definierten Datenformat vor (Siehe \ref{chap:cassandra}).
+
+Folgende Attribute werden für die Weitervearbeitung extrahiert:
+\begin{itemize}
+	\item Tweet-Id
+	\item Tweet-Text
+	\item User (Id, Name)
+	\item Sensitivitäts-Flag 
+	\item Hashtags
+	\item Erstellungsdatum
+	\item Sprache
+	\item Ort (Land, Stadt)
+	\item GPS-Koordinaten
+\end{itemize}
+
+Twitter extrahiert dabei die Hashtags aus dem Tweet-Text und schreibt diese zusätzlich in ein Entity-Objekt, welches am Tweet hängt.
+Diese Hashtags können einfach genutzt werden und eine Extraktion aus dem Text wird vermieden.
+Falls Werte nicht gesetzt sind oder ungültig sind, werden diese durch einheitliche Dummy-Werte ersetzt, welche in späteren Analysen erkannt und übersprungen werden.
+Anschließend wird die Sentiment-Analyse des Tweet-Textes durchgeführt. Diese zählt anhand definierter Listen positive und negative Wörter im Text und berechnet daraus einen Score. Dieser Score kann später z.B. mit den zum Tweet gehörenden Hashtags analysiert werden, ein mögliches Szenario wäre ein Stimmungsbild zu einem bestimmten Hashtag.
+Damit eingehende Tweets in Zeiteinheiten aggregiert werden können,
+wird der Erstellungszeitpunkt eines Tweets auf entsprechende Zeiteinheiten abgerundet (z.B. Stunde, Minute). Für jede Zeiteinheit / Analyse-Target existiert in Cassandra eine Tabelle, für welche der Primary-Key als Verbund aus dem entsprechenden Analyse-Target (z.B. Hashtag) und der gerundeten Zeiteinheit vorliegt.
+Dadurch lassen sich Updates effizient für jede Zeiteinheit / Analyse-Target durchführen.
+
+\begin{figure}[htbp!]
+	\centering
+	\includegraphics[width=1.1\textwidth]{pics/analytics/example}
+	\caption{Sream Analytics: Beispiel - Anzal von Hashtags pro Stunde}
+\end{figure}
+
+
+
+
+
 
 \include{BatchAnalysen}
 

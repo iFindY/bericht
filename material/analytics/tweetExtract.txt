@@ -1,0 +1,25 @@
+{
+	case class User(id: Int, screen_name: String)
+	
+	case class Entity(text: String)
+	
+	case class Entities(hashtags: List[Entity])
+	
+	case class PlaceType(country: String = "", country_code: String = "", place_name: String = "")
+	
+	case class CoordinatesType(coordinates: List[Int] = List[Int]())
+	
+	class Tweet(var id: Option[Long],
+		var id_str: Option[String],
+		var user: User,
+		val text: String,
+		val created_at: Long = Calendar.getInstance().getTimeInMillis,
+		val lang: Option[String],
+		val possibly_sensitive: Boolean = false,
+		val entities: Entities,
+		val place: PlaceType,
+		val coordinates: CoordinatesType
+	){
+
+	}
+}
