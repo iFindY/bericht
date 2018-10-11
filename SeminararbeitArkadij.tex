@@ -3,7 +3,7 @@
 
 
 Diese Seminararbeit behandelt das Thema Informationsrückgewinnung und
-soll als eine Hilfestellung, für die Umsetzung einer Such-Engine, im
+soll als eine Hilfestellung für die Umsetzung einer Such-Engine im
 „NoSQL“ Projekt dienen. 
 
 Im Rahmen des „NoSQL“ Projektes wird eine Such-Engine benötigt, die
@@ -16,13 +16,13 @@ Verfahren vorgestellt, die eine Volltextsuche sowie die
 Relevanzzuordnung der Suchergebnisse ermöglichen. Die entsprechende
 Information kann im Buch „Introduction to Information Retrieval“ vom
 Christopher D. Manning nachschlagen werden.
-
+\newline
 Die Seminararbeit beginnt mit der Abgrenzung des Begriff
-„Informationsrückgewinnung“, nachfolgend gestalten Verfahren mit
+\textit{Informationsrückgewinnung}, nachfolgend gestalten Verfahren mit
 Vorverarbeitungsschritten den Text durchsuchbar und zum Schluss werden
-die notwendigen Schritte für die Ergebnisrangliste, der Suchanfrage,
+die notwendigen Schritte für die Ergebnisrangliste der Suchanfrage
 beschrieben. 
-
+\newline
 Aufbauend auf den vorgestellten Konzepten und Verfahren wird validiert,
 ob die Such-Engine {\textquotedbl}Elasticsearch{\textquotedbl} den
 Projektanforderungen entspricht.
@@ -47,7 +47,7 @@ wie zum Beispiel die menschliche Sprache.
 Die starke Entwicklung der Hardware, Software und des Internets führen
 neue Informationsquellen ein: Blogs, Foren, Wikis, soziale Netzwerke
 bis zu den Lernplattformen. Diese modernen Informationsquellen führen
-eine große Menge an unstrukturierter Daten ein, die Durchsuchbar
+eine große Menge an unstrukturierter Daten ein, die durchsuchbar
 gestaltet werden müssen. Damit ist die Suche über eine große Menge von
 Texte in natürlicher Sprache eine zentrale Disziplin. 
 \\\\
@@ -83,7 +83,7 @@ Artikeldokument aus drei Feldern aufgebaut werden, in dem Autor, Titel
 und Textkörper enthalten sind, die in sich einen beliebigen Text tragen
 können (inklusive Integer, Daten, Weblinks). 
 \newline
-Unser Ziel ist es, aus einer Menge von Dokumenten die in sich
+Unser Ziel ist es, aus einer Menge von Dokumenten, die in sich
 unterschiedliche Strukturen aufweisen dürfen, für den Nutzer relevanten
 Dokumenten zu filtern.
 
@@ -93,7 +93,7 @@ Der einfachste Weg relevante Information aus einer Datensammlung zu
 filtern, ist das Scannen der Dokumente einer Sammlung nach passenden
 Suchtermen und das Auslegen der Trefferdokumente als eine
 Ergebnisliste. Der lineare Suchansatz kann in viele Bereichen nützlich
-sein wie zum Beispiel das Linux „cat“ Funktion, jedoch ist dieser nicht
+sein wie zum Beispiel die Linux \textit{cat} Funktion, jedoch ist dieser nicht
 für alle Systeme und Sammlungen geeignet, denn zusammen mit der
 Dokumentenanzahl wächst die Suchzeit proportional mit. 
 \newline
@@ -181,7 +181,7 @@ dennoch steigern sie die Effizienz der Suchmaschine zur Abfragezeit.
 Im ersten Schritt wird der Text in Tokens aufgegliedert. Diese
 beschreiben ein Wort oder eine Wortmenge, die einen Begriff
 widerspiegeln. Dies scheint eine simple Aufgabe zu sein, jedoch hat der
-Toknisierung Vorverarbeitungsschritt viele Tücken. 
+Tokenisierung Vorverarbeitungsschritt viele Tücken. 
 \bigbreak
 Namen, Nummern und Daten können von der Norm abweichende Form einnehmen
 wie z.B. \textit{O'Neil}, \textit{Loas Anageles}, \textit{Mar 18,1990},
@@ -189,7 +189,7 @@ wie z.B. \textit{O'Neil}, \textit{Loas Anageles}, \textit{Mar 18,1990},
 die Tokens als eine Einheit erkannt und gespeichert werden. 
 \newline
 Zusätzlich bringt die deutsche Sprache eigne Regel, die zusätzlich beim
-Tokanisieren beachtet werden müssen. Zum Beispiel muss das Wort
+Tokenisierung beachtet werden müssen. Zum Beispiel muss das Wort
 \textit{Lebensversicherungsgesellschaftsangestellter} in
 eigenständige Einheiten zerlegt und gespeichert werden. Dieser Schritt
 bedarf einer komplexen Analysephase und tiefen Verständnis der
@@ -201,7 +201,7 @@ bestimmte Ereignisse, Materialen, Werkzeuge und Orte miteinberechnet
 werden.
 \bigbreak
 Demzufolge braucht der Tokenisierung-Schritt viel Aufmerksamkeit und
-fein Tuning für ein angenehmes Suchverhalten. \ 
+Feintuning für ein angenehmes Suchverhalten. \ 
 
 \subsection[Filterung]{Filterung}
 
@@ -219,7 +219,7 @@ Im nächsten Schritt werden die Terme normalisiert. Es werden Terme mit
 gleicher Bedeutung und unterschiedlicher Schreibweise zu einem Term
 zusammengefasst. Zum Beispiel erwarten wir für eine Suche nach \textit{U.S.A}
 ein Ergebnis, welches allen Synonymen im Text entspricht (U.S.A == USA
-== United Stats of America). 
+== United States of America). 
 \newline
 Damit die Suche Synonyme äquivalent behandelt, müssen diese mit einander
 verlinkt werden. Diese Anforderung kann mit Hilfe der Äquivalenzklassen
@@ -277,7 +277,7 @@ zugehörigen Bereich verweist.
 \end{wrapfigure}
 Da die Bereiche nicht gleich wichtig sind, werden diesen Gewichte
 zugewiesen, sodass sie zusammen 1 ergeben. Bei der Suche wird das
-Dokument nach dem Such-Termen durchforschtet und anschließend ein
+Dokument nach den Such-Termen durchforstet und anschließend ein
 Ranking erstellt, indem die Summe der Gewichte über alle Zonen des
 Dokumentes gebildet wird. 
 \bigbreak
@@ -289,9 +289,9 @@ gibt es bessere Alternativen.
 
 \subsection[Document Term Frequency DTF]{Document Term Frequency DTF}
 Bislang wird die Bewertung eines Dokumentes über eine Term-
-Existenzabfrage erstellt. In den nächsten Schritt wird diese Logik
+Existenzabfrage erstellt. In dem nächsten Schritt wird diese Logik
 erweitert: Ein Dokument oder eine Zone, die einen Abfragebegriff
-häufiger erwähnt hat mehr mit dieser Abfrage zu tun und sollte daher
+häufiger erwähnt, hat mehr mit dieser Abfrage zu tun und sollte daher
 eine höhere Wertung erhalten.
 \newline
 Damit bekommt jeder Term in einem Dokument ein Gewichtsfaktor, der von
@@ -303,7 +303,7 @@ Für den Term „Willy“ könnte eine Referenzliste diese Form einnehmen.
  [Willy]-{\textgreater} [25, Author \{6\}, Title \{25\}] [75, Title\{7\}]
 \end{center}
 Der vorgestellte Ansatz liefert genauere Ergebnisse, nicht desto trotz
-könne die Suchergebnisse überraschen, denn nicht jedes Wort ist gleich
+können die Suchergebnisse überraschen, denn nicht jedes Wort ist gleich
 wichtig allen anderen Wörtern. 
 
 \subsection[Inverse Document Frequency IDF]{Inverse Document FrequencyIDF}
@@ -363,7 +363,7 @@ Sobald für jedes Dokument der TF-IDF berechnet und in die Inzidenzmatrix
 eingesetzt wurde, entsteht eine Gewichtsmatrix.
 
 Mit Hilfe dieser, kann anhand des Dokumentenvektors ablesen werden, wie
-wichtig eine Abfrage ist, indem alle vorkommen von gesuchten Termen
+wichtig eine Abfrage ist, indem Vorkommen von gesuchten Termen
 zusammenlegt werden.
 
 \begin{figure}[h]
@@ -378,7 +378,7 @@ Vektoren umgewandelt werden können, jedoch gibt es andere
 Datenstrukturen, die das Erstellen des Rankings signifikant
 beschleunigen können.
 \newline
-Das Vektormodel beschreibt ein V-Dimensionalen Vektorraum, wobei V die
+Das Vektormodel beschreibt ein V-dimensionalen Vektorraum, wobei V die
 Anzahl an Termen darstellt. Die Achsen des Vektorraum werden durch alle
 existierenden Terme repräsentiert, die im späteren Verlauf mit der
 Suchanfrage abgeglichen werden
@@ -412,7 +412,7 @@ Ergebnisliste zurückgegeben.
 \caption {Winkelbasierten Ansatz \cite {manning2008introduction}}
 
 \end{figure}
-Diese Vorgehnesweise zur berechnung der Ähnlichket von zwei Vektoren
+Diese Vorgehnesweise zur Berechnung der Ähnlichkeit von zwei Vektoren
 wird wie schon beschrieben durche eine Normalisierung wie Verschmelzung
 der bedien Vektoren berechnet.
 \newline
