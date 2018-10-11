@@ -25,7 +25,8 @@ Architektur von Spark, die die Analysen ausführt und wie das im Spezialfall
 Spark Streaming funktioniert.}
 
 \section[RDDs]{\selectlanguage{ngerman}\rmfamily RDDs}
-Wir beginnen mit der zentralen Datenstruktur, den RDDs. RDD steht für
+Wir beginnen mit der zentralen Datenstruktur, den RDDs. Sie werden beschrieben
+in \cite{Originalpaper}. RDD steht für
 Resilent Distributed Dataset. Die Grundidee hinter den RDDs ist es, die
 Daten immutable (unveränderbar) vorzuhalten und einen festen Satz an
 Operationen anzubieten. Diese Operationen erzeugen wiederum neue RDDs
@@ -98,7 +99,7 @@ Dieses Objekt bietet viele Verwaltungsfunktionen an.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{bilder/Seminartext-img1.png}
-\caption{Erstellung RDD aus HDFS} 
+\caption{Erstellung RDD aus HDFS \cite{SparkInternals}} 
 \end{figure}
 Wir haben im vorigen Abschnitt gesehen, wie Spark für die Verteilung das
 Partitionieren (Sharding) vornimmt. Neben der Verteilung, die hier wie
@@ -208,6 +209,8 @@ Operationen wie die von SQL bearbeitet werden.
 
 \subsection{Beispielcode}
 
+Die Beispiele stammen von \url{https://spark.apache.org/examples.html}.
+
 \subsubsection{Bekannte Wordcount}
 \lstinputlisting[language=Java]{bilder/wordcount.scala}
 
@@ -271,7 +274,7 @@ eindeutig vorne, da alle Operationen feingranular erfolgen können.
 \section[Spark{}-Architektur]{\selectlanguage{ngerman}\rmfamily
 Spark-Architektur}
 Hauptaugenmerk in diesem Abschnitt soll auf der Berechnung der Job
-Stages liegen. Mit Hilfe der Transformationen und Aktionen lassen sich
+Stages liegen \cite{SparkInternals}. Mit Hilfe der Transformationen und Aktionen lassen sich
 komplexe Abfolgen von Operationen auf unterschiedlichen RDDs und auch
 in Kombination dieser RDDs erzeugen. Während die Transformationen für
 alle Partitionen parallel ausgeführt werden können, müssen die parallel
@@ -296,7 +299,7 @@ Man spricht hier von narrow dependencies.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{bilder/Seminartext-img2.png}
-\caption{Spark Stages}
+\caption{Spark Stages \cite{SparkInternals}}
 \end{figure}
 
 \bigskip
@@ -315,7 +318,7 @@ diesen Knoten, den Executors, werden diese dann in Threads ausgeführt.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{bilder/Seminartext-img3.png}
-\caption{Spark Architektur}
+\caption{Spark Architektur \cite{SparkInternals}}
 \end{figure}
 
 \bigskip
@@ -342,7 +345,8 @@ notwendig ist.
 Streaming]{\selectlanguage{ngerman}\rmfamily Funktionsweise Spark
 Streaming}
 Als letztes wollen wir noch die Funktionsweise einer Variante von Spark
-anschauen, nämlich Spark Streaming. Wenn man nicht auf periodisch
+anschauen, nämlich Spark Streaming. Spark Streaming wird in \cite{SparkStreaming} beschrieben.
+ Wenn man nicht auf periodisch
 ausgeführte Analysen warten möchte, sondern gewissermaßen live auf
 Ergebnisse zugreifen möchte, kann Spark Streaming eingesetzt werden.
 
@@ -364,7 +368,7 @@ sonst auch beheben.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{bilder/Seminartext-img4.png}
-\caption{Sparks DStreams}
+\caption{Sparks DStreams \cite{SparkStreaming}}
 \end{figure}
 \subsection[alternatives, nicht verwendetes
 Denkmodell]{\selectlanguage{ngerman}\rmfamily alternatives, nicht
