@@ -5,8 +5,8 @@
 
 Twitter hat sich bei Privatpersonen, als auch Unternehmen und Massenmedien als Kommunikationstool durchgesetzt.
 Die gewaltige Datenbasis die Twitter bietet, birgt dabei großes Potenzial, Erkenntnisse und Informationen über die Nutzer zu gewinnen.
-Vom Aufspüren von aktuellen Trends und Thematiken, über die Generierung von Stimmungsbilder zu bestimmten Inhalten, bis zu Verhaltensanalyse einzelner Nutzer sind viele Szenarien denkbar.
-Im folgenden wird ein Ansatz innernalb des Hamaube-System vorgestellt, Analysen einerseits in Echtzeit durchzuführen und andererseits Unmengen von gesammelten Daten effizient zu verarbeiten.
+Vom Aufspüren von aktuellen Trends und Thematiken, über die Generierung von Stimmungsbildern zu bestimmten Inhalten, bis zu Verhaltensanalyse einzelner Nutzer sind viele Szenarien denkbar.
+Im Folgenden wird ein Ansatz innerhalb des Hamaube-System vorgestellt, Analysen einerseits in Echtzeit durchzuführen und andererseits Unmengen von gesammelten Daten effizient zu verarbeiten.
 
 Alle eingehenden Twitter-Nachrichten werden durch eine Streamverarbeitung behandelt, erste Analysen durchgeführt und für eine spätere Batch-Analyse vorbereitet.
 
@@ -43,7 +43,7 @@ Aus verschiedenen Gründen wurde für die Tweets im Hamaube-System das Datenmode
 Dadurch enthalten Tweets (vorallem solche, die direkt von Twitter kommen) eine Vielzahl von nicht gesetzten Feldern oder Daten, welche für die Analyse wenig interessant sind.
 In der Vorverarbeitung wird nur ein definierter Teil der Felder eines Tweets übernommen und der Rest verworfen.
 Zusätzlich werden (sofern vorhanden) die im Tweet enthaltenen Hashtags extrahiert und neben dem eigentlichen Tweet gespeichert.
-Außerdem wird anhand des Tweet-Textes eine Sentiment Analyse durchgeführt, welche dem Tweet einen Score zuordnet, der dessen Stimmung wiederspiegelt (negativ - negative Stimmung, positiv - positive Stimmung). Auch dieser Score wird neben dem eigentlichen Tweet gespeichert.
+Außerdem wird anhand des Tweet-Textes eine Sentiment Analyse durchgeführt, welche dem Tweet einen Score zuordnet, der dessen Stimmung widerspiegelt (negativ - negative Stimmung, positiv - positive Stimmung). Auch dieser Score wird neben dem eigentlichen Tweet gespeichert.
 
 Wir haben uns dazu entschieden, die Tweetdaten zusätzlich - also dupliziert - zu den schon gespeicherten Tweets des 'CassandraReaders' in Cassandra zu speichern, da wir in Hinsicht auf ein produktives System die kritischen Tabellen nicht zusätzlich mit Anfragen belasten wollen.
 Für die Analyse würde also ein separate Umgebung für Cassandra aufgebaut, dies haben im Hamaube-System aufgrund der Einfachheit noch nicht umgesetzt.
@@ -53,7 +53,7 @@ Zudem wird auf den durch Kafka eingehenden Tweetstream eine Live Analyse durchge
 Das Spark Streaming Framework teilt den Stream dafür in Micro-Batches, die dann weiter verarbeitet werden können.
 So werden z.B. die Anzahl von Hashtag pro Stunde/pro Minute ermittelt, daraus werden dann aktuell beliebte Hashtags erkannt.
 Auch diese Ergebnisse werden in Cassandra gespeichert.
-Um eine Skalierungs zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von mehreren Instanzen geupdated werden können, ohne dass dabei dirty reads oder Überschreibungen auftreten dürfen. Cassandra bietet hier den Datentyp \textbf{Counter}, der atomare \textit{increase} und \textit{decrease} Operationen anbietet. Damit lassen sich die meisten Szenarien realisieren, ohne weitere  komplexe (und möglicherweise verlangsamende) Isolierungsmechaniken zu implementieren.
+Um eine Skalierung zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von mehreren Instanzen geupdated werden können, ohne dass dabei dirty reads oder Überschreibungen auftreten dürfen. Cassandra bietet hier den Datentyp \textbf{Counter}, der atomare \textit{increase} und \textit{decrease} Operationen anbietet. Damit lassen sich die meisten Szenarien realisieren, ohne weitere  komplexe (und möglicherweise verlangsamende) Isolierungsmechaniken zu implementieren.
 \begin{figure}[htbp!]
 \centering
 \includegraphics[width=\linewidth]{pics/analytics/streamProcessing.pdf}
@@ -63,7 +63,7 @@ Um eine Skalierungs zu ermöglichen müssen die Ergebnisse z.B. pro Stunde von m
 
 \subsection*{Beispiel}
 
-Der Spark Streaming Service erhält einen neuen Tweet aus dem Topic \textit{USSER\_ISSUES\_TWEET}.
+Der Spark Streaming Service erhält einen neuen Tweet aus dem Topic \textit{USER\_ISSUES\_TWEET}.
 Dieser liegt im vom Twitter definierten Datenformat vor (Siehe \ref{chap:cassandra}).
 
 Folgende Attribute werden für die Weitervearbeitung extrahiert:
@@ -105,14 +105,14 @@ Dadurch lassen sich Updates effizient für jede Zeiteinheit / Analyse-Target dur
 
 Für die Bereitstellung der Analysedaten ist der Micro Service \textit{Analytics Provisioning Service} zuständig. 
 Dieser liest auf Anfrage Analysedaten aus Cassandra und bereitet diese für die Darstellung im Frontend auf.
-In Batchanalyse werden die Ergebnisse geordnet in einer Tabelle pro Analyse gelegt, diese werden einfach nur für die letzten 14 Tage gelesen. Ergebnisse, die weiter in der Vergangenheit liegen, werden zur Zeit nicht bereit gestellt, dies ist theoretisch aber möglich.
+In der Batchanalyse werden die Ergebnisse geordnet in einer Tabelle pro Analyse gelegt, diese werden einfach nur für die letzten 14 Tage gelesen. Ergebnisse, die weiter in der Vergangenheit liegen, werden zur Zeit nicht bereit gestellt, dies ist theoretisch aber möglich.
 Da Cassandra keine Counter als sekundäre Keys unterstützt und nicht für Sortierungen von großen Datenmengen ausgelegt ist,
 die Analysedaten aus dem Stream jedoch unsortiert und nicht gefiltert vorliegen, war der naive Ansatz diese mittels einer  user-defined function in Cassandra pro Anfrage zu sortieren. Dies ist aber mit steigenden Tweetzahlen sehr aufwändig und könnte z.B. durch weitere Umsetzungen mit Spark ersetzt werden.
 
 Die Kommunikation passiert auch hier über Kafka und festgelegte Topics.
 Es lassen sich beliebig viele Instanzen des Services starten, die Kommunikation skaliert automatisch über die gewählte Kommunikationsarchitektur.
 
-Für die Umsetzung wurde die Platform Node.js mit TypeScrict verwendet. 
+Für die Umsetzung wurde die Platform Node.js mit TypeScript verwendet. 
 
 
 \section{Darstellung im Frontend}
