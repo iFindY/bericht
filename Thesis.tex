@@ -1,6 +1,9 @@
 \input{./config/model/layout.tex}% layout
 \begin{document}
-\input{./config/model/hyphenation.tex}%word division
+%\input{./config/model/hyphenation.tex}%word division
+
+\selectlanguage{ngerman}
+
 \input{./coverpage.tex}%for the cover title
 
 %If want to write a dedication, modify the following.
@@ -37,7 +40,7 @@ Besonders im Fokus steht die Skalierbarkeit des Systems, welche durch eine spezi
 \changelocaltocdepth{1}
 \tableofcontents % indice dei contenuti
  %lista delle figure
- %\changelocaltocdepth{4}
+\setcounter{lofdepth}{4}
  \listoffigures
 %\listoftables
 \blankpage

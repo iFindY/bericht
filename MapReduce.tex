@@ -18,7 +18,7 @@ Folgende Übersicht basiert auf dem Paper \textit{MapReduce: Simplified Data Pro
 
 Um eine verteilte Berechnung und Verarbeitung zu vereinfachen, wird diese in zwei grobe Phasen aufgeteilt: Map und Reduce.
 Für beide Phasen muss der Nutzer jeweils eine entsprechende Funktion definieren.
-Der Input liegt als key/value Paare und vor und MapReduce produziert wiederum key/value Paare als Ergebnis.
+Der Input liegt als key/value Paare vor und MapReduce produziert wiederum key/value Paare als Ergebnis.
 In der Map Phase werden aus den gegeben key/value Paaren Zwischenwerte berechnet, welche wiederum als key/value Paare vorliegen. Diese werden anschließend gruppiert und in der Reduce Phase weiterbehandelt.
 In der Reduce Phase werden dann die berechneten Zwischenwerte für gleiche keys zusammengefasst und aggregiert.
 
@@ -50,17 +50,17 @@ Anschließend würde die Reduce Funktion alle zurückgebenen Anzahlen für jedes
 
 \section{Implementation}
 
-Für das MapReduce Interface sind laut Paper (cite) verschiedene Umsetzungen möglich, die sich an den  Ausführungsumgebungen ausrichten.
+Für das MapReduce Interface sind laut Paper \cite{mapReduce} verschiedene Umsetzungen möglich, die sich an den  Ausführungsumgebungen ausrichten.
 Im Paper wird dann eine Umsetzung für eine damals typisch eingesetzte Environment vorgestellt.
 Als Ausführungsumgebungen werden große Cluster (Anzahl 100-1000 Knoten) von Computern mit durchschnittlicher Rechenleistung und Hauptspeicher genannt.
 Folgend wird beschrieben wie die Verteilung der Map und Reduce Funktion in dieser Umgebung von Google implementiert wurde.
-Aufden Knoten läuft ein verteiltes Dateisystem (GFS), welches ein Zugriff auf Dateien über das Netzwerk ermöglicht, ein Knoten jedoch dabei diese Dateien wie lokate Dateien behandeln kann.
+Auf den Knoten läuft ein verteiltes Dateisystem (GFS), welches ein Zugriff auf Dateien über das Netzwerk ermöglicht, ein Knoten jedoch dabei diese Dateien wie lokate Dateien behandeln kann.
 Der Nutzer übermittelt den MapReduce-Job an ein Scheduling System, welches dann die Ausführung koordiniert.
 
 
 \subsection*{Vorbereitungen}
 Ein Knoten übernimmt die Aufgabe des Masters, welcher dann die weitere Ausführung und das Scheduling übernimmt.
-Der übermittle MapReduce-Job wird dann wie folgt in verschiedene Tasks aufgeteilt:
+Der übermittelte MapReduce-Job wird dann wie folgt in verschiedene Tasks aufgeteilt:
 \begin{enumerate}
 	\item
 	Die Eingabedaten werden in M Parts gesplittet, pro Part wird später ein Map-Task ausgeführt.
@@ -153,7 +153,7 @@ Der erste abgeschlossene Task 'gewinnt' und langsame Knoten werden übergangen.
 
 \section{Probleme und Nachteile von MapReduce}
 
-MapReduce udn Spark (siehe chapter spark) ermöglichen die parallele und verteile Verarbeitung von riesigen Datenmengen.
+MapReduce und Spark (siehe nächstes Kapitel) ermöglichen die parallele und verteile Verarbeitung von riesigen Datenmengen.
 Allerdings speichert und verarbeitet MapReduce alle Daten auf der Platte, während Spark durch eine in-memory Verarbeitung bis zu 100 mal schneller ist.
 Auch bei iterativer Verarbeitung kann Spark durch die RDDs mehrere Operationen im Speicher ausführen, 
 während MapReduce für jede Iterationen einen gesamten Durchlauf anstößt.
