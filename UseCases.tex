@@ -5,8 +5,8 @@ Um das Zusammenwirken aller Microservices innerhalb des Hamaube-Systems aufzuzei
 \subsection{User erstellt einen neuen Tweet}
 Wenn ein User einen Tweet erstellt (oder ein neuer Tweet über die Twitter API in das Hamaube-System gepusht wird),
 wird dieser Tweet über das \textit{USER\_ISSUES\_TWEET} Topic verteilt.
-Der Cassandrareader speichert den Tweet, damit dieser später für Hamaube Nutzer angezeigt wird. Nach dem Speichern wird über das Topic \textit{TWEET\_SAVED} eine entsprechende Meldung zurückgegeben, sofern der Tweet erfolgreiche gespeichert wurde.
-Nun sind aber noch weiter Microservices an das Topic angebunden. So verarbeitet auch der ElasticSearch Microservice den übermittelten Tweet um ihn z.B. später in Suchanfragen zu berücksichtigen. Und auch der SparkStreaming Microservice verabeitet den Tweet z.B. um Analysen zu erstellen.
+Der Cassandrareader speichert den Tweet, damit dieser später für Hamaube Nutzer angezeigt wird. Nach dem Speichern wird über das Topic \textit{TWEET\_SAVED} eine entsprechende Meldung zurückgegeben, sofern der Tweet erfolgreich gespeichert wurde.
+Nun sind aber noch weitere Microservices an das Topic angebunden. So verarbeitet auch der ElasticSearch Microservice den übermittelten Tweet um ihn z.B. später in Suchanfragen zu berücksichtigen. Und auch der SparkStreaming Microservice verabeitet den Tweet z.B. um Analysen zu erstellen.
 
 \begin{figure}[htbp!]
 	\centering

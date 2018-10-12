@@ -22,7 +22,7 @@ weitere Kafka-Knoten gebraucht. Kafka unterstützt auch die Skalierung
 der anderen Komponenten, da die Nachrichten bei der Zustellung verteilt
 werden.
 
-Für die persistente Datenhaltung verwenden eine NoSQL-Datenbank, nämlich
+Für die persistente Datenhaltung verwenden wir eine NoSQL-Datenbank, nämlich
 Apache Cassandra. Cassandra unterstützt wie alle anderen verwendeten
 Tools den Scale-Out-Ansatz zur Skalierung. Damit lassen sich sowohl
 hohe Datengeschwindigkeiten, als auch wachsende Datenmengen
@@ -41,7 +41,7 @@ Komponente ist ebenfalls skalierbar und arbeitet mit unserer verteilten
 Datenbank Cassandra zusammen.
 
 \subsection{Tweets}
-Tweets kommen in der Hamaube aus zwei Quellen: zum einen kann in dem
+Tweets kommen in der Hamaube aus zwei Quellen: zum einen können in dem
 vollfunktionsfähigen Twitter-Klon Tweets im Frontend selbst abgesetzt
 werden. Zum zweiten werden Tweets über die Twitter-API angefordert und
 integriert.
@@ -85,5 +85,5 @@ Maschinen. Dadurch kann die Kompatibilität und das Zusammenspiel der
 Mikroservices zu einem funktionsfähigen Ganzen getestet werden. Zudem
 wurden auch die Entwicklungsnotebooks für die Bereitstellung der
 Dienste genutzt. Ein Nutzen dieser Architektur ist es, dass dies
-transparent erfolgt. Dadurch konnte ihn gewissem Ausmaß auch die
+transparent erfolgt. Dadurch konnte in gewissem Ausmaß auch die
 Ausfalltoleranz geprüft werden.
