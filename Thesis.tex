@@ -18,17 +18,17 @@
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
 Diese Arbeit behandelt die Modularisierung und die Erweiterung des Petrinetz Simulators \textit{Renew} auf eine Mikroservice-Architektur.
-\textit{Renew} wurde für die Modellierung von komplexen Systemen mit Hilfe der Petri Netze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. Diese ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen.
-Infolgedessen blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert.
+\textit{Renew} wurde für die Modellierung von komplexen Systemen mit Hilfe der Petri Netze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. Diese Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen.
+Dementsprechend blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert.
 \bigbreak
-Die Plugin-Architektur hat sich damit langfristig bewährt. Jedoch ist sie den modernen Herausforderungen nicht mehr gewachsen, da die moderne Rechenleistung sich in der parallelen und verteilten Datenverarbeitung befindet, kann \textit{Renew} in jetzigem Zustand diese sich nicht zunutze machen. 
+Obwohl die Plugin-Architektur sich damit langfristig bewährt hat, ist sie nicht für die modernen Herausforderungen gewappnet. Da die moderne Rechenleistung sich in der parallelen und verteilten Datenverarbeitung befindet, kann \textit{Renew} in jetzigem Zustand sich diese nicht zunutze machen. 
 
 Ziel dieser Arbeit ist die Vorbereitung und Umstrukturierung von \textit{Renew} für die Mikroservice-Architektur, um ihre interne Struktur verteilt ausführen zu können.
 
 % Was ist der Stand zur zeit, hat jemand schon was drüber geschrieben  ??? Bibliothek „!“
 
 
-Im ersten Abschnitt diese Arbeit wird die Code-Basis strukturiert und gestaltet \textit{Renew} modular. Folgerichtig wird \textit{Renew} auf die Korrektheit überprüft und nicht mehr unterstützten Legacy Architektur Entscheidungen werden überarbeitet. 
+Im ersten Abschnitt diese Arbeit wird die Code-Basis umstrukturiert und gestaltet \textit{Renew} modular. Folgerichtig wird \textit{Renew} auf die Korrektheit überprüft und nicht mehr unterstützten Legacy Architektur Entscheidungen werden überarbeitet. 
 Im zweiten Abschnitt wird ein Teil von \textit{Renew} distributiv aufgesetzt.
 Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
 
