@@ -17,11 +17,20 @@
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-Diese Arbeit behandelt die Entwicklung und den Aufbau eines verteilten und skalierbaren Twitter-Klons, genannt \textit{Hamaube}. Grundlegende Funktionen von Twitter sind in Hamaube umgesetzt, zusätzlich wurden Such- und Analysekomponenten integriert. Hamaube ist als Microservice-Architektur konzipiert und benutzt Apache Kafka als Kommunikationsgrundlage und Middleware. Hierdurch können Instanzen einzelner Services beliebig skalierbar in das laufende System integriert werden. Die verschiedenen Services sind technisch und thematisch gekapselt und kommunizieren über festgelegte APIs.
- Cassandra als verwendete Datenbank bietet mit einer eigenen SQL-ähnliche Abfragesprache ein vertrautes Interface, ist aber bei der Speicherung und den Abfrage nicht durch eine relationales Datenschema in der Performance gehemmt und kann somit beides schneller ausführen. Zudem ist Cassandra ebenso als Cluster skalierbar was die Datenhaltung vereinfacht. 
-Für Suchszenarien innerhalb von Hamaube wird Elasticsearch verwendet, die Analyse und Auswertung von Daten im System wird mittels Spark durchgeführt.
+Diese Arbeit behandelt die Modularisierung und die Erweiterung des Petrinetz Simulators \textit{Renew} auf eine Mikroservice-Architektur.
+\textit{Renew} wurde für die Modellierung von komplexen Systemen mit Hilfe der Petri Netze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. Diese ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen.
+Infolgedessen blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert.
+\bigbreak
+Die Plugin-Architektur hat sich damit langfristig bewährt. Jedoch ist sie den modernen Herausforderungen nicht mehr gewachsen, da die moderne Rechenleistung sich in der parallelen und verteilten Datenverarbeitung befindet, kann \textit{Renew} in jetzigem Zustand diese sich nicht zunutze machen. 
 
-Besonders im Fokus steht die Skalierbarkeit des Systems, welche durch eine spezielle Kommunikationsstruktur und Verteilung von Nachrichten erreicht wird. Um die entwickelte Architektur zu evaluieren, ist das ein Hamaube-Prototyp auf einer verteilten Infrastruktur implementiert. Dieser zeigt, dass die grundlegenden Anforderungen an einen Twitter-Klon erreicht werden und bietet sogar noch zusätzliche Funktionen.
+Ziel dieser Arbeit ist die Vorbereitung und Umstrukturierung von \textit{Renew} für die Mikroservice-Architektur, um ihre interne Struktur verteilt ausführen zu können.
+
+% Was ist der Stand zur zeit, hat jemand schon was drüber geschrieben  ??? Bibliothek „!“
+
+
+Im ersten Abschnitt diese Arbeit wird die Code-Basis strukturiert und gestaltet \textit{Renew} modular. Folgerichtig wird \textit{Renew} auf die Korrektheit überprüft und nicht mehr unterstützten Legacy Architektur Entscheidungen werden überarbeitet. 
+Im zweiten Abschnitt wird ein Teil von \textit{Renew} distributiv aufgesetzt.
+Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
 
 
 
