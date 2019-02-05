@@ -17,20 +17,29 @@
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
+% Ziel der Arbeit
 Diese Arbeit behandelt die Modularisierung und die Erweiterung des Petrinetz Simulators \textit{Renew} auf eine Mikroservice-Architektur.
+% Kontext
 \textit{Renew} wurde für die Modellierung von komplexen und verteilten Systemen mit Hilfe der Petri Netze entwickelt. 
 Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. 
+% Zustand
 Diese Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen.
 Dementsprechend blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert.     
 \bigbreak
+% Problematik
 Obwohl die Plugin-Architektur sich damit langfristig bewährt hat, ist sie nicht für die modernen Herausforderungen gewappnet. Da die moderne Rechenleistung sich in der parallelen und verteilten Datenverarbeitung befindet, kann \textit{Renew} in jetzigem Zustand sich diese nicht zunutze machen. 
 Ziel dieser Arbeit ist die Vorbereitung und Umstrukturierung von \textit{Renew} für die Mikroservice-Architektur, um ihre interne Struktur verteilt ausführen zu können.
 \bigbreak
+% Zusammenhang zwischen Renew Petrinetze Nutzen 
 \textit{Renew} baut auf dem Petri Netzmodel auf, dass von Petri \cite{Petri62} aufgestellt wurde. 
-Dieses eignet sich bestens für das Beschreiben von parallelen, komplexen und vernetzten Abläufen. 
+Dieses eignet sich bestens für das visuell anspruchsvollen Beschreiben von parallelen, komplexen und vernetzten Abläufen. 
+Das Petrinetz Modell wurde weitläufig akzeptiert und erweitert. Zum Beispiel durch die \textit{gefärbten Marken} , die equivalent Strukturen zusammenfassen und die darin befindlichen marken typesisren. 
 
 
-Besonders heute spielt dieses Model eine wichtige Rolle, denn die Vernetzung über das Internet, aufspaltung monolithischer Architekturen und aufteilung der Verantwortung führt zu  schwierigen und nur schwer zu überblockenden konstruktionen. 
+% hier die geschichte 
+
+% hier das Fazit 
+Besonders heute spielt dieses Model eine wichtige Rolle, denn die Vernetzung über das Internet, aufspaltung monolithischer Architekturen und aufteilung der Verantwortung führt zu  schwierigen und nur schwer zu überblickenden Konstruktionen. 
 
 
 
@@ -38,6 +47,7 @@ Hier kommt der Stand der Dinge nachdem ich in der bib gesucht habe und wahrschei
 Da hab ich was \hyperlink{https://kataloge.uni-hamburg.de/DB=1/SET=1/TTL=1/SHW?FRST=10}{\underline{ inf bib}} 
 Noch was \hyperlink{https://kataloge.uni-hamburg.de/DB=1/SET=2/TTL=10/SHW?FRST=6}{\underline{kummer 2002 defenition Referenznetze}}
 \bigbreak
+% hier der aufbau 
 Im ersten Abschnitt diese Arbeit wird die Code-Basis umstrukturiert und gestaltet \textit{Renew} modular. Folgerichtig wird \textit{Renew} auf die Korrektheit überprüft und nicht mehr unterstützten Legacy Architektur Entscheidungen überarbeitet. 
 Im zweiten Abschnitt wird ein Teil von \textit{Renew} distributiv aufgesetzt.
 Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
