@@ -14,13 +14,14 @@ Demzufolge wurde der nächste Evolutionsschritt in der Entwicklung der Petrinetz
 Dieser erlaubt dynamisch und bei Bedarf Netzinstanzen zu erstellen und diese als Marken in einem anderen Netz zu bewegen. 
 Somit kann es mehrerer Instanzen eines Netzes geben, die mit unterschiedlicher Belegung im Petrinetz existieren. 
 
-\subsection{Renew} % Renew 
+\subsection{Renew} 
 Renew ist ein Petrinetz Simulator, der die oben genannten Petrinetz Formalismen unterstützt. Dieser ist in Java geschrieben und bietet eine Oberfläche zum Zeichnen und einen Simulator zum Ausführen der Netze. \newline 
 Da die empfindliche monolithische Architektur von Olaf Kummer viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung umstrukturiert. Nun kann Renew über die Plugin Schnittstellen erweitert werden, ohne die existierende Logik zu beeinflussen. \bigbreak
 Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mit Hilfe der Plugins modifizieren.
 Der Plugin-Manager baut auf zwei primären Namespaces auf. Zum einen braucht dieser zusätzliche Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen. 
 \bigbreak 
 
+%problem 
 Hier kommt das Problem , zerstöre den text oben, schreib ales was da fehlt 
 die plugins kenn sich  nur über die konfig 
 Analyse auf Portierung der Classloader/ Plugin Manager auf den Moudle Path 
@@ -34,15 +35,10 @@ wie portiert man code in eine nue umgebung bei sehr alter code basis < modularis
 - erste schritte zu microservices und verteilten anwendung 
 - 
 
-% Renew Werdegang und aktueller Zustand
-
 % Ziel der Arbeit 
 
 % Umsetzung des Ziels
 
-% Problematik 1 -> n
-
-% Aufbau der Arbeit
 
 
 Die Grafik zeigt eine Übersicht über die Architektur der Hamaube. Sie
