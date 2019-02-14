@@ -1,7 +1,7 @@
 \chapter{Einleitung}
 \pagenumbering{arabic}
 
-\section{Petrinetze} % Petrinetze Forschungsstand 
+\section{Petrinetze} 
 Das Konzept der Petrinetze wurde in der Arbeit von \textit{Carl Petri} beschrieben. 
 Dieses besteht aus Stellen, Marken, Kanten und Transitionen, das nebenläufige und kommunizierende Prozesse darstellen kann.
 Der ursprüngliche S/T-Netz Formalismus wurde mit der Zeit durch gefärbten Marken erweitert, mit dem Ziel äquivalente Strukturen zusammenzufassen und die darin befindlichen Marken zu typisieren.
@@ -21,32 +21,23 @@ Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Pl
 Der Plugin-Manager baut auf zwei primären Namespaces auf. Zum einen braucht dieser zusätzliche Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen. 
 \bigbreak 
 
-%Gegenstand problem  problemstellung gegenstand 
 \section{Gegenstand}
-Mit der Plugin Architektur hat Renew ihren Lenkenszyklus weit überschritten, denn der Plugin-Manager und die kern Funktionalität blieb lang unverändert. An manchen stellen datiert die Code Basisaus dem  Jahr 2002 (JDK 1.4). 
-Somit entsprechen damalige Möglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand (JDK 11) der Technik. Besonders das neue Modulsystem aus Java 9, das den JDK sowie den darauf aufbauenden Code modularisiert.  
+Mit der Plugin Architektur hat Renew ihren Lebenszyklus weit überschritten, denn der Plugin-Manager und die Kernfunktionalität blieb lang unverändert. An manchen stellen datiert die Code Basis aus dem Jahr 2002 (JDK 1.4). 
+Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik (JDK 11). Besonders das neue Modulsystem von Java 9, das den JDK sowie den darauf aufbauenden Code modularisiert. 
+Im Zuge dessen ist das Portieren der Applikation nicht mängelfrei. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin-Code eine zentrale Funktion in System vertretet.\bigbreak
+Indem die Applikation neu strukturiert wird, tauchen zusätzliche Mängel in den erweiternden Plugins. Die Plugin Entwickler  konzentrierten sich auf ihren Plugin und kapselten Code in sich, der Logisch gesehen in andere Plugins gehören müsste. In der Konsequenz kann Code-Duplizierung und Probleme in der Verständlichkeit der Plugin-Abhängigkeiten entstehen.\newline
+Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan werden damit der Umstieg auf Java 11 funktioniert. \bigbreak
 
-
-Dammit stellt sich die frage wie protierbar ist Renew und was muss getan werden dammit der umstieg auf java 11 funktioniert. 
-Besonder s
-
-
-
-Hier kommt das Problem , zerstöre den text oben, schreib ales was da fehlt 
-die plugins kenn sich  nur über die konfig 
-Analyse auf Portierung der Classloader/ Plugin Manager auf den Moudle Path 
-wie portiert man code in eine nue umgebung bei sehr alter code basis < modularisierung = core funktionalität lang unverädert geblieben.
-- plugin toll , bleibt alter code, wie portierbar ist legacy  kernumsetzung ?
-- kann man jetzt plugins nach renew start  dazu laden ?
-- plugins haben sich nicht saber an  architektur gehalten und hab in sich formalisem uder core funktionalitäten angeegintet  und andere pacakges entwicklent 
-- wenn code nicht funktioniert weiler zu alt ist was mus getan werden 
-- portierung  mit großen Versionssprung 
-- code abhängigkeit nicht mehr über die konfig datei der plugins sondern offen in einer java-module datei
-- erste schritte zu microservices und verteilten anwendung 
-
-% Ziel 
-
-% Umsetzung des Ziels
+\section{Ziel}% microservices 
+- Ziel : Mikroservice
+- Wozu: Verteilte Berechnung der Schadow Netze
+- Wieso Mikroservices? kleine Einheiten die Maschinen übergreifend aufgaben lösen
+- Verteilte Anwendung ausnutzen der parallelen Verarbeitung 
+\subsection{Umsetzung}
+- Java 9 und Module erste schritte zu Mikroservice und verteilten Anwendung 
+- Umsetzung von verteilten System angucken und evaluieren 
+\subsection{Was wird genau Getan}
+\section{Aufbau der Arbeit}
 
 
 
@@ -54,79 +45,3 @@ Die Grafik zeigt eine Übersicht über die Architektur der Hamaube. Sie
 verwendet mit Kafka, Cassandra, Elasticsearch und Spark Tools aus dem
 NoSQL-Bereich. Verbunden werden diese über Mikroservices zu einem
 funktionierenden Ganzen.
-
-\subsection{Tools}
-Zentral ist Apache Kafka als verteilter Messagebroker. Über ihn
-kommunzieren die Mikroservices miteinander. Gleichzeitig ermöglicht das
-Publish-Subscribe-Modell von Kafka hier die Erweiterbarkeit und
-Anpassbarkeit des Systems. Kafka  kann sowohl selbst skaliert werden,
-d.h. mit zunehmender Nachrichtenmenge und -geschwindigkeit werden
-weitere Kafka-Knoten gebraucht. Kafka unterstützt auch die Skalierung
-der anderen Komponenten, da die Nachrichten bei der Zustellung verteilt
-werden.
-
-Für die persistente Datenhaltung verwenden wir eine NoSQL-Datenbank, nämlich
-Apache Cassandra. Cassandra unterstützt wie alle anderen verwendeten
-Tools den Scale-Out-Ansatz zur Skalierung. Damit lassen sich sowohl
-hohe Datengeschwindigkeiten, als auch wachsende Datenmengen
-verarbeiten.
-
-Elasticsearch wird als Suchanwendung verwendet. Sie stellt eine
-ebenfalls verteilte Volltextsuche bereit. So ist es möglich, auch in
-riesigen Datenmengen die gewünschten Tweets zu finden. Dies erfolgt so
-performant, dass die Suche in Echtzeit Suchvorschläge machen kann,
-sogar während der User noch tippt.
-
-Die letzte eingesetzte Komponente ist Apache Spark. Damit werden in der
-Hamaube sowohl die Echtzeitstatistiken auf den hereinkommenden Tweets
-erzeugt, als auch Analysen über die Gesamtmenge der Tweets. Diese
-Komponente ist ebenfalls skalierbar und arbeitet mit unserer verteilten
-Datenbank Cassandra zusammen.
-
-\subsection{Tweets}
-Tweets kommen in der Hamaube aus zwei Quellen: zum einen können in dem
-vollfunktionsfähigen Twitter-Klon Tweets im Frontend selbst abgesetzt
-werden. Zum zweiten werden Tweets über die Twitter-API angefordert und
-integriert.
-
-\subsection{Mikroservices}
-Die skalierbaren Tools werden durch Mikroservices verbunden. Diese
-Mikroservices stellen die Anwendungslogik zur Verfügung. Die
-entwickelten Mikroservices sind:
-
-\begin{itemize}
-\item Der Cassandrareader. Er nimmt Anfragen von den Webservern
-entgegen, fordert die entsprechenden Daten aus Cassandra an und
-schreibt Tweets und User in die verteilte Datenbank.
-\item Der Webserver. Er nimmt Anfragen des Frontends entgegen, ist
-zuständig für die Benutzerauthentifizierung und leitetet die Anfragen
-an die zuständigen Mikroservices weiter. Von denen bekommt er die
-Antworten und leitet sie an das Frontend weiter. Das Frontend wird vom
-ihm an den Browser ausgeliefert.
-\item Der Twitterstream. Er fragt kontinuierlich die Twitter-API nach
-Tweets an und streamt diese in die Hamaube.
-\item Der Suchservice. Er übernimmt die Kommunikation mit Elasticsearch.
-Er bekommt Suchanfragen vom Webserver, leitet diese weiter und gibt die
-Antworten über Kafka zurück. Selbst während des Tippens fragt er für
-eine Autovervollständigung bei Elasticsearch an. Er kümmert sich auch
-darum, die Tweets kontinuierlich in Elasticsearch zu laden. 
-\item Der Analytics-Provisioning-Service. Er übernimmt die Rolle des
-Suchservices für Spark. Er erzeugt mit Hilfe von Spark die
-Echtzeitstatistiken und bereitet die Tweets für die Batchanalyse auf
-und speichert sie in Cassandra. Die Batch-Analysen werden als Cron-Jobs
-gestartet, während die Echtzeitstatistiken dauerhaft in Spark laufen.
-\end{itemize}
-Diese Architektur löst die traditionelle LAMP- (Linux, Apache, MySQL,
-PHP) Architektur für Webanwendungen ab und wird SMACK genannt. Für
-Kafka haben wir uns wegen seiner Persistenzeigenschaft entschieden.
-Welche Ziele unsere Architektur noch hat und wie diese erreicht werden,
-wird im nun folgenden Kapitel Architektur beleuchtet.
-
-Getestet wurde die Hamaube auf leistungsstarken virtuellen Maschinen.
-Die Tools und ihre Mikroservices haben jeweils eigene virtuelle
-Maschinen. Dadurch kann die Kompatibilität und das Zusammenspiel der
-Mikroservices zu einem funktionsfähigen Ganzen getestet werden. Zudem
-wurden auch die Entwicklungsnotebooks für die Bereitstellung der
-Dienste genutzt. Ein Nutzen dieser Architektur ist es, dass dies
-transparent erfolgt. Dadurch konnte in gewissem Ausmaß auch die
-Ausfalltoleranz geprüft werden.
