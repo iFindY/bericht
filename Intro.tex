@@ -7,7 +7,7 @@ Dieses besteht aus Stellen, Marken, Kanten und Transitionen, das nebenläufige u
 Der ursprüngliche S/T-Netz Formalismus wurde mit der Zeit durch gefärbten Marken erweitert, mit dem Ziel äquivalente Strukturen zusammenzufassen und die darin befindlichen Marken zu typisieren.
 Da die Struktur des Netzes immer noch stark zusammenhängend ist, bleibt die Organisation des Netzes schwer verständlich für das menschliche Auge. \newline 
 Demzufolge sollte des Netzes auf logisch zusammenhänge Komponente aufgeteilt werden und trotzdem als ein Ganzes gelten.
-Dieses Anforderung wird von den synchronen Kanälen umgesetzt, indem die Netzkomponenten anstelle der Kanten mit synchronen Kanälen verbunden werden und zwingen die mit einander verbunden Transitionen synchron zu schalten.
+Diese Anforderung wird von den synchronen Kanälen umgesetzt, indem die Netzkomponenten anstelle der Kanten mit synchronen Kanälen verbunden werden und zwingen die mit einander verbunden Transitionen synchron zu schalten.
 Hiermit ist eine Trennung des Netzes nach ihrer Funktionalität erreicht, die qualitativ anspruchsvolle Modelle komplexer und verteilter Systeme entwerfen lässt.\bigbreak
 Obwohl das erweiterte Petrinetz anspruchsvolle Modellierungswerkzeug bietet, bleibt das gesamte Netzwerk statisch.
 Demzufolge wurde der nächste Evolutionsschritt in der Entwicklung der Petrinetze mit den Referenznetz Formalismus gemacht. 
@@ -22,10 +22,11 @@ Der Plugin-Manager baut auf zwei primären Namespaces auf. Zum einen braucht die
 \bigbreak 
 
 \section{Gegenstand}
-Mit der Plugin Architektur hat Renew ihren Lebenszyklus weit überschritten, denn der Plugin-Manager und die Kernfunktionalität blieb lang unverändert. An manchen stellen datiert die Code Basis aus dem Jahr 2002 (JDK 1.4). 
+Mit der Plugin Architektur hat Renew ihren Lebenszyklus weit überschritten, denn der Plugin-Manager und die Kernfunktionalität blieb lang unverändert. An manchen Stellen datiert die Code Basis aus dem Jahr 2002 (JDK 1.4). 
 Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik (JDK 11). Besonders das neue Modulsystem von Java 9, das den JDK sowie den darauf aufbauenden Code modularisiert. 
 Im Zuge dessen ist das Portieren der Applikation nicht mängelfrei. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin-Code eine zentrale Funktion in System vertretet.\bigbreak
-Indem die Applikation neu strukturiert wird, tauchen zusätzliche Mängel in den erweiternden Plugins. Die Plugin Entwickler  konzentrierten sich auf ihren Plugin und kapselten Code in sich, der Logisch gesehen in andere Plugins gehören müsste. In der Konsequenz kann Code-Duplizierung und Probleme in der Verständlichkeit der Plugin-Abhängigkeiten entstehen.\newline
+Indem die Applikation neu strukturiert wird, tauchen zusätzliche Mängel in den erweiternden Plugins. Die Plugin Entwickler konzentrierten sich auf ihren Plugin und kapselten Code in sich, der Logisch gesehen in andere Plugins gehören müsste. In der Konsequenz kann Code-Duplizierung und Probleme in der Verständlichkeit der Plugin-Abhängigkeiten entstehen.\newline
+Ein weiter  das in Duvigneau
 Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan werden damit der Umstieg auf Java 11 funktioniert. \bigbreak
 
 \section{Ziel}% microservices 
@@ -41,7 +42,10 @@ Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan we
 % was muss ich lesen lernen und analysieren,
 % was kommt dabei raus 
 - Java 9 und Module erste schritte zu Mikroservice und verteilten Anwendung  
-
+- Java EE 
+- Swagger 
+- Kafka
+- Web Interface 
 \section{Aufbau der Arbeit}
 Hier kommt der Aufbau 
 
