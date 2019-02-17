@@ -38,6 +38,16 @@ Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen de
 %- Es muss eine Kommunikationsinfrastruktur aufgestellt werden
 %- Es müssen Umsetzungen von verteilten System evaluiert werden. 
 \section{Umsetzung}
+% Umsetzung
+% Anforderungen
+% Vergleich Umsätzung ähnlicher Anforderungen
+1. Es entsteht ein Prototyp 
+	- Dieser restrukturiert ein Teil von Renew modular.
+	- Somit wird die Code Base, sowie Design-Entscheidungen modernisiert und auf die Java 11 Version angepasst. Dabei soll der Schwerpunkt beim Plugin-Manager liegen, der die zentrale Aufgabe der Plugin-Verwaltung trägt.    
+	- Um die Plugins ausführen zu können, sollten die Plugins mit Hilfe des Gradle Build Tools compiliert und ausführbar verpackt werden. 
+	-  Als nächstes sollten die Plugins fähig sein Verteilt und Kooperative arbeiten zu können. Dafür wird eine Architektur benötigt, die den modularen Prototypen erweitert. Somit einsteht eine Mikroservices-Architektur, die von einander unabhängig Einheiten ein globales Ziele verfolgen lässt. 
+2. Da viele Modernen Applikationen ihre Code Base aufteilen und verteilt ausführen lassen, werde ich mehrere Umsetzungen untersuchen und die Vor- und Nachteile untersuchen. Die Rezension wird die Entscheidung für die Umsetzung der Verteilten Architektur beeinflussen.
+
 % was muss getan werden um die Ziele zu erreichen, 
 % was muss ich lesen lernen und analysieren,
 % was kommt dabei raus 
@@ -47,5 +57,6 @@ Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen de
 - Kafka
 - Web Interface 
 \section{Aufbau der Arbeit}
+% Aufbau der Arbeit 
 Hier kommt der Aufbau 
 
