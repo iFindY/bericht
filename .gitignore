@@ -1,5 +1,7 @@
+*.fdb_latexmk
 *.aux
 *.bbl
+*.fls
 *.blg
 *.idx
 *.lof
@@ -7,6 +9,8 @@
 *.lot
 *.synctex.gz
 *.toc
+*.ind
+*.ilg
 *.out
 Thesis.pdf
 Thesis.out
