@@ -1,0 +1,37 @@
+
+Die Berechnung komplexer und 
+
+Dementsprechend muss sich diese rechenaufwändigen Strukturen 
+
+die Software in der Lage sein schwierege und komplexe Systeme 
+
+
+Nicht destotrotz bleibt viel optimierung Spielraum, welches in den letzten Jahren  durch verschiedene Formalismen erweitert wurde.     
+Zum Beispiel durch die \textit{gefärbten Marken}, die equivalent Strukturen zusammenfassen und die darin befindlichen Marken typesisren.
+Als zusätzliche Erweiterungsformalisums wurden die \textit{syncgronen Kanäle}  eingeführt die 
+    
+
+
+% hier die geschichte 
+
+Hier kommt der Stand der Dinge nachdem ich in der bib gesucht habe und wahrscheinlich nix finde.
+Da hab ich was \hyperlink{https://kataloge.uni-hamburg.de/DB=1/SET=1/TTL=1/SHW?FRST=10}{\underline{ inf bib}} 
+Noch was \hyperlink{https://kataloge.uni-hamburg.de/DB=1/SET=2/TTL=10/SHW?FRST=6}{\underline{kummer 2002 defenition Referenznetze}}
+
+
+
+% Problematik zielt auf Reengineering  http://www.enzyklopaedie-der-wirtschaftsinformatik.de/lexikon/is-management/Integration-und-Migration-von-IT-Systemen/Software-Reengineering/index.html
+
+
+
+
+% Zusammenhang zwischen Renew Petrinetze Nutzen 
+\textit{Renew} ist ein mächtiges Werkzeug zum Semulieren und Visualisieren von unterschiedlichen Petrinetzformalismen, die auf dem S/T-Netzmodel von Petrin \cite{Petri62}aufbaun. 
+Da die Konstruktion von den modernen und global vernetzten Systeme eine der Kerndisziplinen in der Softwareentwicklung ist, kann \textit{Renew} zuverlässig die Wechselwirkung diverser Prozesse von Mensch und Maschine modellieren und dammit als ein einflussreiches Werkzeug in dem Entwicklungsprozess dienen.
+% hier das Fazit 
+Besonders heute ist das Modulieren verteilter Systeme eine wichtige Disziplin, denn die Vernetzung über das Internet, aufspaltung monolithischer Architekturen und aufteilung der Verantwortung führt zu  schwierigen und nur schwer zu überblickenden Konstruktionen. <
+
+
+
+
+Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
