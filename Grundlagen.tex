@@ -4,32 +4,50 @@
 
 \section{Java Virtual Machine} 
 \label{sec:Java Virtual Machine}
+% java einleitung
 Gemessen am Interesse der Anwender und an seiner Verbreitung ist Java die erfolgreichste Programmiersprache der letzten Jahre. Der Erfolgt kam mit der Objektorientierung sowie der Plattformunabhängigkeit. Diese Fähigkeiten brachten eine große und fähige Kommune zusammen, die sowohl aus der Wirtschaft als auch aus der Forschungsbereich besteht. Dementsprechend ist Java im Laufe der Zeit durch Designmustern, Architekturkonzepten, Paradigmen und aktuellen Sicherheit- sowie Industriestandrats erweitert worden. Da Renew mit Hilfe der Java Plattform umgesetzt wurde, kann sie sie sich alle gegebenen Vorteile zunutze machen. 
 Einer der wichtigen Bausteine von Java ist die virtuelle Maschine, die das Suchen, Laden und Ausführen einer Codebasis auf allen gängigen Betriebssystemen erlaubt. Dementsprechend spielt das Laden von Klassen aus Örtlich unabhängigen Plugins ein große Rolle für die entstandene Architektur. Die Plugins müssen gefunden, geladen und kommunikationsfähig eingerichtet werden, sodass sie sich gegenseitig nutzen und beeinflussen können. \newline 
 In diesem Kapitel werden grundlegende Konzepte des \textit{Classloader's, Classpath's, und Reflaction} erläutert mit Hilfe dessen die Renew Plugin-Architektur umgesetzt wurde.
 
 \subsection{Classloading}
 \label{sub:Classloading}
+
+% classpath einleitung
 Jede Java-Anwendung wird zuerst in einer für menschlich verständlichen Sprache geschrieben und anschließend in ByteCode übersetzt. In Folge dessen ist der Code bereit zur Ausführung und muss an die virtuelle Maschine weiter gereicht werden.\newline
-Um die compilierten Klassen zu laden, wird von der JVM(Java Virtual Machine) Ortsangaben mit entsprechenden Code erwartet. Die Ortsangaben nennt man \textit{Classapth} oder  Klassenpfad. Dieser beschreibt eine Liste von Orten an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. Nachdem der Klassenpfad für die entsprechenden Classloader gesetzt ist, kann das \textit{Classlaoder System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
-\newline
+Um die compilierten Klassen zu laden, wird von der JVM(Java Virtual Machine) Ortsangaben mit entsprechenden Code erwartet. Die Ortsangaben nennt man \textit{Classapth} oder Klassenpfad. Dieser beschreibt eine Liste von Orten an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. Nachdem der Klassenpfad für die entsprechenden Classloader gesetzt ist, kann das \textit{Classlaoder System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
+
+% simple classloader image 
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{material/images/Classpath-Simple.png}
-  \caption{Classpath}
-  \label{fig:Classpath}
+  \caption{Java Classpath}
+  \label{fig:Classpath-Simple}
 \end{figure}
 
- In Beispiel [\ref{fig:Classpath}] besteht der Klassenpfad aus einem Ordner sowie einem JAR-Archive, die für die Ausführung nötige Klassen beinhalten. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. jedes mal wenn eine Klasse instantiiert werden muss, wird der \text{Classpath} von vorne nach hinten nach dem benötigten Typ durchsucht und instantiiert. Somit hat der Klassenpfad eine Ordnung und wird immer von links nach Rechts abgearbeitet.
+% simple classloading 
+ In Beispiel [\ref{fig:Classpath-Simple}] besteht der Klassenpfad aus einem Ordner sowie einem JAR-Archive, die für die Ausführung nötige Klassen beinhalten. Da beide Orte eine Dateistruktur beinhalten unterliegen sei einer Einschränkung, beide müssen die Paketstruktur der Java Klassen widerspiegeln damit der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. Jedes mal wenn eine Klasse instantiiert werden muss, wird der \textit{Classpath} von Links nach Rechts nach dem benötigten Typ durchsucht und instantiiert. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge.
+% advanced classpath image 
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{material/images/Classpath-Advanced.png}
+  \caption{Jar Classpath}
+  \label{fig:Classpath-Advanced}
+\end{figure}
 
-% classloasder hierarchie text
-\setlength{\parindent}{5ex} Der \textit{Classloader} ist eine zentrale Figur jeder Applikation, zumal dieser nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von Classloader aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (die Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.\newline
-Dieses System verhindert, dass Code aus weniger vertrauenswürdigen Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. Erst wenn der übergeordnete Klassenlader die gewünschte Klasse nicht finden kann, versucht es der aktuelle Classloader. [\ref{fig:Classloader}]
-\begin{figure}[t!]
+% jar classloading with manifest 
+Im Beispiel [\ref{fig:Classpath-Simple}] wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Meta-Information über den Container in sich trägt. Mit Hilfe der Strukturrichtlinie befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in [\ref{fig:Classpath-Advanced}] der Klassenpfad durch ein Archive aus dem web erweitert und für die Ausführung genutzt. Des weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist. Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferten Meta-Information komplett ist.
+
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.7\textwidth]{material/images/Classloader.png}
   \caption{Classloader System}
   \label{fig:Classloader}
 \end{figure}
+% classloasder hierarchie text
+\setlength{\parindent}{5ex} 
+
+\newpage
+Somit spielt der \textit{Classloader} eine tragende Rolle jeder Applikation, zumal dieser nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von Classloader aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (die Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.\newline
+Dieses System verhindert, dass Code aus weniger vertrauenswürdigen Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. Erst wenn der übergeordnete Klassenlader die gewünschte Klasse nicht finden kann, versucht es der aktuelle Classloader. [\ref{fig:Classloader}]
+
 
 
 % classloasder hierarchie bild
