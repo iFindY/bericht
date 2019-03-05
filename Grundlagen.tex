@@ -24,7 +24,7 @@ Um die compilierten Klassen zu laden, wird von der JVM(Java Virtual Machine) Ort
 \end{figure}
 
 % simple classloading 
- In Beispiel [\ref{fig:Classpath-Simple}] besteht der Klassenpfad aus einem Ordner sowie einem JAR-Archive, die für die Ausführung nötige Klassen beinhalten. Da beide Orte eine Dateistruktur beinhalten unterliegen sei einer Einschränkung, beide müssen die Paketstruktur der Java Klassen widerspiegeln damit der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. Jedes mal wenn eine Klasse instantiiert werden muss, wird der \textit{Classpath} von Links nach Rechts nach dem benötigten Typ durchsucht und instantiiert. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge.
+ In Beispiel [\ref{fig:Classpath-Simple}] besteht der Klassenpfad aus einem Ordner sowie einem JAR-Archive, die für die Ausführung nötige Klassen beinhalten. Da beide Orte eine Dateistruktur beinhalten unterliegen sie einer Einschränkung, beide müssen die Paketstruktur der Java Klassen widerspiegeln damit der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. Jedes mal wenn eine Klasse instantiiert werden muss, wird der \textit{Classpath} von Links nach Rechts nach dem benötigten Typ durchsucht und instantiiert. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge.
 % advanced classpath image 
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{material/images/Classpath-Advanced.png}
@@ -41,17 +41,17 @@ Im Beispiel [\ref{fig:Classpath-Simple}] wurde explizit ein Applikationsklassenp
   \caption{Classloader System}
   \label{fig:Classloader}
 \end{figure}
-% classloasder hierarchie text
-\setlength{\parindent}{5ex} 
 
 \newpage
-Somit spielt der \textit{Classloader} eine tragende Rolle jeder Applikation, zumal dieser nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von Classloader aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (die Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.\newline
-Dieses System verhindert, dass Code aus weniger vertrauenswürdigen Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. Erst wenn der übergeordnete Klassenlader die gewünschte Klasse nicht finden kann, versucht es der aktuelle Classloader. [\ref{fig:Classloader}]
+% \setlength{\parindent}{5ex} 
+In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.\newline
+Dieses System verhindert, dass Code aus weniger vertrauenswürdigen Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. Erst wenn der übergeordnete Klassenlader die gewünschte Klasse nicht finden kann, beschäftigt sich der aktuelle Classloader mit dieser Aufgabe. [\ref{fig:Classloader}]
 
 
 
 % classloasder hierarchie bild
 
+wurde der Applikationsklassenpfad und seine Funktion erläuterter. Jedoch gibt es mehr als einen Klassenpfad, 
 % vor und nachteile des klassloaders
 
 %%%%%%%%%
