@@ -34,17 +34,15 @@ Um die compilierten Klassen zu laden, wird von der JVM(Java Virtual Machine) Ort
 
 % jar classloading with manifest 
 Im Beispiel [\ref{fig:Classpath-Simple}] wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Meta-Information über den Container in sich trägt. Mit Hilfe der Strukturrichtlinie befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in [\ref{fig:Classpath-Advanced}] der Klassenpfad durch ein Archive aus dem web erweitert und für die Ausführung genutzt. Des weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist. Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferten Meta-Information komplett ist.
-
+\bigbreak
+% \setlength{\parindent}{5ex} 
+In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle in jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\textwidth]{material/images/Classloader.png}
   \caption{Classloader System}
   \label{fig:Classloader}
 \end{figure}
-
-\newpage
-% \setlength{\parindent}{5ex} 
-In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt. Somit entsteht eine Hierarchie von Namensräumen die sicherstellt, dass die Bibliotheken aus der  vertrauenswürdigen Quelle (Kern-API) zuerst geladen werden, gefolgt von den Standarderweiterungen und dann den lokalen Dateien, die sich im Klassenpfad befinden. Schließlich können eigene Classloader mit benutzerdefinierten Quellen erstellt werde, die auf Drittanbieter-Bibliotheken Zugriff erlauben.\newline
 Dieses System verhindert, dass Code aus weniger vertrauenswürdigen Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. Erst wenn der übergeordnete Klassenlader die gewünschte Klasse nicht finden kann, beschäftigt sich der aktuelle Classloader mit dieser Aufgabe. [\ref{fig:Classloader}]
 
 
