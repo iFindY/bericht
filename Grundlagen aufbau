@@ -1,0 +1,31 @@
+Grundlagen aufbau 
+
+
+GRUNDLAGEN
+- java Grundlagen
+  - Classpath 
+  - Reflaction 
+  - Invere of Control
+  - libraries (jackson-binder)
+  - frameworks (spring)
+  - container (widlfy)
+- Modularisierung (java welt, osgi)
+  - rt.jar
+  - geschichte 
+  - aktueller zustand
+  - probleme 
+  - lösung 
+-  Renew (renew welt)
+  - etnwurfsgeschichte: was hat sich getan
+  - vorteile
+  - nachteile 
+  - erwartungen 
+  - problemstellung pitfalls
+  - frühere ansätze 
+- Microservices 
+  - vorteile 
+  - nachteiel 
+  - ziel 
+  - server ( wurden auch von der modularisierung betroffen zb widlfy)
+  - kafka 
+  - archetekturen (vergleich von unterschiedlichen umsetzungen)
