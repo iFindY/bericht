@@ -17,16 +17,15 @@ Um die compilierten Klassen zu laden, wird von der JVM(Java Virtual Machine) Ort
 
 % simple classloader image 
 \begin{figure}[h]
-  \includegraphics[width=\textwidth]{material/images/Classpath-Simple.png}
+  \includegraphics[width=\textwidth]{material/images/Classpath.png}
   \caption{Java Classpath}
   \label{fig:Classpath-Simple}
 \end{figure}
 
 % simple classloading 
  In Beispiel [\ref{fig:Classpath-Simple}] besteht der Klassenpfad aus einem Ordner sowie einem JAR-Archive, die für die Ausführung nötige Klassen beinhalten. Da beide Orte eine Dateistruktur beinhalten unterliegen sie einer Einschränkung, beide müssen die Paketstruktur der Java Klassen widerspiegeln damit der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. Jedes mal wenn eine Klasse instantiiert werden muss, wird der \textit{Classpath} von Links nach Rechts nach dem benötigten Typ durchsucht und instantiiert. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge.
-% advanced classpath image 
 \begin{figure}[h]
-  \includegraphics[width=\textwidth]{material/images/Classpath-Advanced.png}
+  \includegraphics[width=\textwidth]{material/images/Classpath-Manifest.png}
   \caption{Jar Classpath}
   \label{fig:Classpath-Advanced}
 \end{figure}
@@ -37,21 +36,27 @@ Im Beispiel [\ref{fig:Classpath-Simple}] wurde explizit ein Applikationsklassenp
 \subsection{Classloader}
 \label{ssub:classloader}
 In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle in jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt [\ref{fig:Classloader}]. 
-\begin{figure}[h]
+
+\subsubsection{Classloader System}
+Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader}, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig.
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=0.7\textwidth]{material/images/Classloader.png}
+  \includegraphics[width=0.65\textwidth]{material/images/Classloader.png}
   \caption{Classloader System}
   \label{fig:Classloader}
 \end{figure}
 \newline
-
-\subsubsection{Classloader System}
-Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader}, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig.\newline
 Oben in der Hierarchie befindet sich der \textit{Bootstrap-Classloader}. Dieser \textit{Classloader} ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie die zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der \textit{Classloader} für Erweiterungen kann Klassen laden, die Standarderweiterungspakete im Erweiterungsverzeichnis \textit{lib/ext} sich befinden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunter liegende \textit{Applikation Classloader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zu Letzt können Benutzerdefinierte \textit{Classloader} erstellt werden, die sich auf der unteren Ebene der Classloader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug um ihnen große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Classloader}. 
 
 \subsubsection{Delegierungsmodell}
 Das \textit{Classloader System} delegiert jede Anfrage zum Laden einer bestimmten Klasse zuerst an seinen übergeordneten \textit{Classloader}, bevor der angeforderte \textit{Classloader} versucht die Klasse selbst zu laden. 
-Jeder \textit{Classloader} hält somit einen Verweis auf einen übergeordneten \textit{Classloader} und ist Teil eines \textit{Classloader} Baums mit dem \textit{Bootstrap-Classloader} an der Wurzel. Wenn eine Instanz einer bestimmten Klasse benötigt wird, prüft der \textit{Classloader}, der die Anfrage bearbeitet, normalerweise mit seinem übergeordneten \textit{Classloader} vorab. Der übergeordnete \textit{Classloader} durchläuft wiederum den gleichen Prozess bis die Delegierungskette den \textit{Bootstrap-Classloader} erreicht. Sobald der \textit{Bootstrap-Classloader} erreicht wurde, beginnt die tatsächliche Suche nach der gewünschten Klasse. 
+Jeder \textit{Classloader} hält somit einen Verweis auf einen übergeordneten \textit{Classloader} und ist Teil eines \textit{Classloader} Baums mit dem \textit{Bootstrap-Classloader} an der Wurzel. Wenn eine Instanz einer bestimmten Klasse benötigt wird, prüft der \textit{Classloader}, der die Anfrage bearbeitet, normalerweise mit seinem übergeordneten \textit{Classloader} vorab. Der übergeordnete \textit{Classloader} durchläuft wiederum den gleichen Prozess bis die Delegierungskette den \textit{Bootstrap-Classloader} erreicht. Sobald der \textit{Bootstrap-Classloader} erreicht wurde, beginnt die tatsächliche Suche nach der gewünschten Klasse.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{material/images/flow_diagram.png}
+  \caption{Class lookup}
+  \label{fig:flow_diagram}
+\end{figure}
 Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wir diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige \textit{Classloader} als letzter die Klasse selbstständig zu laden.
 Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten \textit{Classloader}. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} berufen.
 % hier  kommt bild als action response diagram 
