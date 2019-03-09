@@ -58,7 +58,9 @@ Jeder \textit{Classloader} hält somit einen Verweis auf einen übergeordneten \
   \label{fig:flow_diagram}
 \end{figure}
 Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wir diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige \textit{Classloader} als letzter die Klasse selbstständig zu laden.
-Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten \textit{Classloader}. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} berufen.
+Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten \textit{Classloader}. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} berufen. 
+Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des \textit{Classloaders} nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten \textit{Classloader} außer dem jetzigen, war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Type sofort zurückgegeben wird.
+
 % hier  kommt bild als action response diagram 
 
 \subsubsection{Namensräume}
