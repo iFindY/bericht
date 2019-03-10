@@ -35,7 +35,7 @@ Im Beispiel [\ref{fig:Classpath-Simple}] wurde explizit ein Applikationsklassenp
 
 \subsection{Classloader}
 \label{ssub:classloader}
-In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle in jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt [\ref{fig:Classloader}]. 
+In den vorherigen Beispielen[\ref{fig:Classpath-Simple}, \ref{fig:Classpath-Advanced}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem \textit{Classloader} übernommen, der eine zentrale Rolle in jeder Applikation spielt. Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt. 
 
 \subsubsection{Classloader System}
 Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader}, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig. 
@@ -47,45 +47,56 @@ Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader
   \label{fig:Classloader}
 \end{figure}
 \newline
-Oben in der Hierarchie befindet sich der \textit{Bootstrap-Classloader}. Dieser \textit{Classloader} ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie die zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der \textit{Classloader} für Erweiterungen kann Klassen laden, die Standarderweiterungspakete im Erweiterungsverzeichnis \textit{lib/ext} sich befinden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunter liegende \textit{Applikation Classloader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zu Letzt können Benutzerdefinierte \textit{Classloader} erstellt werden, die sich auf der unteren Ebene der Classloader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können.\bigbreak
-Demzufolge sind diese Quellen nicht sicher genug um ihnen große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Classloader}. Dieses System verhindert, dass Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. [\ref{fig:Classloader}] 
+Oben in der Hierarchie befindet sich der \textit{Bootstrap-Classloader}. Dieser \textit{Classloader} ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie die zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der \textit{Classloader} für Erweiterungen kann Klassen laden, die Standarderweiterungspakete im Erweiterungsverzeichnis \textit{lib/ext} sich befinden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunter liegende \textit{Applikation Classloader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zuletzt können Benutzerdefinierte \textit{Classloader} erstellt werden, die sich auf der unteren Ebene der Classloader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug um ihnen große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Classloader}. 
+\bigbreak
+Dieses System verhindert, dass Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird. [\ref{fig:Classloader}] 
   
 \subsubsection{Delegierungsmodell}
 Das \textit{Classloader System} delegiert jede Anfrage zum Laden einer bestimmten Klasse zuerst an seinen übergeordneten \textit{Classloader}, bevor der angeforderte \textit{Classloader} versucht die Klasse selbst zu laden. 
 Jeder \textit{Classloader} hält somit einen Verweis auf einen übergeordneten \textit{Classloader} und ist Teil eines \textit{Classloader} Baums mit dem \textit{Bootstrap-Classloader} an der Wurzel. Wenn eine Instanz einer bestimmten Klasse benötigt wird, prüft der \textit{Classloader}, der die Anfrage bearbeitet, normalerweise mit seinem übergeordneten \textit{Classloader} vorab. Der übergeordnete \textit{Classloader} durchläuft wiederum den gleichen Prozess bis die Delegierungskette den \textit{Bootstrap-Classloader} erreicht. Sobald der \textit{Bootstrap-Classloader} erreicht wurde, beginnt die tatsächliche Suche nach der gewünschten Klasse.
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\textwidth]{material/images/flow_diagram.png}
+  \includegraphics[width=0.9\textwidth]{material/images/deligation.png}
   \caption{Class lookup}
-  \label{fig:flow_diagram}
+  \label{fig:deligation}
 \end{figure}
 Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wir diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige \textit{Classloader} als letzter die Klasse selbstständig zu laden.
-Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten \textit{Classloader}. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} berufen. 
+Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} eingelesen. \newline
 Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des \textit{Classloaders} nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten \textit{Classloader} außer dem jetzigen, war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Type sofort zurückgegeben wird.
 
 \subsubsection{Namensräume}
-Geladene Klassen werden sowohl durch den Klassennamen als auch durch den \textit{Classloader} identifiziert, der sie geladen hat. Dadurch werden geladene Klassen in \textit{Namespaces} unterteilt, die vom \textit{Classloader System} identifiziert werden.
+Geladene Klassen werden sowohl durch den Klassennamen als auch durch den \textit{Classloader} eindeutig identifiziert. Demzufolge werden geladene Klassen in \textit{Namespaces} unterteilt, die vom \textit{Classloader System} individuell behandelt werden.
 \newline
-Ein \textit{Namespace} ist eine Gruppe von Klassennamen, die von einem bestimmten \textit{Classloader} geladen worden ist. Wenn ein Eintrag für eine Klasse einem \textit{Namespace} hinzugefügt wurde, ist es nicht möglich, eine andere Klasse mit demselben Namen in diesen \textit{Namespace} zu laden. Nichtsdestotrotz können mehrere Kopien einer beliebigen Klasse in die Applikation geladen werden, indem für jede Klasse ein \textit{Classloader} mit dem zusätzlichen \textit{Namespace} erstellt wird.
+Ein \textit{Namespace} ist eine Gruppe von Klassennamen, die von einem bestimmten \textit{Classloader} geladen worden ist. Wenn ein Eintrag für eine Klasse einem \textit{Namespace} hinzugefügt wurde, ist es nicht möglich, eine Klasse mit dem selben Namen und unterschiedlichen Inhalt in den \textit{Namespace} einzubinden. Nichtsdestotrotz können mehrere Kopien einer beliebigen Klasse in die Applikation geladen werden, indem für jede Klasse ein \textit{Classloader} mit dem zusätzlichen \textit{Namespace} erstellt wird. 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{material/images/namespaces.png}
+  \caption{Namensräume}
+  \label{fig:namespaces}
+\end{figure}
+\newline
+Abbildung \ref{fig:namespaces} zeigt ein Beispiel für eine Klassenidentitätskrise, die sich ergibt, wenn eine Schnittstelle und die zugehörige Implementierung jeweils von zwei separaten \textit{Classloader} geladen werden. Obwohl die Namen und binären Implementierungen der Schnittstellen und Klassen gleich sind, kann eine Instanz der Klasse von einem \textit{Classloader} nicht als Implementierung des Interfaces von dem anderen \textit{Classloader} erkannt werden. \newline 
+Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von den Applikation Classloader geladen wird. Somit implementieren beide \textit{Print} Klassen die selbe Schnittstelle.   
 \bigbreak
-\textit{Namespaces} bewirken, dass Klassen aus dem \textit{Classloader System} getrennt verwaltet werden. Dadurch wird verhindert, dass weniger vertrauenswürdiger Code, der aus der Applikation oder benutzerdefinierte \textit{Classloader} direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Classloader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende \textit{Classloader} weitergereicht wird. \newline
-Auch wenn ein untergeordneter \textit{Classloader} die Paketstruktur der Core-API nachahmt, wird diese dank dem Delegierungsmodell ignoriert und aus dem übergeordneten \textit{Classloader} geladen. Somit verhindert die Verwendung von \textit{Classloader Namespaces} die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist.
-
-% web beschreibung  der ersten tabs 
-
-
-% vor und nachteile des klassloaders
-
-%%%%%%%%%
-% classloader absatz, was er ist wozu man ihn braucht was er macht, isolation, paralelisierung der applikationen,sicherheit dank der zugriffrechte, gleiche namen , wiederverwendbarkeit 
-% darauf aufbauend kommt die delegation und hierarchie 
-% erweiterbarkeit mit eignen classloader und dem gewüsnchten verhalten was getan wird wenn dieser aufgerufewn wird.
-% relaoding code without reloding application, application in memmory classes/type loaded from classpath if needed.
-% bild mit classapth aus jar, folder, web(deployed jar), bild mit renew malen. 
-
+Der Klassen Namensraum bieten zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Die Namensräume verhindern, dass weniger vertrauenswürdiger Code, der aus der Applikation oder benutzerdefinierte \textit{Classloader} geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Classloader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende \textit{Classloader} weitergereicht wird. \newline
+Auch wenn ein untergeordneter \textit{Classloader} die Paketstruktur der Core-API nachahmt, wird diese nicht als Teil der Java Core-API anerkannt, da dieser von den falschen Classloader geladen wurde. Somit verhindert die Verwendung von Namensräumen die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist.
 
 \subsection{Schnittstelle und Implementierung} % (fold)
 \label{sub:Schnittstelle und Implementierung}
+Die Schnittstelle(Interface) und Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit.
+Eine Schnittstelle ist ein Vertrag, die die Funktionalität alle Klassen, die dieses implementieren beschreibt. 
+Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die Umsetzung aller in der Schnittstelle deklarierten Methoden. 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{material/images/Interface.png}
+  \caption{Interface}
+  \label{fig:Interface}
+\end{figure}
+\newline
+Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. 
+Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klassen eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt. 
+\newline
+Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf dem selben Klassenpfad befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern.   
 
 \subsection{Schwächen} % (fold)
 \label{sub:schwächen}
