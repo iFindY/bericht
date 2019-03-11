@@ -42,7 +42,7 @@ Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader
 %Die Idee hinter dem Separieren der Aufenthaltsorte ist, dass den Quellen unterschiedliche Vertrauensebenen zugewiesen werden können.
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=0.65\textwidth]{material/images/Classloader.png}
+  \includegraphics[width=0.7\textwidth]{material/images/Classloader.png}
   \caption{Classloader System}
   \label{fig:Classloader}
 \end{figure}
@@ -96,16 +96,23 @@ Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die 
 Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. 
 Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klassen eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt. 
 \newline
-Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf dem selben Klassenpfad befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern.   
+Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden.  
 
-\subsection{Schwächen} % (fold)
-\label{sub:schwächen}
 
 \section{Reflaction} 
 \label{sec:reflaction}
+ 1. Videos gucken 
+ 2. Videos hier Zusammenfassen 
+ 3. Verschmelze Videotext mit Buchtext 
+ 4. Finde ein Bild wie eine Methode Reflektiv ausgeführt wird, vielleicht in den Videos ? 
+ 5. Kurzer Satz wo das in Renew auftritt, oder eine starke Andeutung 
+ 6. Übergang Inversion of Controll 
 
 \section{Inverse of Controll}
 \label{sec:inverse_of_controll}
+
+\subsection{Schwächen} % (fold)
+\label{sub:schwächen}
 
 \section{Modularisierung}
 \label{sec:modularisierung}
