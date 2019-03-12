@@ -101,35 +101,45 @@ Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demo
 
 \section{Reflaction} 
 \label{sec:reflaction}
-
  % Kurze einleitung 
 Reflaction ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu analysieren und zu ändern. 
 Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. \newline
-Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mit Hilfe der Reflection-API während der Laufzeit instantiiert, bearbeitet und genutzt werden. Somit ermöglicht Reflection das Arbeiten mit Klassen von den man im Voraus nicht wissen kann wie zum Beispiel von Klassen, die nach der Applikation entstanden sind.
+Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mit Hilfe der Reflection-API während der Laufzeit instantiiert, bearbeitet und genutzt werden. Somit ermöglicht Reflection das Arbeiten mit Klassen von den man im Voraus nicht wissen kann, wie zum Beispiel von Klassen, die nach der Applikation entstanden sind.
 \bigbreak
  % Überblick: Problemstellung die Reflexion löst 
- wann braucht man Reflexion 
-Ihr Projektmanager verpflichtet sich zu einem Plug-In-Framework, das weiß, dass das System neue Komponenten akzeptieren muss, auch nachdem es erstellt und bereitgestellt wurde. Sie richten einige Schnittstellen ein und bereiten einen Mechanismus für das Patchen Ihrer JAR vor. Sie wissen jedoch, dass dies die Anforderungen an die Steckbarkeit nicht vollständig erfüllt.
+In vielen Fällen der Applikationsentwicklung möchte man seinen Applikation von andren Nutzern und Entwicklern erweitern lassen, ohne das diese bei jeder Änderungen die komplette Applikation umbauen. 
+Somit Stellt sich die Frage wie erstellt man ein Mechanismus der mit beliebigen Klassen arbeiten kann.
+Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren , die  unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. 
+Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken über die wir keine Kontrolle verfügen.
+Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. 
+Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klasse ohne direkten den Typen zu kennen und manipuliert dessen Felder sowie Methoden. 
+ % Nutzen: Felder Methode, Konstruktoren
+Die drei Hauptmerkmale einer Klasse sind ihre Felder (Variablen), Methoden und Konstruktoren. Für die Beschreibung und den Zugriff auf ein Objekt werden diese drei Features in der Reflection-API durch separate Klassen dargestellt: java.lang.reflect.Field, java.lang.re flect.Method und java.lang.reflect.Constructor. Wir können diese Member einer Klasse über das Class-Objekt nachschlagen.
+
+ % Beispiel: mit Methodenaufruf und Array als Übergabeparameter 
+
+ % Sequenz-Diagramm: eines Methodenaufrufs
+
+ % zusammenfassung 
+ Java reflection provides access to metadata about fields through metaobjects that are instances of Field. Field objects expose the attributes of a field, such as its name and its modifiers. They also allow access and modification of field values. The convenience facility Array is provided to allow similar functionality for arrays.
+Java reflection also allows the ability to access nonpublic members of a class. This ability provides a great deal of benefit to developers seeking to centralize functionality for maintenance purposes. Although encapsulation should normally be preserved, accessibility can be used in a sufficiently general way that does not violate object-oriented principles.
+The ability to use metadata about fields gives us concrete benefits. It allows applications like the ones in this chapter to be used on previously developed classes without modification. This ability increases the cohesion of those imple- mentations and broadens their applicability to classes not developed in-house. It also reduces or eliminates the maintenance for applying these implementations to unforeseen future code.
+
+ %% problem wieso keine interfaces oder instanceof genutzt werden und die lösung dazu 
+
+ ✔ Mit Mechanismus für das erweitern der Kernapplikation mit weiteren Code. 
+ ✔ dass das System neue Komponenten akzeptieren muss, auch nachdem es erstellt und bereitgestellt wurde.
+ ✔ Überleitung von verteilten Code von Interface&Implementierung auf Reflection
 
 
 Mit der Reflection-API können Sie die Fähigkeiten von Objekten zur Laufzeit ermitteln. Sie wird von der Objektserialisierung verwendet, um Objekte für den Transport über Streams oder für den dauerhaften Speicher zu zerlegen und zu erstellen. Offensichtlich muss die Fähigkeit, Objekte auseinanderzunehmen und ihre inneren Elemente zu sehen, vom Sicherheitsmanager eifrig überwacht werden.
 
-Die drei Hauptmerkmale einer Klasse sind ihre Felder (Variablen), Methoden und Konstruktoren. Für die Beschreibung und den Zugriff auf ein Objekt werden diese drei Features in der Reflection-API durch separate Klassen dargestellt: java.lang.reflect.Field, java.lang.re flect.Method und java.lang.reflect.Constructor. Wir können diese Member einer Klasse über das Class-Objekt nachschlagen.
-
-
-
- % problem wieso keine interfaces oder instanceof genutzt werden und die lösung dazu 
 
  If George’s team controlled all of the source code, the components could be refactored to implement a common interface that declares setColor. Then, each component could be referenced by that interface type and setColor could be invoked without knowing the concrete type. However, the team does not control the standard Java components or third-party components. Even if they changed the open source components, the open source project might not accept the change, leaving the team with additional maintenance
 
  Using instanceof and casting to discover concrete types at runtime is another alternative, but it leaves several maintenance problems for George’s team. First, the code would become bloated with conditionals and casts, making it difficult to read and understand. Second, the code would become coupled with each con- crete type. 
 
  This utility method satisfies the team’s goal of being able to set a component’s color without knowing its concrete type. The method accomplishes its goals with- out invading the source code of any of the components. It also avoids source code bloating, memory bloating, and unnecessary coupling. George has implemented an extremely flexible and effective solution.
- % Nutzen: Felder Methode, Konstruktoren
-
- % Beispiel: mit Methodenaufruf und Array als Übergabeparameter 
-
- % Sequenz-Diagramm: eines Methodenaufrufs
 
  1. Videos gucken
   - Informationen über eine Klasse während der Laufzeit erhalten.
