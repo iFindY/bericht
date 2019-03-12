@@ -101,7 +101,72 @@ Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demo
 
 \section{Reflaction} 
 \label{sec:reflaction}
- 1. Videos gucken 
+
+ % Kurze einleitung 
+Reflaction ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu untersuchen und zu ändern. 
+Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. \newline
+Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mit Hilfe der Reflection-API während der Laufzeit instantiiert, bearbeitet und genutzt werden.
+\bigbreak
+ % Überblick: Problemstellung die Reflexion löst 
+ wann braucht man Reflexion 
+Ihr Projektmanager verpflichtet sich zu einem Plug-In-Framework, das weiß, dass das System neue Komponenten akzeptieren muss, auch nachdem es erstellt und bereitgestellt wurde. Sie richten einige Schnittstellen ein und bereiten einen Mechanismus für das Patchen Ihrer JAR vor. Sie wissen jedoch, dass dies die Anforderungen an die Steckbarkeit nicht vollständig erfüllt.
+
+
+
+
+
+ % Nutzen: Felder Methode, Konstruktoren
+
+ % Beispiel: mit Methodenaufruf und Array als Übergabeparameter 
+
+ % Sequenz-Diagramm: eines Methodenaufrufs
+
+ 1. Videos gucken
+  - Informationen über eine Klasse während der Laufzeit erhalten.
+  - Dynamische Datenauslesung.
+  - Dynamisches Aktualisieren.
+  - Erstelle Type-Instanzen über die wir  keine Informationen während der Laufzeit haben.  
+  -
+
+
+
+## Input 
+
+Your project manager is committed to a pluggable framework, knowing that the system needs to accept new components even after it is built and deployed. You set up some interfaces and prepare a mechanism for patch- ing your JAR, but you know that this will not completely satisfy the need for pluggability.
+
+Reflection is the ability of a running program to examine itself and its software environment, and to change what it does depending on what it finds.
+
+As we saw in the small example above, the introspection step is followed by behavior change. In general, there are three techniques that a reflection API can use to facilitate behavior change: direct metaobject modification, operations for using metadata (such as dynamic method invocation), and intercession, in which code is permitted to intercede in various phases of program execution.
+
+Applications programmed with reflection adapt more easily to changing requirements. Reflective components are more likely to be reused flawlessly in other applica- tions. These benefits are available in your current Java development kit.
+
+
+■ security
+■ code complexity
+■ runtime performance
+
+
+If George’s team controlled all of the source code, the components could be refactored to implement a common interface that declares setColor. Then, each component could be referenced by that interface type and setColor could be invoked without knowing the concrete type. However, the team does not control the standard Java components or third-party components. Even if they changed the open source components, the open source project might not accept the change, leaving the team with additional maintenance.
+
+Using instanceof and casting to discover concrete types at runtime is another alternative, but it leaves several maintenance problems for George’s team. First, the code would become bloated with conditionals and casts, making it difficult to read and understand. Second, the code would become coupled with each con- crete type. 
+
+This utility method satisfies the team’s goal of being able to set a component’s color without knowing its concrete type. The method accomplishes its goals with- out invading the source code of any of the components. It also avoids source code bloating, memory bloating, and unnecessary coupling. George has implemented an extremely flexible and effective solution.
+
+This line calls the resulting method on obj, passing it the color—This reflective method call can also be referred to as dynamic invocation. Dynamic invoca- tion is a feature that enables a program to call a method on an object at runtime without specifying which method at compile time.
+
+All of this runtime processing also takes more time than casts and static invoca- tion. The method calls for introspection are not necessary if the information is known at compile time. Dynamic invocation introduces latency by resolving which method to call and checking access at runtime rather than at compile time. 
+
+Reflection is a program’s ability to examine and change its behavior and structure at runtime. 
+
+Think of introspection as looking at yourself in a mirror. The mirror provides you with a representation of yourself—your reflection—to examine. Examining yourself in a mirror gives you all sorts of useful information, such as what shirt goes with your brown pants or whether you have something green stuck in your teeth. That information can be invaluable in adjusting the structure of your ward- robe and hygiene. A mirror can also tell you things about your behavior. You can examine whether a smile looks sincere or whether a gesture looks too exaggerated. This information can be critical to understanding how to adjust your behavior to make the right impression on other people.
+
+
+Similarly, in order to introspect, a program must have access to a representa- tion of itself. This self-representation is the most important structural element of a reflective system. By examining its self-representation, a program can obtain the right information about its structure and behavior to make important decisions.
+
+Metaobjects represent parts of the running application, and, therefore, may describe the base program. Figure 1.1 shows the instanceof relationship between base-level objects and the objects that represent their classes. 
+
+Dynamic invocation enables a program to call a method on an object at runtime without specifying which method at compile time.
+
  2. Videos hier Zusammenfassen 
  3. Verschmelze Videotext mit Buchtext 
  4. Finde ein Bild wie eine Methode Reflektiv ausgeführt wird, vielleicht in den Videos ? 
