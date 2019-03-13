@@ -99,7 +99,7 @@ Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Kl
 Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden.  
 
 
-\section{Reflaction} 
+\subsection{Reflaction} 
 \label{sec:reflaction}
  % Kurze einleitung 
 Reflaction ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu analysieren und zu ändern. 
@@ -108,13 +108,73 @@ Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen 
 \bigbreak
  % Überblick: Problemstellung die Reflexion löst 
 In vielen Fällen der Applikationsentwicklung möchte man seinen Applikation von andren Nutzern und Entwicklern erweitern lassen, ohne das diese bei jeder Änderungen die komplette Applikation umbauen. 
-Somit Stellt sich die Frage wie erstellt man ein Mechanismus der mit beliebigen Klassen arbeiten kann.
-Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren , die  unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. 
+Somit stellt sich die Frage, wie erstellt man ein Mechanismus der mit beliebigen Klassen arbeiten kann.
+Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. 
 Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken über die wir keine Kontrolle verfügen.
 Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. 
-Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klasse ohne direkten den Typen zu kennen und manipuliert dessen Felder sowie Methoden. 
+Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klassenstruktur ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, z. B. das Paket und die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden. \bigbreak
  % Nutzen: Felder Methode, Konstruktoren
-Die drei Hauptmerkmale einer Klasse sind ihre Felder (Variablen), Methoden und Konstruktoren. Für die Beschreibung und den Zugriff auf ein Objekt werden diese drei Features in der Reflection-API durch separate Klassen dargestellt: java.lang.reflect.Field, java.lang.re flect.Method und java.lang.reflect.Constructor. Wir können diese Member einer Klasse über das Class-Objekt nachschlagen.
+Die drei Hauptmerkmale einer Klasse sind ihre Felder, Methoden und Konstruktoren. 
+Für die Beschreibung und den Zugriff auf ein Klasse werden diese drei Features in der Reflection-API durch separate Klassen dargestellt: 
+\begin{itemize}
+\item java.lang.reflect.Field
+\item java.lang.reflect.Method
+\item java.lang.reflect.Constructor
+\end{itemize}
+Mit Hilfe der \textit{Class} Objekts eines Typs können die oben genannten Objekte erzeugt und manipuliert werden. Diese bietet eine Schnittstelle für das Abfragen ihrer Struktur an den Nutzer und liefert ein Objekt aus dem \textit{java.lang.reflection} Paket zurück.
+\begin{itemize}
+\item Field[ ] *.class.getFields();
+\item Method[ ] *.class.getDeclaredMethods();
+\item Constructor[ ] *.class.getConstructors();
+\end{itemize}
+
+Als ein schnelles Beispiel wird in der folgenden Abbildung ein Konstruktor der Klasse \textit{Print} ausgewählt, mit dem anschließen eine Instanz erzeugt wird. \newline
+\newpage 
+\begin{lstlisting}[caption={Create Instance with Reflection},captionpos=b]
+    public static void getMethods(@NotNull Class clazz) throws
+            NoSuchMethodException, NoSuchFieldException,
+            InvocationTargetException, InstantiationException,
+            IllegalAccessException {
+
+        Method method;
+        Constructor[] ctors = clazz.getDeclaredConstructors();
+        Object dynamic = ctors[0].newInstance(4);
+
+        method = clazz.getDeclaredMethod("print", String.class, String.class);
+        method.invoke(dynamic, "Hello", "World");
+
+        method = clazz.getDeclaredMethod("print");
+        method.invoke(dynamic);
+
+        method = clazz.getDeclaredMethod("staticPrint");
+        method.invoke(null);
+
+        method = clazz.getDeclaredMethod("doNothing");
+        method.setAccessible(true);
+        method.invoke(dynamic);
+
+        Field field = clazz.getDeclaredField("version");
+        field.set(dynamic, 5);
+        int version = (int) field.get(dynamic);
+        System.out.println(version);
+
+    }
+\end{lstlisting}
+
+ und eine
+Als schnelles Beispiel zeigen wir, wie einfach es ist, alle öffentlichen Methoden der Klasse java.util.Calendar aufzulisten:
+
+Die Class-Klasse stellt zwei Methodenpaare zur Verfügung, mit denen auf jeden Feature-Typ zugegriffen werden kann. Ein Paar ermöglicht den Zugriff auf die öffentlichen Merkmale einer Klasse (einschließlich der von ihren Oberklassen geerbten), während das andere Paar den Zugriff auf alle öffentlichen oder nicht öffentlichen Elemente ermöglicht, die direkt in der Klasse deklariert sind (nicht jedoch vererbte Merkmale). Siderationen. Einige Beispiele:
+
+Jeder Satz von Methoden enthält die Methoden zum Auflisten aller Elemente gleichzeitig (z. B. getFields ()) und eine zusätzliche Methode zum Suchen eines bestimmten Elements nach Namen und - nach Methoden und Konstruktoren - anhand der Signatur (z. B. getField ()). , wobei der Feldname als Argument verwendet wird).
+
+
+
+
+
+Diese Klassen repräsentieren den Inhalt eines Typs, 
+
+ % Bild mit Code der eine Objekt erstellt und Methoden aufrufft. Mit Kommentaren zwischen den Zeilen.
 
  % Beispiel: mit Methodenaufruf und Array als Übergabeparameter 
 
@@ -165,12 +225,6 @@ Applications programmed with reflection adapt more easily to changing requiremen
 ■ code complexity
 ■ runtime performance
 
-
-If George’s team controlled all of the source code, the components could be refactored to implement a common interface that declares setColor. Then, each component could be referenced by that interface type and setColor could be invoked without knowing the concrete type. However, the team does not control the standard Java components or third-party components. Even if they changed the open source components, the open source project might not accept the change, leaving the team with additional maintenance.
-
-Using instanceof and casting to discover concrete types at runtime is another alternative, but it leaves several maintenance problems for George’s team. First, the code would become bloated with conditionals and casts, making it difficult to read and understand. Second, the code would become coupled with each con- crete type. 
-
-This utility method satisfies the team’s goal of being able to set a component’s color without knowing its concrete type. The method accomplishes its goals with- out invading the source code of any of the components. It also avoids source code bloating, memory bloating, and unnecessary coupling. George has implemented an extremely flexible and effective solution.
 
 This line calls the resulting method on obj, passing it the color—This reflective method call can also be referred to as dynamic invocation. Dynamic invoca- tion is a feature that enables a program to call a method on an object at runtime without specifying which method at compile time.
 
