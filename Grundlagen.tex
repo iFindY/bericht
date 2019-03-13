@@ -89,14 +89,14 @@ Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{material/images/Interface.png}
-  \caption{Interface}
-  \label{fig:Interface}
+  \caption{Schnittstelle}
+  \label{fig:Schnittstelle}
 \end{figure}
 \newline
 Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. 
 Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klassen eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt. 
 \newline
-Im Beispiel \ref{fig:Interface} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden.  
+Im Beispiel \ref{fig:Schnittstelle} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden.  
 
 
 \subsection{Reflaction} 
@@ -112,7 +112,11 @@ Somit stellt sich die Frage, wie erstellt man ein Mechanismus der mit beliebigen
 Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. 
 Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken über die wir keine Kontrolle verfügen.
 Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. 
-Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klassenstruktur ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, z. B. das Paket und die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden. \bigbreak
+Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klassenstruktur ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, z. B. das Paket und die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.
+\bigbreak
+
+%  Sequenzdiagram 
+
  % Nutzen: Felder Methode, Konstruktoren
 Die drei Hauptmerkmale einer Klasse sind ihre Felder, Methoden und Konstruktoren. 
 Für die Beschreibung und den Zugriff auf ein Klasse werden diese drei Features in der Reflection-API durch separate Klassen dargestellt: 
@@ -121,16 +125,20 @@ Für die Beschreibung und den Zugriff auf ein Klasse werden diese drei Features 
 \item java.lang.reflect.Method
 \item java.lang.reflect.Constructor
 \end{itemize}
-Mit Hilfe der \textit{Class} Objekts eines Typs können die oben genannten Objekte erzeugt und manipuliert werden. Diese bietet eine Schnittstelle für das Abfragen ihrer Struktur an den Nutzer und liefert ein Objekt aus dem \textit{java.lang.reflection} Paket zurück.
+Mit Hilfe der \textit{Class} Objekt eines Typs können die oben genannten Objekte erzeugt und manipuliert werden. Diese bietet eine Schnittstelle für das Abfragen ihrer Struktur an den Nutzer und liefert ein Objekt aus dem \textit{java.lang.reflection} Paket zurück.
 \begin{itemize}
 \item Field[ ] *.class.getFields();
 \item Method[ ] *.class.getDeclaredMethods();
 \item Constructor[ ] *.class.getConstructors();
 \end{itemize}
 
-Als ein schnelles Beispiel wird in der folgenden Abbildung ein Konstruktor der Klasse \textit{Print} ausgewählt, mit dem anschließen eine Instanz erzeugt wird. \newline
+\bigbreak
+Um den Zusammenhang und den Nutzen von Reflection darzustellen wird in der Abbildung \ref{my-Reflection} ein Szenario durchgespielt, das eine unbekannten Typen mit Hilfe des Konstruktors initialisiert, dessen Methoden aufruft, das Feld bearbeitet und wiedergibt, ohne die Objektstruktur im Voraus zu kennen. 
+Des Weiteren ist zu beachten, dass statische Klassenmethoden sowie private Felder und Methoden mit Hilfe von Reflection offen zugänglich gemacht werden können.
+
 \newpage 
-\begin{lstlisting}[caption={Create Instance with Reflection},captionpos=b]
+ % Bild mit Code der eine Objekt erstellt und Methoden aufrufft. Mit Kommentaren zwischen den Zeilen.
+\begin{lstlisting}[caption=Reflection in Aktion,label=my-Reflection,captionpos=b]
     public static void getMethods(@NotNull Class clazz) throws
             NoSuchMethodException, NoSuchFieldException,
             InvocationTargetException, InstantiationException,
@@ -139,46 +147,40 @@ Als ein schnelles Beispiel wird in der folgenden Abbildung ein Konstruktor der K
         Method method;
         Constructor[] ctors = clazz.getDeclaredConstructors();
         Object dynamic = ctors[0].newInstance(4);
-
-        method = clazz.getDeclaredMethod("print", String.class, String.class);
-        method.invoke(dynamic, "Hello", "World");
-
+        // Methodenaufruf 
         method = clazz.getDeclaredMethod("print");
         method.invoke(dynamic);
-
+        // Methodenaufruf mit Parameter
+        method = clazz.getDeclaredMethod("print", String.class, String.class);
+        method.invoke(dynamic, "Hello", "World");
+        // statischer Aufruf
         method = clazz.getDeclaredMethod("staticPrint");
         method.invoke(null);
-
+        // Aufruf einer privaten Methode
         method = clazz.getDeclaredMethod("doNothing");
         method.setAccessible(true);
         method.invoke(dynamic);
-
+        // Feld Manipulation
         Field field = clazz.getDeclaredField("version");
         field.set(dynamic, 5);
         int version = (int) field.get(dynamic);
         System.out.println(version);
-
     }
 \end{lstlisting}
 
- und eine
-Als schnelles Beispiel zeigen wir, wie einfach es ist, alle öffentlichen Methoden der Klasse java.util.Calendar aufzulisten:
-
-Die Class-Klasse stellt zwei Methodenpaare zur Verfügung, mit denen auf jeden Feature-Typ zugegriffen werden kann. Ein Paar ermöglicht den Zugriff auf die öffentlichen Merkmale einer Klasse (einschließlich der von ihren Oberklassen geerbten), während das andere Paar den Zugriff auf alle öffentlichen oder nicht öffentlichen Elemente ermöglicht, die direkt in der Klasse deklariert sind (nicht jedoch vererbte Merkmale). Siderationen. Einige Beispiele:
-
-Jeder Satz von Methoden enthält die Methoden zum Auflisten aller Elemente gleichzeitig (z. B. getFields ()) und eine zusätzliche Methode zum Suchen eines bestimmten Elements nach Namen und - nach Methoden und Konstruktoren - anhand der Signatur (z. B. getField ()). , wobei der Feldname als Argument verwendet wird).
-
-
-
-
-
-Diese Klassen repräsentieren den Inhalt eines Typs, 
-
- % Bild mit Code der eine Objekt erstellt und Methoden aufrufft. Mit Kommentaren zwischen den Zeilen.
-
- % Beispiel: mit Methodenaufruf und Array als Übergabeparameter 
+ % Wo wird Reflection genutzt, wieso ist es so nützlich in der Modernen Software-Entwicklung 
+Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtiges Werkzeug, das aus der morden Softwareentwicklung nicht wegzudenken ist. Refelction wird in jedem Framework verwendet um den Entwickler zu unterstützen. 
+\begin{itemize}
+  \item Zum Beispiel wird \textit{Dependency Injection} mit Hilfe von Refelction realisiert, indem das Framework (Spring) die entsprechenden Implementierung für ein Interface sucht und initiiert. In Diesem Zusammenhang wird Anhand des \textit{implement} Schlüssels und zusätzlicher Meta-Information aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
+\item Beim Sehrealisieren und Deserialisieren von Objekten werden die Objektfelder in JSON und wieder zurück konvertiert, ohne die Feldnamen sowie ihre Anzahl zu kennen.
+\item  Der Web-Container wie Tomcat oder WildFly leiteten die Web-Anfragen an das entsprechenden Module durch das Analysieren der \textit{web.xml} und Anfordern der passenden URI.
+\item JUnit verwendet Reflection, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
 
  % Sequenz-Diagramm: eines Methodenaufrufs
+
+
+
+
 
  % zusammenfassung 
  Java reflection provides access to metadata about fields through metaobjects that are instances of Field. Field objects expose the attributes of a field, such as its name and its modifiers. They also allow access and modification of field values. The convenience facility Array is provided to allow similar functionality for arrays.
