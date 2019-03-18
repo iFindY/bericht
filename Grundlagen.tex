@@ -219,14 +219,16 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
 % vergleich  mit existierenden Umsetzungen
 \subsection{Konzeptumsetzungen}
 
+% Product no Project
 \subsubsection{Microservices}
-  Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusamenbringt. 
-  Diese beschäftigen sich mit der Aufteilung einer großen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netwerk kommunizieren und als ein ganzes Produkt orchestriert werden.
+  Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusamenbringen. 
+  Diese beschäftigen sich mit der Aufteilung einer großen, monolithischen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netwerk kommunizieren und als ein ganzes Produkt orchestriert werden.
   Infolge dessen entstehen modulare Systeme mit dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Platform Module System} genutzt werden.
+  Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den dazugehörigen Schwachstellen und Schattenseiten.
   \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungschicht der Module. 
   Da Mikroservices Module auf der Architekturebne entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachenebenen.
-  Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
-  \bigbreak Nichtdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten und mit Hilfe von Mikroservices eine verteilte Architektur eines Products entwirft. 
+  Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling} \ref{tab:jpms}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
+  \bigbreak Nichtdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
 
   \begin{table}[h!]
       \label{tab:jpms}
@@ -242,24 +244,26 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
         Überwachbar &\\
         Ersetzbar &\\
         \hline
-        Kleine Komponenten & Keine Meinung\\ 
+        Kleine Komponenten & - \\ 
         Isolierte Funktionsinseln &\\
-        Einfache Kommunikationsprotokolle&\\
+        Leichte Kommunikationsprotokolle&\\
         Geschickte Fehlerbehandlung&\\
 
       \end{tabular}
-      \caption{JPMS vs Mikroservices}
+      \caption{gegenüberstellung von Mikroservices und JPMS}
   \end{table}
 
 
 \subsubsection{OSGi}
+
+
 \subsubsection{Docker}
 \subsubsection{JavaScript}
 \subsubsection{TypeScript}
 \subsection{Java Umsetzung} 
 % wie es war mit 1.8
 % was draus gewirden ist in 9
-
+\newpage
 
 \section{Vergleich mit anderen Modularisierungskonzepten}
 
