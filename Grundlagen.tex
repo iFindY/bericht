@@ -217,7 +217,7 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
   Somit können einzelne Module im Betrieb bleiben, auch dan wenn Teile des System nicht reagieren. 
 
 % vergleich  mit existierenden Umsetzungen
-\subsection{Konzeptumsetzungen}
+\subsection{Vergleich Konzeptumsetzungen}
 
 % Product no Project
 \subsubsection{Microservices}
@@ -226,7 +226,7 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
   Infolge dessen entstehen modulare Systeme mit dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Platform Module System} genutzt werden.
   Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den dazugehörigen Schwachstellen und Schattenseiten.
   \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungschicht der Module. 
-  Da Mikroservices Module auf der Architekturebne entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachenebenen.
+  Da Mikroservices Module, von Oben nach Unten, auf der Architekturebne entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachenebenen und modellieren die Klassen-, Paketen- und Module von Unten nach Oben auf.
   Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling} \ref{tab:jpms}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
   \bigbreak Nichtdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
 
