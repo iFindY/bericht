@@ -120,7 +120,7 @@ Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick
 
 %  Sequenzdiagram 
 In der Abbildung \ref{fig:reflection-fluss} wird ein Ablauf eines Methodenaufrufs mit Hilfe von Reflection visualisiert. Im ersten Schritt muss die Methode gefunden werden. 
-Da wir den Typen nicht kennen und nur des Object Typs deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information, kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. 
+Da wir den Typen nicht kennen und nur des Objekt Typs deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information, kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{material/images/reflection-flussdiagram.png}
@@ -184,13 +184,13 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
 \label{sec:modularisierung}
   Modularisierung ist ein wichtiges Konzept in der Softwareentwicklung. 
   Es generiert  Struktur in großen Softwareprojekten, indem das Gesamtprodukt in kleine, praktische Bestandteile zerlegt wird.
-  \newline Die Entwicklung von kleien Projekten mit übersichtlicher Codebasis ist einfach zu überblicken und braucht keine strukturelle Basis um den Entwickler Architektur und Funktion darzustellen. 
+  \newline Die Entwicklung von kleinen Projekten mit übersichtlicher Codebasis ist einfach zu überblicken und braucht keine strukturelle Basis um den Entwickler Architektur und Funktion darzustellen. 
   Dennoch ist die Zukunft eines Projekts nicht immer eindeutig und kann mit de Zeit an Größe und Komplexität gewinnen. 
   Mit der Größe des Projekt wächst auch der Geschäftskontext und damit die Zahl der beteiligten Personen. Diese repräsentieren verzwickte Wünsche und Ziele, die an einer Stelle im Projekt nicht sauber umsetzbar sind.
-  Demzufolge ist die richtige aufstellung eines Projektes von Grund auf eine zukunftsichere Entscheidung. 
+  Demzufolge ist die richtige Aufstellung eines Projektes von Grund auf eine zukunftssichere Entscheidung. 
   \newline Ohne die Modularisierung werden Änderungen an großen Projekten mühselig und mit unerwarteten Nebeneffekten umgesetzt. 
-  Sowohl das Bauen und Ausrollen des Projekts als auch der Betrieb der Applikation, ist eine lange und aufwendige Aufgabe, die mit jedem kleine Fehler die komplet Applikation neustarten lässt oder das Ausrollen unterbricht. 
-  Somit können kleie Fehler das ganze Produkt aus dem gleichgewicht bringen.
+  Sowohl das Bauen und Ausrollen des Projekts als auch der Betrieb der Applikation, ist eine lange und aufwendige Aufgabe, die mit jedem kleine Fehler die komplett Applikation Neustarten lässt oder das Ausrollen unterbricht. 
+  Somit können kleine Fehler das ganze Produkt aus dem Gleichgewicht bringen.
   Aus diesem Grund sollen Module diese Probleme adressieren und die Applikation in autonome, kleine Einheiten aufteilen, die unabhängig von einander ihre Funktionalität anbieten.   
 
 % Moduleigenschaften 
@@ -199,45 +199,45 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
 
 \subsubsection{Kapselung}
   Die Kapselung beschreibt ein Kontrollmechanismus, der die internen Struktur eines Moduls verwaltet.
-  Demzufolge hat das Modul die komplette Kontrolle über ihre interne Struktur und kennt die Zugriffrechte ihrer Bestandsteile, indem das Modul die Zugriffsrechte ihrer inneren Struktur expliziert deklariert.
+  Demzufolge hat das Modul die komplette Kontrolle über ihre interne Struktur und kennt die Zugriffsrechte ihrer Bestandsteile, indem das Modul die Zugriffsrechte ihrer inneren Struktur explizit deklariert.
 
 \subsubsection{Interoperabilität}
-  Die Interoperabilität beschreibt die Kommunikationsfähigkeit der Software mit anderen diversen Systemen, unabhängig von ihrer Sprache oder Platform mit der diese betrieben wird. 
-  Darum bieten Module Schnittstellen an, mit denen sie dineste anbieten und anfordern können.
+  Die Interoperabilität beschreibt die Kommunikationsfähigkeit der Software mit anderen diversen Systemen, unabhängig von ihrer Sprache oder Plattform mit der diese betrieben wird. 
+  Darum bieten Module Schnittstellen an, mit denen sie Dienste anbieten und anfordern können.
 
 \subsubsection{Zusammensetzbarkeit}
   Aus der Interoperabilität geht die Zusammensetzbarkeit hervor.
-  Diese Steht für die Wiederverwendbarkeit der in sich abgeschlossenen Module für unterschiedliche Zwecke in unterschildchen Systemen, indem man diese auf bestimmte Art und Weise kombiniert. 
+  Diese Steht für die Wiederverwendbarkeit der in sich abgeschlossenen Module für unterschiedliche Zwecke in unterschiedlichen Systemen, indem man diese auf bestimmte Art und Weise kombiniert. 
 
-\subsubsection{Erweiterbarkaeit}
- Die Erweiterbarkeit hilft den modularen und zusammengesetzten System ihre Funktionalität zu skalieren, indem die Software durch individuelle Eincheten ergänzt werden kann. 
+\subsubsection{Erweiterbarkeit}
+ Die Erweiterbarkeit hilft den modularen und zusammengesetzten System ihre Funktionalität zu skalieren, indem die Software durch individuelle Einheiten ergänzt werden kann. 
 
 \subsubsection{Autonomie}
   Mit der Autonomie werden unnötige Abhängigkeiten aufgelöst und nur die nötige Funktionalität für die entsprechende Aufgabe in einem Modul abgelegt. 
-  Somit können einzelne Module im Betrieb bleiben, auch dan wenn Teile des System nicht reagieren. 
+  Somit können einzelne Module im Betrieb bleiben, auch dann wenn Teile des System nicht reagieren. 
 
 % vergleich  mit existierenden Umsetzungen
 \subsection{Vergleich Konzeptumsetzungen}
 
 % Product no Project
-\subsubsection{Microservices}
-  Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusamenbringen. 
-  Diese beschäftigen sich mit der Aufteilung einer großen, monolithischen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netwerk kommunizieren und als ein ganzes Produkt orchestriert werden.
-  Infolge dessen entstehen modulare Systeme mit dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Platform Module System} genutzt werden.
-  Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den dazugehörigen Schwachstellen und Schattenseiten.
-  \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungschicht der Module. 
-  Da Mikroservices Module, von Oben nach Unten, auf der Architekturebne entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachenebenen und modellieren die Klassen-, Paketen- und Module von Unten nach Oben auf.
+\subsubsection{Mikroservices}
+  Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusammenbringen. 
+  Diese beschäftigen sich mit der Aufteilung einer großen, monolithischen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netzwerk kommunizieren und als ein ganzes Produkt abgestimmt werden.
+  Infolge dessen entstehen modulare Systeme mit den dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Platform Module System} genutzt werden.
+  Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den entsprechenden Schwachstellen und Schattenseiten.
+  \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungsschicht der Module. 
+  Da Mikroservices Module, von Oben nach Unten, auf der Architekturebene entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachebenen und modelliert Klassen-, Paketen- und Module von Unten nach Oben auf.
   Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling} \ref{tab:jpms}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
-  \bigbreak Nichtdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
+  \bigbreak Nichtsdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
 
   \begin{table}[h!]
       \label{tab:jpms}
       \begin{tabular}{l|l}
-        \textbf{Microservices} & \textbf{JPMS}\\
+        \textbf{Mikroservices} & \textbf{JPMS}\\
         \hline
         Architekturstil & Klassen- und Prozessebene \\
         & Modularität ist integriert \\
-        & Modularität ist Kern der Platform \\
+        & Modularität ist Kern der Plattform \\
         \hline
         Evolutionäres Design  & Bewusste Softwareentwicklung \\
         Entkoppeltes Ausrollen der Software &\\
@@ -250,7 +250,7 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
         Geschickte Fehlerbehandlung&\\
 
       \end{tabular}
-      \caption{gegenüberstellung von Mikroservices und JPMS}
+      \caption{Gegenüberstellung von Mikroservices und JPMS}
   \end{table}
 
 
