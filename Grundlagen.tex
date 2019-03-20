@@ -83,9 +83,9 @@ Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene h�
 Der Klassen Namensraum bieten zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Die Namensräume verhindern, dass weniger vertrauenswürdiger Code, der aus der Applikation oder benutzerdefinierte \textit{Classloader} geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Classloader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende \textit{Classloader} weitergereicht wird. \newline
 Auch wenn ein untergeordneter \textit{Classloader} die Paketstruktur der Core-API nachahmt, wird diese nicht als Teil der Java Core-API anerkannt, da dieser von den falschen Classloader geladen wurde. Somit verhindert die Verwendung von Namensräumen die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist.
 
-\section{Schnittstelle und Implementierung}
-\label{sub:Schnittstelle und Implementierung}
-Die Schnittstelle(Interface) und Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit.
+\section{Kapselung}
+\label{sub:Kapselung}
+Die Schnittstelle und dessen Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit.
 Eine Schnittstelle ist ein Vertrag, die die Funktionalität alle Klassen, die dieses implementieren beschreibt. 
 Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die Umsetzung aller in der Schnittstelle deklarierten Methoden. 
 \begin{figure}[h!]
@@ -98,7 +98,8 @@ Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die 
 Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. 
 Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klassen eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt. 
 \newline
-Im Beispiel \ref{fig:Schnittstelle} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden.  
+Im Beispiel \ref{fig:Schnittstelle} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden. 
+In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick ihn ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter ohne den Klienten anpassen zu müssen.  
 
 
 \section{Reflection} 
@@ -193,42 +194,75 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
   Somit können kleine Fehler das ganze Produkt aus dem Gleichgewicht bringen.
   Aus diesem Grund sollen Module diese Probleme adressieren und die Applikation in autonome, kleine Einheiten aufteilen, die unabhängig von einander ihre Funktionalität anbieten.   
 
-% Moduleigenschaften 
-\subsection{Definition}
-  Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. Diese sind eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
+  % Moduleigenschaften 
+  \subsection{Ziele der Modularisierung}
+    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. Darüber hinaus vereinfachen die von der Modularität geforderten definierten Schnittstellen zwischen den Modulen die Erweiterbarkeit des Systems. Und die Rekombination von Modulen erlaubt die Erstellung von verschiedenen Varianten des Systems. 
+    \newline Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. Für JPMS sind diese eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
 
-\subsubsection{Kapselung}
-  Die Kapselung beschreibt ein Kontrollmechanismus, der die internen Struktur eines Moduls verwaltet.
-  Demzufolge hat das Modul die komplette Kontrolle über ihre interne Struktur und kennt die Zugriffsrechte ihrer Bestandsteile, indem das Modul die Zugriffsrechte ihrer inneren Struktur explizit deklariert.
+    \subsubsection{Kapselung}
+      Die Kapselung beschreibt ein Kontrollmechanismus, der die internen Struktur eines Moduls verwaltet.
+      Demzufolge hat das Modul die komplette Kontrolle über ihre interne Struktur und kennt die Zugriffsrechte ihrer Bestandsteile, indem das Modul die Zugriffsrechte ihrer inneren Struktur explizit deklariert.
 
-\subsubsection{Interoperabilität}
-  Die Interoperabilität beschreibt die Kommunikationsfähigkeit der Software mit anderen diversen Systemen, unabhängig von ihrer Sprache oder Plattform mit der diese betrieben wird. 
-  Darum bieten Module Schnittstellen an, mit denen sie Dienste anbieten und anfordern können.
+    \subsubsection{Interoperabilität}
+      Die Interoperabilität beschreibt die Kommunikationsfähigkeit der Software mit anderen diversen Systemen, unabhängig von ihrer Sprache oder Plattform mit der diese betrieben wird. 
+      Darum bieten Module Schnittstellen an, mit denen sie Dienste anbieten und anfordern können.
 
-\subsubsection{Zusammensetzbarkeit}
-  Aus der Interoperabilität geht die Zusammensetzbarkeit hervor.
-  Diese Steht für die Wiederverwendbarkeit der in sich abgeschlossenen Module für unterschiedliche Zwecke in unterschiedlichen Systemen, indem man diese auf bestimmte Art und Weise kombiniert. 
+    \subsubsection{Zusammensetzbarkeit}
+      Aus der Interoperabilität geht die Zusammensetzbarkeit hervor.
+      Diese Steht für die Wiederverwendbarkeit der in sich abgeschlossenen Module für unterschiedliche Zwecke in unterschiedlichen Systemen, indem man diese auf bestimmte Art und Weise kombiniert. 
 
-\subsubsection{Erweiterbarkeit}
- Die Erweiterbarkeit hilft den modularen und zusammengesetzten System ihre Funktionalität zu skalieren, indem die Software durch individuelle Einheiten ergänzt werden kann. 
+    \subsubsection{Erweiterbarkeit}
+     Die Erweiterbarkeit hilft den modularen und zusammengesetzten System ihre Funktionalität zu skalieren, indem die Software durch individuelle Einheiten ergänzt werden kann. 
 
-\subsubsection{Autonomie}
-  Mit der Autonomie werden unnötige Abhängigkeiten aufgelöst und nur die nötige Funktionalität für die entsprechende Aufgabe in einem Modul abgelegt. 
-  Somit können einzelne Module im Betrieb bleiben, auch dann wenn Teile des System nicht reagieren. 
+    \subsubsection{Autonomie}
+      Mit der Autonomie werden unnötige Abhängigkeiten aufgelöst und nur die nötige Funktionalität für die entsprechende Aufgabe in einem Modul abgelegt. 
+      Somit können einzelne Module im Betrieb bleiben, auch dann wenn Teile des System nicht reagieren. 
+  % Modulaufbau 
+  \subsection{Modulstruktur}
+    Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen Operationen und Daten.
+    Die Kommunikation eines Moduls mit anderen Modulen und der Außenwelt erfolgt über eindeutig spezifizierte Schnittstellen.
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{material/images/simple-module.png}
+        \caption{Simple Modulstruktur}
+        \label{fig:simple-module}
+      \end{figure} 
+    Das Modul dient als ein Behälter für Objekte, der aus einem unsichtbaren und einem sichtbaren Bereich besteht. Der sichtbare Bereich ist die Schnittstelle des Moduls und ist die Aufzählung derer Objekte, die das Modul nach außen hin zur Verfügung stellt. Der Zugriff auf diese erfolgt über definierte Operationen in der Modulschnittstelle. 
+    Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten. 
+      \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{material/images/module-workflow.png}
+        \caption{Schematischer Aufbau eines Moduls}
+        \label{fig:module-workflow}
+      \end{figure} 
+    \newline In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{export} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{import} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
+  % Moduldefenition
+    \subsubsection{Moduldefinition}
+    
+      Zusammenfassung von Operationen und Daten zur Realisierung einer in sich abgeschlossenen Aufgabe 
+      Kommunikation mit der Außenwelt nur über eine eindeutig spezifizierte Schnittstelle 
+      Nutzung des Moduls möglich ohne Kenntnis des inneren Ablaufs 
+      Korrektheit des Moduls durch Tests nachprüfbar ohne Kenntnis seiner Einbettung (Anmerkung: In der Praxis werden Module meist zu mockende Abhängigkeiten besitzen.) 
+
 
 % vergleich  mit existierenden Umsetzungen
-\subsection{Vergleich Konzeptumsetzungen}
+\newpage \subsection{Vergleich Konzeptumsetzungen}
+Im folgenden Kapitel vergleiche JPMS mit anderen Modularisierungstechniken und betrachten deren Gemeinsamkeiten, Unterschiede und Möglichkeiten der Kombination. 
 
 % Product no Project
 \subsubsection{Mikroservices}
   Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusammenbringen. 
   Diese beschäftigen sich mit der Aufteilung einer großen, monolithischen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netzwerk kommunizieren und als ein ganzes Produkt abgestimmt werden.
-  Infolge dessen entstehen modulare Systeme mit den dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Platform Module System} genutzt werden.
+  Infolge dessen entstehen modulare Systeme mit den dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Plattform Module System} genutzt werden.
   Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den entsprechenden Schwachstellen und Schattenseiten.
   \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungsschicht der Module. 
   Da Mikroservices Module, von Oben nach Unten, auf der Architekturebene entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachebenen und modelliert Klassen-, Paketen- und Module von Unten nach Oben auf.
+  Ein weiterer unterschied liegt im Betrieb der Module, denn für den Betrieb der JPMS Applikation müssen alle Module in ihrer Gesamtheit deployed werden und von außen betrachtet nur als eine einzelne Einheit wahrnehmbar sein. 
+  Mikroservices hingegen werden als klar getrennte Module auch während des Betriebs wahrgenommen. 
   Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling} \ref{tab:jpms}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
   \bigbreak Nichtsdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
+
+
 
   \begin{table}[h!]
       \label{tab:jpms}
@@ -240,11 +274,12 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
         & Modularität ist Kern der Plattform \\
         \hline
         Evolutionäres Design  & Bewusste Softwareentwicklung \\
-        Entkoppeltes Ausrollen der Software &\\
+        Unabhängiges Deployment &\\
         Überwachbar &\\
         Ersetzbar &\\
         \hline
-        Kleine Komponenten & - \\ 
+        Technologische Entkoppelung & - \\
+        Kleine Komponenten &\\ 
         Isolierte Funktionsinseln &\\
         Leichte Kommunikationsprotokolle&\\
         Geschickte Fehlerbehandlung&\\
@@ -297,7 +332,7 @@ Wie in der Abbildung \ref{my-Reflection} dargestellt ist Reflection ein mächtig
 
 \subsection{}
 
-\subsection{Java Platform Module System}
+\subsection{Java Plattform Module System}
 
 \subsection{Vergleich mit anderen Modularisierungskonzepten}
 
