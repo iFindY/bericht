@@ -278,13 +278,16 @@
     Mit Hilfe der \textit{Modulgeschlossenheit} wird die Abhängigkeit des Moduls von anderen Modulen reduziert und lässt diese separat bearbeiten und austauschen. Somit kapselt ein Modul eine bestimmte Funktionalität, die von Anfang bis zum Ende intern verarbeitet werden kann. 
     Direkt daraus folgt im besten Fall eine \textit{maximale Bindung} oder starker Zusammenhang innerhalb eines Moduls, indem die internen Komponenten bestens mit einander verzahnt sind und sich gemeinsam mit eine gezielten Aufgabe beschäftigen. In der Konsequenz entsteht ein eingeschränkter Wartungsraum für Entwickler, die sich mit der entsprechenden Funktion beschäftigen.   
     Um die Bindung der Komponenten innerhalb eines Moduls zu messen, können die Abhängigkeiten in verschieden Kategorien eingeteilt werden: Logisch, Zeitlich, Prozedural, Sequentiell, Informal und Funktional.
-    \newline In gegenteil zu der \textit{maximale Bindung} beschreibt die \textit{minimale Kopplung}
-
     \begin{figure}[h]
       \includegraphics[width=\textwidth]{material/images/kopplung.png}
-      \caption{Java Classpath}
-      \label{fig:Classpath-Simple}
+      \caption{Modulbindung und Modulkopplung}
+      \label{fig:kopplung}
     \end{figure}
+    \newline Komplementär zu der \textit{maximale Bindung} beschreibt die \textit{minimale Kopplung} die Anzahl der Verbindung zwischen den Modulen. Diese sollte natürlich klein gehalten werden, um die Abhängigkeit zu reduzieren. 
+    Die \textit{minimale Kopplung} hat somit einen direkten und positiven Einfluss auf die Anzahl der Schnittstellen, indem diese übersichtlich und eindeutig die Funktion des Moduls beschreiben. 
+    Andernfalls kann durch eine starke Kopplung die Komplexität heben und Fehler begünstigen, indem der Umfang an Daten, die zwischen den Modulen ausgetauscht werden, erhöht wird. 
+    Wenn Fehler nach einem Modulwechsel in der Verarbeitungskette auftreten, nennt man sie \textit{Seiteneffekte}. Diese entstehen wenn eine Aufgabe Modulübergreifend gelöst werden muss. Aus diesem Grund darf der Austausch einer Implementation durch eine andere \textit{Seiteneffektfrei} sein. 
+
 
 
 
