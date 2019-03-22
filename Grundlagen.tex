@@ -101,7 +101,7 @@
     Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von den Applikation Classloader geladen wird. Somit implementieren beide \textit{Print} Klassen die selbe Schnittstelle.   
     \bigbreak Der Klassen Namensraum bieten zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Die Namensräume verhindern, dass weniger vertrauenswürdiger Code, der aus der Applikation oder benutzerdefinierte \textit{Classloader} geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Classloader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende \textit{Classloader} weitergereicht wird. \newline
     Auch wenn ein untergeordneter \textit{Classloader} die Paketstruktur der Core-API nachahmt, wird diese nicht als Teil der Java Core-API anerkannt, da dieser von den falschen Classloader geladen wurde. Somit verhindert die Verwendung von Namensräumen die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist.
-\section{Kapselung} \label{sub:Kapselung}
+\section{Schnitstellen} \label{sub:Kapselung}
   Die Schnittstelle und dessen Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit.
   Eine Schnittstelle ist ein Vertrag, die die Funktionalität alle Klassen, die dieses implementieren beschreibt. 
   Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die Umsetzung aller in der Schnittstelle deklarierten Methoden. 
@@ -189,6 +189,7 @@
 
 % Kapitel über Module 
 \section{Modularisierung} \label{sec:modularisierung}
+  % Modularisierungsansätze finden sich so gut wie in jeder Software wieder, handelt es sich doch um ein grundlegendes Prinzip für die Beherrschung eines Systems. Gerade in der Java-Welt wird seit jeher das Ideal der lose gekoppelten Systeme verfolgt. Im Folgenden wird kurz vorgestellt, wie Modularisierung in Java bisher gelöst wurde und wie die Modularisierungsqualität dieser Ansätze zu bewerten ist.
   Modularisierung ist ein wichtiges Konzept in der Softwareentwicklung. 
   Es generiert  Struktur in großen Softwareprojekten, indem das Gesamtprodukt in kleine, praktische Bestandteile zerlegt wird.
   \newline Die Entwicklung von kleinen Projekten mit übersichtlicher Codebasis ist einfach zu überblicken und braucht keine strukturelle Basis um den Entwickler Architektur und Funktion darzustellen. 
@@ -255,7 +256,7 @@
       \item Wiederverwendbarkeit der Funktionalität im anderen Kontext
     \end{itemize}
 
-  % Wie modeliert man Module  
+  % Wie modelliert man Module  
   \subsection{Modulentwurfskriterien}
     % Einleitung
     Nachdem die Struktur des Moduls klar bestimmt wurde, muss die Umsetzung einer Applikation mit Modulen auf Qualitätsmerkmale abgeglichen werden. 
@@ -285,12 +286,11 @@
     \end{figure}
     \newline Komplementär zu der \textit{maximale Bindung} beschreibt die \textit{minimale Kopplung} die Anzahl der Verbindung zwischen den Modulen. Diese sollte natürlich klein gehalten werden, um die Abhängigkeit zu reduzieren. 
     Die \textit{minimale Kopplung} hat somit einen direkten und positiven Einfluss auf die Anzahl der Schnittstellen, indem diese übersichtlich und eindeutig die Funktion des Moduls beschreiben. 
-    Andernfalls kann durch eine starke Kopplung die Komplexität heben und Fehler begünstigen, indem der Umfang an Daten, die zwischen den Modulen ausgetauscht werden, erhöht wird. 
-    Wenn Fehler nach einem Modulwechsel in der Verarbeitungskette auftreten, nennt man sie \textit{Seiteneffekte}. Diese entstehen wenn eine Aufgabe Modulübergreifend gelöst werden muss. Aus diesem Grund darf der Austausch einer Implementation durch eine andere \textit{Seiteneffektfrei} sein. 
-
-
-
-
+    Andernfalls kann eine starke Kopplung die Komplexität heben und Fehler begünstigen, indem der Umfang an Daten, die zwischen den Modulen ausgetauscht werden, erhöht wird. 
+    Eine \textit{minimale Kopplung} ist ein guter Ansatz den unnötigen Datentransfer zu reduzieren, garantiert aber keine lose Kopplung von den umgebenen Modulen. 
+    Daher sollte der Begriff \textit{Seiteneffektfrei} eingeführt werdend. 
+    Dieser beschreibt den Einfluss eines Moduls auf seine Umgebung, indem er Unverzichtbar für die Gesamtfunktionalität wird und der Austausch eins Moduls die Anpassung verknüpfter Module nach sich zieht. 
+    Das ist öfters der Fall wenn eine Aufgabe Modulübergreifend gelöst werden muss und die Aufgabenkapslung für diesen Zweck aufgelöst wird.
 
 
 % vergleich  mit existierenden Umsetzungen
