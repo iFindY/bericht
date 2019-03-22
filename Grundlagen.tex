@@ -203,8 +203,12 @@
 
   % Moduleigenschaften 
   \subsection{Ziele der Modularisierung}
-    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. Darüber hinaus vereinfachen die von der Modularität geforderten definierten Schnittstellen zwischen den Modulen die Erweiterbarkeit des Systems. Und die Rekombination von Modulen erlaubt die Erstellung von verschiedenen Varianten der Umsetzung. 
-    \newline Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. Für JPMS sind diese eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
+    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. 
+    Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. 
+    Darüber hinaus vereinfachen die von der Modularität geforderten definierten Schnittstellen zwischen den Modulen die Erweiterbarkeit des Systems. 
+    Und die Rekombination von Modulen erlaubt die Erstellung von verschiedenen Varianten der Umsetzung. 
+    \newline Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. 
+    Für JPMS sind diese eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
 
     \subsubsection{Kapselung}
       Die Kapselung beschreibt ein Kontrollmechanismus, der die internen Struktur eines Moduls verwaltet.
@@ -223,7 +227,16 @@
 
     \subsubsection{Autonomie}
       Mit der Autonomie werden unnötige Abhängigkeiten aufgelöst und nur die nötige Funktionalität für die entsprechende Aufgabe in einem Modul abgelegt. 
-      Somit können einzelne Module im Betrieb bleiben, auch dann wenn Teile des System nicht reagieren. 
+      Somit können einzelne Module im Betrieb bleiben, auch dann wenn Teile des System nicht reagieren.
+      % Ziele für den JDK  
+	  % Die formulierten Ziele des mit Java 9 eingeführten Modularisierungskonzepts sind: 
+	  	%Skalierbarkeit der Java-Plattform 
+	  	%Erhöhung der Sicherheit 
+	  	%Startup-Performance 
+	  	%Unterstützung beim Entwurf modularer und gut wartbarere 
+	  	%Anwendungen und Bibliotheken 
+	  	%Explizite Abhängigkeitskontrolle
+
   % Modulaufbau 
   \subsection{Modulstruktur}
     Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen öffentlichen sowie privaten Operationen und Datenfelder.
