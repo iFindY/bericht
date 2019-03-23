@@ -1,3 +1,32 @@
+ \begin{lstlisting}[caption=module-info.java,label=module-info,captionpos=b]
+    module uni.hamburg { 
+      // Benötige Bibliothek
+      requieres some.library.name
+      // Benötige Bibliothek, die an die Nutzers des Moduls weitergereicht wird
+      requieres transitive different.library.name
+      // Optionale Bindung während der Laufzeit
+      requieres static custom.logging.module
+
+      // Öffentlich Schnittstelle des Moduls
+      exports module.package.name; 
+      // Vertrauliche Schnittstelle des Moduls für ein anderes Modul
+      exports other.module.package.name to other.library.name
+
+      opens 
+      opens to
+
+      // Bietet ein Dienst mit der entsprechenden Implementation an 
+      provides module.package.name.api.Interface with ,odule.package.name.backend.Implementation  
+      // Konsumiert ein Dienst mit der Schnittstellenimplementation 
+      uses module.package.name.api.Interface
+
+    } 
+  \end{lstlisting}
+
+
+
+
+
 
 Die Berechnung komplexer und 
 
