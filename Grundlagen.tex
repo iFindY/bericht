@@ -301,12 +301,21 @@
   \subsection{Modularten}
     Das Modulsystem von Java unterscheidet die Module in fünf unterschiedliche Arten, diese richten sich nach der Aufgabe und ihrer Umsetzungsstruktur. 
     Zum einen gibt es die JDK \textit{Plattform Module}, die die Kernfunktionalität der Java Laufzeitumgebung bieten und bringen Pakete wie \textit{java.lang, java.io} und \textit{java.net} mit sich. 
-    Andererseits gibt es die Benutzer konstruierten \textit{Applikationsmodule}, die durch eine explizite Komposition bestimmte Aufgaben erfüllen. 
+    Andererseits gibt es die Benutzer konstruierten \textit{Applikationsmodule}, die durch eine explizite Komposition bestimmte Aufgaben erfüllen.  
+    Beide Modultypen beinhalten eine \textit{Modulbeschreibung}, die dessen Abhängigkeiten und Schnittellen beschreiben. 
     \newline Obwohl mit den vorher genannten \textit{expliziten Module} Softwaresystemen realisieren lassen, fehlt die Offenheit bestimmter Module oder ihrer Pakete für die Umsetzung der Reflection Bibliotheken, die dynamischen Zugriff auf unsere Pakete während der Laufzeit benötigten. 
     Wie im Kapitel \ref{sec:reflaction} besprochen ist Reflection ein wichtiges Werkzeug in der Softwareentwicklung und wird in den neuen Java Modulsystem unterstützt. 
-    Um Reflection in einem Modul zu aktivieren, reicht es lediglich das ganze Modul als \textit{open module} oder mit Hilfe des \textit{opens package.name} Schlüssels ein spezielles Paket des Moduls in der \textit{module-info} zu deklarieren.  
+    Um Reflection in einem Modul zu aktivieren, reicht es lediglich das ganze Modul als \textit{open module} oder mit Hilfe des \textit{opens package.name} Schlüssels ein spezielles Paket des Moduls in der \textit{Modulbeschreibung} zu deklarieren.  
     Damit hätte man ein für Reflection offenes Modul und könnte dessen öffentlich sowie privaten Klassen dynamisch aus jedem Module auf dem Modulpfad aufrufen.
     Da diese Module das Konzept der starken Kapselung aufgeben, werden diese zu einem besonderen Typen der \textit{offenen Module} zugeordnet.
+    \newline Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
+    Dementsprechend sollen diese Module eine Brücke zwischen existierender Applikation und der modularisierten Architektur bilden. 
+    \newline Die \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. 
+    Somit übernimmt Java die Kopplung der \textit{automatischen Modulen} mit allen \textit{expliziten Modulen}, indem alle internen Pakete für die Nutzung offen gelegt werden und alle Module auf dem Modulpfad für die Verwendung importiert werden.
+    Dies ist möglich und hilft den Entwickler Drittanbieter-Bibliothek in die Modularchitektur einzubinden, dennoch entsteht, durch den Import aller möglichen Module, eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.
+    \newline Das letzte Modul ist ein \textit{unbenanntes Modul}, dieser beschreibt alle Klassen, die sich parallel zu dem Modulpfad auf dem Klassenpfad befinden. 
+
+
 
 
 
