@@ -308,12 +308,28 @@
     Um Reflection in einem Modul zu aktivieren, reicht es lediglich das ganze Modul als \textit{open module} oder mit Hilfe des \textit{opens package.name} Schlüssels ein spezielles Paket des Moduls in der \textit{Modulbeschreibung} zu deklarieren.  
     Damit hätte man ein für Reflection offenes Modul und könnte dessen öffentlich sowie privaten Klassen dynamisch aus jedem Module auf dem Modulpfad aufrufen.
     Da diese Module das Konzept der starken Kapselung aufgeben, werden diese zu einem besonderen Typen der \textit{offenen Module} zugeordnet.
-    \newline Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
+    \bigbreak Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
     Dementsprechend sollen diese Module eine Brücke zwischen existierender Applikation und der modularisierten Architektur bilden. 
-    \newline Die \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. 
+    \newline Das \textit{unbenannte Modul} beschreibt alle Klassen und JAR's, die sich parallel zu der Codebasis des Modulpfades auf dem Klassenpfad befinden. 
+    Das \textit{unbekannte Modul} beschreibt somit die Legacy-Teil der Codebasis, die noch Migriert werden muss und es noch nicht tun kann.
+    Daher wird mit der Bezeichnung \textit{unbekanntes Modul} eine Zugriffsbarriere zwischen der modularisierten und der legacy Architektur errichtet, die die \textit{expliziten Module} vom Zugriff auf den veralteten Klassenpfad abgrenzt, da dieses nicht referenziert werden kann. 
+    \newline In folge dessen entstehen eine asymmetrische Kommunikation zwischen den Architekturen. 
+    Die \textit{expliziten Module} arbeiten nur auf dem Modulpfad im neuen System und das \textit{unbekannte Module} darf zusätzlich zu den klassischen Klassenpfad auf den modernen Modulpfad zugreifen. 
+    Diese Umsetzung lässt eine inkrementelle Migration der Codebasis auf das Modulsystem zu und bleibt Lauffähig, obwohl die Applikation eine interne Versionsdiskrepanz beinhaltet.  
+    \newline Das letzte Modul beschreibt ein Modul mit speziellen Verhalt, das sich zwischen den Architekturen stellt und eine Brücke zwischen den Modulpfad und Klassenpfad errichtet.
+    Das \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. 
+    Diese kriegen einen Modulnamen zugewiesen und könne über diesen von den \textit{expliziten Modulen} aufgerufen werden. 
     Somit übernimmt Java die Kopplung der \textit{automatischen Modulen} mit allen \textit{expliziten Modulen}, indem alle internen Pakete für die Nutzung offen gelegt werden und alle Module auf dem Modulpfad für die Verwendung importiert werden.
-    Dies ist möglich und hilft den Entwickler Drittanbieter-Bibliothek in die Modularchitektur einzubinden, dennoch entsteht, durch den Import aller möglichen Module, eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.
-    \newline Das letzte Modul ist ein \textit{unbenanntes Modul}, dieser beschreibt alle Klassen, die sich parallel zu dem Modulpfad auf dem Klassenpfad befinden. 
+    Somit ist eine Legacy-Bibliothk auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich den Zugriff auf dessen Funktionalität aus dem Modulpfad sowie den Klassenpfad. 
+    Dank dieser Fähigkeit können Bibliotheken migriert werden und beide Architekturen zu gleich unterstützen. 
+    Dieses Verhalten fördert die Entwickler ihren Code für den Modulpfad zu entwickeln, da die nötigen Legacy-Bibliothek der Applikation in beiden Architekturen zugleich verfügbar sind. 
+    Dennoch schafft das \textit{automatischen Module} zusätzliche Komplexität in die Architektur, indem 
+    alle Module mit diesem verbunden werden. Daraus folgt eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.
+    \newline Nichtsdestotrotz bieten automatischen und den unbenannten Modulen diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
+
+    
+
+
 
 
 
