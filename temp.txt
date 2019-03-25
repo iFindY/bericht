@@ -64,3 +64,85 @@ Besonders heute ist das Modulieren verteilter Systeme eine wichtige Disziplin, d
 
 
 Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
+
+
+
+
+//task('swaggertest', type: SwaggerTask) {
+//
+//    // any dirs with classes
+//    classesDirs = [
+//            file('build/classes')
+//            // project(':your-project').sourceSets['main'].output.classesDir
+//    ]
+//
+//    apiSources = [
+//            new ApiSource(
+//                    springmvc: false,
+//                    locations: ['com/novomind/ipim/web/rest'],
+//                    schemes: ['http', 'https'],
+//                    host: 'arkadi.techlead',
+//                    basePath: '/api',
+//                    info: new Info(
+//                            title: 'Swagger Maven Plugin Sample',
+//                            version: 'v1',
+//                            description: 'This is a sample for swagger-maven-plugin',
+//                            termsOfService: 'http://www.github.com/kongchen/swagger-maven-plugin',
+//                            contact: new Contact(
+//                                    email: 'kongchen@gmail.com',
+//                                    name: 'Kong Chen',
+//                                    url: 'http://kongch.com'
+//                            ),
+//                            license: new License(
+//                                    url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
+//                                    name: 'Apache 2.0'
+//                            )
+//                    ),
+//                    outputPath: file("${buildDir}/swagger/document.html").path,
+//                    swaggerDirectory: file("${buildDir}/swagger/swagger-ui").path,
+//            )
+//    ]
+//}
+
+
+//resolve {
+//    outputFileName = 'NovoAPI'
+//    outputFormat = 'JSON'
+//    prettyPrint = 'TRUE'
+//    readAllResources = 'TRUE'
+//    classpath = sourceSets.main.runtimeClasspath
+//    resourcePackages = ['com.novomind.ipim.web.rest']
+//    outputPath = "$projectDir/src/com/novomind/ipim/web/swagger"
+//}
+swagger {
+    apiSource {
+        springmvc = false
+        locations = ['com.novomind.ipim.web.rest']
+        schemes = ['http', 'https']
+        host = 'localhost:8080'
+        basePath = '/on_which_the_API_is_served/api'
+        outputFormats = ['json', 'yaml']
+        info {
+            title = "need some swag ?"
+            version = "1.0.0"
+            license {
+                name = 'Apache 2.0'
+            }
+        }
+        securityDefinition {
+            name = 'basicAuth'
+            type = 'basic'
+        }
+        outputPath = "$projectDir/src/com/novomind/ipim/web/swagger/documentation.html"
+        swaggerDirectory = "$projectDir/src/com/novomind/ipim/web/swagger/"
+        swaggerFileName = 'novomindAPI'
+        jsonExampleValues = true
+        attachSwaggerArtifact = true
+    }
+}
+
+//swaggerSources {
+//    ipimCoreServer {
+//        inputFile = file("$projectDir/src/com/novomind/ipim/web/swagger/NovoAPI.json")
+//    }
+//}
