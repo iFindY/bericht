@@ -341,12 +341,9 @@
     alle Module mit diesem verbunden werden. Daraus folgt eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.
     \newline Nichtsdestotrotz bieten automatischen und den unbenannten Modulen diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
 
-  
-
- 
   \subsection{Modulkopplung}
     Die Einführung des Modulsystems in Java 9 trug im Kern das Konzept der Aufteilung einer monolithischen Umsetzung in übersichtliche mit einender sachlich verbunden Modulen. 
-    Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code Umstrukturieren.
+    Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code umstrukturieren.
     In der praktischen Umsetzung sind die Schnittstellen durch die \textit{module-info.java} formuliert und enthält drei Kopplungsarten: Durch die \textit{requires, exports} und \textit{opens} Schlüssel, die ferner konfiguriert werden können. 
     \begin{figure}[h]
       \centering
@@ -354,6 +351,16 @@
       \caption{Die Schnittstellenbeschreibung \textit{module-info.java}
       \label{fig:module-info}
     \end{figure}
+    \newline Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner eingeschränkt werden. 
+    Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an abhängenden Module weiterreichen und obendrein als eine optionale Verbindung deklarieren.
+    Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Service-Schnittstelle, die durch den Java ServiceLoader für ein gegebenes Interface eine Implementation beim ServideLoader anfragt.   
+    Dieser Dienst geht über die Grundlagen hinaus und wird hier nicht weiter erklärt, dessen ungeachtet ist es zusätzliche Möglichkeit die Modulkopplung zu minimieren. 
+    \begin{description}
+      \item[Ein Stichpunkt]\hfill 
+      \newline Hier muss etwas stehen um den Effekt sehen zu k{\"o}nnen
+      \item[Noch ein Stichpunkt]\hfill \\ und Text dahinter 
+    \end{description}
+
   - Beschreibung der Erweiterungen von den drei Verbindungen und ihren Nutzen in einem Listenformat.
   - transitiv
   - opens
