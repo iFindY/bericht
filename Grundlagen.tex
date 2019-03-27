@@ -347,19 +347,28 @@
 \subsection{Modulkopplung}
 		
 
-- modulsichtbarkeit und -abhängigkeit in java 9 eingeführt 
-- In der praktischen Umsetzung werden die Schnittstelle durch die module-info formuliert und enthält drei Koppluingsarten 
-- require, export ,open 
-- diese können zusätzlich konfiguriert werden 
-! <hier ist ein Bild, das die Struktur darstellt>
-- Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit, sondern erweiterern die Prozedur des Klassenladens durch explizite Zugrifsberechtingungen. 
-- Java 9 besitzt immer noch die Klassloader Hierarchie mit den Boot-,dem umbenannten Platform und Applikationsloader.
-- In den modernisierten JDK  übernehmen sie das laden bestimmter Module anstelle der ehemaligen jars.
-!  <bild unterteilt module auf die drei  klassloader> 
-- Rückblick auf classpath kapitel 
-- Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne dierekte, transetive oder offenen Verbindungen beinhalten. Wichtige eingeschaft des Modularen Ansatzes ist die Struktur des Abhängkieten darf nicht in einem kreis enden.
+Die Einführung des Modulsystems in Java 9 trug im Kern das Konzept der Aufteilung einer monolithischen Umsetzung in übersichtliche mit einender sachlich verbunden Modulen. 
+Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code Umstrukturieren.
+In der praktischen Umsetzung sind die Schnittstellen durch die \textit{module-info.java} formuliert und enthält drei Kopplungsarten: Durch die \textit{require, export} und \textit{open} Schlüssel, die ferner konfiguriert werden können. 
+! Bild java-info.java
+- Beschreibung der Erweiterungen von den drei Verbindungen und ihren Nutzen in einem Listenformat.
+  - transitiv
+  - opens
+  - requires
+  - static
+  - uses
+  - provides 
+! Bild Abhängigkeitsgraph
+-  Beschreibe das es hier um Zugriffsrechte geht 
+
+- Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit, sondern erweitern die Prozedur des Klassenladens durch explizite Zugriffsberechtigungen. 
+- Java 9 besitzt immer noch die Klassloader Hierarchie mit den Boot-,dem umbenannten Plattform und Applikationsloader.
+- In den modernisierten JDK  übernehmen sie das laden bestimmter Module anstelle der ehemaligen JAR's.
+!  <bild oder Tabelle unterteilt Module auf die drei  Klassloader> 
+- Rückblick auf classpath Kapitel 
+- Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne direkte, transitive oder offenen Verbindungen beinhalten. Wichtige Eigenschaft des Modularen Ansatzes ist die Struktur des Abhängigkeiten darf nicht in einem Kreis enden.
 ! <hier ist ein Bild wie ein Azyklischer Modulgraph aussehen könnte.> 
-- Schlussatz 
+- Schlusssatz 
 
 
 % vergleich  mit existierenden Umsetzungen
