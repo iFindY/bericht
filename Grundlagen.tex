@@ -344,20 +344,23 @@
   
 
  
-\subsection{Modulkopplung}
-		
-
-Die Einführung des Modulsystems in Java 9 trug im Kern das Konzept der Aufteilung einer monolithischen Umsetzung in übersichtliche mit einender sachlich verbunden Modulen. 
-Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code Umstrukturieren.
-In der praktischen Umsetzung sind die Schnittstellen durch die \textit{module-info.java} formuliert und enthält drei Kopplungsarten: Durch die \textit{require, export} und \textit{open} Schlüssel, die ferner konfiguriert werden können. 
-! Bild java-info.java
-- Beschreibung der Erweiterungen von den drei Verbindungen und ihren Nutzen in einem Listenformat.
+  \subsection{Modulkopplung}
+    Die Einführung des Modulsystems in Java 9 trug im Kern das Konzept der Aufteilung einer monolithischen Umsetzung in übersichtliche mit einender sachlich verbunden Modulen. 
+    Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code Umstrukturieren.
+    In der praktischen Umsetzung sind die Schnittstellen durch die \textit{module-info.java} formuliert und enthält drei Kopplungsarten: Durch die \textit{requires, exports} und \textit{opens} Schlüssel, die ferner konfiguriert werden können. 
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=0.7\textwidth]{material/images/module-info.png}
+      \caption{Die Schnittstellenbeschreibung \textit{module-info.java}
+      \label{fig:module-info}
+    \end{figure}
+  - Beschreibung der Erweiterungen von den drei Verbindungen und ihren Nutzen in einem Listenformat.
   - transitiv
   - opens
   - requires
   - static
   - uses
-  - provides 
+  - provides
 ! Bild Abhängigkeitsgraph
 -  Beschreibe das es hier um Zugriffsrechte geht 
 
