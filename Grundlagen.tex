@@ -240,7 +240,8 @@
         \label{fig:simple-module}
       \end{figure} 
     Somit dient das Modul als ein Behälter für Objekte, der aus einem unsichtbaren und einem sichtbaren Bereich besteht. Der sichtbare Bereich ist die Schnittstelle des Moduls und ist die Aufzählung derer Objekte, die das Modul nach außen hin zur Verfügung stellt. Der Zugriff auf diese erfolgt über definierte Operationen in der Modulschnittstelle. 
-    Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten. 
+    Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten.
+    Uner diesen Umständen reduziert sich die Komplexität des Moduls für den Nutzer von der Gesamtimplementation auf die Schnittstellen. 
       \begin{figure}[h!]
         \centering
         \includegraphics[width=\textwidth]{material/images/module-workflow.png}
@@ -344,6 +345,22 @@
 
  
 \subsection{Modulkopplung}
+		
+
+- modulsichtbarkeit und -abhängigkeit in java 9 eingeführt 
+- In der praktischen Umsetzung werden die Schnittstelle durch die module-info formuliert und enthält drei Koppluingsarten 
+- require, export ,open 
+- diese können zusätzlich konfiguriert werden 
+! <hier ist ein Bild, das die Struktur darstellt>
+- Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit, sondern erweiterern die Prozedur des Klassenladens durch explizite Zugrifsberechtingungen. 
+- Java 9 besitzt immer noch die Klassloader Hierarchie mit den Boot-,dem umbenannten Platform und Applikationsloader.
+- In den modernisierten JDK  übernehmen sie das laden bestimmter Module anstelle der ehemaligen jars.
+!  <bild unterteilt module auf die drei  klassloader> 
+- Rückblick auf classpath kapitel 
+- Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne dierekte, transetive oder offenen Verbindungen beinhalten. Wichtige eingeschaft des Modularen Ansatzes ist die Struktur des Abhängkieten darf nicht in einem kreis enden.
+! <hier ist ein Bild wie ein Azyklischer Modulgraph aussehen könnte.> 
+- Schlussatz 
+
 
 % vergleich  mit existierenden Umsetzungen
 \newpage \subsection{Vergleich Konzeptumsetzungen}
