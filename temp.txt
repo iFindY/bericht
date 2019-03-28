@@ -146,3 +146,14 @@ swagger {
 //        inputFile = file("$projectDir/src/com/novomind/ipim/web/swagger/NovoAPI.json")
 //    }
 //}
+
++    \newline In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{exports} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{requires} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
+
++    Somit ist eine Legacy-Bibliothek auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich die wechselseitige Kommunikation zwischen den Modulpfad sowie den Klassenpfad. 
+
+-  der jdk wurde modularisiert 
+-  anstelle eines rt.jar Monolithen wurde die Funktionalität auf verschieden Module aufgeteilt
+-  diese sind mit einander Verbund  
+-  um die Kopplung der Module klein zu halten gibt es verschiedene arten wie man die Module mit einander verbindet
+- wir haben gesehen, dass wir Paketemit requires und exports  anbieten und anfordern können. Diese sind nicht die einzigen Schlüssel die den Modulabhängigkeitsgraphen projizieren.
+- P

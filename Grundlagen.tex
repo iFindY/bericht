@@ -248,7 +248,7 @@
         \caption{Schematischer Aufbau eines Moduls}
         \label{fig:module-workflow}
       \end{figure} 
-    \newline In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{export} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{import} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
+    \newline In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{exports} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{requires} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
 
   % Moduldefenition schlussatz als zusammenfassung 
   \subsection{Moduldefinition}
@@ -334,7 +334,7 @@
     Das \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. 
     Diese kriegen einen Modulnamen zugewiesen und könne über diesen von den \textit{expliziten Modulen} aufgerufen werden. 
     Somit übernimmt Java die Kopplung der \textit{automatischen Modulen} mit allen \textit{expliziten Modulen}, indem alle internen Pakete für die Nutzung offen gelegt werden und alle Module auf dem Modulpfad für die Verwendung importiert werden.
-    Somit ist eine Legacy-Bibliothek auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich den Zugriff auf dessen Funktionalität aus dem Modulpfad sowie den Klassenpfad. 
+    Somit ist eine Legacy-Bibliothek auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich die wechselseitige Kommunikation zwischen den Modulpfad sowie den Klassenpfad. 
     Dank dieser Fähigkeit können Bibliotheken migriert werden und beide Architekturen zu gleich unterstützen. 
     Dieses Verhalten fördert die Entwickler ihren Code für den Modulpfad zu entwickeln, da die nötigen Legacy-Bibliothek der Applikation in beiden Architekturen zugleich verfügbar sind. 
     Dennoch schafft das \textit{automatischen Module} zusätzliche Komplexität in die Architektur, indem 
@@ -342,18 +342,20 @@
     \newline Nichtsdestotrotz bieten automatischen und den unbenannten Modulen diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
 
   \subsection{Modulkopplung}
-    Die Einführung des Modulsystems in Java 9 trug im Kern das Konzept der Aufteilung einer monolithischen Umsetzung in übersichtliche mit einender sachlich verbunden Modulen. 
-    Dieses sollte von Java selbst ausgehen und ihre eignen sowie darauf aufbauenden Code umstrukturieren.
-    In der praktischen Umsetzung sind die Schnittstellen durch die \textit{module-info.java} formuliert und enthält drei Kopplungsarten: Durch die \textit{requires, exports} und \textit{opens} Schlüssel, die ferner konfiguriert werden können. 
-    \begin{figure}[h]
+    Die Einführung des Modulsystems in Java 9 integriert das Konzept der Aufteilung einer monolithischen Softwareumsetzung in übersichtliche mit einander sachlich verbunden Modulen. 
+    Diese Idee sollte zuerst von Java selbst umgesetzt werden, um als Beispiel für den aufbauenden Code zu fungieren.
+    In der praktischen Umsetzung formuliert Java die Modulbeschreibung mit Hilfe der \textit{module-info.java} Datei, die drei Kopplungstypen enthalten kann: Die durch \textit{requires, exports} und \textit{opens} Deskriptoren beschrieben wird.
+    \begin{figure}[h!]
       \centering
-      \includegraphics[width=0.7\textwidth]{material/images/module-info.png}
-      \caption{Die Schnittstellenbeschreibung \textit{module-info.java}
+      \includegraphics[width=0.5\textwidth]{material/images/module-info.png}
+      \caption{Die Schnittstellenbeschreibung \textit{module-info.java}}
       \label{fig:module-info}
     \end{figure}
-    \newline Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner eingeschränkt werden. 
-    Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an abhängenden Module weiterreichen und obendrein als eine optionale Verbindung deklarieren.
-    Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Service-Schnittstelle, die durch den Java ServiceLoader für ein gegebenes Interface eine Implementation beim ServideLoader anfragt.   
+    \newline Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken.
+    Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an gebundene Module weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren.
+    Die \textit{uses} und \textit{provides} Schlüssel beschreiben 
+
+    eine Service-Schnittstelle, die durch den Java ServiceLoader für ein gegebenes Interface eine Implementation beim ServideLoader anfragt.    
     Dieser Dienst geht über die Grundlagen hinaus und wird hier nicht weiter erklärt, dessen ungeachtet ist es zusätzliche Möglichkeit die Modulkopplung zu minimieren. 
     \begin{description}
       \item[Ein Stichpunkt]\hfill 
@@ -379,7 +381,6 @@
 - Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne direkte, transitive oder offenen Verbindungen beinhalten. Wichtige Eigenschaft des Modularen Ansatzes ist die Struktur des Abhängigkeiten darf nicht in einem Kreis enden.
 ! <hier ist ein Bild wie ein Azyklischer Modulgraph aussehen könnte.> 
 - Schlusssatz 
-
 
 % vergleich  mit existierenden Umsetzungen
 \newpage \subsection{Vergleich Konzeptumsetzungen}
