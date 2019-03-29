@@ -1,8 +1,0 @@
-Entwicklungsumgebung NoSQL Master Proejkt 2017/18
-
-Unsere Entwicklungsumgebung ist in einer Private Cloud aufgebaut, die mit Hilfe von OpneStack Infrastruktur-as-a-Server realisiert und auf 6 virtuelle Maschinen aufgeteilt ist. 
-Die Micro Services, die ihn ihrer Gesamtheit den Twitter Clone darstellen befinden sich auf dem [134.100.11.144] Knoten. Diese greifen auf die darunterliegende Implementation einer bestimmten Datenbank, Such- und Analytics-Engine: Die Apache Cassandra Datenbank [134.100.11.145], die Such-Engine Elasticsearch [134.100.11.157] sowie die Analytics-Engine Apache Spark [134.100.11.159]. Diese wurden auf eigenständige Knoten aufgeteilt um die Gesamtlast besser zu verteilen, unterbrechungsfreie Entwicklung für jeden Service zu gewährleisten und entkoppelt voneinander zu verwalten.
-Jeder Micro Service kommuniziert mit dem Apache Kafka Knoten [134.100.11.143] und ist an mehrere Kafka Topic's angebunden. Damit abonniert jeder Micro Service mindestens ein Topic für die Aufgabenstellung und veröffentlicht die berechnete Ausgabe an einem Ausgabe-Topic.
-Die Quelle der Aufgabe sowie die Weiterverarbeitung des Ergebnisses ist von jedem Micro Service gelöst und wird nicht weiterverfolgt. 
-Das Frontend wurde mit dem JavaScript Framework Angular und dem WebServer NodeJS auf dem Knoten [134.100.11.58] entwickelt. Für die Demonstration der Skalierbarkeit der Applikation wurden zwei zusätzliche NodeJS Instanzen aufgesetzt, um das richtige Routing der Anfragen über die verschiedenen WebServer zu Visualisieren. 
-

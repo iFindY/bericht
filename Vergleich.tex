@@ -1,0 +1,45 @@
+\chapter{Vergleich der Modularisierungsansätze} % (fold)
+\label{cha:vergleich_der_modularisierungsansätze}
+
+% vergleich  mit existierenden Umsetzungen
+\section{Vergleich Konzeptumsetzungen}
+  Im folgenden Kapitel vergleiche JPMS mit anderen Modularisierungstechniken und betrachten deren Gemeinsamkeiten, Unterschiede und Möglichkeiten der Kombination. 
+
+% Product no Project
+\subsection{Mikroservices}
+  Mikroservices ist eine Architekturstil mit einer große Menge an Designmuster und -prinzipien, die sich Industrieweit durchgesetzt haben und alle möglichen Sprachen sowie Komponenten zusammenbringen. 
+  Diese beschäftigen sich mit der Aufteilung einer großen, monolithischen Applikation in kleinere, lose gekoppelte Komponenten, die über das Netzwerk kommunizieren und als ein ganzes Produkt abgestimmt werden.
+  Infolge dessen entstehen modulare Systeme mit den dazugehörigen Vorteilen und kann aus diesem Grund für viele Anwendungen anstelle der \textit{Java Plattform Module System} genutzt werden.
+  Dennoch haben Mikroservices ihre Nachteile, denn sie betreiben die Module in einem verteilten System über das Netzwerk mit den entsprechenden Schwachstellen und Schattenseiten.
+  \bigbreak Der große Unterschied zwischen Mikroservices und JPMS liegt in der Zielsetzung und Umsetzungsschicht der Module. 
+  Da Mikroservices Module, von Oben nach Unten, auf der Architekturebene entwerfen und diese nach ihrer eigener Weltanschauung umsetzen, beschäftigt sich JPMS im Gegensatz dazu mit der bewussten Softwareentwicklung auf der Sprachebenen und modelliert Klassen-, Paketen- und Module von Unten nach Oben auf.
+  Ein weiterer unterschied liegt im Betrieb der Module, denn für den Betrieb der JPMS Applikation müssen alle Module in ihrer Gesamtheit deployed werden und von außen betrachtet nur als eine einzelne Einheit wahrnehmbar sein. 
+  Mikroservices hingegen werden als klar getrennte Module auch während des Betriebs wahrgenommen. 
+  Infolgedessen adressierten Mikroservices Probleme über die JPMS keine Meinung hat, wie zum Beispiel \textit{Islands of functionality, Lightweight protocols} oder \textit{Graceful error handling} \ref{tab:jpms}. Somit überschneiden sich die beiden Umsetzungen in ihrer Zielsetzung, jedoch tun sie es in unterschiedlichen Kompetenzbereichen.  
+  \bigbreak Nichtsdestotrotz können sich die beide Ansetze ergänzen, indem JPMS auf der Implementierungsebene die Codestruktur Modular gestalten, die anschließend mit einer Mikroservices Architektur als Services distributiv aufgesetzt wird. 
+
+
+
+  \begin{table}[h!]
+      \label{tab:jpms}
+      \begin{tabular}{l|l}
+        \textbf{Mikroservices} & \textbf{JPMS}\\
+        \hline
+        Architekturstil & Klassen- und Prozessebene \\
+        & Modularität ist integriert \\
+        & Modularität ist Kern der Plattform \\
+        \hline
+        Evolutionäres Design  & Bewusste Softwareentwicklung \\
+        Unabhängiges Deployment &\\
+        Überwachbar &\\
+        Ersetzbar &\\
+        \hline
+        Technologische Entkoppelung & - \\
+        Kleine Komponenten &\\ 
+        Isolierte Funktionsinseln &\\
+        Leichte Kommunikationsprotokolle&\\
+        Geschickte Fehlerbehandlung&\\
+
+      \end{tabular}
+      \caption{Gegenüberstellung von Mikroservices und JPMS}
+  \end{table}
