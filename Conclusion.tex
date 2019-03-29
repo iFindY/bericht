@@ -1,0 +1,65 @@
+\chapter{Zusammenfassung}
+Mit der Hamaube ist ein voll funktionsfähiger Prototyp eines skalierbar
+und erweiterbaren Twitter-Klons in dem NoSQL-Projekt entstanden. Er kann
+unter \url{http://nosqlprojekt.de} im VPN des Fachbereichs Informatik genutzt
+werden. Dort findet ein Frontend zur Hamaube.
+
+Die Hamaube wurde in einem mächtigen Technologiestack aus Kafka,
+Cassandra, Elasticsearch und Spark mit Hilfe von Mikroservices
+implementiert.
+
+Die Architektur wurde so gewählt, dass zum einen Skalierbarkeit durch
+Scale-Out möglich ist als auch Erweiterbarkeit und Wandelbarkeit der
+Anwendung mit geringen Mehraufwand erreicht werden kann.
+
+Die Hamaube hat während des Entwicklungsprozess ihre Erweiterbarkeit
+unter Beweis gestellt. Funktionalität konnte kontinuierlich mittels
+Kafka leicht hinzugefügt und geupdatet werden. Ebenso konnte die
+Kommunikation zwischen den Mikroservices leicht durch Hinzufügen von
+Listenern überprüft werden. Dabei spielte es keine Rolle, ob die
+Dienste auf den virtuellen Maschinen liefen oder von den
+Entwicklungsnotebooks gestartet wurden. Durch Kafka war dies für die
+anderen Komponenten transparent.
+
+Der ultimative Scale-out-Test fehlt noch. Die Komponenten sind zwar
+skalierbar und auch die Mikroservices skalierbar ausgelegt und mit den
+Komponenten verbunden. Da die virtuellen Maschinen aber nur auf einem
+Server liegen, konnte der ultimative Lasttest nicht erfolgen. Getestet
+wurde das System mit 80 Tweets pro Sekunde über einige Tage. Dies
+konnte es gut verarbeiten. Der Test wurde wegen zuneige gehender
+Festplattenkapazität dann beendet. Große Datenmenge und eine hohe
+Geschwindigkeit machten dem System in diesem Test keine Probleme.
+
+Mit der Hamaube haben wir ein sehr mächtiges Architekturparadigmum
+kennengelernt. Wir haben gelernt, wie man komplexe Anwendungen sowohl
+in ihre einzelnen Funktionalitäten zerlegt, als auch wie diese in
+entsprechenden skalierbaren Tools implementiert werden. Diese einzelnen
+Komponenten haben wir dann zu einem funktionierenden Gesamtsystem
+zusammengebaut. Wir haben gelernt, wie sich Anwendungen entwickeln
+lassen, die sowohl im Sinne von Big Data als auch in flexibler
+Langlebigkeit bestehen können.
+
+Natürlich gab es auch einige Hindernisse. Zum einen sind die
+eingesetzten Technologien vergleichsweise neu und sind dementsprechend
+noch nicht über viele Jahrzehnte gereift, so wie es SQL-Datenbanken
+sind. Von Version zu Version kann es dadurch zu größeren Änderungen in
+der API kommen. Zum Teil sind diese Tools auch noch unvollständig
+dokumentiert. Das Debugging einer solchen verteilten Anwendung ist 
+deutlich komplexer als bei einer zentralisierten Anwendung. Es fehlen
+sowohl Tools als auch lässt sich das Gesamtsystem nicht einfach
+synchron anhalten.
+
+Die Verwendung von autonomen Datenquellen, in unserem Fall den Tweets
+von Twitter über die Twitter-API bringt weitere Herausforderungen mit
+sich. Das System wird so nie fertig, da sich die Datenquelle jederzeit
+ändern kann. Dadurch entsteht eine Notwendigkeit für Flexibilität.
+Damit kommt die verwendete Architektur gut klar. Allerdings wird auch
+deutlich, dass auch bei Mikroservices eine gewisse Kopplung
+(Abhängigkeit) der Komponenten untereinander herrscht.
+
+Als zukünftige Aufgabe lässt sich das automatische Deployment der
+Services benennen. Hier existieren bereits heute einige
+vielversprechende Ansätze und Tools. Dann könnte man mit viel mehr
+Hardware auch den ultimativen Scale-Out-Test durchführen.
+
+Vielen Dank dir Steffen für das interessante Projekt. Wir haben viel Spaß gehabt.

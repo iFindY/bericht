@@ -1,0 +1,13 @@
+*.aux
+*.bbl
+*.blg
+*.idx
+*.lof
+*.log
+*.lot
+*.synctex.gz
+*.toc
+*.out
+Thesis.pdf
+Thesis.out
+*.synctex.gz(busy)
