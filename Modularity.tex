@@ -65,15 +65,22 @@
 
   % Moduldefenition schlussatz als zusammenfassung 
   \subsection{Moduldefinition}
-    \begin{itemize}
-      \item Zusammenfassung von Operationen und Daten zur Realisierung einer in sich abgeschlossenen Aufgabe 
-      \item Kommunikation mit der Außenwelt nur über eine eindeutig spezifizierte Schnittstelle 
-      \item Nutzung des Moduls möglich ohne Kenntnis des inneren Ablaufs 
-      \item Die Struktur jedes Moduls sollte einfach genug sein, um vollständig verstanden zu werden.
-      \item Anpassungen eines Moduls sollte ohne Kenntnis der Implementierung sowie ohne Einfluss auf das Verhalten anderer Module durchführbar sein.
-      \item Korrektheit des Moduls durch Tests nachprüfbar ohne Kenntnis seiner Einbettung
-      \item Wiederverwendbarkeit der Funktionalität im anderen Kontext
-    \end{itemize}
+
+\begin{displayquote}[Bib-Referance]
+	\textit {Ein Modul ist eine Sammlung von Algorithmen und Daten bzw. Datenstrukturen zur Bearbeitung einer in sich abgeschlossenen Aufgabe. Die Verwendung des Moduls (d.h. seine Integration in ein Programm-System) erfordert keine Kenntnis seines inneren Aufbaus und der konkreten Realisierung der gekapselten Algorithmen und Daten(-strukturen). Seine Korrektheit ist ohne Kenntnis seiner Einbettung in ein bestimmtes Programmsystem nachprüfbar.}
+\end{displayquote}
+
+Daraus ergeben sich die folgenden Kriterien
+
+\begin{itemize}
+  \item Zusammenfassung von Operationen und Daten zur Realisierung einer in sich abgeschlossenen Aufgabe 
+  \item Kommunikation mit der Außenwelt nur über eine eindeutig spezifizierte Schnittstelle 
+  \item Nutzung des Moduls möglich ohne Kenntnis des inneren Ablaufs 
+  \item Die Struktur jedes Moduls sollte einfach genug sein, um vollständig verstanden zu werden.
+  \item Anpassungen eines Moduls sollte ohne Kenntnis der Implementierung sowie ohne Einfluss auf das Verhalten anderer Module durchführbar sein.
+  \item Korrektheit des Moduls durch Tests nachprüfbar ohne Kenntnis seiner Einbettung
+  \item Wiederverwendbarkeit der Funktionalität im anderen Kontext
+\end{itemize}
 
   % Wie modelliert man Module  
   \subsection{Modulentwurfskriterien}
@@ -131,11 +138,11 @@
     \newline Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
     Dementsprechend sollen diese Module eine Brücke zwischen existierender Applikation und der modularisierten Architektur bilden. 
     \newline Das \textit{unbenannte Modul} beschreibt alle Klassen und JAR's, die sich parallel zu der Codebasis des Modulpfades auf dem Klassenpfad befinden. 
-    Das \textit{unbekannte Modul} beschreibt somit die Legacy-Teil der Codebasis, die noch Migriert werden muss und es noch nicht tun kann.
-    Daher wird mit der Bezeichnung \textit{unbekanntes Modul} eine Zugriffsbarriere zwischen der modularisierten und der legacy Architektur errichtet, die die \textit{expliziten Module} vom Zugriff auf den veralteten Klassenpfad abgrenzt. 
+    Das \textit{unbenannte Modul} beschreibt somit die Legacy-Teil der Codebasis, die noch Migriert werden muss und es noch nicht tun kann.
+    Daher wird mit der Bezeichnung \textit{unbenanntes Modul} eine Zugriffsbarriere zwischen der modularisierten und der legacy Architektur errichtet, die die \textit{expliziten Module} vom Zugriff auf den veralteten Klassenpfad abgrenzt. 
     Denn dieses trägt keinen Namen und kann somit vom Entwickler nicht Pragmatisch referenziert werden. 
     \newline In folge dessen entstehen eine asymmetrische Kommunikation zwischen den Architekturen. 
-    Die \textit{expliziten Module} arbeiten nur auf dem Modulpfad im neuen System und das \textit{unbekannte Module} darf zusätzlich zu den klassischen Klassenpfad auf den modernen Modulpfad zugreifen. 
+    Die \textit{expliziten Module} arbeiten nur auf dem Modulpfad im neuen System und das \textit{unbenannte Module} darf zusätzlich zu den klassischen Klassenpfad auf den modernen Modulpfad zugreifen. 
     Diese Umsetzung lässt eine inkrementelle Migration der Codebasis auf das Modulsystem zu und bleibt Lauffähig, obwohl die Applikation eine interne Versionsdiskrepanz beinhaltet.
     \begin{figure}[h]
       \centering
@@ -166,13 +173,12 @@
     \end{figure}
     \newline Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken.
     Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an gebundene Module weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren.
-    Die \textit{uses} und \textit{provides} Schlüssel beschreiben 
-
-    eine Service-Schnittstelle, die durch den Java ServiceLoader für ein gegebenes Interface eine Implementation beim ServideLoader anfragt.    
-    Dieser Dienst geht über die Grundlagen hinaus und wird hier nicht weiter erklärt, dessen ungeachtet ist es zusätzliche Möglichkeit die Modulkopplung zu minimieren. 
+    Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Serviceanfrage sowie einen Serviceangebot, die durch den Java ServiceLoader mit einender verknüpft werden.
+    Der ServiceLoader übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. 
+    Das Konzept der Dienstregistrierung und -verwaltung geht über die Grundlagen hinaus und wird hier nicht weiter erklärt, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. 
     \begin{description}
       \item[Ein Stichpunkt]\hfill 
-      \newline Hier muss etwas stehen um den Effekt sehen zu k{\"o}nnen
+      \newline Hier muss etwas stehen um den Effekt sehen zu k{\"o}
       \item[Noch ein Stichpunkt]\hfill \\ und Text dahinter 
     \end{description}
 
