@@ -54,7 +54,7 @@
   Zumal er nach benötigten Java Klassen für die Instantiierung der entsprechenden Typen sucht. 
   Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von \textit{Classloader} aus dem \textit{Classloader System} aufgeteilt. 
 
-  \subsection{Classloader System}
+  \subsection{Classloader System} \label{sec:cls}
     Das \textit{Classloader System} besteht aus drei integrierte \textit{Classloader}, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig. 
     %Die Idee hinter dem Separieren der Aufenthaltsorte ist, dass den Quellen unterschiedliche Vertrauensebenen zugewiesen werden können.
     \begin{figure}[h!]
@@ -87,7 +87,7 @@
     Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem \textit{Classloader} sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem \textit{Classloader} in einem Baum geladen werden kann, wird immer die Klasse übergeordneten \textit{Classloader} eingelesen. \newline
     Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des \textit{Classloaders} nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten \textit{Classloader} außer dem jetzigen, war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Type sofort zurückgegeben wird.
 
-  \subsection{Namensräume}
+  \subsection{Namensräume} \label{sec:Namensräume}
     Geladene Klassen werden sowohl durch den Klassennamen als auch durch den \textit{Classloader} eindeutig identifiziert. Demzufolge werden geladene Klassen in \textit{Namespaces} unterteilt, die vom \textit{Classloader System} individuell behandelt werden.
     \newline Ein \textit{Namespace} ist eine Gruppe von Klassennamen, die von einem bestimmten \textit{Classloader} geladen worden ist. Wenn ein Eintrag für eine Klasse einem \textit{Namespace} hinzugefügt wurde, ist es nicht möglich, eine Klasse mit dem selben Namen und unterschiedlichen Inhalt in den \textit{Namespace} einzubinden. 
     \newline Nichtsdestotrotz können mehrere Kopien einer beliebigen Klasse in die Applikation geladen werden, indem für jede Klasse ein \textit{Classloader} mit dem zusätzlichen \textit{Namespace} erstellt wird. 
