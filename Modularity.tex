@@ -199,7 +199,7 @@ Aus dieser Definition ergeben sich folgende Eigenschaften, die ein Software-Modu
 
   \begin{figure}[h!]
       \centering
-      \includegraphics[width=0.8\textwidth]{material/images/transitiv.png}
+      \includegraphics[width=\textwidth]{material/images/transitiv3.png}
       \caption{Abwandlung der Kopplungsarten}
       \label{fig:abw-kopl}
   \end{figure}
@@ -212,49 +212,17 @@ Aus dieser Definition ergeben sich folgende Eigenschaften, die ein Software-Modu
   Im Abschnitt \ref{sec:Namensräume} wurde Namensräume vorgestellt, die Klassen von einender trennen und diese als separate Software Komponenten behandeln, um die Sichtbarkeit der Codebasis gegenüber dem Restsystem abzugrenzen.
   Jedoch bring dieses Feature einen großen Aufwand mit sich, denn sofern die Applikation über eine große Anzahl an Bibliotheken nutzt und jedes davon auf einem eignen Classloader betreiben möchte wächst der Wartungsaufwand mit der Anzahl der Bibliotheken.\newline
   Mit Hilfe der Module und dessen neuen Ansatz der internen Kapselung, soll dieses Problem adressiert werden, indem separate Zugriffsräume für jedes Modul innerhalb eines Classloaders definiert werden, die sicherstellen, dass die interne Struktur eines Moduls während der Laufzeit nicht kompromittiert werden kann.\newline
-  Um die Modulkapselung zu garantieren, wird das im Abschnitt \ref{sec:cls} vorgestellte \textit{Java ClassLaoder System} nicht ersetzt, sondern mit zusätzlichen Kontrollen versehen, die strikt nach deklarierten Modulbeschreibung Zugriff gewährleistet. 
-  Im falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der ClassLaoder neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}.
+  Um die Modulkapselung zu garantieren, wird das im Abschnitt \ref{sec:cls} vorgestellte \textit{Java Classloader System} nicht ersetzt, sondern mit zusätzlichen Kontrollen versehen, die strikt nach deklarierten Modulbeschreibung Zugriff gewährleistet. 
+  Im falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der Classloader neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}.
   Somit bleibt die ehemalige Classloader Hierarchie erhalten, die an das Modulsystem von Java angepasst worden ist.\newline
-  Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist, beschäftigt sich das aktualisierte Classlaoder System mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind.
+  Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist [\ref{fig:jdk}], beschäftigt sich das aktualisierte Classloader System mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind.\newline
   Der Bootstrap Classloader besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. 
+    \begin{figure}[h!]
+      \centering{}
+      \includegraphics[width=\textwidth]{material/images/jdk.png}
+      \caption{Modularisierte rt.jar Bibliotheken}
+      \label{fig:jdk}
+  \end{figure}
   Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. 
   Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken.
   Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. 
-
-
-
-
-  \newpage
-
-
-  ====== Classloader von 8 auf 9 
-
-
-  Die Classlaoder 
-  Dieses minimiert den Entwicklungsaufwand und baut die existierenden Classlaoder Hierarchien ab.
-
-========================================================================================================================
-{}- Java 9 besitzt immer noch die Klassloader Hierarchie mit den Boot-,dem umbenannten Plattform und Applikationsloader.
-- In den modernisierten JDK  übernehmen sie das laden bestimmter Module anstelle der ehemaligen JAR's.
-========================================================================================================================
-- Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne direkte, transitive oder offenen Verbindungen beinhalten. Wichtige Eigenschaft des Modularen Ansatzes ist die Struktur des Abhängigkeiten darf nicht in einem Kreis enden.
-
-\newpage
-  - Beschreibung der Erweiterungen von den drei Verbindungen und ihren Nutzen in einem Listenformat.
-  - transitiv
-  - opens
-  - requires
-  - static
-  - uses
-  - provides
-! Bild Abhängigkeitsgraph
--  Beschreibe das es hier um Zugriffsrechte geht 
-
-- Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit, sondern erweitern die Prozedur des Klassenladens durch explizite Zugriffsberechtigungen. 
-- Java 9 besitzt immer noch die Klassloader Hierarchie mit den Boot-,dem umbenannten Plattform und Applikationsloader.
-- In den modernisierten JDK  übernehmen sie das laden bestimmter Module anstelle der ehemaligen JAR's.
-!  <bild oder Tabelle unterteilt Module auf die drei  Klassloader> 
-- Rückblick auf classpath Kapitel 
-- Java 9 wurde modularisiert und hat es vorgezeigt, indem der JDk modularisiert wurde und mit Hilfe eines Abhängigkeitsgraphen  die nötigen KModule in die Applikation eingebunden werden können. Diese könne direkte, transitive oder offenen Verbindungen beinhalten. Wichtige Eigenschaft des Modularen Ansatzes ist die Struktur des Abhängigkeiten darf nicht in einem Kreis enden.
-! <hier ist ein Bild wie ein Azyklischer Modulgraph aussehen könnte.> 
-- Schlusssatz 
