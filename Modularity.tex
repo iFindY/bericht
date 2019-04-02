@@ -1,26 +1,21 @@
 \chapter{Modularisierung}
 % Kapitel über Module 
 % \section{Modularisierung} \label{sec:modularisierung}
-  Modularisierungsansätze finden sich so gut wie in jeder Software wieder, handelt es sich um ein grundlegendes Prinzip für die Beherrschung eines Systems. 
-  Gerade in der Java-Welt wird seit jeher das Ideal der lose gekoppelten Systeme verfolgt. 
-  \newline Es generiert  Struktur in großen Softwareprojekten, indem das Gesamtprodukt in kleine, praktische Bestandteile zerlegt wird. 
-  Die Entwicklung von kleinen Projekten mit übersichtlicher Codebasis ist einfach zu überblicken und braucht keine strukturelle Basis um den Entwickler Architektur und Funktion darzustellen. 
-  Dennoch ist die Zukunft eines Projekts nicht immer eindeutig und kann mit de Zeit an Größe und Komplexität gewinnen. 
-  Mit der Größe des Projekt wächst auch der Geschäftskontext und damit die Zahl der beteiligten Personen. Diese repräsentieren verzwickte Wünsche und Ziele, die an einer Stelle im Projekt nicht sauber umsetzbar sind.
+  Modularisierungsansätze finden sich so gut wie in jeder Software wieder, da es sich um ein grundlegendes Prinzip für die Beherrschung eines Systems handelt. Gerade in der Java-Welt wird seit jeher das Ideal der lose gekoppelten Systeme verfolgt. 
+  Es generiert  Struktur in großen Softwareprojekten, indem das Gesamtprodukt in kleine, praktische Bestandteile zerlegt wird. 
+  Die Entwicklung von kleinen Projekten mit übersichtlicher Codebasis ist einfach zu überblicken und braucht keine strukturelle Basis, um den Entwickler Architektur und Funktion darzustellen. Dennoch ist die Zukunft eines Projekts nicht immer eindeutig und kann mit de Zeit an Größe und Komplexität gewinnen. Mit der Größe des Projekt wächst auch der Geschäftskontext und damit die Zahl der beteiligten Personen. Diese repräsentieren verzwickte Wünsche und Ziele, die an einer Stelle im Projekt nicht sauber umsetzbar sind.
   Demzufolge ist die richtige Aufstellung eines Projektes von Grund auf eine zukunftssichere Entscheidung. 
-  \newline Ohne die Modularisierung werden Änderungen an großen Projekten mühselig und mit unerwarteten Nebeneffekten umgesetzt. 
+  
+  Ohne die Modularisierung werden Änderungen an großen Projekten mühselig und mit unerwarteten Nebeneffekten umgesetzt. 
   Sowohl das Bauen und Ausrollen des Projekts als auch der Betrieb der Applikation, ist eine lange und aufwendige Aufgabe, die mit jedem kleine Fehler die komplett Applikation Neustarten lässt oder das Ausrollen unterbricht. 
   Somit können kleine Fehler das ganze Produkt aus dem Gleichgewicht bringen.
   Aus diesem Grund sollen Module diese Probleme adressieren und die Applikation in autonome, kleine Einheiten aufteilen, die unabhängig von einander ihre Funktionalität anbieten.
 
   % Moduleigenschaften 
   \subsection{Ziele der Modularisierung}
-    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. 
-    Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. 
-    Darüber hinaus vereinfachen die von der Modularität geforderten definierten Schnittstellen zwischen den Modulen die Erweiterbarkeit des Systems. 
-    Und die Rekombination von Modulen erlaubt die Erstellung von verschiedenen Varianten der Umsetzung. 
-    \newline Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. 
-    Für JPMS sind diese eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
+    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. Darüber hinaus vereinfachen die von der Modularität geforderten definierten Schnittstellen zwischen den Modulen die Erweiterbarkeit des Systems. Und die Rekombination von Modulen erlaubt die Erstellung von verschiedenen Varianten der Umsetzung. 
+    
+    Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es eine Aufstellung von Zielen und Qualitäten den sich die Modularisierung stellt. Für JPMS sind diese eindeutig in der \textit{JSR 376} beschrieben und spezifizieren die Folgenden Qualitäten.
 
     \subsubsection{Kapselung}
       Die Kapselung beschreibt ein Kontrollmechanismus, der die internen Struktur eines Moduls verwaltet.
@@ -43,29 +38,30 @@
 
   % Modulaufbau 
   \subsection{Modulstruktur}
-    Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen öffentlichen sowie privaten Operationen und Datenfelder.
-    Die Kommunikation eines Moduls mit anderen Modulen und der Außenwelt erfolgt über eindeutig spezifizierte Schnittstellen.
+    Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen öffentlichen sowie privaten Operationen und Datenfelder. Die Kommunikation eines Moduls mit anderen Modulen und der Außenwelt erfolgt über eindeutig spezifizierte Schnittstellen.
+
       \begin{figure}[h!]
         \centering
         \includegraphics[width=0.6\textwidth]{material/images/simple-module.png}
         \caption{Simple Modulstruktur}
         \label{fig:simple-module}
       \end{figure} 
-    Somit dient das Modul als ein Behälter für Objekte, der aus einem unsichtbaren und einem sichtbaren Bereich besteht. Der sichtbare Bereich ist die Schnittstelle des Moduls und ist die Aufzählung derer Objekte, die das Modul nach außen hin zur Verfügung stellt. Der Zugriff auf diese erfolgt über definierte Operationen in der Modulschnittstelle. 
-    Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten.
-    Uner diesen Umständen reduziert sich die Komplexität des Moduls für den Nutzer von der Gesamtimplementation auf die Schnittstellen. 
+
+    Somit dient das Modul als ein Behälter für Objekte, der aus einem unsichtbaren und einem sichtbaren Bereich besteht. Der sichtbare Bereich ist die Schnittstelle des Moduls und ist die Aufzählung derer Objekte, die das Modul nach außen hin zur Verfügung stellt. Der Zugriff auf diese erfolgt über definierte Operationen in der Modulschnittstelle. Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten.Unter diesen Umständen reduziert sich die Komplexität des Moduls für den Nutzer von der Gesamtimplementation auf die Schnittstellen. 
+
       \begin{figure}[h!]
         \centering
         \includegraphics[width=\textwidth]{material/images/module-workflow.png}
         \caption{Schematischer Aufbau eines Moduls}
         \label{fig:module-workflow}
       \end{figure} 
-    \newline In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{exports} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{requires} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
+
+    In der Abbildung \ref{fig:module-workflow} wird die interne Struktur sowie entsprechenden Verbindungen eines Moduls genau betrachtet. Zu sehen sind drei Module, die ihre Dienste mit dem \textit{exports} Schlüssel über die Schnittstellen anbieten und diese bei Bedarf mit anderen Modulen kombinieren können, indem weitere Funktionalität durch den \textit{requires} Schlüssel von zusätzlichen Modulen angefordert wird. Die interne Umsetzung der Funktionalität bleibt jedoch verborgen und kann Modulübergreifend nicht nachverfolgt werden. 
 
   % Moduldefenition schlussatz als zusammenfassung 
   \subsection{Moduleigenschaften}
 
-\textbf{Definition}
+\textbf{Modul Definition}
 \begin{displayquote}
 	\textit {'Ein Modul ist eine Sammlung von Algorithmen und Daten bzw. Datenstrukturen zur Bearbeitung einer in sich abgeschlossenen Aufgabe. Die Verwendung des Moduls (d.h. seine Integration in ein Programm-System) erfordert keine Kenntnis seines inneren Aufbaus und der konkreten Realisierung der gekapselten Algorithmen und Daten(-strukturen). Seine Korrektheit ist ohne Kenntnis seiner Einbettung in ein bestimmtes Programmsystem nachprüfbar.'} \cite{rechenberg2006informatik}
 \end{displayquote}\bigbreak 
@@ -85,11 +81,9 @@ Aus dieser Definition ergeben sich folgende Eigenschaften, die ein Software-Modu
   % Wie modelliert man Module  
   \subsection{Modulentwurfskriterien}
     % Einleitung
-    Nachdem die Struktur des Moduls klar bestimmt wurde, muss die Umsetzung einer Applikation mit Modulen auf Qualitätsmerkmale abgeglichen werden. 
-    Da die Aufteilung eines Entwurfsproblems in kleinere Teilprobleme nicht Selbstverständlich ist, kann diese mit verschieden Techniken und auf diverse Weise umgesetzt werden und bietet daher keine Garantie eines sauberen Entwurfs. 
-    Die Kunst Funktionalität in einem einzelnen Modul zu kapseln und diese mit geringer Abhängigkeit vom Restsystem betreiben zu können, kann mit Hilfe bestimmter Kriterien bewertet und angepasst werden.
+    Nachdem die Struktur des Moduls klar bestimmt wurde, muss die Umsetzung einer Applikation mit Modulen auf Qualitätsmerkmale abgeglichen werden. Da die Aufteilung eines Entwurfsproblems in kleinere Teilprobleme nicht Selbstverständlich ist, kann diese mit verschieden Techniken und auf diverse Weise umgesetzt werden und bietet daher keine Garantie eines sauberen Entwurfs. Die Kunst Funktionalität in einem einzelnen Modul zu kapseln und diese mit geringer Abhängigkeit vom Restsystem betreiben zu können, kann mit Hilfe bestimmter Kriterien bewertet und angepasst werden. \bigbreak
     
-    \bigbreak Bei der Modularisierung sind folgende Entwurfskriterien zu berücksichtigen: 
+    Bei der Modularisierung sind folgende Entwurfskriterien zu berücksichtigen: 
     \begin{itemize}
       \item Modulgeschlossenheit 
       \item Maximale Modulbindung 
@@ -102,82 +96,64 @@ Aus dieser Definition ergeben sich folgende Eigenschaften, die ein Software-Modu
       \item Importzahl 
       \item Modulhierarchie 
     \end{itemize}
-    Mit Hilfe der \textit{Modulgeschlossenheit} wird die Abhängigkeit des Moduls von anderen Modulen reduziert und lässt diese separat bearbeiten und austauschen. Somit kapselt ein Modul eine bestimmte Funktionalität, die von Anfang bis zum Ende intern verarbeitet werden kann. 
-    Direkt daraus folgt im besten Fall eine \textit{maximale Bindung} oder starker Zusammenhang innerhalb eines Moduls, indem die internen Komponenten bestens mit einander verzahnt sind und sich gemeinsam mit eine gezielten Aufgabe beschäftigen. In der Konsequenz entsteht ein eingeschränkter Wartungsraum für Entwickler, die sich mit der entsprechenden Funktion beschäftigen.   
-    Um die Bindung der Komponenten innerhalb eines Moduls zu messen, können die Abhängigkeiten in verschieden Kategorien eingeteilt werden: Logisch, Zeitlich, Prozedural, Sequentiell, Informal und Funktional.
+    Mit Hilfe der \textit{Modulgeschlossenheit} wird die Abhängigkeit des Moduls von anderen Modulen reduziert und lässt diese separat bearbeiten und austauschen. Somit kapselt ein Modul eine bestimmte Funktionalität, die von Anfang bis zum Ende intern verarbeitet werden kann. Direkt daraus folgt im besten Fall eine \textit{maximale Bindung} oder starker Zusammenhang innerhalb eines Moduls, indem die internen Komponenten bestens mit einander verzahnt sind und sich gemeinsam mit eine gezielten Aufgabe beschäftigen. In der Konsequenz entsteht ein eingeschränkter Wartungsraum für Entwickler, die sich mit der entsprechenden Funktion beschäftigen. Um die Bindung der Komponenten innerhalb eines Moduls zu messen, können die Abhängigkeiten in verschieden Kategorien eingeteilt werden: Logisch, Zeitlich, Prozedural, Sequentiell, Informal und Funktional.
+
     \begin{figure}[h]
       \includegraphics[width=\textwidth]{material/images/kopplung.png}
       \caption{Modulbindung und Modulkopplung}
       \label{fig:kopplung}
     \end{figure}
-    \newline Komplementär zu der \textit{maximale Bindung} beschreibt die \textit{minimale Kopplung} die Anzahl der Verbindung zwischen den Modulen. Diese sollte natürlich klein gehalten werden, um die Abhängigkeit zu reduzieren. 
-    Die \textit{minimale Kopplung} hat somit einen direkten und positiven Einfluss auf die Anzahl der Schnittstellen, indem diese übersichtlich und eindeutig die Funktion des Moduls beschreiben. 
-    Andernfalls kann eine starke Kopplung die Komplexität heben und Fehler begünstigen, indem der Umfang an Daten, die zwischen den Modulen ausgetauscht werden, erhöht wird. 
-    Eine \textit{minimale Kopplung} ist ein guter Ansatz den unnötigen Datentransfer zu reduzieren, garantiert aber keine lose Kopplung von den umgebenen Modulen. 
-    Daher sollte der Begriff \textit{Seiteneffektfrei} eingeführt werdend. 
-    Dieser beschreibt den Einfluss eines Moduls auf seine Umgebung, indem das Modul Unverzichtbar für die Gesamtfunktionalität wird und der Austausch die Anpassung verknüpfter Module nach sich zieht. 
-    Das ist öfters der Fall wenn eine Aufgabe modulübergreifend gelöst werden muss und die Aufgabenkapslung für diesen Zweck aufgelöst wird.
+
+    Komplementär zu der \textit{maximale Bindung} beschreibt die \textit{minimale Kopplung} die Anzahl der Verbindung zwischen den Modulen. Diese sollte natürlich klein gehalten werden, um die Abhängigkeit zu reduzieren. Die \textit{minimale Kopplung} hat somit einen direkten und positiven Einfluss auf die Anzahl der Schnittstellen, indem diese übersichtlich und eindeutig die Funktion des Moduls beschreiben. Andernfalls kann eine starke Kopplung die Komplexität heben und Fehler begünstigen, indem der Umfang an Daten, die zwischen den Modulen ausgetauscht werden, erhöht wird. Eine \textit{minimale Kopplung} ist ein guter Ansatz den unnötigen Datentransfer zu reduzieren, garantiert aber keine lose Kopplung von den umgebenen Modulen. Daher sollte der Begriff \textit{Seiteneffektfrei} eingeführt werdend. Dieser beschreibt den Einfluss eines Moduls auf seine Umgebung, indem das Modul Unverzichtbar für die Gesamtfunktionalität wird und der Austausch die Anpassung verknüpfter Module nach sich zieht. Das ist öfters der Fall wenn eine Aufgabe modulübergreifend gelöst werden muss und die Aufgabenkapslung für diesen Zweck aufgelöst wird.
 
     % Modularten wie Platform Explicit Modules, Application Explicit Modules, Automatic Modules, Open Modules, Unnamed Module 
   \subsection{Modularten}
-    Das Modulsystem von Java unterscheidet die Module in fünf unterschiedliche Arten, diese richten sich nach der Aufgabe und ihrer Umsetzungsstruktur. 
-    Zum einen gibt es die JDK \textit{Plattform Module}, die die Kernfunktionalität der Java Laufzeitumgebung bieten und bringen Pakete wie \textit{java.lang, java.io} und \textit{java.net} mit sich. 
-    Andererseits gibt es die Benutzer konstruierten \textit{Applikationsmodule}, die durch eine explizite Komposition bestimmte Aufgaben erfüllen.  
-    Beide Modultypen beinhalten eine \textit{Modulbeschreibung}, die dessen Abhängigkeiten und Schnittellen beschreiben. 
-    \newline Obwohl mit den vorher genannten \textit{expliziten Module} Softwaresystemen realisieren lassen, fehlt die Offenheit bestimmter Module oder ihrer Pakete für die Umsetzung der Reflection Bibliotheken, die dynamischen Zugriff auf unsere Pakete während der Laufzeit benötigten. 
-    Wie im Kapitel \ref{sec:reflaction} besprochen ist Reflection ein wichtiges Werkzeug in der Softwareentwicklung und wird in den neuen Java Modulsystem unterstützt. 
-    Um Reflection in einem Modul zu aktivieren, reicht es lediglich das ganze Modul als \textit{open module} oder mit Hilfe des \textit{opens package.name} Schlüssels ein spezielles Paket des Moduls in der \textit{Modulbeschreibung} zu deklarieren.  
-    Damit hätte man ein für Reflection offenes Modul und könnte dessen öffentlich sowie privaten Klassen dynamisch aus jedem Module auf dem Modulpfad aufrufen.
-    Da diese Module das Konzept der starken Kapselung aufgeben, werden diese zu einem besonderen Typen der \textit{offenen Module} zugeordnet.
+    Das Modulsystem von Java unterscheidet die Module in fünf unterschiedliche Arten, diese richten sich nach der Aufgabe und ihrer Umsetzungsstruktur. Zum einen gibt es die JDK \textit{Plattform Module}, die die Kernfunktionalität der Java Laufzeitumgebung bieten und bringen Pakete wie \textit{java.lang, java.io} und \textit{java.net} mit sich. 
+    Andererseits gibt es die Benutzer konstruierten \textit{Applikationsmodule}, die durch eine explizite Komposition bestimmte Aufgaben erfüllen. Beide Modultypen beinhalten eine \textit{Modulbeschreibung}, die dessen Abhängigkeiten und Schnittellen beschreiben. 
+    
+    Obwohl mit den vorher genannten \textit{expliziten Module} Softwaresystemen realisieren lassen, fehlt die Offenheit bestimmter Module oder ihrer Pakete für die Umsetzung der Reflection Bibliotheken, die dynamischen Zugriff auf unsere Pakete während der Laufzeit benötigten. Wie im Kapitel \ref{sec:reflaction} besprochen ist Reflection ein wichtiges Werkzeug in der Softwareentwicklung und wird in den neuen Java Modulsystem unterstützt. Um Reflection in einem Modul zu aktivieren, reicht es lediglich das ganze Modul als \textit{open module} oder mit Hilfe des \textit{opens package.name} Schlüssels ein spezielles Paket des Moduls in der \textit{Modulbeschreibung} zu deklarieren. Damit hätte man ein für Reflection offenes Modul und könnte dessen öffentlich sowie privaten Klassen dynamisch aus jedem Module auf dem Modulpfad aufrufen. Da diese Module das Konzept der starken Kapselung aufgeben, werden diese zu einem besonderen Typen der \textit{offenen Module} zugeordnet.
+
     \begin{figure}[h]
       \centering
       \includegraphics[width=0.7\textwidth]{material/images/module-tree.png}
       \caption{Modularten}
       \label{fig:kopplung}
     \end{figure}
-    \newline Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
-    Dementsprechend sollen diese Module eine Brücke zwischen existierender Applikation und der modularisierten Architektur bilden.\newline 
-    Das \textit{unbenannte Modul} beschreibt alle Klassen und JAR's, die sich parallel zu der Codebasis des Modulpfades auf dem Klassenpfad befinden. 
-    Das \textit{unbenannte Modul} beschreibt somit die Legacy-Teil der Codebasis, die noch Migriert werden muss und es noch nicht tun kann.
-    Daher wird mit der Bezeichnung \textit{unbenanntes Modul} eine Zugriffsbarriere zwischen der modularisierten und der legacy Architektur errichtet, die die \textit{expliziten Module} vom Zugriff auf den veralteten Klassenpfad abgrenzt. 
-    Denn dieses trägt keinen Namen und kann somit vom Entwickler nicht Pragmatisch referenziert werden.\newline 
-    In folge dessen entstehen eine asymmetrische Kommunikation zwischen den Architekturen. 
-    Die \textit{expliziten Module} arbeiten nur auf dem Modulpfad im neuen System und das \textit{unbenannte Module} darf zusätzlich zu den klassischen Klassenpfad auf den modernen Modulpfad zugreifen. 
-    Diese Umsetzung lässt eine inkrementelle Migration der Codebasis auf das Modulsystem zu und bleibt Lauffähig, obwohl die Applikation eine interne Versionsdiskrepanz beinhaltet. \newline
+
+    Die nachfolgenden Modultypen sind Pseudo-Module, die für die Unterstützung der Abwärtskompatibilität eingeführt worden sind. 
+    Dementsprechend sollen diese Module eine Brücke zwischen existierender Applikation und der modularisierten Architektur bilden.
+
+    Das \textit{unbenannte Modul} beschreibt alle Klassen und JAR's, die sich parallel zu der Codebasis des Modulpfades auf dem Klassenpfad befinden. Das \textit{unbenannte Modul} beschreibt somit die Legacy-Teil der Codebasis, die noch Migriert werden muss und es noch nicht tun kann. Daher wird mit der Bezeichnung \textit{unbenanntes Modul} eine Zugriffsbarriere zwischen der modularisierten und der legacy Architektur errichtet, die die \textit{expliziten Module} vom Zugriff auf den veralteten Klassenpfad abgrenzt. Denn dieses trägt keinen Namen und kann somit vom Entwickler nicht Pragmatisch referenziert werden.
+
+    In folge dessen entstehen eine asymmetrische Kommunikation zwischen den Architekturen. Die \textit{expliziten Module} arbeiten nur auf dem Modulpfad im neuen System und das \textit{unbenannte Module} darf zusätzlich zu den klassischen Klassenpfad auf den modernen Modulpfad zugreifen. Diese Umsetzung lässt eine inkrementelle Migration der Codebasis auf das Modulsystem zu und bleibt Lauffähig, obwohl die Applikation eine interne Versionsdiskrepanz beinhaltet.
+
     \begin{figure}[h]
       \centering
       \includegraphics[width=0.7\textwidth]{material/images/module-access.png}
       \caption{Modulzugriffsrechte}
       \label{fig:kopplung}
     \end{figure}
-    Das letzte Modul beschreibt ein Modul mit speziellen Verhalt, das sich zwischen den Architekturen stellt und eine Brücke zwischen den Modulpfad und Klassenpfad errichtet.
-    Das \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. 
-    Diese kriegen einen Modulnamen zugewiesen und könne über diesen von den \textit{expliziten Modulen} aufgerufen werden. 
-    Somit übernimmt Java die Kopplung der \textit{automatischen Modulen} mit allen \textit{expliziten Modulen}, indem alle internen Pakete für die Nutzung offen gelegt werden und alle Module auf dem Modulpfad für die Verwendung importiert werden.
-    Somit ist eine Legacy-Bibliothek auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich die wechselseitige Kommunikation zwischen den Modulpfad sowie den Klassenpfad. 
-    Dank dieser Fähigkeit können Bibliotheken migriert werden und beide Architekturen zu gleich unterstützen. 
-    Dieses Verhalten fördert die Entwickler ihren Code für den Modulpfad zu entwickeln, da die nötigen Legacy-Bibliothek der Applikation in beiden Architekturen zugleich verfügbar sind. 
-    Dennoch schafft das \textit{automatischen Module} zusätzliche Komplexität in die Architektur, indem 
-    alle Module mit diesem verbunden werden. Daraus folgt eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.\newline 
-    Nichtsdestotrotz bieten automatischen und den unbenannten Modulen diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
+
+    Das letzte Modul beschreibt ein Modul mit speziellen Verhalt, das sich zwischen den Architekturen stellt und eine Brücke zwischen den Modulpfad und Klassenpfad errichtet. Das \textit{automatischen Module} beschreiben einen Migrationsansatz der bestehenden Bibliotheken, die vom Klassenpfad auf den Modulpfad verschoben werden und keine \textit{Modulbeschreibung} besitzen. Diese kriegen einen Modulnamen zugewiesen und könne über diesen von den \textit{expliziten Modulen} aufgerufen werden. Somit übernimmt Java die Kopplung der \textit{automatischen Modulen} mit allen \textit{expliziten Modulen}, indem alle internen Pakete für die Nutzung offen gelegt werden und alle Module auf dem Modulpfad für die Verwendung importiert werden. Somit ist eine Legacy-Bibliothek auf den Modulpfad funktionstüchtig und bietet eine ganz besondere Fähigkeit, nämlich die wechselseitige Kommunikation zwischen den Modulpfad sowie den Klassenpfad. Dank dieser Fähigkeit können Bibliotheken migriert werden und beide Architekturen zu gleich unterstützen. Dieses Verhalten fördert die Entwickler ihren Code für den Modulpfad zu entwickeln, da die nötigen Legacy-Bibliothek der Applikation in beiden Architekturen zugleich verfügbar sind. Dennoch schafft das \textit{automatischen Module} zusätzliche Komplexität in die Architektur, indem alle Module mit diesem verbunden werden. Daraus folgt eine starke Kopplung und somit eine unübersichtliche, starke Abhängigkeit zwischen den Modulen.\bigbreak
+
+    Nichtsdestotrotz bieten die automatische und das unbenannten Modul diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
 
   \subsection{Modulkopplung}
     Die Einführung des Modulsystems in Java 9 integriert das Konzept der Aufteilung einer monolithischen Softwareumsetzung in übersichtliche mit einander sachlich verbunden Modulen. 
     Diese Idee sollte zuerst von Java selbst umgesetzt werden, um als Beispiel für den aufbauenden Code zu fungieren.
     In der praktischen Umsetzung formuliert Java die Modulbeschreibung mit Hilfe der \textit{module-info.java} Datei, die drei Kopplungstypen enthalten kann: Die durch \textit{requires, exports} und \textit{opens} Deskriptoren beschrieben wird.
+
     \begin{figure}[h!]
       \centering
       \includegraphics[width=0.5\textwidth]{material/images/module-info.png}
       \caption{Die Schnittstellenbeschreibung \textit{module-info.java}}
       \label{fig:module-info}
     \end{figure}
-    \newline Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken.
-    Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an gebundene Module weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren.
-    Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Serviceanfrage sowie einen Serviceangebot, die durch den Java ServiceLoader mit einender verknüpft werden.
-    Der ServiceLoader übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. 
-    Das Konzept der Dienstregistrierung und -verwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \bigbreak
-    Im Folgenden werden die Möglichkeiten der Kopplungstypen gelistet. 
-    Zu beachten ist die Wechselbeziehung zwischen den Modulen, die Pakete anbieten und Module anfordern. 
+
+    Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken. Diese können ihr Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an gebundene Module weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren. Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Serviceanfrage sowie einen Serviceangebot, die durch den \textit{Java Serviceloader} mit einender verknüpft werden.
+    Der \textit{ServiceLoader} übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. Das Konzept der Dienstregistrierung und -verwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \bigbreak
+    
+    Im Folgenden werden die Möglichkeiten der Kopplungstypen gelistet. Zu beachten ist die Wechselbeziehung zwischen den Modulen, die Pakete anbieten und Module anfordern. 
 
     \begin{description}
       \item[requires]\hfill
@@ -205,24 +181,37 @@ Aus dieser Definition ergeben sich folgende Eigenschaften, die ein Software-Modu
   \end{figure}
 \newpage
 
-  Wie in der grafischen Darstellung \ref{fig:abw-kopl} abgebildet, handelt es sich bei den Kopplungsarten um Zugriffsrechte, die als ein offenes Vertrag zwischen Modulen aufgestellt werden. 
-  Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit und Autonomie, sondern erweitern die Prozedur des Klassenladens durch explizite Schnittstellen und Zugriffsberechtigungen.
+  Wie in der grafischen Darstellung \ref{fig:abw-kopl} abgebildet, handelt es sich bei den Kopplungstypen um Zugriffsrechte, die als ein offenes Vertrag zwischen Modulen aufgestellt werden. Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit und Autonomie, sondern erweitern die Prozedur des Klassenladens durch explizite Schnittstellen und Zugriffsberechtigungen.
 
   \subsection{Module-Classloading}
-  Im Abschnitt \ref{sec:Namensräume} wurde Namensräume vorgestellt, die Klassen von einender trennen und diese als separate Software Komponenten behandeln, um die Sichtbarkeit der Codebasis gegenüber dem Restsystem abzugrenzen.
-  Jedoch bring dieses Feature einen großen Aufwand mit sich, denn sofern die Applikation über eine große Anzahl an Bibliotheken nutzt und jedes davon auf einem eignen Classloader betreiben möchte wächst der Wartungsaufwand mit der Anzahl der Bibliotheken.\newline
-  Mit Hilfe der Module und dessen neuen Ansatz der internen Kapselung, soll dieses Problem adressiert werden, indem separate Zugriffsräume für jedes Modul innerhalb eines Classloaders definiert werden, die sicherstellen, dass die interne Struktur eines Moduls während der Laufzeit nicht kompromittiert werden kann.\newline
+  Im Abschnitt \ref{sec:Namensräume} wurde Namensräume vorgestellt, die Klassen von einender trennen und diese als separate Software Komponenten behandeln, um die Sichtbarkeit der Codebasis gegenüber dem Restsystem abzugrenzen. Jedoch bring dieses Feature einen großen Aufwand mit sich, denn sofern die Applikation über eine große Anzahl an Bibliotheken nutzt und jedes davon auf einem eignen Classloader betreiben möchte wächst der Wartungsaufwand mit der Anzahl der Bibliotheken.
+
+  Mit Hilfe der Module und dessen neuen Ansatz der internen Kapselung, soll dieses Problem adressiert werden, indem separate Zugriffsräume für jedes Modul innerhalb eines Classloaders definiert werden, die sicherstellen, dass die interne Struktur eines Moduls während der Laufzeit nicht kompromittiert werden kann.
+
   Um die Modulkapselung zu garantieren, wird das im Abschnitt \ref{sec:cls} vorgestellte \textit{Java Classloader System} nicht ersetzt, sondern mit zusätzlichen Kontrollen versehen, die strikt nach deklarierten Modulbeschreibung Zugriff gewährleistet. 
-  Im falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der Classloader neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}.
-  Somit bleibt die ehemalige Classloader Hierarchie erhalten, die an das Modulsystem von Java angepasst worden ist.\newline
-  Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist [\ref{fig:jdk}], beschäftigt sich das aktualisierte Classloader System mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind.\newline
-  Der Bootstrap Classloader besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. 
+  Im falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der Classloader neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}. Somit bleibt die ehemalige Classloader Hierarchie erhalten, die an das Modulsystem von Java angepasst worden ist.\bigbreak
+
+  Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist \ref{fig:jdk}, beschäftigt sich das aktualisierte \textit{Classloader System} mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind. Diese müssen nicht mehr das überholte Delegierungsmodell \ref{fig:deligation} von Oben nach Unten durchsuchen, sondern suchen, die für den zuständigen Classloader, bekannten Module zuerst ab, bevor sie die Anfrage an den übergeordneten Classloader delegieren. 
+  Die Abbildung \ref{fig:mcl} visualisiert das Laden der Modul-Klassen, die in diesem Fall nicht mehr das unnötige Nachschlagen nach Klassen über die ganze Classloader Hierarchie bearbeitet.
+
+    \begin{figure}[h!]
+      \centering{}
+      \includegraphics[width=\textwidth]{material/images/module-classloading.png}
+      \caption{Modul Classloading}
+      \label{fig:mcl}
+  \end{figure}
+
+  Indem das Delegierungsmodell abgelöst wurde, werden andere Sicherheitsmaßnahmen für das Schützen der Kern Bibliotheken benötigt. Dies übernimmt jetzt das Modulsystem von Java, indem ein globaler Verbot nach gleichnamiger Benennung von Paketstrukturen gilt. Somit verbietet Java zwei gleiche Bibliotheken auf dem selben Modulpfad und garantiert einen eindeutigen Abhängigkeitsgraphen. \bigbreak
+
+  Um die Klassen aus den Modulpfad zu laden, wird das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die in Zugriffsgruppen eingeteilt sind. Der \textit{Bootstrap Classloader} besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. 
+
     \begin{figure}[h!]
       \centering{}
       \includegraphics[width=\textwidth]{material/images/jdk.png}
       \caption{Modularisierte rt.jar Bibliotheken}
       \label{fig:jdk}
   \end{figure}
-  Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. 
-  Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken.
-  Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. 
+
+  Obwohl das Modulsystem viele Neuerungen und Aufwertungen der Java Plattform mit sich brachte, sind nicht alle wünsche erfüllt worden, wie zum Beispiel das Nutzen gleichnamiger Bibliotheken mit unterschiedlicher Versionsnummer auf dem selben Modulpfad.
+ 
+

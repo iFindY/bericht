@@ -1,11 +1,26 @@
-\section{Migration}
+
+\newpage \chapter{Migration}
 Im vorherigen Kapitel wurden Module und ihre Eingenschaften, Konstruktionsregeln sowie Arten behandelt. 
-Dieses Kapitel beschäftigt sich mit der Fragestellung, wie Anwendungen, die vor Java 9 entwickelt worden sind, auf dem Modulsystem betrieben werden können und was getan werden muss, um diese den modernen Anforderung anzupassen und vollständig zu Modularisieren.
+Dieses Kapitel beschäftigt sich mit der Fragestellung, wie Altsysteme, die vor Java 9 entwickelt worden sind, auf dem Modulsystem betrieben werden können und was getan werden muss, um diese den modernen Anforderung anzupassen und vollständig zu Modularisieren.\bigbreak
+
+Die Altsysteme werden oft als Legacy-Systeme bezeichnet, da diese lange Lebenszyklen besitzen und viele Code aus früheren Entwicklungszyklen mit sich tragen. Der Transfer dieser Systeme in eine neue Umgebung, ohne Änderungen der internen Struktur, bezeichnet man als Migration. 
+Die Migration wird oft in der Softwaretechnik mit Software Reengineering und -Neuimplementation verwechselt, dessen Zielsetzungen in der Optimierung der Codebasis liegen und nichts mit dem Ausführungskontext zu tun haben. \bigbreak
+
+Im folgenden Kapitel werden Ansätze vorgestellt, die Anwendungen aus dem monolithischen System in das modulare System überführen ohne Änderung an der interne Funktionalität durchzuführen. 
 
 
-\subsection{Definition}
+\section{Legacy-System}
+Der Begriff \textit{Legacy-System} beschreibt ein altes System, das innerhalb einer Organisation länger als der implementierte Lebenszyklus in Betrieb bleibt. Der englische Begriff \textit{Legacy}, zu deutsch Erbe, bezieht sich nicht auf das Alter der Software, sondern auf die Interpretation der Software als Erbe. Die Entwicklung wurde von früheren Entwicklern und Teams durchgeführt. Damalige Konzeptentscheidungen ergeben ein Erbe, das für die zukünftige Erweiterung der Software eine große Rolle spielt. Legacy-Systeme wurden typischerweise gemäß der veralteten Praxis und Technologie entwickelt. Sie haben lange Lebenszyklen mit umfangreichen Veränderungen und Erweiterungen erfahren \cite{sneed2016softwaremigration}.
 
-\subsection{Migrationsstrategien}
+\subsection{Eigenschaften}
+Bei Legacy-Systemen handelt es sich oft um sogenannte Kernsysteme, zur Unterstützung wesentlicher Geschäftsprozesse eines Unternehmens. Sie sind in der Regel geschäftskritisch und können nicht ohne größeren Aufwand und Risiko für das Unternehmen ausgetauscht werden. Aufgrund ihres langen Lebenszyklus, ihrer Komplexität und ständigen Überarbeitungen ist die Logik solcher Systeme oft unübersichtlich. Geschäftsprozesse und Geschäftsregeln sind im Code versteckt und müssten für z.\,B. eine Neuimplementation erst rekonstruiert werden \cite{martens2016ablosung}.
+
+Zu diesem Punkt gesellt sich die Eigenschaft, dass Legacy-Systeme oft sehr schlecht dokumentiert und strukturiert sind. Ihre Implementierung könnte zudem früher geltenden Standards unterliegen und anderen Programmierparadigmen folgen, die nur schwer verständlich sind \cite{stahlknecht2002einfuhrung}.
+
+\section{Migration} \label{ssub:migration}
+Softwaremigration bezeichnet die Überführung eines Softwaresystems in eine andere Zielumgebung oder in eine sonstige andere Form, wobei die fachliche Funktionalität unverändert bleibt. Als Ausgangspunkt steht dabei immer ein bestehendes System, das auf sich ändernde Anforderungen und Techniken des Anwendungsbereiches angepasst werden muss \cite{sneed2016softwaremigration}.
+
+\section{Migrationsstrategien}
 
 \subsection{Plattform Migration}
 
