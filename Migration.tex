@@ -3,8 +3,11 @@
 Im vorherigen Kapitel wurden Module und ihre Eingenschaften, Konstruktionsregeln sowie Arten behandelt. 
 Dieses Kapitel beschäftigt sich mit der Fragestellung, wie Altsysteme, die vor Java 9 entwickelt worden sind, auf dem Modulsystem betrieben werden können und was getan werden muss, um diese den modernen Anforderung anzupassen und vollständig zu Modularisieren.\bigbreak
 
-Die Altsysteme werden oft als Legacy-Systeme bezeichnet, da diese lange Lebenszyklen besitzen und viele Code aus früheren Entwicklungszyklen mit sich tragen. Der Transfer dieser Systeme in eine neue Umgebung, ohne Änderungen der internen Struktur, bezeichnet man als Migration. 
-Die Migration wird oft in der Softwaretechnik mit Software Reengineering und -Neuimplementation verwechselt, dessen Zielsetzungen in der Optimierung der Codebasis liegen und nichts mit dem Ausführungskontext zu tun haben. \bigbreak
+Software die nicht beständig auf dem aktuellen Stand der Technik gehalten wird rutscht langsam in den Bereich der Altsysteme. Die Altsysteme werden oft als Legacy-Systeme bezeichnet, da diese lange Lebenszyklen besitzen und viele Code aus früheren Entwicklungszyklen mit sich tragen. Der Transfer dieser Systeme in eine neue Umgebung, ohne Änderungen der internen Struktur, bezeichnet man als Migration. Diese wird oft im Bereich der Softwaretechnik mit Software Reengineering und Software Neuimplementation verwechselt, dessen Zielsetzungen in der Optimierung der Codebasis liegen und nichts mit dem Ausführungskontext zu tun haben. \bigbreak
+
+% Migrationsmethoden und der von ihnen gelösten Problemen. 
+Die Migration von Anwendungen ist eine wiederkehrendes Ereignis im Lebenszyklus einer lang gepflegten Kernapplikation.
+Zum Beispiele kann eine Applikation an Größe gewinnen und muss in die Cloud ausgelagert werden, die Anforderungen können sich verschieben und der Technologie-Stack muss an die Marktbedürfnisse angepasst werden, darüber hinaus kann der Ausführungskontext einen großen Versionssprung hinter sich lassen, der das Warten der Software unter den momentanen Bedingungen unmöglich macht. Das Umfeld der Software Entwicklung ist eine dynamische Umgebung, denn auch mit einer gut durchdachte Architektur kann nicht garantiert werden, dass in der Zukunft heutige Paradigmen, Werkzeuge und Aufgabenbereiche den selben Kurs behalten. Deswegen existieren bereits sämtliche Migrationsstrategien, die als ein Leitpfaden den Entwicklung während der Migration führen. \bigbreak
 
 Im folgenden Kapitel werden Ansätze vorgestellt, die Anwendungen aus dem monolithischen System in das modulare System überführen ohne Änderung an der interne Funktionalität durchzuführen. 
 
@@ -18,9 +21,36 @@ Bei Legacy-Systemen handelt es sich oft um sogenannte Kernsysteme, zur Unterstü
 Zu diesem Punkt gesellt sich die Eigenschaft, dass Legacy-Systeme oft sehr schlecht dokumentiert und strukturiert sind. Ihre Implementierung könnte zudem früher geltenden Standards unterliegen und anderen Programmierparadigmen folgen, die nur schwer verständlich sind \cite{stahlknecht2002einfuhrung}.
 
 \section{Migration} \label{ssub:migration}
+% schau in diesem buch nach einer defenition  mit den storchen 
 Softwaremigration bezeichnet die Überführung eines Softwaresystems in eine andere Zielumgebung oder in eine sonstige andere Form, wobei die fachliche Funktionalität unverändert bleibt. Als Ausgangspunkt steht dabei immer ein bestehendes System, das auf sich ändernde Anforderungen und Techniken des Anwendungsbereiches angepasst werden muss \cite{sneed2016softwaremigration}.
 
-\section{Migrationsstrategien}
+\section{Migrationshürden}
+% Einleitung: hier kommen allgemeinen Beispiele der Migrationsproblematik 
+Die Migrationshürden sind fest mit dem Anwendungskontext verbunden und hängen stark von den Beschaffenheit der neuen Umgebung ab. Da in unserem Fall die Migration innerhalb der Java Umgebung stattfindend, müssen die Neuerungen des Modulsystem analysiert und auf die bestehenden Zustand der Applikation abgebildet werden.\bigbreak
+
+% Hauptteil: Probleme und Hürden, die der neue Kontext macht
+Die Probleme bei dem Modulsystem beginnen mit den Zugriffsrechten auf die Core-JDK API's. Diese sind ab sofort in dem Module gekapselt und bieten keine Möglichkeit sie aufzurufen. Nichtsdestotrotz stellt Java für viele der gekapselten API's einen Ersatz zur Verfügung, wodurch zahlreiche Probleme mit einem relativ geringen Aufwand behoben werden können. 
+
+
+Im Weiteren verbietet das neue Modulsystem namensgleiche Pakete in verschiedenen Modulen. Dieses adressiert das vorher besprochene Problem aus dem Kapitel \ref{sec:Namensräume}, nämlich den Zugriff auf privat deklarierte Pakete aus fremden Modulen. Trotz dem gibt es Bibliotheken mit ähnlicher Paketstruktur die nicht böswillig sich Zugriff verschaffen wollen, sondern spiegeln eine Standardstruktur einer Bibliothek wieder, wie zum Beispiel \textit{de.firma.input.reader} kann in mehreren Bibliotheken eines Unternehmens existieren und wird ab Java 9 nicht mehr zulässig sein. Somit müssen Module mit ähnlicher Struktur angepasst werden um den nächsten Modularisierungsschritt durchführen zu können.
+
+
+Der Classloader-Typ des Applikation-Classloaders wurden überarbeitet und infolgedessen auch das Arbeit mit den ehemaligen URLClassloader Methoden. Der bestehende Code, der den URLClassloader exzessiv nutzt und zum Beispiel Ressourcen aus verschiedenen Quellen lädt, muss auf den \textit{SecureClassLoader} oder  \textit{ClassLoader} aufgewertet werden, um funktionstüchtig zu bleiben. 
+
+
+Einer der Kritischen Veränderungen, die die Modultatform mit sich bringt, ist der Verbot von zyklischen Abhängigkeiten von Modulen untereinander. Diese dürfen sich nicht gegenseitig mit den Schlüssel \textit{require} koppeln, da sonst eine Veränderung in einem Module zwangsläufig eine Änderung im anderen Module hervorrufen kann. Dieser Still kann sich schnell über die ganze Applikation verbreiten und kleine Änderungen an einer Stelle zu unübersichtlichen Seiteneffekten führen. Genau diese Probleme adressiert das Modulsystem in erster Linie und verbiete aus diesem Grund Zyklen in den Applikationsentwurf. Um bestehende Zyklen in einer Applikation zu lösen, muss die Funktionalität genau betrachtet und in kleine unabhängige Aufgaben aufgeteilt werden. Somit wäre der Zyklus aufgebrochen und die Aufgabestellung jedes Moduls klar definiert. \bigbreak
+
+% Schluss: Bewegen uns auf die möglichen Migrationsstrategien für die Modularisierung.
+Da jede Applikation spezifisch Migrationsanforderungen besitzt, gibt es unterschiedliche Verfahren, die sich bestimmten Kriterien widmen. Dementsprechend sollte man die gegebene Applikationsbeschaffenheit ermitteln und dessen Probleme auf die Passende Migrationsstrategie abbilden. Die prominenten Migrationsstrategien der Software Techniken sind \textit{Chicken Little} und \textit{Butterfly}. Diese Beschreiben zwei der gängigsten Arten wie man ein Softwaresystem migrieren sollte. 
+
+
+
+
+
+
+hier kommt eine Einleitung das man es unterschiedlich macht mit  unterschiedlichen Ergebnissen und  es gibt kein perfektes verfahren für die Migration aller Anwendungen.
+Im Folgenden werden Herangehensweisen  erläutert die eine Migration  und wo diese am besten anzuwenden ist. 
+
 
 \subsection{Plattform Migration}
 
