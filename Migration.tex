@@ -1,5 +1,6 @@
 
 \newpage \chapter{Migration}
+
 	Im vorherigen Kapitel wurden Module und ihre Eingenschaften, Konstruktionsregeln sowie Arten behandelt. 
 	Dieses Kapitel beschäftigt sich mit der Fragestellung, wie Altsysteme, die vor Java 9 entwickelt worden sind, auf dem Modulsystem betrieben werden können und was getan werden muss, um diese den modernen Anforderung anzupassen und vollständig zu Modularisieren.\bigbreak
 
@@ -13,24 +14,26 @@
 
 
 \section{Legacy-System}
+
 	Der Begriff \textit{Legacy-System} beschreibt ein altes System, das innerhalb einer Organisation länger als der implementierte Lebenszyklus in Betrieb bleibt. Der englische Begriff \textit{Legacy}, zu deutsch Erbe, bezieht sich nicht auf das Alter der Software, sondern auf die Interpretation der Software als Erbe. Die Entwicklung wurde von früheren Entwicklern und Teams durchgeführt. Damalige Konzeptentscheidungen ergeben ein Erbe, das für die zukünftige Erweiterung der Software eine große Rolle spielt. Legacy-Systeme wurden typischerweise gemäß der veralteten Praxis und Technologie entwickelt. Sie haben lange Lebenszyklen mit umfangreichen Veränderungen und Erweiterungen erfahren \cite{sneed2016softwaremigration}.
 
 \subsection{Eigenschaften}
+
 	Bei Legacy-Systemen handelt es sich oft um sogenannte Kernsysteme, zur Unterstützung wesentlicher Geschäftsprozesse eines Unternehmens. Sie sind in der Regel geschäftskritisch und können nicht ohne größeren Aufwand und Risiko für das Unternehmen ausgetauscht werden. Aufgrund ihres langen Lebenszyklus, ihrer Komplexität und ständigen Überarbeitungen ist die Logik solcher Systeme oft unübersichtlich. Geschäftsprozesse und Geschäftsregeln sind im Code versteckt und müssten für z.\,B. eine Neuimplementation erst rekonstruiert werden \cite{martens2016ablosung}.
 
 	Zu diesem Punkt gesellt sich die Eigenschaft, dass Legacy-Systeme oft sehr schlecht dokumentiert und strukturiert sind. Ihre Implementierung könnte zudem früher geltenden Standards unterliegen und anderen Programmierparadigmen folgen, die nur schwer verständlich sind \cite{stahlknecht2002einfuhrung}.
 
 \section{Migration} \label{ssub:migration}
+
 	% schau in diesem buch nach einer defenition  mit den storchen 
 	Softwaremigration bezeichnet die Überführung eines Softwaresystems in eine andere Zielumgebung oder in eine sonstige andere Form, wobei die fachliche Funktionalität unverändert bleibt. Als Ausgangspunkt steht dabei immer ein bestehendes System, das auf sich ändernde Anforderungen und Techniken des Anwendungsbereiches angepasst werden muss \cite{sneed2016softwaremigration}.
 
-\section{Migrationshürden}
+\section{Migrationshürden} \label{MigH}
+
 	% Einleitung: hier kommen allgemeinen Beispiele der Migrationsproblematik 
 	Die Migrationshürden sind fest mit dem Anwendungskontext verbunden und hängen stark von den Beschaffenheit der neuen Umgebung ab. Da in unserem Fall die Migration innerhalb der Java Umgebung stattfindend, müssen die Neuerungen des Modulsystem analysiert und auf die bestehenden Zustand der Applikation abgebildet werden.\bigbreak
 
 \begin{itemize}
-
-
 	% Hauptteil: Probleme und Hürden, die der neue Kontext macht
 	\item Die Probleme bei dem Modulsystem beginnen mit den Zugriffsrechten auf die Core-JDK API's. Diese sind ab sofort in dem Module gekapselt und bieten keine Möglichkeit sie aufzurufen. Nichtsdestotrotz stellt Java für viele der gekapselten API's einen Ersatz zur Verfügung, wodurch zahlreiche Probleme mit einem relativ geringen Aufwand behoben werden können. 
 
@@ -44,27 +47,47 @@
 	\item Einer der Kritischen Veränderungen, die die Modultatform mit sich bringt, ist der Verbot von zyklischen Abhängigkeiten von Modulen untereinander. Diese dürfen sich nicht gegenseitig mit den Schlüssel \textit{require} koppeln, da sonst eine Veränderung in einem Module zwangsläufig eine Änderung im anderen Module hervorrufen kann. Dieser Still kann sich schnell über die ganze Applikation verbreiten und kleine Änderungen an einer Stelle zu unübersichtlichen Seiteneffekten führen. Genau diese Probleme adressiert das Modulsystem in erster Linie und verbiete aus diesem Grund Zyklen in den Applikationsentwurf. Um bestehende Zyklen in einer Applikation zu lösen, muss die Funktionalität genau betrachtet und in kleine unabhängige Aufgaben aufgeteilt werden. Somit wäre der Zyklus aufgebrochen und die Aufgabestellung jedes Moduls klar definiert. 
 \end{itemize}
 
-\section{Migrationsarten}
+\section{Migrationsarten} \label{Migratiosarten}
+
 	% Schluss: Bewegen uns auf die möglichen Migrationsstrategien für die Modularisierung.
 	Da jede Applikation spezifisch Migrationsanforderungen besitzt, gibt es unterschiedliche Verfahren, die sich bestimmten Kriterien widmen. Dementsprechend sollte man die gegebene Applikationsbeschaffenheit ermitteln und dessen Probleme auf die passende Migrationsstrategie abbilden. Die prominenten Migrationsstrategien der Software Techniken sind \textit{Chicken Little} und \textit{Butterfly}, die zwei der gängigsten Arten der Softwaresystem Migration beschreiben.\bigbreak
 
 
 	% Chicken Little
-	Softwaresysteme, die nach dem Chicken-Little-Ansatz migriert werden, zerlegen das System in mehrere Migrationspakete, die einzeln in kleinen inkrementellen Schritten in die neue Zielumgebung überführt werden. Damit der Betrieb des Systems nicht für die Zeitdauer der Migration ausfällt, existieren alte, neue und migrierte Teilsysteme nebeneinander. Die korrekte Kommunikation der Softwarebausteine muss über entsprechende Kommunikationskanäle errichtet werden und gestaltetet damit einen Brücke zwischen Alt- und Neuentwicklung, die zusammen einen gemeinsame Ressourcenbasis nutzen können. \bigbreak
+	Softwaresysteme, die nach dem \textit{Chicken-Little-Ansatz} migriert werden, zerlegen das System in mehrere Migrationspakete, die einzeln in kleinen inkrementellen Schritten in die neue Zielumgebung überführt werden. Damit der Betrieb des Systems nicht für die Zeitdauer der Migration ausfällt, existieren alte, neue und migrierte Teilsysteme nebeneinander. Die korrekte Kommunikation der Softwarebausteine muss über entsprechende Kommunikationskanäle errichtet werden und gestaltetet damit einen Brücke zwischen Alt- und Neuentwicklung, die zusammen einen gemeinsame Ressourcenbasis nutzen können. \bigbreak
 
 	% Butterfly 
-	Der Butterfly-Ansatz geht von einer separaten Entwicklung der Applikation in der neuen Umgebung aus. Dies hat zu folge dass die Altapplikation in Betrieb bleibt und unverändert ihre Aufgabe erfüllt, bis der Nachfolger, der parallel zu dem Betrieb entwickelt und getestet wird, die Funktion korrekt widerspiegeln kann. Im Anschluss werden Ressourcenbestände in kleinen Paketen an die Applikation im neuen Kontext transferiert und das Altsystem abgeschaltet. Das Butterfly-Verfahren vermeidet also während der Migration den simultanen Zugriff auf Legacy- und Zielsystem. \bigbreak
+	Der \textit{Butterfly-Ansatz} geht von einer separaten Entwicklung der Applikation in der neuen Umgebung aus. Dies hat zu folge dass die Altapplikation in Betrieb bleibt und unverändert ihre Aufgabe erfüllt, bis der Nachfolger, der parallel zu dem Betrieb entwickelt und getestet wird, die Funktion korrekt widerspiegeln kann. Im Anschluss werden Ressourcenbestände in kleinen Paketen an die Applikation im neuen Kontext transferiert und das Altsystem abgeschaltet. Das Butterfly-Verfahren vermeidet also während der Migration den simultanen Zugriff auf Legacy- und Zielsystem. \bigbreak
 
 	% Ein text der auf die nächsten Kalitel einführt 
-
+	Zwischen den beiden vorgestellten \textit{Migrationsideen} hat sich das Java Team für die Unterstützung der Schrittweise-Migration entscheiden, die eine Applikation in kleine Softwareeinheiten aufteilt und langsam auf den neuen Modulpfad migriert. Der parallele Betrieb der neuen sowie alten Struktur wird durch eine interne Brücke, die korrekte Kommunikation zwischen den Klassenpfad und den Modulpfad errichtet umgesetzt. Die Implementation der Kommunikationsbrücke und ihrer Charakteristika, die eine kritische und verantwortungsvolle Aufgabe in der Migrationsprozess trägt, wird für uns von dem Java Team zur Verfügung gestellt. Somit unterstützt und führt das Modulsystem von Java den Entwickler bei der Hand zu der korrekten, sicheren, modernen und funktionstüchtigen Modularchitektur. Ungeachtet dessen ist die Migration einer kompletten Applikation auf das Modulsystem weiterhin möglich, da diese keine spezielle Hilfsmittel von der Umgebung verlangt. 
 
 
 \subsection{Plattform Migration}
 
-\subsection{Big Bang Migration}
+	Die simpelste Migration ist eine reine Plattform Migration ohne Änderungen an der Software vorzunehmen, wie in der Abbildung \ref{fig:PM} dargestellt. Dies ist möglich, dank der Unterstützung des Klassenpfades, der in diesem Fall unsere Applikation als ein \textit{unbenanntes Modul} im Modulsystem betreibt. Wie bereits im Kapitel \ref{Modularten} angesprochen, bietet dieses Modul den Betrieb der Legacy Anwendung in der neuen Umgebung mit dem geringen Anteil der möglichen Vorteilen, wie zum Beispiel den Sicherheitsupdates. Zusätzlich behält die Applikation ihre monolithisch Architektur und vermisst alle Modulsystem Features die im Kapitel \ref{ZdM} und \ref{ME} angesprochen wurden.
+
+	\begin{figure}[h]
+		\centering
+	    \includegraphics[width=0.8\textwidth]{material/images/plattform-migration.png}
+	    \caption{Plattform Migration}
+	    \label{fig:PM}
+  	\end{figure}
+
+	Eine weitere Möglichkeit wäre es die Applikation und ihre Bibliotheken auf den Modulpfad zu migrieren und als \textit{automatische Module} zu betreiben. Somit wäre der alte Klassenpfad  nicht mehr im Applikationsdesign vorgesehen und fokussiert die Entwickler auf die Arbeit mit dem Modulpfad. Dennoch lässt sich nicht jede Anwendung in diesem Still migrieren, denn die Hürden aus den Kapitel \ref{MigH}, wie die \textit{Zyklen-Freiheit} sowie der verbot der \textit{Split-Packages} in Legacy Bibliotheken nicht immer gegeben ist. 
+
+
 
 \subsection{Top Down Migration}
 
+	Die \textit{Top-Down} Migration behandelt die Migration von Oben nach Unten, dabei werden zuerst die Applikation und im Nachhinein die Drittanbieter Bibliotheken migriert. Dafür müssen die Applikationspakete auf Abhängigkeiten geprüft und entsprechende Module sowie Modulbeschreibungen nach den im Kapitel \ref{MEK} besprochenen Kriterien erstellt werden. Mit dieser Methode werden die Drittanbieter Bibliotheken zuletzt betrachtet, da es bei diesen um Fremdcode handelt. 
+
+
+	Der im ersten Schritt erstellter Abhängigkeitsgraph verweist ab einen gewissen Punkt die Bibliotheksabhängigkeit der Applikation, die wiederum von weiteren Bibliotheken abhängen. Somit können die Wurzel der benötigten Drittanbieter Bibliotheken einer Applikation ausfindig gemacht und als \textit{automatische Module} in den Modulpfad eingebunden werden. Somit können diese, wie bereits in im Kapitel \ref{Modularten} behandelt, sowohl mit der Applikation als auch mit den Legacy Elementen ihrer eigener Abhängigkeiten zugleich interagieren. Zum Schluss kümmert man sich um die Bibliotheken auf dem Klassenpfad, indem diese ersetzt oder selbständig weiterentwickelt werden, mit dem Ziel die Gesamtapplikation auf dem Modulpfad zu übertragen.
+
+
 \subsection{Bottom up Migration}
 
+
+\subsection{Big Bang Migration}
 
