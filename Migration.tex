@@ -60,7 +60,10 @@
 	Der \textit{Butterfly-Ansatz} geht von einer separaten Entwicklung der Applikation in der neuen Umgebung aus. Dies hat zu folge dass die Altapplikation in Betrieb bleibt und unverändert ihre Aufgabe erfüllt, bis der Nachfolger, der parallel zu dem Betrieb entwickelt und getestet wird, die Funktion korrekt widerspiegeln kann. Im Anschluss werden Ressourcenbestände in kleinen Paketen an die Applikation im neuen Kontext transferiert und das Altsystem abgeschaltet. Das Butterfly-Verfahren vermeidet also während der Migration den simultanen Zugriff auf Legacy- und Zielsystem. \bigbreak
 
 	% Ein text der auf die nächsten Kalitel einführt 
-	Zwischen den beiden vorgestellten \textit{Migrationsideen} hat sich das Java Team für die Unterstützung der Schrittweise-Migration entscheiden, die eine Applikation in kleine Softwareeinheiten aufteilt und langsam auf den neuen Modulpfad migriert. Der parallele Betrieb der neuen sowie alten Struktur wird durch eine interne Brücke, die korrekte Kommunikation zwischen den Klassenpfad und den Modulpfad errichtet umgesetzt. Die Implementation der Kommunikationsbrücke und ihrer Charakteristika, die eine kritische und verantwortungsvolle Aufgabe in der Migrationsprozess trägt, wird für uns von dem Java Team zur Verfügung gestellt. Somit unterstützt und führt das Modulsystem von Java den Entwickler bei der Hand zu der korrekten, sicheren, modernen und funktionstüchtigen Modularchitektur. Ungeachtet dessen ist die Migration einer kompletten Applikation auf das Modulsystem weiterhin möglich, da diese keine spezielle Hilfsmittel von der Umgebung verlangt. 
+	Zwischen den beiden vorgestellten \textit{Migrationsideen} hat sich das Java Team für die Unterstützung der Schrittweise-Migration entscheiden, die eine Applikation in kleine Softwareeinheiten aufteilt und langsam auf den neuen Modulpfad migriert. Der parallele Betrieb der neuen sowie alten Struktur wird durch eine interne Brücke, die korrekte Kommunikation zwischen den Klassenpfad und den Modulpfad errichtet umgesetzt. Die Implementation der Kommunikationsbrücke und ihrer Charakteristika, die eine kritische und verantwortungsvolle Aufgabe in der Migrationsprozess trägt, wird für uns von dem Java Team zur Verfügung gestellt. Somit unterstützt und führt das Modulsystem von Java den Entwickler bei der Hand zu der korrekten, sicheren, modernen und funktionstüchtigen Modularchitektur. 
+
+
+	Ungeachtet dessen ist die Migration einer kompletten Applikation auf das Modulsystem weiterhin möglich, da diese keine spezielle Hilfsmittel von der Umgebung verlangt. 
 
 
 \subsection{Plattform Migration}
@@ -83,7 +86,16 @@
 	Die \textit{Top-Down} Migration behandelt die Migration von Oben nach Unten, dabei werden zuerst die Applikation und im Nachhinein die Drittanbieter Bibliotheken migriert. Dafür müssen die Applikationspakete auf Abhängigkeiten geprüft und entsprechende Module sowie Modulbeschreibungen nach den im Kapitel \ref{MEK} besprochenen Kriterien erstellt werden. Mit dieser Methode werden die Drittanbieter Bibliotheken zuletzt betrachtet, da es bei diesen um Fremdcode handelt. 
 
 
-	Der im ersten Schritt erstellter Abhängigkeitsgraph verweist ab einen gewissen Punkt die Bibliotheksabhängigkeit der Applikation, die wiederum von weiteren Bibliotheken abhängen. Somit können die Wurzel der benötigten Drittanbieter Bibliotheken einer Applikation ausfindig gemacht und als \textit{automatische Module} in den Modulpfad eingebunden werden. Somit können diese, wie bereits in im Kapitel \ref{Modularten} behandelt, sowohl mit der Applikation als auch mit den Legacy Elementen ihrer eigener Abhängigkeiten zugleich interagieren. Zum Schluss kümmert man sich um die Bibliotheken auf dem Klassenpfad, indem diese ersetzt oder selbständig weiterentwickelt werden, mit dem Ziel die Gesamtapplikation auf dem Modulpfad zu übertragen.
+	Der im ersten Schritt erstellter Abhängigkeitsgraph verweist ab einen gewissen Punkt die Bibliotheksabhängigkeit der Applikation, die wiederum von weiteren Bibliotheken abhängen. Somit können die Wurzel der benötigten Drittanbieter Bibliotheken einer Applikation ausfindig gemacht und als \textit{automatische Module} in den Modulpfad eingebunden werden. Somit können diese, wie bereits in im Kapitel \ref{Modularten} behandelt, sowohl mit der Applikation als auch mit den Legacy Elementen ihrer eigener Abhängigkeiten zugleich interagieren. Zum Schluss kümmert man sich um die Bibliotheken auf dem Klassenpfad, indem diese ersetzt oder selbständig weiterentwickelt werden, mit dem Ziel die Gesamtapplikation auf dem Modulpfad zu übertragen. \bigbreak
+
+	\begin{figure}[h]
+		\centering
+	    \includegraphics[width=0.8\textwidth]{material/images/top-down-migration.png}
+	    \caption{Top Down Migration}
+	    \label{fig:PM}
+  	\end{figure}
+
+	Diese Migration ist besonders vorteilhaft bei Applikationen, die eine geringe Codebasis besitzen und in einem kurzen Zeitraum eine modularisierte Form annehmen können. 
 
 
 \subsection{Bottom up Migration}
