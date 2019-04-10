@@ -1,49 +1,46 @@
 \chapter{Einleitung}
 \pagenumbering{arabic}
 
-\section{Kontext der Petrinetze} 
-Das Konzept der Petrinetze wurde in der Arbeit von \textit{Carl Petri} beschrieben. 
-Dieses besteht aus Stellen, Marken, Kanten und Transitionen, das nebenläufige und kommunizierende Prozesse darstellen kann.
-Der ursprüngliche S/T-Netz Formalismus wurde mit der Zeit durch gefärbten Marken erweitert, mit dem Ziel äquivalente Strukturen zusammenzufassen und die darin befindlichen Marken zu typisieren.
-Da die Struktur des Netzes immer noch stark zusammenhängend ist, bleibt die Organisation des Netzes schwer verständlich für das menschliche Auge.\newline 
-Demzufolge sollte des Netzes auf logisch zusammenhänge Komponente aufgeteilt werden und trotzdem als ein Ganzes gelten.
-Diese Anforderung wird von den synchronen Kanälen umgesetzt, indem die Netzkomponenten anstelle der Kanten mit synchronen Kanälen verbunden werden und zwingen die mit einander verbunden Transitionen synchron zu schalten.
-Hiermit ist eine Trennung des Netzes nach ihrer Funktionalität erreicht, die qualitativ anspruchsvolle Modelle komplexer und verteilter Systeme entwerfen lässt.\bigbreak
-Obwohl das erweiterte Petrinetz anspruchsvolle Modellierungswerkzeug bietet, bleibt das gesamte Netzwerk statisch.
-Demzufolge wurde der nächste Evolutionsschritt in der Entwicklung der Petrinetze mit den Referenznetz Formalismus gemacht. 
-Dieser erlaubt dynamisch und bei Bedarf Netzinstanzen zu erstellen und diese als Marken in einem anderen Netz zu bewegen. 
-Somit kann es mehrerer Instanzen eines Netzes geben, die mit unterschiedlicher Belegung im Petrinetz existieren. % hier ist ein test 
+\section{Kontext der Petrinetze} \label{sec:KdP} 
 
-\section{Petrinetz Simulator} 
-Renew ist ein Petrinetz Simulator, der die oben genannten Petrinetz Formalismen unterstützt. 
-Dieser ist in Java geschrieben und bietet eine Oberfläche zum Zeichnen und einen Simulator zum Ausführen der Netze.\newline 
-Da die empfindliche monolithische Architektur von Olaf Kummer viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung umstrukturiert. 
-Nun kann Renew über die Plugin Schnittstellen erweitert werden, ohne die existierende Logik zu beeinflussen.\bigbreak
-Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. 
-Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mit Hilfe der Plugins modifizieren.
-Der Plugin-Manager baut auf zwei primären Namespaces auf. 
-Zum einen braucht dieser zusätzliche Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen.
+Das Konzept der Petrinetze wurde in der Arbeit von \textit{Carl Petri} beschrieben. Dieses besteht aus Stellen, Marken, Kanten und Transitionen, die nebenläufige und kommunizierende Prozesse darstellen können. Der ursprüngliche S/T-Netz Formalismus wurde mit der Zeit durch gefärbten Marken erweitert, mit dem Ziel äquivalente Strukturen zusammenzufassen und die darin befindlichen Marken zu typisieren. Da die Struktur des Netzes immer noch stark zusammenhängend ist, bleibt die Organisation des Netzes schwer verständlich für das menschliche Auge.
 
-\section{Konstellation des Simulators}
-Mit der Plugin Architektur hat Renew ihren Lebenszyklus weit überschritten, denn der Plugin-Manager und die Kernfunktionalität blieb lang unverändert. 
-An manchen Stellen datiert die Code Basis aus dem Jahr 2002 (JDK 1.4). 
-Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik (JDK 11). 
-Vor allem durch die Einführung des Modulsystem von Java 9, mit dem der JDK sowie der darauf aufbauenden Code modularisiert wird. 
-Im Zuge dessen ist das Portieren der Applikation nicht mängelfrei. 
-Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin-Code eine zentrale Funktion in System vertretet.\bigbreak
-Indem die Applikation neu strukturiert wird, sind zusätzliche Mängel zu erwarten, denn das Vernachlässigen der Gesamtarchitektur und die Konzentration nur auf das eigne Plugin führt zu Code-Duplizierung und Problemen in der Verständlichkeit der Plugin-Abhängigkeiten.\newline
-Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan werden damit der Umstieg auf Java 11 gelingt.
 
-\section{Ziel} 
+Demzufolge sollte des Netzes auf logisch zusammenhänge Komponente aufgeteilt werden und trotzdem als ein Ganzes gelten. Diese Anforderung wird von den synchronen Kanälen umgesetzt, indem die Netzkomponenten anstelle der Kanten mit synchronen Kanälen verbunden werden und zwingen die mit einander verbunden Transitionen synchron zu schalten. Hiermit ist eine Trennung des Netzes nach ihrer Funktionalität erreicht, die qualitativ anspruchsvolle Modelle komplexer und verteilter Systeme entwerfen lässt.\bigbreak
+
+
+Obwohl das erweiterte Petrinetz anspruchsvolle Modellierungswerkzeug bietet, bleibt das gesamte Netzwerk statisch. Demzufolge wurde der nächste Evolutionsschritt in der Entwicklung der Petrinetze mit den Referenznetz Formalismus gemacht. Dieser erlaubt dynamisch und bei Bedarf Netzinstanzen zu erstellen und diese als Marken in einem anderen Netz zu bewegen. Somit kann es mehrerer Instanzen eines Netzes geben, die mit unterschiedlicher Belegung im Petrinetz existieren.  
+
+\section{Ein Petrinetz Simulator} \label{sec:EPS}
+
+Renew ist ein Petrinetz Simulator, der die oben genannten Petrinetz Formalismen unterstützt. Dieser ist in Java geschrieben und bietet eine Oberfläche zum Zeichnen und einen Simulator zum Ausführen der Netze.
+
+
+Da die ursprüngliche Umsetzung von Olaf Kummer eine empfindliche, monolithische Architektur besaß und viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung umstrukturiert. Ab diesen Punkt kann Renew über die Plugin Schnittstellen erweitert werden, ohne die existierende Logik zu beeinflussen.\bigbreak
+
+
+Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mit Hilfe der Plugins modifizieren. Der Plugin-Manager baut auf zwei primären Namensräume auf. Zum einen braucht dieser zusätzliche Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen.
+
+
+\section{Konstellation des Simulators} \label{sec:KdS}
+
+Mit der Plugin Architektur hat Renew ihren Lebenszyklus weit überschritten, denn der Plugin-Manager und die Kernfunktionalität blieb lang unverändert. An manchen Stellen datiert die Code Basis aus dem Jahr 2002 (JDK 1.4). Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik (JDK 12). Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauenden Code modularisiert wird. Im Zuge dessen ist das Portieren der Applikation nicht mängelfrei. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin-Code eine zentrale Funktion in System vertretet.\bigbreak
+
+
+Indem die Applikation neu strukturiert wird, sind zusätzliche Mängel zu erwarten, denn das Vernachlässigen der Gesamtarchitektur und die Konzentration auf eigne Plugins führt zu Code-Duplizierung und Problemen in der Verständlichkeit der Plugin-Abhängigkeiten.
+
+Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan werden, damit der Umstieg auf das Modulsystem von Java gelingt.
+
+\section{Ziel} \label{sec:Z}
+
 Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen der Java Laufzeitumgebung sowie das Ausarbeiten einer möglichen Architektur für die verteilte Ausführung. Dementsprechend soll Renew einen einfachen Einstig in die existierende Kernlogik geben, sowie die Entwickler-Fähigkeiten in der Forschung verteilter Systeme vorantreiben, indem  selbst erstellte Simulation verteilt ausgeführt werden dürfen.
 
-\section{Umsetzung}
-Als Teil der Umsetzung entsteht ein Prototyp, der ein Teil von Renew modular restrukturiert. 
-Demzufolge wird die Code-Base sowie Design-Entscheidungen modernisiert und auf die Java 11 Version angepasst.
-Dabei soll der Schwerpunkt dieser Arbeit beim Plugin-Manager liegen, der die zentrale Aufgabe der Plugin-Verwaltung trägt.    
-Um das modulare Renew ausführen zu können, sollte die Software zusätzlich mit Hilfe eines modernen Build-Management-System compiliert und ausführbar verpackt werden. 
-Im nächsten Schritt werden die Plugins für die verteilte und kooperative Arbeiten vorbereitet. Dementsprechend wird eine Architektur benötigt, die den modularen Prototypen erweitert. 
-Somit entsteht eine Mikroservices-Architektur, die von einander entkoppelte Einheiten ein globales Ziele verfolgen lässt. \newline 
+
+\section{Umsetzung} \label{sec:U}
+
+Als Teil der Umsetzung entsteht ein Prototyp, der ein Teil von Renew modular restrukturiert. Demzufolge wird die Code-Base sowie Design-Entscheidungen modernisiert und auf die Java 11 Version angepasst. Dabei soll der Schwerpunkt dieser Arbeit beim Plugin-Manager liegen, der die zentrale Aufgabe der Plugin-Verwaltung trägt. Um das modulare Renew ausführen zu können, sollte die Software zusätzlich mit Hilfe eines modernen Build-Management-System compiliert und ausführbar verpackt werden. Im nächsten Schritt werden die Plugins für die verteilte und kooperative Arbeiten vorbereitet. Dementsprechend wird eine Architektur benötigt, die den modularen Prototypen erweitert.Somit entsteht eine Mikroservices-Architektur, die von einander entkoppelte Einheiten ein globales Ziele verfolgen lässt.
+
+
 Für die Implementation werde ich verteilte Software-Umsetzungen untersuchen und die Vor- und Nachteile ermitteln.
 Infolgedessen wird mittels der entstehend Rezension die Umsetzungsentscheidung der verteilten Architektur getroffen.
 
@@ -55,11 +52,11 @@ Infolgedessen wird mittels der entstehend Rezension die Umsetzungsentscheidung d
 %- Es müssen Umsetzungen von verteilten System evaluiert werden. 
 
 %- Java 9 und Module erste schritte zu Mikroservice und verteilten Anwendung  
-%- Java EE  EE Container
-%- Swagger 
+%- Java EE, Container
+%- Swagger Open API
 %- Kafka
 %- Web Interface 
 
-\section{Aufbau der Arbeit}
+\section{Aufbau der Arbeit} \label{sec:AdA}
 Hier kommt der Aufbau 
 
