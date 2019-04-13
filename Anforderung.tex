@@ -1,11 +1,39 @@
 \chapter{Analyse der Anforderungen}\label{cha:anforderungen}
-- Was Bringt Modularisierung für Renew
+In diesem Kapitel geht es um die Anwendung des Modulsystems auf die Renew Applikation. Dabei soll die Umsetzung der Theoretischen Konzepte innerhalb der Applikation, die sich lang zeitig bewährt hat, unverändert bleiben und zusätzlich mit den Modulsystem Eigenschaften ausgestattet werden. \bigbreak
+
+Die initiale Entwicklung von Renew begann mit einer monolithischen Architektur. Diese erfüllte die nötigen Anforderungen, einengte sich jedoch nicht für Entwickler mit geringem Kenntnis der Gesamtarchitektur und der darunterliegenden theoretischen Konzepten. Daher wurde eine Plugin-Architektur aufgesetzt, die es ermöglichte Studenten Renew mit Logik und Plugins zu erweitern. Diese Trägt bereits den Gedanken der \textit{Modularisierung} in sich, da die Gesamtarchitektur in Bestandsteile zerlegt und mit einander entkoppelt verknüpft wurden. \bigbreak
+
+
+Dieses Kapitel diskutiert die Eingenschaften von dem Modulsystem von Java und dessen Einfluss auf Renew. Des weiteren werden Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen müsste um unserer Vision der Implementation zu entsprechen. 
+
+
+% - Renew begann mit einem Monolithen 
+% - Jetzt ist  es eine Plugin Architektur 
+% - Diese trägt bereits in sich den Gedanken der Modularisierung durch Plugins
+% - Mit der Modularisierung der Plugins wird der nächste Schritt Richtung der sauberen Programmierung getan.
+% - Die Plugin-Komponenten sollen ihre Schnittstellen Verwalten und nur die Nötigen Schnittstellen der Außenwelt präsentieren. 
+% - Die Abhängigkeit zwischen den Modulen  und den Bibliotheken sollen klar verständlich sein. 
+% - Standardisierte Struktur modulübergreifend. 
+% - Plugins können nicht mehr auf alle Ressourcen und interne Klassen anderen Module zugreifen. 
+% - Dies minimiert den Wartungsaufwand. 
+% - Renew wird kleiner da weniger Bibliotheken geladen werden müssen
+% - Modularisierung verhindert doppelte Implementierung. 
+% -  Wichtigster Punkt: Renew behält die Möglichkeit aktueller Features der Java Plattform zu nutzen und wird nicht komplett "Deprecated" und abgeschaffen. 
+% -  Jetzt könne die Studenten, die mit dem Alten System sich nicht mehr auskennen, weiteren dem System Arbeiten.
+% -  mehr Renew Varianten durch Rekombination von Modulen 
+
+% - Was Bringt Modularisierung für Renew
+% - Wozu braucht man dieses 
+% - Was macht dieses Kapitel 
 
 \section{Motivation}\label{sec:motivation}
 	- Motivation 
 
 \section{Ausgangssituation} \label{sec:ausgangssituation}
-	- Ausgangssituation 
+	- Ausgangssituation
+		- Übersicht mit Paketen und Modulen 
+		- Simulationskern, UI Komponenten, Formalismen   
+	- Aufteilung in Komponenten 
 
 \section{Auswirkung} \label{auswirkung}
 	- was sind willkommene Eingenschaften 
