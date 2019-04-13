@@ -1,0 +1,41 @@
+Migration Strategien 
+
+
+Chicken Little 
+
+Der zweite Schritt Legacy-System zerlegen zielt auf die Restrukturierung der Legacy-Systemstruktur in voneinander abgegrenzte Module mit definierten Schnittstellen, die migriert werden können. Je nach Zerlegbarkeit des Systems sind in der weiteren Migration unterschiedliche Strategien zu verfolgen. Brodie und Stonebraker unterscheiden drei Systemtypen: 
+Zerlegbare Legacy-Systeme 
+Semizerlegbare Legacy-Systeme
+
+Softwaresysteme werden nach dem Chicken-Little-Ansatz in mehrere Migrationspakete zerlegt, die einzeln in kleinen inkrementellen Schritten in die neue Zielumgebung überführt werden. Während der Migration existieren altes und neues System nebeneinander. Die korrekte Synchronisation beider Systeme wird durch Koordinationsbausteine und Gateways sichergestellt. Durch das inkrementelle Vorgehen wird das Risiko von Projektfehlschlägen reduziert, da bei jedem zu migrierenden Teilsystem individuelle oder geänderte Rahmenbedingungen berücksichtigt werden können.
+
+Chicken Little stellt eine flexible, anpassbare und inkrementelle Strategie zur Softwaremigration bereit. Das zugrunde liegende Legacy-System wird in kleine, voneinander unabhängige Pakete (Inkremente) zerlegt, die iterativ in die Zielumgebung migriert werden. Während der Dauer der Migration wird die Aufrechterhaltung des Systembetriebs durch Koexistenz von Legacyund Zielsystem über den Einsatz von Gateways ermöglicht.
+
+
+
+Butterfly
+
+Legacyund Zielsystem werden bei diesem Migrationansatz nicht miteinander betrieben, während der gesamten Migration bleibt ausschließlich das Legacy-System im operativen Einsatz.
+Das Butterfly-Verfahren vermeidet also während der Migration den simultanen Zugriff auf Legacyund Zielsystem. Obwohl die Butterfly-Methode die vollständige Migration von Informationssystemen betrachtet, konzentriert sie sich auf die Datenmigration.
+Im Butterfly-Verfahren werden Daten iterativ migriert, weitgehend unabhängig davon erfolgt die ebenfalls schrittweise mögliche Migration von Anwendungslogik und Schnittstellen.
+
+
+
+
+// Hauptteil 
+- Keine oder nur beschränkte Zugriffe auf interne  API's. Der JDK ist modularisiert und kapselt nicht nur interne Features, sondern ersetzt existierende Legacy-Bibliotheken.  
+- Indem ein Unternehmen mehrere Bibliotheken anbietet, die gleiche interne Paketstruktur aufweisen, wie zum Beispiel "de.firma.responsibility.model", wird ein "Split Packages"  Fehler produziert. Um die Konsistenz zu erzwingen, darf ein Modul nicht dasselbe Paket aus zwei verschiedenen Modulen lesen. Die eigentliche Implementierung ist jedoch strenger, und zwei Module dürfen nicht einmal dasselbe Paket enthalten (exportiert oder nicht). Das Modulsystem arbeitet unter dieser Annahme und wann immer eine Klasse geladen werden muss, sucht es nach, welches Modul dieses Paket enthält, und sucht dort nach der Klasse (die die Klassenleistung laden sollte).
+Ein weiteres Problem einsteht in den Zugriffsrechten, wenn Pakete private Klassen beinhalten und Drittanbieter Bibliotheken sich Zugriff verschaffen. 
+- Der Classloader-Typ des Applikation-Classloaders wurden überarbeitet und somit auch das Arbeit mit den entsprechenden ehemaligen URLClassloader Methoden. Somit muss der existierende Code auf den "SecureClassLoader" oder  "ClassLoader" aufgewertet werden, um funktionstüchtig zu bleiben. 
+- Das Modulsystem von Java Verbietet Zyklische Abhängigkeit zwischen Modulen
+
+% TODO Migrationsmethoden und der von ihnen gelösten Problemen. 
+% TODO Folgern daraus Probleme und Hürden der Modulmigration für unsere Prototypen. 
+% TODO Und bewegen uns dann auf die möglichen Migrationsstrategien für die Modularisierung.
+
+
+
+hier kommt eine Einleitung das man es unterschiedlich macht mit  unterschiedlichen Ergebnissen und  es gibt kein perfektes verfahren für die Migration aller Anwendungen.
+Im Folgenden werden Herangehensweisen  erläutert die eine Migration  und wo diese am besten anzuwenden ist. 
+
+
