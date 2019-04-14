@@ -1,17 +1,69 @@
 \chapter{Analyse der Anforderungen}\label{cha:anforderungen}
-In diesem Kapitel geht es um die Anwendung des Modulsystems auf die Renew Applikation. Dabei soll die Umsetzung der Theoretischen Konzepte innerhalb der Applikation, die sich lang zeitig bewährt hat, unverändert bleiben und zusätzlich mit den Modulsystem Eigenschaften ausgestattet werden. \bigbreak
-
-Die initiale Entwicklung von Renew begann mit einer monolithischen Architektur. Diese erfüllte die nötigen Anforderungen, einengte sich jedoch nicht für Entwickler mit geringem Kenntnis der Gesamtarchitektur und der darunterliegenden theoretischen Konzepten. Daher wurde eine Plugin-Architektur aufgesetzt, die es ermöglichte Studenten Renew mit Logik und Plugins zu erweitern. Diese Trägt bereits den Gedanken der \textit{Modularisierung} in sich, da die Gesamtarchitektur in Bestandsteile zerlegt und mit einander entkoppelt verknüpft wurden. \bigbreak
+In diesem Kapitel geht es um die Anwendung des Modulsystems auf die Renew Applikation. Dabei soll die Umsetzung der Theoretischen Konzepte innerhalb der Applikation, die sich Langfristig bewährt hat, unverändert bleiben und zusätzlich mit den Modulsystem Eigenschaften ausgestattet werden. \bigbreak
 
 
-Dieses Kapitel diskutiert die Eingenschaften von dem Modulsystem von Java und dessen Einfluss auf Renew. Des weiteren werden Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen müsste um unserer Vision der Implementation zu entsprechen. 
+Die initiale Entwicklung von Renew begann mit einer monolithischen Architektur. Diese erfüllte die nötigen Anforderungen, einengte sich jedoch nicht für Entwickler mit geringem Kenntnis der Gesamtarchitektur und der darunterliegenden theoretischen Konzepten. Daher wurde eine Plugin-Architektur aufgesetzt, die es ermöglichte Studenten Renew mit Logik und Plugins zu erweitern. Diese Trägt bereits den Gedanken der \textit{Modularisierung} in sich, da die Gesamtarchitektur in Bestandsteile zerlegt und mit einander entkoppelt verknüpft wurden. Mit der Einführung des Modulsystems wird der nächste Schritt in Richtung erweiterbare und zusammen setzbare Systeme vorgenommen. \bigbreak
 
 
-% - Renew begann mit einem Monolithen 
-% - Jetzt ist  es eine Plugin Architektur 
-% - Diese trägt bereits in sich den Gedanken der Modularisierung durch Plugins
-% - Mit der Modularisierung der Plugins wird der nächste Schritt Richtung der sauberen Programmierung getan.
-% - Die Plugin-Komponenten sollen ihre Schnittstellen Verwalten und nur die Nötigen Schnittstellen der Außenwelt präsentieren. 
+Dieses Kapitel diskutiert den Einfluss des Java Modulsystem auf Renew und die derzeitige Plugin-Architektur. Des weiteren werden Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen müsste um unserer Vision der Implementation zu entsprechen. 
+
+%! Renew immer als Beispiel nehmen und an Renew alle Punkte abarbeiten.
+\section{Motivation}\label{sec:motivation}
+Es gibt mehrere Gründe warum Renew die Migration auf das Modulsystem durchführen sollte. Im Folgenden werden die wesentlichen Gründe, die für die Migration sprechen diskutiert.  
+
+\subsection{ Neuer Lebenszyklus}\label{sub:_neuer_lebenszyklus}
+Die Aufteilung einer monolithischer Architektur auf eine Plugin-Architektur war ein großes Ereignis für Renew. Denn mit der Zerlegung der Gesamtarchitektur, wurde die Komplexität auf die entstandenen Komponenten aufgeteilt und erlaubte eine mühelose Weiterentwicklung der Applikation über die Plugins. \bigbreak
+
+
+Obwohl die Renew Plugin-Architektur lange im betrieb blieb, hatte das Plugin-System die Codebasis umorganisiert ohne diese zu verändern. Diese führt zu alten, unverständlichen Code aus der Java 1.4 (2002) Version, mit dem viele Konzepte und Architektur Entscheidungen getroffen wurden. Nach fast 18 Jahren Betrieb altert die Codebasis sowie die Ideen und Konzepte für die Umsetzung ihrer Funktionalität. Besonders konfus und aufgebläht können Funktionsumsetzungen erscheinen, die heute von Java 12 in ein paar Zeilen gelöst werden können. Der zügiger und rapider Wandel der Software Paradigmen und deren optimaler Einsatz in der Software Architektur ist ein Teil des Fortschritts und kann nicht ignoriert werden. 
+
+
+Daher ist die Modularisierung und dessen Anforderung an die Struktur und Inhalt ein wichtiges Ereignis für den Renew Lebenszyklus. Denn dieser erreicht wieder sein Ende und wird mit dem Modularisierungsschritt zurückgesetzt. \bigbreak
+
+
+
+Renew's Entwicklungseinheit ist das Plugin. Diese repräsentiert ein bestimmtes Feature mit einen eigenen Lebenszyklus, wie zum Beispiel ein Formalismus, Simulator oder Fenster Management Plugin. Diese müssen Daten entgegennehmen, diese verarbeiten und wieder ausgeben. Demzufolge bündelt ein Plugin mehrere Fähigkeiten, die zusammen ein Feature verkörpern. Somit können Codeänderungen an mehreren Stellen im Plugin das Verhalten des Plugins beeinträchtigen und müssen auf das Gesamtverhalten getestet werden. Mit der Einführung der Module, kann das Plugin in kleinere Einheiten zerlegt werden, die anschließend eine gekapselte Teilfunktionalität des Plugins in sich tragen. Diese sind klein, leicht änderbar, ersetzbar und besitzen einen eignen Lebenszyklus. Somit verkürzt sich der Entwicklungsdauer einer Änderung und bietet eine Möglichkeit kooperativ und parallel an einem Plugin zu arbeiten. Demnach erweitert die Modularisierung den Renew Kontext und erlaubt das Entwickeln von Plugins in Rahmen eines Studenten Projekts, indem Teilaufgaben auf Module zerlegt und parallel bearbeitet werden können. 
+
+
+ \newpage
+
+	- Wichtiges Ereignis für die Applikation
+	- Module haben eigene Lebenszyklen: Verkürzte Entwicklungszyklen  
+	- Module sind ihren Lebenszyklen bewusst: keine Globalen Variablen etc.
+
+\subsection{Übersichtliche Codebasis}\label{sub:übersichtliche_codebasis}
+	- Wiederverwendbarkeit 
+	- Minimierung von Abhängigkeiten 
+	- Vereinfachen der Konfiguration : Jedes Modul implementiert genau ein Feature. Der Modulpfad definiert die menge an Features 
+	- API Modul kann von verschiedene Modulen implementiert werden
+	- Es entsteht eine Möglichkeit für Modulkataloge : Verringert Code Duplikation
+	- Klare Sicht auf Modulzusammenbau  
+	- Versionierung der Module ist möglich und kann in die Bildsysteme integriert werden. 
+	- Anforderungsbasierte Überprüfung der Abhängigkeiten möglich 
+
+\subsection{Moderner Zustand:} \label{sub:moderner_zustand_}
+	- Zugriff auf neue tools wie Jmods.
+	- Geht mit dem Trend und der Java Communit zusammen. 
+	- Module integrieren sehr gut mit anderen Technologien, wie Docker und Microservices.
+	- Ein Schritt in Richtung Skalierung und verteiltes Berechnen. 
+	- Start Up Performance 
+
+
+
+	- Welches Problem von Renew wird mit der Modularisierung gelöst 
+		- Modernisiert Codebasis. Altlast wird umgeschrieben
+		- Die Codebasis tritt in den nächsten Liederzyklus ein
+		- Junge Entwickler, die mit dem Modulsystem in die Softwareentwicklung eingestiegen sind sollen an Renew weiter arbeiten können. 
+		- Unnötige Bibliotheken erkennen und entfernen oder zusammengefasst.
+		- Wiederkehrende Plugin Funktionalität wird in Modulen vereinigt und ausgelagert.
+		- Minimieren des Wartungsaufwands 
+		- Durch Rekombination von Modulen können zahlreiche Varianten von Renew entstehen, indem passende Utils Bibliotheken einfach ausgetauscht werden können. 
+		-  Dies ist möglich da die Modul-Info Beschreibung uns !alle Abhängigkeiten in der Software anzeigt 
+
+
+
+
+% - Die Plugin-Komponenten sollen ihre Schnittstellen Verwalten und nur die Nötigen Schnittstellen der Außenwelt präsentieren.
 % - Die Abhängigkeit zwischen den Modulen  und den Bibliotheken sollen klar verständlich sein. 
 % - Standardisierte Struktur modulübergreifend. 
 % - Plugins können nicht mehr auf alle Ressourcen und interne Klassen anderen Module zugreifen. 
@@ -21,14 +73,6 @@ Dieses Kapitel diskutiert die Eingenschaften von dem Modulsystem von Java und de
 % -  Wichtigster Punkt: Renew behält die Möglichkeit aktueller Features der Java Plattform zu nutzen und wird nicht komplett "Deprecated" und abgeschaffen. 
 % -  Jetzt könne die Studenten, die mit dem Alten System sich nicht mehr auskennen, weiteren dem System Arbeiten.
 % -  mehr Renew Varianten durch Rekombination von Modulen 
-
-% - Was Bringt Modularisierung für Renew
-% - Wozu braucht man dieses 
-% - Was macht dieses Kapitel 
-
-\section{Motivation}\label{sec:motivation}
-	- Motivation 
-
 \section{Ausgangssituation} \label{sec:ausgangssituation}
 	- Ausgangssituation
 		- Übersicht mit Paketen und Modulen 
@@ -47,7 +91,10 @@ Dieses Kapitel diskutiert die Eingenschaften von dem Modulsystem von Java und de
 	- welche spezifische Dinge möchte ich behandeln 
 	- in welche Richtung und aus welcher Perspektive möchte ich migrieren 
 	- begründe den Migrationsansatz 
+	- eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
 
+
+% section umsetzungsplan (end)
 
 
 
