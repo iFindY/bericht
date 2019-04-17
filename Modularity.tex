@@ -32,14 +32,14 @@
 
   % Modulaufbau 
   \section{Modulstruktur}
-    Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen öffentlichen sowie privaten Operationen und Datenfelder.
-      \begin{figure}[h!] % nicht schöner platz siht gut aus auf der seite 
+      Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Idee davon, was für Anforderungen Module erfüllen müssen, um von einem Modul sprechen zu können. 
+        \begin{figure}[h!] 
         \centering
-        \includegraphics[width=0.5\textwidth]{material/images/simple-module.png}
+        \includegraphics[width=0.4\textwidth]{material/images/simple-module.png}
         \caption{Simple Modulstruktur}
         \label{fig:simple-module}
-      \end{figure} 
-    Die Kommunikation eines Moduls mit anderen Modulen und der Außenwelt erfolgt über eindeutig spezifizierte Schnittstellen.
+      \end{figure}
+    Primär erfüllt ein Modul einen abgeschlossenen Aufgabenbereich und beinhaltet die dafür nötigen öffentlichen sowie privaten Operationen und Datenfelder. Die Kommunikation eines Moduls mit anderen Modulen und der Außenwelt erfolgt über eindeutig spezifizierte Schnittstellen.
 
 
     Somit dient das Modul als ein Behälter für Objekte, der aus einem unsichtbaren und einem sichtbaren Bereich besteht. Der sichtbare Bereich ist die Schnittstelle des Moduls und ist die Aufzählung derer Objekte, die das Modul nach außen hin zur Verfügung stellt. Der Zugriff auf diese erfolgt über definierte Operationen in der Modulschnittstelle. Der unsichtbare Teil beherbergt die eigentliche Implementierung, also die umgesetzten Operationen und Daten.Unter diesen Umständen reduziert sich die Komplexität des Moduls für den Nutzer von der Gesamtimplementation auf die Schnittstellen. 
