@@ -1,4 +1,4 @@
-\chapter{Modularisierung}
+\chapter{Modularisierung} \label{cha:modularisierung}
 
 % \section{Modularisierung} \label{sec:modularisierung}
   Modularisierungsansätze finden sich so gut wie in jeder Software wieder, da es sich um ein grundlegendes Prinzip für die Beherrschung eines Systems handelt. Gerade in der Java-Welt wird seit jeher das Ideal der lose gekoppelten Systeme verfolgt. 
@@ -135,7 +135,7 @@
 
     Nichtsdestotrotz bieten die automatische und das unbenannten Modul diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
 
-  \section{Modulkopplung}
+  \section{Modulkopplung} \label{sec:mod_kop}
     Die Einführung des Modulsystems in Java 9 integriert das Konzept der Aufteilung einer monolithischen Softwareumsetzung in übersichtliche mit einander sachlich verbunden Modulen. Diese Idee wird zuerst von Java selbst umgesetzt, um als Beispiel für den aufbauenden Code zu fungieren. In der praktischen Umsetzung formuliert Java die Modulbeschreibung mit Hilfe der \textit{module-info.java} Datei, die drei Kopplungstypen enthalten kann: die durch \textit{requires, exports} und \textit{opens} Deskriptoren beschrieben wird.
 
     \begin{figure}[h!]
