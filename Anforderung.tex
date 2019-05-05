@@ -70,6 +70,7 @@ Mit Hilfe der Mikroservicearchitektur und der Docker-Umgebung wäre die distribu
 
 
 \section{Ausgangssituation} \label{sec:ausgangssituation} 
+
 Renew ist in mehr als 60 Plugins aufgeteilt, die für sich allein stehende Projekte repräsentieren. Jedes Projekt besitzt eine \textit{buidl.xml} und wird mit dem übergeordneten Stamm \textit{build.xml} Script zusammengeführt. Die XML-Scripte werden von dem \textit{Apach Ant} Werkzeug evaluiert, kompiliert und zusammengeführt. In folge dessen entsteht ein \textit{jar} Archiv für jedes Plugin-Projekt. Diese werden in eine bestimmte Orderstruktur für die Ausführung aufbereitet, die sich aus dem \textit{config, plugins} und \textit{libs} Verzeichnis zusammensetzt. 
 \bigbreak
 
@@ -89,6 +90,38 @@ Die in der Abbilde \ref{fig:plugin_deps} repräsentierten Zusammenhängen reflek
 
 
 \section{Auswirkung} \label{auswirkung}
+
+Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst,  reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können. 
+Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. 
+\bigbreak
+
+Die minimale Renew Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklenfreiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen. Der Mangel der \textit{Split Packages} wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
+\bigbreak
+
+
++ module info ersetzt plugin.cfg 
+	+ sofort erkennbanre abhängigkeiten
+	+ sofort erkennbare einsatzorte 
+		+ vergleich  cg mit module info 
+	+ mit einem klick modul gefunden und dessen exporte begutachtet 
+	+ besseres system mit transitiv  und ...to ...
++ service loader ersetzt Pluginmanager 
+
+\newpage
+
+
++
+
++ Keine Zyklen 
++ keine split packages
+
++ sofort erkennbanre abhängigkeiten
++ sofort erkennbare einsatzorte 
++ laufzeitumgebung = kompelierumgebung 
+
++ düne laufzeitanforderungen (braucht nicht alle libs)
++ jmod und kein Verzeichniss 
+
 	- was sind willkommene Eingenschaften 
 	- was wird besser gemacht 
 	- welche Mängel werden behoben 
