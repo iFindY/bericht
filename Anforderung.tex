@@ -91,26 +91,23 @@ Die in der Abbilde \ref{fig:plugin_deps} repräsentierten Zusammenhängen reflek
 
 \section{Auswirkung} \label{auswirkung}
 
-Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst,  reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können. 
-Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. 
-\bigbreak
+Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst,reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können.
 
-Die minimale Renew Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklenfreiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen. Der Mangel der \textit{Split Packages} wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
-\bigbreak
+\subsubsection{Zyklenfrei} 
+Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale Renew Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklenfreiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
 
+\subsubsection{Split Packages}
+Der Mangel der \textit{Split Packages} wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
 
-+ module info ersetzt plugin.cfg 
-	+ sofort erkennbanre abhängigkeiten
-	+ sofort erkennbare einsatzorte 
-		+ vergleich  cg mit module info 
-	+ mit einem klick modul gefunden und dessen exporte begutachtet 
-	+ besseres system mit transitiv  und ...to ...
-+ service loader ersetzt Pluginmanager 
+\subsubsection{Schnittstellen}
+Die Plugin.cfg beschreibt die Abhängigkeit der Module unter einander, jedoch ist diese Informantin unvollständig, denn es fehlt dieser die Information über Schnittstellen des Plugins und dafür ausgelegten Pakete. Infolgedessen hat der Entwickler keine andere Möglichkeit als auf gewünschte Plugin-Funktionen direkt zu zugreifen ohne einen festen Vertrag über die Kommunikation einzugehen. Somit kann jede Änderung und Aktualisierung innerhalb eines Plugins zum unerwarteten Verhalten seiner Nutzer führen. Im Gegensatz zu den \textit{Plugin.cfg} führt die \textit{module-info.java} eine Liste an exportierten Paketen sowie importierten Modulen. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
+
+\subsubsection{Homogene Umgebung}
+% laufzeitumgebung = kompelierumgebung 
+\subsubsection{Service Loader} 
+
 
 \newpage
-
-
-+
 
 + Keine Zyklen 
 + keine split packages
