@@ -90,7 +90,6 @@ Die in der Abbilde \ref{fig:plugin_deps} repräsentierten Zusammenhängen reflek
 
 
 \section{Auswirkung} \label{auswirkung}
-
 Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst,reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können.
 
 \subsubsection{Zyklenfrei} 
@@ -100,9 +99,16 @@ Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an fal
 Der Mangel der \textit{Split Packages} wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
 
 \subsubsection{Schnittstellen}
-Die Plugin.cfg beschreibt die Abhängigkeit der Module unter einander, jedoch ist diese Informantin unvollständig, denn es fehlt dieser die Information über Schnittstellen des Plugins und dafür ausgelegten Pakete. Infolgedessen hat der Entwickler keine andere Möglichkeit als auf gewünschte Plugin-Funktionen direkt zu zugreifen ohne einen festen Vertrag über die Kommunikation einzugehen. Somit kann jede Änderung und Aktualisierung innerhalb eines Plugins zum unerwarteten Verhalten seiner Nutzer führen. Im Gegensatz zu den \textit{Plugin.cfg} führt die \textit{module-info.java} eine Liste an exportierten Paketen sowie importierten Modulen. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
+Die \textit{plugin.cfg} beschreibt die Abhängigkeit der Module unter einander, jedoch ist diese Informantin unvollständig, denn es fehlt dieser die Information über Schnittstellen des Plugins und dafür ausgelegten Pakete. Infolgedessen hat der Entwickler keine andere Möglichkeit als auf gewünschte Plugin-Funktionen direkt zu zugreifen ohne einen festen Vertrag über die Kommunikation einzugehen. Somit kann jede Änderung und Aktualisierung innerhalb eines Plugins zum unerwarteten Verhalten seiner Nutzer führen. Im Gegensatz zu den \textit{plugin.cfg} führt die \textit{module-info.java} eine Liste an exportierten Paketen sowie importierten Modulen. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
 
 \subsubsection{Homogene Umgebung}
+Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- und der Entwicklungsumgebung. Denn die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu jeder Ausführungszeit präsent sein müssen. 
+\bigbreak
+
+Die Renew \textit{plugin.cfg} erfüllt die Funktion einer Richtlinie der benötigten Plugins, jedoch fehlen die Deklaration der unterstützenden Bibliotheken, die für die Ausführung von Renew benötigt werden. Daher ist die explizite Deklaration de notwendigen Drittanbieter-Bibliotheken eine willkommene Erweiterung für Renew. 
+
+
+
 % laufzeitumgebung = kompelierumgebung 
 \subsubsection{Service Loader} 
 
