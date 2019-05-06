@@ -90,7 +90,11 @@ Die in der Abbilde \ref{fig:plugin_deps} repräsentierten Zusammenhängen reflek
 
 
 \section{Auswirkung} \label{auswirkung}
-Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst,reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können.
+%	- was sind willkommene Eingenschaften 
+%	- was wird besser gemacht 
+%	- welche Mängel werden behoben 
+%	- welche Nebenwirkungen hat das Modulsystem: Positiv oder Negativ.
+Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschwächen, wie \textit{Zyklen}, \textit{Split Packages} und antiquierte API's. Diese sollen mit der Migration aufgelöst, reorganisiert und nachgerüstet werden, um einen kompelierfähigen Zustand erreichen zu können.
 
 \subsubsection{Zyklenfrei} 
 Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale Renew Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklenfreiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
@@ -105,31 +109,15 @@ Die \textit{plugin.cfg} beschreibt die Abhängigkeit der Module unter einander, 
 Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- und der Entwicklungsumgebung. Denn die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu jeder Ausführungszeit präsent sein müssen. 
 \bigbreak
 
-Die Renew \textit{plugin.cfg} erfüllt die Funktion einer Richtlinie der benötigten Plugins, jedoch fehlen die Deklaration der unterstützenden Bibliotheken, die für die Ausführung von Renew benötigt werden. Daher ist die explizite Deklaration de notwendigen Drittanbieter-Bibliotheken eine willkommene Erweiterung für Renew. 
+Die Renew \textit{plugin.cfg} erfüllt die Funktion einer Richtlinie der benötigten zugrunde liegender Plugins, jedoch fehlen die Deklaration der unterstützenden Bibliotheken, die für die Ausführung von Renew benötigt werden. Daher ist die explizite Deklaration der notwendigen Drittanbieter-Bibliotheken wie \textit{log4j} eine willkommene Erweiterung für Renew. 
 
-
-
-% laufzeitumgebung = kompelierumgebung 
 \subsubsection{Service Loader} 
+Der Renew Plugin-Manager ist der Kern der Applikation und verbindet alle Plugins und  erforderliche Drittanbieter-Bibliotheken miteinander. Die geschickte Umsetzung entkoppelter Komponenten von einander und erlaubt das einfache hinzufügen sowie entfernen von Plugins ohne die bestehende Architektur zu verändern. Die notwendigen Werkzeuge, die im Grundlagenkaltteil besprochen wurden ermöglichten die Umsetzung der dynamische Bindung. Dieser Vorgehensweise war ihrer Zeit voraus und wurde erst später von der Java-Plattform unter dem Namen \textit{Service Loader} aufgegriffen und eingebettet.
+Da sich die Funktionalität des Renew Plugin-Managers und des Java Service-Loaders überlappen, kann Renew sich die interne Java API zu nutze Machen und von dem \textit{Service Loader} profitieren, indem Renew die Plugins über die Java interne Umsetzung steuert. Infolgedessen verringert sich die Komplexität der Codebasis und hält Renew auf den aktuellen Stand der Technik.
 
 
-\newpage
 
-+ Keine Zyklen 
-+ keine split packages
-
-+ sofort erkennbanre abhängigkeiten
-+ sofort erkennbare einsatzorte 
-+ laufzeitumgebung = kompelierumgebung 
-
-+ düne laufzeitanforderungen (braucht nicht alle libs)
-+ jmod und kein Verzeichniss 
-
-	- was sind willkommene Eingenschaften 
-	- was wird besser gemacht 
-	- welche Mängel werden behoben 
-	- welche Nebenwirkungen hat das Modulsystem: Positiv oder Negativ. 
-
+% einfluss java schupst in die richtung 
 \section{Anforderungen} \label{sec:anforderungen}
 - Anforderungen an System 
 	- was soll der Prototyp leisten 
