@@ -74,17 +74,16 @@ Mit Hilfe der Mikroservicearchitektur und der Docker-Umgebung wäre die distribu
 Renew ist in mehr als 60 Plugins aufgeteilt, die für sich allein stehende Projekte repräsentieren. Jedes Projekt besitzt eine \textit{buidl.xml} und wird mit dem übergeordneten Stamm \textit{build.xml} Script zusammengeführt. Die XML-Scripte werden von dem \textit{Apach Ant} Werkzeug evaluiert, kompiliert und zusammengeführt. In folge dessen entsteht ein \textit{jar} Archiv für jedes Plugin-Projekt. Diese werden in eine bestimmte Orderstruktur für die Ausführung aufbereitet, die sich aus dem \textit{config, plugins} und \textit{libs} Verzeichnis zusammensetzt. 
 \bigbreak
 
-Der innere Aufbau jedes Plugins benötigt eine besondere Konfigurationsdatei, nämlich die \textit{plugin.cfg}. Diese beschreibt für die Ausführung nötige Plugin-Abhängigkeiten und wird von den internen Plugin-Manager verwaltet, der für die richtige Ordnung beim Laden jedes einzelnen Plugins aus dem \textit{plugins} Verzeichnis sorgt. Somit sind die \textit{plugin.cfg} Dateien ein guter Startpunkt für die Evaluation einer minimalen und lauffähigen Renew Konfiguration. 
+Der innere Aufbau jedes Plugins benötigt eine besondere Konfigurationsdatei, nämlich die \textit{plugin.cfg}. Diese beschreibt für die Ausführung nötige Plugin-Abhängigkeiten und wird von den internen Plugin-Manager verwaltet, der für die richtige Ordnung beim Laden jedes einzelnen Plugins aus dem \textit{plugins} Verzeichnis sorgt. Somit sind die \textit{plugin.cfg} Dokumente ein guter Startpunkt für die Evaluation einer minimalen und lauffähigen Renew Konfiguration. 
 \bigbreak
-
-Für die Evaluation der minimale Konfiguration starten wir aus dem \textit{Gui}-Plugin und arbeiten uns die Plugin-Hierarchie der \textit{plugin.cnf} herunter bis der komplette Graph aufgebaut ist.
-
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\textwidth]{material/images/plugin_deps.png}
   \caption{Gui Plugin-Abhängigkeiten}
   \label{fig:plugin_deps}
 \end{figure}
+Für die Evaluation der minimale Konfiguration starten wir aus dem \textit{Gui}-Plugin und arbeiten uns abwärts der Plugin-Hierarchie der \textit{plugin.cfg} hinab, bis der komplette Graph aufgebaut ist.
+
 
 Die in der Abbilde \ref{fig:plugin_deps} repräsentierten Zusammenhängen reflektieren die von den Entwickler abgestimmten Laufzeitabhängigkeiten, die einen groben Überblick über die nötigen Plugins verschaffen. Diese können zur Laufzeit alle benötigen Daten und Klassen enthalten, jedoch tragen sie keine Aussage über Abhängigkeiten während der Kompilation. Demgemäß kann zusätzlicher Code sowie Plugins benötigt werden. 
 
@@ -100,31 +99,63 @@ Die Folgeerscheinung der Modularisierung unterbindet zahlreiche Entwicklungsschw
 Mit den Zyklen-freien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale Renew Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklenfreiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
 
 \subsubsection{Split Packages}
-Der Mangel der \textit{Split Packages} wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
+Der Mangel der namensgleichen Pakete wird in einer Plugin-Architektur mit großer Wahrscheinlichkeit einträten, da Plugins aus dem gleichem Kontext, wie \textit{Navigator} oder \textit{NavigatorGit}, den selben \textit{de.renew.navigator.*} Namensraum beanspruchen. Dieses führt zum Fehler beim auflösen der benötigten Klasse und verhindert das Hochfahren der Applikation. 
 
 \subsubsection{Schnittstellen}
-Die \textit{plugin.cfg} beschreibt die Abhängigkeit der Module unter einander, jedoch ist diese Informantin unvollständig, denn es fehlt dieser die Information über Schnittstellen des Plugins und dafür ausgelegten Pakete. Infolgedessen hat der Entwickler keine andere Möglichkeit als auf gewünschte Plugin-Funktionen direkt zu zugreifen ohne einen festen Vertrag über die Kommunikation einzugehen. Somit kann jede Änderung und Aktualisierung innerhalb eines Plugins zum unerwarteten Verhalten seiner Nutzer führen. Im Gegensatz zu den \textit{plugin.cfg} führt die \textit{module-info.java} eine Liste an exportierten Paketen sowie importierten Modulen. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
+Die \textit{plugin.cfg} beschreibt die Abhängigkeit der Module unter einander, jedoch ist diese Informantin unvollständig, denn dieser fehlt die Information über Schnittstellen des Plugins und dafür ausgelegten Pakete. Infolgedessen hat der Entwickler keine andere Möglichkeit als auf gewünschte Plugin-Funktionen direkt zu zugreifen ohne einen festen Vertrag über die Kommunikation einzugehen. Somit kann jede Änderung und Aktualisierung innerhalb eines Plugins zum unerwarteten Verhalten seiner Nutzer führen. 
+
+
+Im Gegensatz zu den \textit{plugin.cfg} führt die \textit{module-info.java} eine Liste an benötigten Modulen sowie exportierten Paketen, die den Zugriff von Außen einschränken. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
 
 \subsubsection{Homogene Umgebung}
-Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- und der Entwicklungsumgebung. Denn die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu jeder Ausführungszeit präsent sein müssen. 
+Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- sowie Entwicklungsumgebung. Die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu der Kompilations- und Ausführungszeit präsent sein müssen.
 \bigbreak
 
 Die Renew \textit{plugin.cfg} erfüllt die Funktion einer Richtlinie der benötigten zugrunde liegender Plugins, jedoch fehlen die Deklaration der unterstützenden Bibliotheken, die für die Ausführung von Renew benötigt werden. Daher ist die explizite Deklaration der notwendigen Drittanbieter-Bibliotheken wie \textit{log4j} eine willkommene Erweiterung für Renew. 
 
 \subsubsection{Service Loader} 
-Der Renew Plugin-Manager ist der Kern der Applikation und verbindet alle Plugins und  erforderliche Drittanbieter-Bibliotheken miteinander. Die geschickte Umsetzung entkoppelter Komponenten von einander und erlaubt das einfache hinzufügen sowie entfernen von Plugins ohne die bestehende Architektur zu verändern. Die notwendigen Werkzeuge, die im Grundlagenkaltteil besprochen wurden ermöglichten die Umsetzung der dynamische Bindung. Dieser Vorgehensweise war ihrer Zeit voraus und wurde erst später von der Java-Plattform unter dem Namen \textit{Service Loader} aufgegriffen und eingebettet.
-Da sich die Funktionalität des Renew Plugin-Managers und des Java Service-Loaders überlappen, kann Renew sich die interne Java API zu nutze Machen und von dem \textit{Service Loader} profitieren, indem Renew die Plugins über die Java interne Umsetzung steuert. Infolgedessen verringert sich die Komplexität der Codebasis und hält Renew auf den aktuellen Stand der Technik.
+Der Renew Plugin-Manager ist der Kern der Applikation und verbindet alle Plugins und erforderliche Drittanbieter-Bibliotheken miteinander. Die geschickte Umsetzung entkoppelt Komponenten von einander und erlaubt das einfache hinzufügen sowie entfernen von Plugins ohne die bestehende Architektur zu verändern. Die notwendigen Werkzeuge, die im Grundlagenkaltteil besprochen wurden ermöglichten die Umsetzung der dynamische Plugin Kopplung. 
+\bigbreak
+
+Obwohl die Plugins Unabhängig von einander entwickelt werden können, musste die interne Funktion an die umgebenen Plugins durch direkte Zugriffe gebunden werden. Daraus folgt eine wilde Kopplung jedes einzelnen Plugins mit der umgebender Logik. Zum Beispiel greift das \textit{Gui}-Plugin direkt auf den \textit{Formalism}- sowie den \textit{Simulator}-Plugin zu und manipuliert somit den Zustand der Applikation. Im Gegensatz dazu manipuliert das \textit{CNFormaism}-Plugin seinen zustand direkt über das \textit{CH.if.draw}-UI-Framework. In der Konsequenz ergibt sich widersprüchliche Kontrollflüsse.  
 
 
+Um die Kontrolle über alle möglichen Plugin Typen zu behalten, kann das \textit{Gui}-Plugin über den \textit{Java Service Loaders} Mechanismus alle eingebundenen \textit{Formalism}-Plugins auslesen. Dafür wird ein \textit{Formalism}-Schnittstellen Modul erstellt, welches anschließend von anderen Modulen implementiert werden kann. Zum Beispiel können die \textit{CNFormalism} und das \textit{FAFormalsim}-Plugin's, die als Module implementiert sind, mit Hilfe des \textit{provide with} Schlüssels eine Implementation für das \textit{Formalism}-Modul anbieten. Diese werden anschließend über die \textit{Java Servide Loader Registery} von dem \textit{Gui}-Plugin ausgelesen und verwaltet. 
 
-% einfluss java schupst in die richtung 
+\bigbreak
+
+Die Instantiierung der Plugins über das \textit{IPLugin} Interface verfolgt einen ähnliche Ansatz und war somit seiner Zeit voraus. Jedoch hat Java aufgeholt und bietet eine leichtgewichtige und native Umsetzung des Registrierdienstes mit einer variablen Menge an möglichen Interface Implementationen.   
+
+
+\subsubsection{Plugin Manager}
+% DAG der Module 
+Der \textit{Plugin Manager} ist verantwortlich für das Erfassen und Einlesen der Renew Codebasis in der Arbeitsspeicher. Die Reihenfolge für die Plugin-Architektur ist strikt, da bestimmte Plugins gewisse Drittanbieter sowie Plugin-Bibliotheken brauchen. Wenn die Reihenfolge nicht stimmt werden benötigte Klassen nicht gefunden und die Applikation bricht mit einem Fehler ab. Daher ist das Ladend er Drittanbieter-Bibliotheken und das anschließende Laden der Plugins in der richtigen Reihenfolge eine kritische Aufgabe. 
+\bigbreak
+
+Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernimmt. Jener erstellt einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüfte dessen Existenz auf dem Modulpfad. Wenn diese nicht existiert wird ein \textit{java.lang.module.FindException} Fehler geworfen, anderenfalls sind alle Voraussetzungen für das Starten der Applikation erfüllt und die Applikation beginnt ihre Ausführung. 
+\bigbreak
+
+Damit übernimmt das Modulsystem von Java die Erstellung der richtigen einlese Reihenfolge der Plugins als einen gerichteter azyklischer Graphen und  übernimmt eine weitere interne Aufgabe.
+%Anforderungen an System 
 \section{Anforderungen} \label{sec:anforderungen}
-- Anforderungen an System 
-	- was soll der Prototyp leisten 
-	- welche spezifische Dinge möchte ich behandeln 
-	- in welche Richtung und aus welcher Perspektive möchte ich migrieren 
-	- begründe den Migrationsansatz 
-	- eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
+
+
+%was soll der Prototyp leisten 
+- Renew soll mit einer minimalen Pluginanzahl auf dem Modulpfad funktionieren. Das heißt, es muss eine Ui zu sehen sein die uns zeichnungen anzulegen zun öffenn und zu speichern der netze. 
+
+%welche spezifische Dinge möchte ich behandeln 
+- Alle Plugins des Prototypen sollen zu expliziten Modulen migriert werden.
+- Die komplette Applikation soll auf dem Modulpfad funktionieren, dass heißt Drittanbieter-Bibliotheken sollen als automatische Module eingebunden werden.
+
+%in welche Richtung und aus welcher Perspektive möchte ich migrieren 
+- Gradle 
+- Zusammenhang  Bindung der Plugins mit einander 
+
+%begründe den Migrationsansatz 
+- bottom UP
+
+%eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
+
 
 
 
