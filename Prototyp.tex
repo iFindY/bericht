@@ -65,8 +65,8 @@ Nachdem die Projektstruktur unseren Wünschen entspricht, muss diese in der Grad
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.6\textwidth]{material/images/gradle_project.png}
-  \caption{Projektstruktur}
-  \label{fig:projektstruktur}
+  \caption{Gradle Konfiguration}
+  \label{fig:gradle_project}
 \end{figure}
 
  Die oben genannten Schritte müssen für jedes Projekt, das für die minimal Version von Renew auserwählt wurde durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, haben wir alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. 
@@ -78,12 +78,12 @@ Da jetzt eine lauffähige minimale Renew Version für den Klassenpfad erstellt w
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.6\textwidth]{material/images/module_project.png}
-  \caption{Projektstruktur}
-  \label{fig:projektstruktur}
+  \caption{Modulumwandlung}
+  \label{fig:module_project}
 \end{figure}
 
-Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad migriert und werden somit aus den Klassen- sowie Modulpfaden für die Nutzung zugleich erreichbar sein. Anschließend werden Module migriert, die keine Plugin Abhängigkeiten benötigen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen. 
-Damit diese auf dem Modulpfad ausführbar sind, werden sie durch eine \textit{moduel-info.java} Konfigurationsdateien erweitert, die die benötigten automatischen Module deklariert. In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.
+Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad migriert und werden somit aus den Klassen- sowie Modulpfaden für die Nutzung zugleich erreichbar sein. Anschließend werden Module migriert, die keine Plugin Abhängigkeiten benötigen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen, wie zum Beispiel das \textit{Util} Plugin. 
+Damit diese auf dem Modulpfad ausführbar sind, werden sie durch eine \textit{moduel-info.java} Konfigurationsdateien erweitert. Diese muss sich im Stammverzeichnis des Moduls befinden wie in der Abbildung \ref{fig:module_project} dargestellt und deklariert die benötigten automatischen Module. In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.
 
 
 Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
@@ -91,7 +91,7 @@ Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfa
 
 \section{Umsetzung}
 
- 
+
 
 \section{Evaluation}
 
