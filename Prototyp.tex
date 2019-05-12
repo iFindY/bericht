@@ -31,7 +31,7 @@ Renew benutzt zur Zeit das \textit{Apache Ant} Werkzeug, dass alle Plugins kompi
 Die minimalen Version von Renew soll sich an einem modernen \textit{build} Werkzeug bedienen und eine Ausführbares Ergebnis erzielen.
 
 
-% womit setze ich die Anforderungen um 
+% wie setze ich die Anforderungen um 
 \section{Spezifikation}
 Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur mit einem aufstrebenden Werkzeug. 
 
@@ -44,17 +44,59 @@ Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Pr
 
 Zu Letzt entsteht ein bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die  über den \textit{Plugin Manager} verwaltet werden. 
 
+% was werde ich tun um die Spezifikation zu erfüllen 
 \section{Entwurf}
+Der Entwurf berücksichtigt die schrittweise Migration und lässt die Renew Applikation während der Gesamtmigration betriebsfähig bleiben. Das heißt, Plugins auf den Klassenpfad sowie Modulpfad können nahtlos mit einander kommunizieren und ihre Funktion während der Migration weiterhin erfüllen.   
+\bigbreak
 
-Um die Anforderungen umzusetzen wird die erarbeitete minimale Version als Basis für das modulare Renew ausgewertet. Dafür wir diese von dem Rest des Systems isoliert und auf Kompilation sowie Laufzeit Abhängigkeiten untersucht. 
+% Grobe darstellung der Projketstruktur als baum 
+Für den ersten Prototypen wird zuerst eine, Projektstruktur erstellt die für jedes Plugin Projekt die Möglichkeit bieten soll aus mehreren Modulen zu bestehen. Dafür wird eine Struktur \ref{fig:projektstruktur} erstellt, die im Java Verzeichnis alle Module bündelt, die über den Modulnamen disjunkt von einander verwaltet werden. Nichtsdestotrotz gehören sie zum gleichen Projekt und teilen unter sich das Ressourcen Verzeichnis, das im weiteren Verlauf zum erstellen der ausführbaren Pakete benötigt wird.
 
-%in welche Richtung und aus welcher Perspektive möchte ich migrieren 
-- bottom UP 
-- Zusammenhang  Bindung der Plugins mit einander 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{material/images/project-structure.png}
+  \caption{Projektstruktur}
+  \label{fig:projektstruktur}
+\end{figure}
+       
+% Wie das Gradel build system alles zusammenhalten. 
+Nachdem die Projektstruktur unseren Wünschen entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür halten wir für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien fest, indem wir Java- sowie Ressourcen-\textit{sourceSets} definieren und Projekt sowie Drittanbieter-Bibliotheken Abhängigkeiten für den  Kompilation-Pfad bestimmen.
 
-%begründe den Migrationsansatz 
-- Plugins eignen sich sehr gut dafür 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{material/images/gradle_project.png}
+  \caption{Projektstruktur}
+  \label{fig:projektstruktur}
+\end{figure}
+
+ Die oben genannten Schritte müssen für jedes Projekt, das für die minimal Version von Renew auserwählt wurde durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, haben wir alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. 
+
+
+% Modualisierungsiddee wie ich vorgehn werden(BottomUP). 
+Da jetzt eine lauffähige minimale Renew Version für den Klassenpfad erstellt werden kann, ist es Zeit diese zu Modularisieren und die einzelnen Plugins auf den Modulpfad zu migrieren. Dafür werde ich den in dem Kapitel Migration \ref{sec:bottomUP} vorgestellten \textit{bottom up} Ansatz verwenden. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{material/images/module_project.png}
+  \caption{Projektstruktur}
+  \label{fig:projektstruktur}
+\end{figure}
+
+Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad migriert und werden somit aus den Klassen- sowie Modulpfaden für die Nutzung zugleich erreichbar sein. Anschließend werden Module migriert, die keine Plugin Abhängigkeiten benötigen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen. 
+Damit diese auf dem Modulpfad ausführbar sind, werden sie durch eine \textit{moduel-info.java} Konfigurationsdateien erweitert, die die benötigten automatischen Module deklariert. In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.
+
+
+Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
+
+
+\section{Umsetzung}
+
+ 
+
+\section{Evaluation}
+
 
 %eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
 
-\section{Evaluation}
+
+% Dafür wir diese von dem Rest des Systems isoliert und auf Kompilation sowie Laufzeit Abhängigkeiten untersucht. $
