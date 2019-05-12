@@ -1,14 +1,53 @@
 \chapter{Prototypen} 
+In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren bis diese den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. 
 
 
+Für die Umsetzung werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen müsste um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
+
+%Anforderungen an System 
+\section{Anforderungen} \label{sec:anforderungen}
+Im Kern der Modernisierung von Renew liegt die Anpassung von Renew an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den Renew Plugins sollen Module entstehen, die als explizite Module auf dem Modulpfad betriebsfähig sind. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von Renew nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
+
+%was soll der Prototyp leisten 
+\subsection{Interaktion}
+Der erste modulare Renew Prototyp soll mit einer minimalen Plugin Anzahl auf dem Modulpfad betriebsfähig sein und eine Möglichkeit bieten Petrinetze zu erstellen, zu simulieren und zu serialisieren. Das heißt, es muss eine UI zu sehen sein, die mit den nötigen Werkzeugen und der darunter liegender Logik ausstattet ist. 
+
+\subsection{Projektstruktur}
+Für die Umsetzung des modularen Renew's wird für jedes Plugin eine moderne Projektstruktur benötigt, die den Inhalt entsprechend dem etablierten Maven Standardverzeichnislayout auf Java Module und die dafür benötigten Ressourcen aufteilt. 
+
+\subsection{Entwicklungsumgebung} 
+In der existierenden Renew Entwicklungsumgebung werden alle Plugin Projekte durch eine versteckte \textit{.project} beschrieben. Das heißt, der Klassenpfad und die binden der Codebausteine geschieht versteckt und für den Entwickler schwer zugänglich. Es liegt ein weiter und verschachtelter Weg der Eclipse Konfiguration-UI, die sich mit der Zeit verändern kann. Dieser Umstand wurde von mir im letzten Projekt beobachtet und kostete Zeit für alle Projektteilnehmer, da die Universitätsrechner strikten Rechten unterliegen, die keine eigen Eclipse Entwicklungsumgebung aufsetzen lässt. Darüber hinaus ist die Konfiguration von Renew in anderen Entwicklungsumgebungen wie IDEA oder Netbeans mit der \textit{.project} Konfigurationsdatei nicht möglich.
+\bigbreak
+
+Um eine Entwicklungsumgebung unabhängige Konfiguration anzulegen wird ein neues Werkzeug benötigt. 
+
+\subsection{Packaging}
+Da die Umstrukturierung von Renew an das Modulsystem durchgeführt werden muss, muss das für die Kompilation und Verpacken der Codebasis verantwortliche Werkzeug die Veränderung miterleben. 
+
+
+Renew benutzt zur Zeit das \textit{Apache Ant} Werkzeug, dass alle Plugins kompiliert und in einer ausführbare Form bringt. Dieses ist in Jahre gekommen und enthält wesentlich geringeren Funktionsumfang gegenüber der Aktuellen Konkurrenz, wie Maven und Gradle. Diese bieten eine Abhängigkeitsverwaltung, konfigurierbare Plugins und sogar eine Programmiersprache. Im Gesetz zu der aufgeblasenen XML-Konfiguration von Ant, beherrschen die modernen \textit{build} Werkzeuge die Komplexität durch den \textit{Convention over Configuration} Ansatz und flexiblen Ausdrucksweisen. 
+\bigbreak
+
+Die minimalen Version von Renew soll sich an einem modernen \textit{build} Werkzeug bedienen und eine Ausführbares Ergebnis erzielen.
+
+
+% womit setze ich die Anforderungen um 
 \section{Spezifikation}
-%welche spezifische Dinge möchte ich behandeln // spezifikation ??
-- gradle 
-- modul aufbau 
-- Alle Plugins des Prototypen sollen zu expliziten Modulen migriert werden.
-- Die komplette Applikation soll auf dem Modulpfad funktionieren, dass heißt Drittanbieter-Bibliotheken sollen als automatische Module eingebunden werden.
+Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur mit einem aufstrebenden Werkzeug. 
+
+
+Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug aufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module Kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.  
+\bigbreak
+
+Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Projekt Abhängigkeiten analysiert und innerhalb der \textit{module-info.java} aufgenommen werden. 
+\bigbreak
+
+Zu Letzt entsteht ein bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die  über den \textit{Plugin Manager} verwaltet werden. 
 
 \section{Entwurf}
+
+Um die Anforderungen umzusetzen wird die erarbeitete minimale Version als Basis für das modulare Renew ausgewertet. Dafür wir diese von dem Rest des Systems isoliert und auf Kompilation sowie Laufzeit Abhängigkeiten untersucht. 
+
 %in welche Richtung und aus welcher Perspektive möchte ich migrieren 
 - bottom UP 
 - Zusammenhang  Bindung der Plugins mit einander 
