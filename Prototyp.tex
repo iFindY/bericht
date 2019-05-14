@@ -90,24 +90,91 @@ Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfa
 
 
 \section{Umsetzung}
- 
+
+
+\subsection{Umstrukturierung}
  % projektstruktur anpassen
- 	% was ist schief gelaufen, was habe ich über den Plan umsetzen müssen
+ 	% split packages 
+ 	% resources am falschen Ort 
+ 	% andere Sprachen auser Java 
+
+	Für die Umsetzung der Anforderungen und des Entwurfs wird zuerst die Projektstruktur jedes Plugins angepasst. Dafür wird die Struktur jedes Plugins analysiert, umstrukturiert und im weiteren Verlauf von Mängeln befreit. In den meisten Fällen werden \textit{split pakages} und gemischte Strukturen innerhalb der Codebasis erwartet.
+\bigbreak
+
+	Zuerst wird eine grobe Maven Projektstruktur erstellt, in dem sich zusätzlich ein Plugin Wurzelverzeichnis befindet. Anschließend migriert man die Codebasis in das Plugin Wurzelverzeichnis, welches den neuen Plugin Namen trägt.
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.4\textwidth]{material/images/gui_struktur.png}
+	  \caption{Gui Projekt}
+	  \label{fig:gui}
+	\end{figure}
+
+
+	Das Gui Plugin eröffnet die geläufige mangelnde Organisation der Ressourcen. Zum Teil befinden sich diese in den \textit{etc} Verzeichnis und zum Teil sind diese in den Java \textit{source set} im \textit{images} Verzeichnis integriert, wie in der Abbildung \ref{fig:gui} dargestellt.
+
+
+	Um diese zu beheben, wird das Bild Verzeichnis \textit{de.renew.gui.images}, das mit den \textit{png} und \textit{gif} Daten befühlt ist in das Ressourcen Verzeichnis migriert. Damit die Applikation diese wiederfindet, werden die Zugriffspfade für die Ressourcen innerhalb des Gui Plugin an das neue Verzeichnis angepasst, indem die internen statischen Konstanten , wie \textit{CPNIMAGES}, auf den entsprechenden Ort verweisen. 
+
+
+	Zum Schluss werden die \textit{README} und die \textit{plugin.cfg}  aus dem \textit{etc} Verzeichnis in das Ressourcen Verzeichnis bewegt. Somit ist eine Struktur erstellt worden, die sich auf das Modulsystem von Java 	anwenden lässt. 
+	\bigbreak
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.5\textwidth]{material/images/formalism_plugin.png}
+	  \caption{Formalism Projekt}
+	  \label{fig:formalism}
+	\end{figure}
+
+	Andere Plugins wie Formalism, CH oder Misc besitzen \textit{JavaCC} Dateien, wie im Beispiel \ref{fig:formalism} dargestellt enden diese auf \textit{jj}. Sie erstellen Java Netz Grammatiken und wandeln die Java-Basis für die Ausführung ab. Diese liegen lose zwischen den Java Klassen und werden von den Java Compiler nicht interpretiert. Daher macht es Sinn diese in ein eigens \textit{Source Set} auszulagern und für den JavaCC Compiler für die Übersetzung zu gruppieren.
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=\textwidth]{material/images/form-gui.png}
+	  \caption{Resultierende Projektstrukturen}
+	  \label{fig:resultStr}
+	\end{figure}
+
+	Das Resultat \ref{fig:resultStr} erlaubt die entstandene Paketstrukturen zu analysieren, dennoch kann zu diesem Zeitpunkt keine Aussage über Zyklen getroffen werden, da die Kopplung der Projekte untereinander noch nicht definiert ist. Nichtsdestotrotz kann eine Überschneidung zwischen den Gui und den RenewAnt Plugin erkannt werden, da beide den \textit{de.renew.ant} Namensraum besetzen, der in sich um bestimmte Ant spezifische Aufgaben kümmert. Aufgrund dessen wird der Namensraum in dem Gui Plugin in \textit{task} zum Gunsten des RenewAnt Plugins umbenannt. Des weiteren könnten beide \textit{Task's} in den RenewAnt Plugin verschoben werden, da dieser keine Abhängigkeiten in dem Gui Plugin besitzt und nicht in den Aufgabenbereich der UI fallen. 
+
+\subsection{Gradle}
  % gradle build script erstellen
- 	% Was hat gradle besser als gedacht umgesetzt, wieos ist es toll "teaser"
- 	% Verärbung
- 	% Automatische bindung über Projektstruktur 
+ 		% Projektstrutur defenieren ()
+ 		% Klassenpfade für plugin-module und automatischen-module defenieren
+ 		% Abhängigkeiten Defeneiren und auf den Klassenpfad legen
+ 		% Subprojekte einbindne über schleifen 
+ 		% Verärbung der ähnlichen Abläufe wie das compieliren verpacken und bewegen 
+ 		% Was genau muss ein Unterprojekt besitzen
+ 		% erst hier wird klar das es keine Zyklen gibt 
+
+
+
+
+
+\subsection{Modularisierung} 		
  % minimale Konfiguration Abhängigkeiten validieren
- 	% Neue Komilation Abhängigkeiten  
+ 		% Welche Pakete werden über der vorgetellten minimal Umsetzung gevordert, im gradle build script nachtragen.
+ 		% Auswirkungen erklären,  trennen der für die Kompiations wichtigen Plugins und der Laufzeitplugins 
+ 	% Abhängigkieten im Bild nachtragen  
  % Modularisierungsschritte  
+ 	% erklären wo man anfängt 
  	% 1 bis 4 
  	% "static" copmile vs runtime libs and projects-> include in runtime project
 
 
 
+
+% testsrc -> test viel besser 
+% javacc ausgelagert 
+% ant tasks komplet im ant plugin verwalten ?
+% Was hat gradle besser als gedacht umgesetzt, wieso ist es toll "teaser"
+
 \section{Evaluation}
+ % gradel cool aus gradle di Abhängigkeiten auslesen wie api und implimentation das transitiv mappen 
 
-
+% ant sachen alle nach ant verschieben und über export zugreifen ???
+ % Abgleich mit Ant build script in Zeilen, Komplexität und erweiterbarkeit (Oder in der Evaluation)
 %eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
 
 
