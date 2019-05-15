@@ -149,7 +149,7 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
  		% erst hier wird klar das es keine Zyklen gibt 
 
  	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für die Kompilation Schritt definiert und die benötigten Projekte sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Dafür wird ein übergeordneter Gradle Projekt deklariert, der alle Subprojekte aus allen Plugin Verzeichnissen erstellt. 
-
+	\bigbreak
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.6\textwidth]{material/images/settings_gradle.png}
@@ -162,18 +162,45 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.9\textwidth]{material/images/gradle_sub_projects.png}
+	  \includegraphics[width=0.7\textwidth]{material/images/sourceSets.png}
 	  \caption{Source Sets}
 	  \label{fig:Source_Sets}
 	\end{figure}
 
+ 	Anschließend müssen die Java \textit{Source Sets} des Projekts bestimmt werden. Um die Umsetzung so einfach wie möglich zu gestalten, wird in der \textit{buld.gradle} Konfigurationsdatei, die für die Ausführungsphase zuständig ist, eine \textit{subprojects} Konfiguration angelegt, die für jedes Subprojekte die interne Projektstruktur definieren lässt. Diese beschreibt wo Verzeichnisse mit den Java Code und den dazugehörigen Ressourcen sich befinden sollen.  
+	\bigbreak
 
- 	Anschließend müssen die Java \textit{Source Sets} deklariert werden. Um die Gestaltung so einfach wie möglich zu gestalten, wird in der \textit{buld.gradle} Konfigurationsdatei, die für die Ausführungsphase zuständig ist, eine \textit{subprojects} Konfiguration angelegt, die für jedes Subprojekte die interne Projektstruktur definieren lässt. Diese beschreibt wo Verzeichnisse mit den Java Code und den dazugehörigen Ressourcen sich befinden sollen.  
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/dep_global.png}
+	  \caption{Drittanbieter-Bibliotheken}
+	  \label{fig:deps}
+	\end{figure}
 
+ 	Im nächsten Schritt werden global genutzte Drittanbieter-Bibliotheken deklariert. Diese werden aus dem \textit{Maven Repository} beim initiiere des Projekts geladen und auf den Klassenpfad aller Plugin Projekte eingebunden. Somit liegt die Verwaltung der Bibliotheken und der dazugehörigen Version an den Maven Repository und muss nicht mehr von uns im Git bereitgestellt werden. Dieses nimmt zusätzlich die Aufgabe der manuellen Erstellung der Klassenpfade und die Einbindung der Bibliotheken in der Entwicklungsumgebung ab, da diese unsere Konfiguration aufgreift und auf das Projekt anwendet. 
+	\bigbreak
 
- 	!!! windowmanagemtn beispiel da sind alle passenden libs 
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/configurations.png}
+	  \caption{Klassenpfade}
+	  \label{fig:kPath}
+	\end{figure}
 
+ 	Um die Klassenpfade von einander zu trennen werden zusätzliche Konfigurationen mit dem Namen \textit{plugin} und \textit{automaitc} eingeführt, die Plugin Code und Drittanbieter-Bibliotheken von einander trennen und für das Kompilieren zusammenführen. Somit könne diese getrennt von einander Verwaltet, Modifiziert und bei Bedarf für bestimmte Aufgaben angepasst werden. 
+	\bigbreak
 
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.9\textwidth]{material/images/windmang.png}
+	  \caption{Individuelle Konfiguration}
+	  \label{fig:windmang}
+	\end{figure}
+
+	Zu diesem Zeitpunkt sind alle Subprojekte eingebunden, jedoch fehlt die individuelle Konfiguration. Diese benötigen einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der \textit{buidl.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagment Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken  und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken. 
+	\bigbreak
+
+	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Damit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
 
 \subsection{Modularisierung} 		
@@ -196,7 +223,9 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 
 \section{Evaluation}
  % gradel cool aus gradle di Abhängigkeiten auslesen wie api und implimentation das transitiv mappen 
-
+ % git Drittanbieter-Bibliotheken schwer und brauchen platz jetzt nicht mehr. 
+ % git Versionsverwaltung einfach 
+ % vorteil von trennen der Klassenpfade automatic pluign
 % ant sachen alle nach ant verschieben und über export zugreifen ???
  % Abgleich mit Ant build script in Zeilen, Komplexität und erweiterbarkeit (Oder in der Evaluation)
 %eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
