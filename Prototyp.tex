@@ -148,6 +148,30 @@ Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfa
  		% Was genau muss ein Unterprojekt besitzen
  		% erst hier wird klar das es keine Zyklen gibt 
 
+ 	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für die Kompilation Schritt definiert und die benötigten Projekte sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Dafür wird ein übergeordneter Gradle Projekt deklariert, der alle Subprojekte aus allen Plugin Verzeichnissen erstellt. 
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/settings_gradle.png}
+	  \caption{Subprojekte}
+	  \label{fig:subprojekte}
+	\end{figure}
+
+ 	Die \textit{settings.gradle} Datei in der Abbildung \ref{fig:subprojekte}, die in der Konfigurationsphase des Gradle Lebenszyklus ausgelesen wird, ist für diesen Konfigurationsschritt zuständig und kann mithilfe von \textit{Groovy} beliebigen Code für die Deklaration der Projekte enthalten. In diesem Fall werden alle Verzeichnisse, die mit einem Großbuchstaben anfangen als Gradle-Subprojekte eingebunden. 
+	\newpage
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.9\textwidth]{material/images/gradle_sub_projects.png}
+	  \caption{Source Sets}
+	  \label{fig:Source_Sets}
+	\end{figure}
+
+
+ 	Anschließend müssen die Java \textit{Source Sets} deklariert werden. Um die Gestaltung so einfach wie möglich zu gestalten, wird in der \textit{buld.gradle} Konfigurationsdatei, die für die Ausführungsphase zuständig ist, eine \textit{subprojects} Konfiguration angelegt, die für jedes Subprojekte die interne Projektstruktur definieren lässt. Diese beschreibt wo Verzeichnisse mit den Java Code und den dazugehörigen Ressourcen sich befinden sollen.  
+
+
+ 	!!! windowmanagemtn beispiel da sind alle passenden libs 
 
 
 
