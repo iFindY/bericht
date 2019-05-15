@@ -1,12 +1,12 @@
 \chapter{Prototypen} 
-In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren bis diese den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. 
+In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren bis die Applikation den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. 
 
 
-Für die Umsetzung werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen müsste um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
+Für die Umsetzung werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen muss um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
 
 %Anforderungen an System 
 \section{Anforderungen} \label{sec:anforderungen}
-Im Kern der Modernisierung von Renew liegt die Anpassung von Renew an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den Renew Plugins sollen Module entstehen, die als explizite Module auf dem Modulpfad betriebsfähig sind. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von Renew nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
+Im Kern der Modernisierung von Renew liegt die Anpassung von Renew an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den Renew Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von Renew nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
 
 %was soll der Prototyp leisten 
 \subsection{Interaktion}
@@ -36,7 +36,7 @@ Die minimalen Version von Renew soll sich an einem modernen \textit{build} Werkz
 Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur mit einem aufstrebenden Werkzeug. 
 
 
-Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug aufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module Kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.  
+Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug aufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.  
 \bigbreak
 
 Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Projekt Abhängigkeiten analysiert und innerhalb der \textit{module-info.java} aufgenommen werden. 
@@ -86,7 +86,7 @@ Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulp
 Damit diese auf dem Modulpfad ausführbar sind, werden sie durch eine \textit{moduel-info.java} Konfigurationsdatei erweitert. Diese muss sich im Stammverzeichnis des Moduls befinden wie in der Abbildung \ref{fig:module_project} dargestellt und deklariert die benötigten automatischen Module. In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.
 
 
-Diese Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
+Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
 
 
 \section{Umsetzung}
