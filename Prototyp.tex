@@ -180,7 +180,7 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:deps}
 	\end{figure}
 
- 	Im nächsten Schritt werden global genutzte Drittanbieter-Bibliotheken deklariert. Diese werden aus dem \textit{Maven Repository} beim initiiere des Projekts geladen und auf den Klassenpfad aller Plugin Projekte eingebunden. Somit liegt die Verwaltung der Bibliotheken und der dazugehörigen Version an den Maven Repository und muss nicht mehr von uns aus dem Git Repository bereitgestellt werden. Dieses nimmt zusätzlich die Aufgabe der manuellen Erstellung der Klassenpfade und die Einbindung der Bibliotheken in der Entwicklungsumgebung ab, da diese unsere Konfiguration aufgreift und auf das Projekt anwendet. 
+ 	Im nächsten Schritt werden global genutzte Drittanbieter-Bibliotheken deklariert. Diese werden aus dem \textit{Maven Repository} beim initiiere des Projekts geladen und auf den Klassenpfad aller Plugin Projekte eingebunden. Somit liegt die Verwaltung der Bibliotheken und der dazugehörigen Version an den Maven Repository und muss nicht mehr von uns im GitLab Repository bereitgestellt werden. Die deklarierten Drittanbieter-Bibliotheken in der Konfiguration erleichtern zusätzlich die Aufgabe der manuellen Erstellung der Klassenpfade und die Einbindung der Bibliotheken in der Entwicklungsumgebung, da die Konfiguration von der Entwicklungsumgebung aufgegriffen und auf das Projekt angewandt wird. 
 	\newpage
 
 	\begin{figure}[h!]
@@ -200,7 +200,10 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:jar}
 	\end{figure}
 
-	Zum Schluss der globalen Konfiguration wird ein \textit{jar} Task angelegt, der für ein gegebenes \textit{Source Set} ein \textit{jar}-Archiv für jedes Plugin mit den dazugehörigen Ressourcen erstellt. Zu diesem Zeitpunkt sind alle Subprojekte eingebunden, dennoch fehlt diesen die individuelle Konfiguration.
+	Zum Schluss der globalen Konfiguration wird ein \textit{jar} Task angelegt, der für ein gegebenes \textit{Source Set} ein \textit{jar}-Archiv für jedes Plugin mit den dazugehörigen Ressourcen erstellt. 
+
+
+	Damit ist die globale Konfiguration der Renew Plugins beendet und bereit für die individuelle Anpassung der Plugin Bedürfnisse.
 	\bigbreak
 
 	\begin{figure}[h!]
@@ -214,15 +217,13 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	\bigbreak
 
 
-	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Damit ist die Vorbereitung für die Modularisierung abgeschlossen. 
+	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
 
 \subsection{Modularisierung}	
 	Nachdem alle benötigen Renew Plugins kompiliert, verpackt und ausgeführt werden können, müssen die neu entstandenen Abhängigkeitsbeziehungen analysiert werden. Die Analyse der Plugins geschieht nun über die erstellten Gradle Scripte, die für jedes Projekt die benötigten Bibliotheken und Projekte für die Kompilation definieren. Aus diesen wird ein Abhängigkeitsgraph erstellt, der Zyklen und versteckte Abhängigkeiten offenlegt. 
 	\bigbreak
 
-	Der neu entstandenen Graph wurde im Vergleich zu dem Graphen aus dem Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader} Projekt.
-	\bigbreak
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/deps_tree.png}
@@ -230,13 +231,13 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:deps}
 	\end{figure}
 
-	Laut der Abbildung \ref{fig:deps} sind keine Zyklen in der minimalen Version vorhanden und demnach muss keine weiteren Anpassungen durchgeführt werden. 
+	Der neu entstandenen Graph wurde im Vergleich zu dem Graphen aus dem Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader} Projekt. Des weiteren sind auf der Abbildung \ref{fig:deps} keine Zyklen in der minimalen Version zu beobachten und dementsprechend müssen auch keine weiteren Anpassungen durchgeführt werden. 
 	\bigbreak
 
 	Die Migration von der minimalen Version von Renew wird von den \textit{Loader, Util} und \textit{Windowmanagment} Plugin eingeleitet. Diese besitzen keine Abhängigkeiten innerhalb der Plugin Menge und brauchen keinen Zugriff auf den Klassenpfade nachdem sie sich auf dem Modulpfad befinden. Im Gegensatz dazu, behalten Plugins, die sich auf dem Klassenpfad befinden und als ein unbenanntes Modul interpretiert werden, alle Zugriffsrechte auf die interne Struktur migrierten Plugins, wie bereits in den Abschnitt \ref{fig:modacc} beschrieben wurde.
 	\bigbreak
 
-	Jedes Module benötigt eine \textit{module-info.java}, die alle Java internen sowie Drittanbieter Bibliotheken auflistet. Für die ersten Module werden die erforderlichen Bibliotheken inklusive dem Loader Plugin in der Konfigurationsdatei mit dem Schlüssel \textit{requiers} verankert und die dazugehörigen Drittanbieter-Bibliotheken auf dem Modulpfaden als automatische  Module eingebunden.
+	Da ein Modul seine eigne Abhängigkeiten verwalten muss, wird für jedes Plugin eine \textit{module-info.java} Konfigurationsdatei angelegt, die alle Java internen sowie Drittanbieter Bibliotheken auflistet. Für die ersten Module werden die erforderlichen Bibliotheken inklusive dem Loader Plugin in der Konfigurationsdatei mit dem Schlüssel \textit{requires} verankert und die dazugehörigen Drittanbieter-Bibliotheken aus den Klassenpfad auf dem Modulpfaden als automatische Module aufgesetzt.
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.7\textwidth]{material/images/loaderUtil-info.png}
@@ -264,7 +265,7 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind. 
 
 
-	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript und das Nachrüsten der Schnittstellen bestehender Module. 
+	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. 
 	\bigbreak
 
 	Auf der Nächsten Seite in der Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
@@ -280,34 +281,40 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:migration}
 	\end{figure}	
 
-
-% Analyse der Entstandenn Abhängigkeiten 
-	% Bild
-% Zwei Pluginarten compile und laufzeit. manche müssen für die ausführung mitgeliefert werden. 
-
-
-% Modularisierungsschritte  
- 	% erklären wo man anfängt 
- 	% 1 bis 4 
- 	% "static" copmile vs runtime libs and projects-> include in runtime project
-
-
 \section{Evaluation}
 
+% Projektstruktur: tolle sache zusätzlich für da stesten kännten die tstrs sachen richtig eingegleiderst werden 
 
-%  der graph ist vereinfacht und kann vereinfacht in der java-info abgebildet werden durch static und transitiv 
-% testsrc -> test viel besser 
+% Gradel: Vergleichen der Code Zeile in Ant und Gradle
+
+% Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten. RenewAnt 
+
+% Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv 
+
+% Gradel: unterstützt die modualre idee mit api und  implemetnation 
+
+
+
+% Auscheken des projekts schneller da drittanbieter nicht mitgezogen werden müssen. Versionsverwaltung ist einfacher mit nur einem Character Anapssung 
+
+% Trennen der Klassenpfade hilft die Struktur zu verwalten automatic runtime compoe api und implimentation 
+
+% JavaCC aus allen Plugins in einem gemeinsamen Plugin zusammenfassen 
+
+
+
+ 
+ % testsrc -> test viel besser 
 % javacc ausgelagert 
 % ant tasks komplet im ant plugin verwalten ?
 % Was hat gradle besser als gedacht umgesetzt, wieso ist es toll "teaser"
 
- % gradel cool aus gradle di Abhängigkeiten auslesen wie api und implimentation das transitiv mappen 
  % git Drittanbieter-Bibliotheken schwer und brauchen platz jetzt nicht mehr. 
  % git Versionsverwaltung einfach 
  % vorteil von trennen der Klassenpfade automatic pluign
-% ant sachen alle nach ant verschieben und über export zugreifen ???
+ % ant sachen alle nach ant verschieben und über export zugreifen ???
  % Abgleich mit Ant build script in Zeilen, Komplexität und erweiterbarkeit (Oder in der Evaluation)
-%eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
+ % eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
 
 
 % Dafür wir diese von dem Rest des Systems isoliert und auf Kompilation sowie Laufzeit Abhängigkeiten untersucht. $
