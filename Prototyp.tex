@@ -283,38 +283,24 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 
 \section{Evaluation}
 
-% Projektstruktur: tolle sache zusätzlich für da stesten kännten die tstrs sachen richtig eingegleiderst werden 
+% Projektstruktur: tolle sache zusätzlich für da stesten kännten die testsrc sachen richtig eingegleiderst werden. 
 
-% Gradel: Vergleichen der Code Zeile in Ant und Gradle
+% Projektstruktur: JavaCC aus allen Plugins in einem gemeinsamen Plugin zusammenfassen. Spagettii Code.  
 
-% Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten. RenewAnt 
+% Gradle: Gewinnen von Versionsverwaltung und Platzs.
 
-% Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv 
+% Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, runtime, compile, api und implimentation. 
 
-% Gradel: unterstützt die modualre idee mit api und  implemetnation 
+% Gradel: Vergleichen der Code Zeile in Ant und Gradle.
 
+% Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten.(RenewAnt) 
 
+% Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv. 
 
-% Auscheken des projekts schneller da drittanbieter nicht mitgezogen werden müssen. Versionsverwaltung ist einfacher mit nur einem Character Anapssung 
+% Gradel: unterstützt die modualre idee mit api und  implemetnation.
 
-% Trennen der Klassenpfade hilft die Struktur zu verwalten automatic runtime compoe api und implimentation 
-
-% JavaCC aus allen Plugins in einem gemeinsamen Plugin zusammenfassen 
-
-
-
- 
- % testsrc -> test viel besser 
-% javacc ausgelagert 
-% ant tasks komplet im ant plugin verwalten ?
-% Was hat gradle besser als gedacht umgesetzt, wieso ist es toll "teaser"
-
- % git Drittanbieter-Bibliotheken schwer und brauchen platz jetzt nicht mehr. 
- % git Versionsverwaltung einfach 
- % vorteil von trennen der Klassenpfade automatic pluign
- % ant sachen alle nach ant verschieben und über export zugreifen ???
- % Abgleich mit Ant build script in Zeilen, Komplexität und erweiterbarkeit (Oder in der Evaluation)
- % eine Anforderungsmenge die von mehreren Prototypen umgesetzt wird 
+% Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
 
 
-% Dafür wir diese von dem Rest des Systems isoliert und auf Kompilation sowie Laufzeit Abhängigkeiten untersucht. $
+
+
