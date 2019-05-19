@@ -282,25 +282,74 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	\end{figure}	
 
 \section{Evaluation}
+\subsection{Struktur} \label{sub:struktur}
+% Projektstruktur: tolle Sache, zusätzlich kännten die testsrc sachen richtig eingegleiderst werden. 
+	Die Anforderungen eine minimale Version von Renew zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es zusätzliche Strukturänderungen, die durchgeführt werden müssen. Zum Beispiel besitzen einige Plugins wie das Util, Loader und Simulator Plugin Test Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard Layout ein \textit{src/test/java/module.name} Test Ressourcen, mit den dazugehörigen Test Klassen, angelegt und verwaltet werden. 
 
-% Projektstruktur: tolle sache zusätzlich für da stesten kännten die testsrc sachen richtig eingegleiderst werden. 
+% Projektstruktur: JavaCC komplexität durch task graph und plugins. 
+	Des weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zu Folge, dass der generierte Code umgeleitet werden muss, um an der entsprächen Position die Funktion zu erfüllen. Zusätzlich muss JavaCC den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generieren Java Klassen bilden die Basis für die Plugins und somit sind sie zwingen erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich Komplexität, die neu für Renew ist und in der Zukunft sorgfältig gewartet werden muss. 
+	\bigbreak
 
-% Projektstruktur: JavaCC aus allen Plugins in einem gemeinsamen Plugin zusammenfassen. Spagettii Code.  
+% Projektstruktur: Ant Spagettii Code.  
+\subsection{Verwaltung} \label{sub:verwaltung}
 
-% Gradle: Gewinnen von Versionsverwaltung und Platzs.
+% Gradle: Profetieren von Versionsverwaltung und Platzs.
+	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwickler in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und der darunter liegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. 
 
-% Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, runtime, compile, api und implimentation. 
+
+	Die Verwaltung der Bibliotheken spielt eine große Rolle für Renew, da im Verlauf der Entwicklung, Drittanbieter-Bibliotheken angepasst wurden und somit keine Möglichkeit besteht eine saubere Version der Bibliothek einzubinden. Infolgedessen entstehen  unsaubere Abhängigkeiten, die nicht aktualisiert werden können. Diese werden wie zuvor, durch das Auslesen aus einem lokalen \textit{libs} Verzeichnis, in das Projekt eingebunden und müssen in der Zukunft, für die saubere Umsetzung von der benutzerdefinierte Logik befreit werden.
+	\bigbreak
 
 % Gradel: Vergleichen der Code Zeile in Ant und Gradle.
+	Ein zusätzlicher Vorteil der neuen Projektverwaltung liegt an der neuen Umsetzung mit einer Programmiersprache, die es erlaubt mit Felder, Variablen, Schleifen und Objekten zu arbeiten. Dies hat zu Folge, dass der Übergang von den Renew Java Code zu den \textit{build} Skript von Gradle für den Entwickler leichter nachzuvollziehen ist und somit Akzeptanz und Anpassungsfähigkeit mit sich bringt. 
 
+
+	Die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeug spiegelt sich in der Code Menge, die geschrieben werden muss wider. Zum Beispiel benötigt die Ant Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von Renew 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden. 
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.4\textwidth]{material/images/Remote_config.png}
+	  \caption{Remote Plugin Konfiguration}
+	  \label{fig:remote_config}
+	\end{figure}	
+
+	Obwohl die globale Konfiguration für die vollständige Renew Version sich steigern wird, deuten die Zahlen auf einen geringeren Code-Abdruck des Gradle \textit{build} Werkzeugs hin.
+	\newpage
+\subsection{Aufwertung} \label{sub:optimierung}
 % Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten.(RenewAnt) 
-
+	Nachdem die Modularisierung abgeschlossen wurde, ist eine globale Sicht auf die Umsetzung möglich und offenbart Optimierungspotenzial für die Abstimmung der Modulabhängigkeiten. Zum Beispiel wird dass RenewAnt Plugin nur für die Kompilation benötigt und muss nicht für die Ausführung mitgeliefert werden. Daher kann dieses als eine \textit{static} Abhängigkeit im Gui Plugin verankert werden und wird der Laufzeit nicht beigefügt.
+	\bigbreak
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.4\textwidth]{material/images/gui_config.png}
+	  \caption{Statische Konfiguration}
+	  \label{fig:remote_config}
+	\end{figure}
 % Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv. 
+	Des weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Dass heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das Util Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. Um die Übersicht über die genutzten Module zu behalten, kann mithilfe des \textit{transitiv} Schlüssels eine angeforderte Bibliothek für alle Nutzer Plugins offen gelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin Erweitern und Nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. 
+	\bigbreak
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.8\textwidth]{material/images/misc_trans.png}
+	  \caption{Transitive Konfiguration}
+	  \label{fig:trans_config}
+	\end{figure}
+
+	Wenn man die Verfeinerung durchführt, kriegt man eine eindeutige Darstellung der Plugin Abhängigkeiten und dessen Aufbau. Ersichtlich wird, dass Module eine einfache Art und Wiese bieten, um den Aufbau komplexer Systeme zu Verwalten und Umstrukturieren.    
+	\begin{figure}[t]
+	  \centering
+	  \includegraphics[width=0.7\textwidth]{material/images/tree_trans.png}
+	  \caption{Minimale modulare Renew Version}
+	  \label{fig:trans_config}
+	\end{figure}
+
 
 % Gradel: unterstützt die modualre idee mit api und  implemetnation.
 
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
 
+
+
+% Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, plugin, runtime, compile, api und implimentation. 
 
 
 
