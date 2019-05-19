@@ -325,7 +325,7 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:remote_config}
 	\end{figure}
 % Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv. 
-	Des weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Dass heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das Util Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. Um die Übersicht über die genutzten Module zu behalten, kann mithilfe des \textit{transitiv} Schlüssels eine angeforderte Bibliothek für alle Nutzer Plugins offen gelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin Erweitern und Nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. 
+	Des weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Dass heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das Util Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. Um die Übersicht über die genutzten Schlüsselmodule zu behalten, kann mithilfe der \textit{transitiv} Deklaration eine angeforderte Bibliothek für alle Nutzer-Plugins offen gelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin erweitern und nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. 
 	\bigbreak
 	\begin{figure}[h!]
 	  \centering
@@ -334,6 +334,17 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	  \label{fig:trans_config}
 	\end{figure}
 
+% Gradel: unterstützt die modualre idee mit api und implemetnation.
+	Darüber hinaus unterstützt Gradle die Idee der Modularisierung von Java und bietet eine unterstützende API zum entwerfen der transitiven Abhängigkeiten, indem zwei weitere Konfigurationspfade angeboten werden, die durch \textit{api} und \textit{implimentation} gekennzeichnet sind. Die \textit{api} Konfiguration beschreibt eine transitive Abhängigkeit, die durch die Modulhierarchie weitergereicht wird und die \textit{implimentation} Konfiguration, die die genutzten Bibliothek privat nutzt. Somit können die transitiven Renew Abhängigkeiten, die in der \textit{module-info.java} deklariert sind, auf die Projektstruktur mithilfe von Gradle abgebildet werden. 
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.8\textwidth]{material/images/gradle_misc.png}
+	  \caption{Transitive Gradle Konfiguration}
+	  \label{fig:trans_gradle}
+	\end{figure}
+
+\subsection{Endergebnis} \label{sub:endergebnis}
+	
 	Wenn man die Verfeinerung durchführt, kriegt man eine eindeutige Darstellung der Plugin Abhängigkeiten und dessen Aufbau. Ersichtlich wird, dass Module eine einfache Art und Wiese bieten, um den Aufbau komplexer Systeme zu Verwalten und Umstrukturieren.    
 	\begin{figure}[t]
 	  \centering
@@ -343,7 +354,6 @@ Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpf
 	\end{figure}
 
 
-% Gradel: unterstützt die modualre idee mit api und  implemetnation.
 
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
 
