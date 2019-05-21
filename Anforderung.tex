@@ -1,61 +1,43 @@
 \chapter{Analyse der Ausgangssituation}\label{cha:ausgangssituation}
-In diesem Kapitel geht es um die Anwendung des Modulsystems auf die Renew Applikation. Dabei soll die Umsetzung der Theoretischen Konzepte innerhalb der Applikation, die sich Langfristig bewährt hat, unverändert bleiben und zusätzlich mit den Modulsystem Eigenschaften ausgestattet werden. \bigbreak
+In diesem Kapitel geht es um die Anwendung des Modulsystems auf die Renew Applikation. Dabei soll die Umsetzung der Theoretischen Konzepte innerhalb der Applikation, die sich Langfristig bewährt hat, unverändert bleiben und darüber hinaus mit den Modulsystem Eigenschaften ausgestattet werden. \bigbreak
 
-
-Die initiale Entwicklung von Renew begann mit einer monolithischen Architektur. Diese erfüllte die nötigen Anforderungen, einengte sich jedoch nicht für Entwickler mit geringem Kenntnis der Gesamtarchitektur und der darunterliegenden theoretischen Konzepten. Daher wurde eine Plugin-Architektur aufgesetzt, die es ermöglichte Studenten Renew mit Logik und Plugins zu erweitern. Diese Trägt bereits den Gedanken der \textit{Modularisierung} in sich, da die Gesamtarchitektur in Bestandsteile zerlegt und mit einander entkoppelt verknüpft wurden. Mit der Einführung des Modulsystems wird der nächste Schritt in Richtung erweiterbare und zusammen setzbare Systeme vorgenommen. \bigbreak
-
+Die initiale Entwicklung von Renew begann mit einer monolithischen Architektur. Diese erfüllte die nötigen Anforderungen, eignet sich jedoch nicht für Entwickler mit geringem Kenntnis über die Gesamtarchitektur und der darunterliegenden theoretischen Konzepten. Daher wurde eine Plugin-Architektur aufgesetzt, die es ermöglichte Studenten Renew mit Logik innerhalb eines Plugins zu erweitern. Dieses Verfahren trägt bereits den Gedanken der \textit{Modularisierung} in sich, da die Gesamtarchitektur in Bestandsteile zerlegt und mit einander entkoppelt verknüpft wird. Somit ist die Einführung des Modulsystems der nächste Schritt in Richtung erweiterbare und zusammen setzbare Systeme vorgenommen. \bigbreak
 
 Dieses Kapitel diskutiert die Motivation für die Migration, den Einfluss des Java Modulsystem auf Renew und die derzeitige Plugin-Architektur. Des weiteren wird ein Zustand ermittelt, der als Basis für die nachfolgenden Prototypen gelten wird.
 
-
-
-
 \section{Motivation}\label{sec:motivation}
-
 Es gibt mehrere Gründe warum Renew die Migration auf das Modulsystem durchführen sollte. Im Folgenden werden die wesentlichen Gründe, die für die Migration sprechen diskutiert.  
 
-
 \subsection{Verkürzter Entwicklungszyklus}\label{sub:vez}
-
 Die Aufteilung einer monolithischer Architektur auf eine Plugin-Architektur war ein großes Ereignis für Renew. Denn mit der Zerlegung der Gesamtarchitektur, wurde die Komplexität auf die entstandenen Komponenten aufgeteilt und erlaubte eine mühelose Weiterentwicklung der Applikation über die Plugins. \bigbreak
 
-
-Obwohl die Renew Plugin-Architektur lange im betrieb blieb, hatte das Plugin-System die Codebasis umorganisiert ohne diese zu verändern. Diese führt zu alten, unverständlichen Code aus der Java 1.4 (2002) Version, mit dem viele Konzepte und Architektur Entscheidungen getroffen wurden. Nach fast 18 Jahren Betrieb altert die Codebasis sowie die Ideen und Konzepte für die Umsetzung ihrer Funktionalität. Besonders konfus und aufgebläht können Funktionsumsetzungen erscheinen, die heute von Java 12 in ein paar Zeilen gelöst werden können. Der zügiger und rapider Wandel der Software Paradigmen und deren optimaler Einsatz in der Software Architektur ist ein Teil des Fortschritts und kann nicht ignoriert werden. 
-
+Obwohl die Renew Plugin-Architektur lange im betrieb blieb, hatte das Plugin-System die Codebasis umorganisiert ohne diese zu verändern. Diese führt zu alten, unverständlichen Code aus der Java 1.4 (2002) Version, mit dem viele Konzepte und Architektur Entscheidungen getroffen wurden. Nach fast 18 Jahren Betrieb altert die Codebasis sowie die Ideen und Konzepte für die Umsetzung ihrer Funktionalität. Besonders konfus und aufgebläht können Funktionsumsetzungen erscheinen, die heute von Java 12 in ein paar Zeilen gelöst werden können. Der zügiger und rapider Wandel der Software Paradigmen und deren optimaler Einsatz in der Software Architektur ist ein Teil des Fortschritts und muss in die Planung des Lebenszyklus der Applikation mit einkalkuliert werden. \newline
 
 Daher ist die Modularisierung und dessen Anforderung an die Struktur und Inhalt ein wichtiges Ereignis für den Renew Lebenszyklus. Denn dieser erreicht wieder sein Ende und wird mit dem Modularisierungsschritt zurückgesetzt. \bigbreak
 
-
-Renew's Entwicklungseinheit ist das Plugin. Diese repräsentiert ein bestimmtes Feature mit einen eigenen Lebenszyklus, wie zum Beispiel ein Formalismus, Simulator oder Fenster Management Plugin. Diese müssen Daten entgegennehmen, diese verarbeiten und wieder ausgeben. Demzufolge bündelt ein Plugin mehrere Fähigkeiten, die zusammen ein Feature verkörpern. Somit können Codeänderungen an mehreren Stellen im Plugin das Verhalten des Plugins beeinträchtigen und müssen auf das Gesamtverhalten getestet werden. Mit der Einführung der Module, kann das Plugin in kleinere Einheiten zerlegt werden, die anschließend eine gekapselte Teilfunktionalität des Plugins in sich tragen. Diese sind klein, leicht änderbar, ersetzbar und besitzen einen eignen Lebenszyklus. Somit verkürzt sich der Entwicklungsdauer einer Änderung und bietet eine Möglichkeit kooperativ und parallel an einem Plugin zu arbeiten. 
-
+Renew's Entwicklungseinheit ist das Plugin. Diese repräsentiert ein bestimmtes Feature mit einen eigenen Lebenszyklus, wie zum Beispiel ein Formalismus, Simulator oder Fenster Management Plugin. Diese müssen Daten entgegennehmen, diese verarbeiten und wieder ausgeben. Demzufolge bündelt ein Plugin mehrere Fähigkeiten, die zusammen ein Feature verkörpern. Somit können Codeänderungen an mehreren Stellen im Plugin das Verhalten des Plugins beeinträchtigen und müssen auf das Gesamtverhalten des Plugins und seiner Nutzer getestet werden. Mit der Einführung der Module, kann das Plugin in kleinere Einheiten zerlegt werden, die anschließend eine gekapselte Teilfunktionalität des Plugins in sich tragen und Auswirkungen der Modifikation eingrenzen. Diese sind klein, leicht änderbar, ersetzbar und besitzen einen eignen Lebenszyklus. Somit verkürzt sich die Entwicklungsdauer einer Änderung und bietet eine Möglichkeit kooperativ und parallel an einem Plugin zu arbeiten. \newline
 
 Demnach erweitert die Modularisierung den Renew Kontext und erlaubt das Entwickeln von Plugins in Rahmen eines Studenten Projekts, indem Teilaufgaben eines Plugins auf Module zerlegt und parallel von Studenten bearbeitet werden können. Darüber hinaus ist das Zusammenführen der Ergebnisse eine konfliktfreie Angelegenheit und bedarf keine komplette Gruppenaufmerksamkeit, um die passenden Codeblöcke für die Gesamtfunktionalität auszuwählen, da es so gut wie keine Überschneidung in der Aufgabenimplementation sich bilden kann. Somit profitiert Renew von den kurzen Entwicklungszyklen der Module und deren unproblematischen Verknüpfungseigenschaften. 
 
-
 \subsection{Code-Bausteine}\label{sub:cbs}
+Eine der wichtigsten Fähigkeiten eins Entwicklers, ist die Beherrschung der Komplexität. Diese führt zu sauberen, lesbaren, wartbaren Code und erweitert den Lebenszyklus einer Software um ein Vielfaches. Um dieses Kompetenz zu meistern bietet das Modulsystem von Java unterstützende Werkzeuge, die den erstellten Code organisieren und strukturieren, um ein langlebiges Ergebnis zu erzielen.  \newline
 
+Da Renew das Produkt vieler Abschluss-, Projekte- und Doktorarbeiten ist, durch die die Software ihre Gestalt annimmt, gibt es diverse Beschäftigte mit eigenen Zielen und Interessen. Daher ist eine allgegenwärtige, globale Strukturanforderung, die jedem Entwickler bekannt ist und an die verpflichtend eingehalten werden muss, ein erstrebenswerte Charakteristik.  \newline
 
-Eine der wichtigsten Fähigkeiten eins Entwicklers, ist die Beherrschung der Komplexität. Diese führt zu sauberen, lesbaren, wartbaren Code und erweitert den Lebenszyklus einer Software um ein Vielfaches. Um dieses Kompetenz zu meistern bietet das Modulsystem von Java unterstützende Werkzeuge, die den erstellten Code organisieren und strukturieren, um ein langlebiges Ergebnis zu erzielen. 
+Die im Kapitel \ref{cha:modularisierung} vorgestellten Moduleigenschaften beschreiben die von dem Java Modulsystem eingesetzten Richtlinien für die saubere Softwareentwicklung und erzwingen ein Still der fein granulierten Code-Bestandteile, die kombiniert eine Softwaresystem darstellen. \newline
 
+An erster Stelle verhindert dieses Vorgehen den sogenannten \textit{Spaghetti Code}, der funktionsübergreifende Anpassungen trifft und den Überblick über den Zusammenhang der Gesamtarchitektur unscharf erscheinen lässt.  \newline
 
-Da Renew das Produkt vieler Abschluss-, Projekte- und Doktorarbeiten ist, durch die die Software ihre Gestalt annimmt, gibt es diverse Beschäftigte mit eigenen Zielen und Interessen. Daher ist eine allgegenwärtige, globale Strukturanforderung, die jedem Entwickler bekannt ist und an die gehalten werden muss, ein erstrebenswerte Charakteristik. 
-
-
-Die im Kapitel \ref{cha:modularisierung} vorgestellten Moduleigenschaften beschreiben die von dem Java Modulsystem eingesetzten Richtlinien für die saubere Softwareentwicklung und erzwingen ein Still der fein granulierte Code-Bestandteile, die kombiniert eine Softwaresystem darstellen. An erster Stelle verhindert dieses Vorgehen den sogenannten \textit{Spaghetti Code}, der Funktionsübergreifende Anpassungen trifft und den Überblick über den Zusammenhang der Gesamtarchitektur unscharf erscheinen lässt. 
-
-
-Module erschweren den \textit{Spaghetti Code}, indem Mehraufwand für die Kommunikation zwischen den Modulen erbracht werden muss und machen das unsaubere Arbeiten unattraktiv. Somit dienen Module als Grenzen für den Entwicklungsrahmen eines Features und engen den Bearbeitungs- und Betrachtungsraum für den Entwickler ein. Daraus ergibt sich ein Softwarepaket, der unabhängig von den Senior-Entwicklern verstanden, genutzt und angepasst werden kann, da der Aufbau nicht mehr in dem Wiki, Readme oder beim Entwickler selbst verankert, sondern direkt in der Codebasis integriert ist. 
-
+Module erschweren den \textit{Spaghetti Code}, indem Mehraufwand für die Kommunikation zwischen den Modulen erbracht werden muss und machen das unsaubere Arbeiten unattraktiv. Somit dienen Module als Grenzen für den Entwicklungsrahmen eines Features und engen den Bearbeitungs- und Betrachtungsraum für den Entwickler ein. Daraus ergibt sich ein Softwarepaket, der unabhängig von den Senior-Entwicklern verstanden, genutzt und angepasst werden kann, da der Aufbau nicht mehr in dem Wiki, Readme oder beim Entwickler selbst verankert, sondern direkt in der Codebasis integriert ist.  \newline
 
 Demzufolge profitiert Renew von der Modularisierung, indem sich immerfort wechselnden Akteur eine saubere Codebasis hinterlassenen, die für den nächsten Absolventen sowie den wissenschaftlichen Mitteearbeitern viel Zeit erspart. \bigbreak
-
 
 Aus einer sauberen Umsetzung folgen saubere Code-Bausteine, die wiederverwendet werden können. Diese Eingenschaft der Module bringt ein wesentlich Vorteil beim Optimieren der Renew Applikation, indem kontextbezogen Module ausgetauscht werden können, um ein besseres, lokales Erlebnis zu erzielen. Zum Beispiel können zielgerichtet ausgewählte Plugins für die Erfüllung einer speziellen Aufgabe, wie das Validieren von P/T-Netzen, ein besseres Ergebnis abliefern, indem ein für diesen Anwendungsfall angepasste Verarbeitungsalgorithmus angewandt wird. Dieser ist natürlich in einem Modul gekapselt und besitzt Schnittstein identisch zu seinem Vorgänger. Auf diese Weise kann eine große Anzahl an Modulen mit gleicher Funktion und unterschiedlicher Zielsetzung erstellt werden, die in einem Modulkatalog verwaltet und bei bedarf ausgetauscht werden können. \newpage
 
 
-\subsection{Bereit für Innovation} \label{sub:moderner_zustand}
+\subsection{Vision} \label{sub:moderner_zustand}
 % Ziel
-Der zeitgemäße Zustand einer Applikation ist eine Zeichen hoher Qualität und reflektiert enorme Ansprüche an den Betrieb der Applikation. Diese kann geschäftskritische Qualitäten tragen, die den marktführenden Vorteile bringen und sich gegen die Konkurrenz durchsetzen. Um den Vorsprung zu sichern, ist eine \textit{vorausschauende} Flexibilität gefragt. Mithilfe dessen die Applikation in der Lage ist, mit minimalen Aufwand, an die führenden Technologien anzuknüpfen. 
+Der zeitgemäße Zustand einer Applikation ist eine Zeichen hoher Qualität und reflektiert enorme Ansprüche an den Betrieb der Applikation. Diese kann geschäftskritische Qualitäten tragen, die den marktführenden Vorteil bringt und sich gegen die Konkurrenz durchsetzen. Um den Vorsprung zu sichern, ist eine \textit{vorausschauende} Flexibilität gefragt. Mithilfe dessen die Applikation in der Lage ist, mit minimalen Aufwand, an die führenden Technologien anzuknüpfen. 
 
 % Trends 
 Die Aktuell führenden Trends beschäftigen sich mit der verteilten und wiederverwendbaren Softwareumsetzungen, die ständig an Komplexität gewinnen und trotzdem leicht Beherrschbar bleiben muss. Diese beschreiben Ansätze wie gewisse Ziele erreicht werden können und setzen Grundvoraussetzungen zum erreiche dieser Ziele. Dementsprechend muss Renew bestimmte Grundvoraussetzungen erfüllen um die Vorteile der Trends zu Nutzen und den Schritt mit dem Fortschritt zu halten.  \bigbreak
