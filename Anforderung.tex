@@ -37,20 +37,20 @@ Aus einer sauberen Umsetzung folgen saubere Code-Bausteine, die wiederverwendet 
 
 \subsection{Vision} \label{sub:moderner_zustand}
 % Ziel
-Der zeitgemäße Zustand einer Applikation ist eine Zeichen hoher Qualität und reflektiert enorme Ansprüche an den Betrieb der Applikation. Diese kann geschäftskritische Qualitäten tragen, die den marktführenden Vorteil bringt und sich gegen die Konkurrenz durchsetzen. Um den Vorsprung zu sichern, ist eine \textit{vorausschauende} Flexibilität gefragt. Mithilfe dessen die Applikation in der Lage ist, mit minimalen Aufwand, an die führenden Technologien anzuknüpfen. 
+Der zeitgemäße Zustand einer Applikation ist eine Zeichen hoher Qualität und reflektiert enorme Ansprüche an den Betrieb der Applikation. Diese kann geschäftskritische Qualitäten tragen, die den marktführenden Vorteil bringt und der Konkurrenz ein Schritt voraus ist. Um den Vorsprung zu sichern, ist eine \textit{vorausschauende} Flexibilität gefragt. Mithilfe dessen die Applikation in der Lage ist, mit minimalen Aufwand, an die führenden Technologien anzuknüpfen. 
 
 % Trends 
 Die Aktuell führenden Trends beschäftigen sich mit der verteilten und wiederverwendbaren Softwareumsetzungen, die ständig an Komplexität gewinnen und trotzdem leicht Beherrschbar bleiben muss. Diese beschreiben Ansätze wie gewisse Ziele erreicht werden können und setzen Grundvoraussetzungen zum erreiche dieser Ziele. Dementsprechend muss Renew bestimmte Grundvoraussetzungen erfüllen um die Vorteile der Trends zu Nutzen und den Schritt mit dem Fortschritt zu halten.  \bigbreak
 
 
 % Docker  
-Zum Beispiel wäre die Docker Umgebung für Renew eine willkommene Erweiterung, mit der interne Bestandsteile distributiv betrieben werden können. Somit wäre die Ausführung von Renew nicht mehr an eine Maschine gebunden und kann bei Bedarf horizontal skaliert werden. Im Folgenden stellt sich die Frage: welche interne Strukturen von Renew müssen individuell behandelt und anschließend kooperativ zusammengeführt werden. Auf diese Frage gibt es keine pauschale Antwort, jedoch ist es klar, dass die Plugins von Renew Feingranular betrachtet werden müssen, um sich ein Bild der Verarbeitungskette zu erstellen und diese unseren Bedürfnissen anzupassen. \bigbreak
+Zum Beispiel wäre die Docker Umgebung für Renew eine willkommene Erweiterung, mit der interne Bestandsteile distributiv betrieben werden können. Somit wäre die Ausführung von Renew nicht mehr an eine Maschine gebunden und kann bei Bedarf horizontal skaliert werden. Im Folgenden stellt sich die Frage: welche interne Strukturen von Renew müssen individuell behandelt und anschließend kooperativ zusammengeführt werden. Auf diese Frage gibt es keine pauschale Antwort, jedoch ist es klar, dass die Plugins von Renew Feingranular betrachtet werden müssen, um sich ein Bild der Verarbeitungskette zu erstellen und diese den Bedürfnissen anzupassen. \bigbreak
 
 % Microservice  
 Renew auf verschieden Hardwareknoten zu verteilen ist nur der erste Schritt der distributiven Ausführung. Es fehlt die Koordination zwischen den Knoten, die die Verarbeitung koordinieren und die Ergebnisse zusammenfassen. Somit gibt es eine weitere Technologie, die sich dieser Aufgabenstellung widmet: Der Mikroservice Architekturansatz, der sich um die Koordination und den Zusammenspiele von \textit{Applikationsschwärme} kümmert. \bigbreak
 
 % Fazit 	
-Mit Hilfe der Mikroservicearchitektur und der Docker-Umgebung wäre die distributive Ausführung von Renew erreichbar, doch zuerst muss Renew den aktuellen Stand der Technologie entsprechen und demzufolge das Modulsystem von Java integriert wird.  
+Mit Hilfe der Mikroservicearchitektur und der Docker-Umgebung wäre die distributive Ausführung von Renew erreichbar, doch zuerst muss Renew den aktuellen Stand der Technologie entsprechen und demzufolge das Modulsystem von Java integrieren.  
 
 
 \section{Ausgangssituation} \label{sec:ausgangssituation} 
@@ -92,7 +92,7 @@ Die \textit{plugin.cfg} beschreibt die Abhängigkeit der Module unter einander, 
 Im Gegensatz zu den \textit{plugin.cfg} führt die \textit{module-info.java} eine Liste an benötigten Modulen sowie exportierten Paketen, die den Zugriff von Außen einschränken. Dies erlaubt nicht nur das Verständnis der benötigten Module, sondern unterstützt den Entwickler durch klar definierte Schnittellen, die mit dem Schlüssel \textit{exports} deklariert sind.
 
 \subsection{Homogene Umgebung}
-Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- sowie Entwicklungsumgebung. Die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu der Kompilations- und Ausführungszeit präsent sein müssen.
+Einer der am weit verbreiteten Probleme der Softwareentwicklung, ist der Unterschied der Laufzeit- sowie Entwicklungsumgebung. Die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um die Diskrepanz des Ausführungskontext entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Module und Bibliotheken, die zu der Kompilations- sowie Ausführungszeit präsent sein müssen.
 \bigbreak
 
 Die Renew \textit{plugin.cfg} erfüllt die Funktion einer Richtlinie der benötigten zugrunde liegender Plugins, jedoch fehlen die Deklaration der unterstützenden Bibliotheken, die für die Ausführung von Renew benötigt werden. Daher ist die explizite Deklaration der notwendigen Drittanbieter-Bibliotheken wie \textit{log4j} eine willkommene Erweiterung für Renew. 
@@ -108,15 +108,15 @@ Um die Kontrolle über alle möglichen Plugin Typen zu behalten, kann das \texti
 
 \bigbreak
 
-Die Instantiierung der Plugins über das \textit{IPLugin} Interface verfolgt einen ähnliche Ansatz und war somit seiner Zeit voraus. Jedoch hat Java aufgeholt und bietet eine leichtgewichtige und native Umsetzung des Registrierdienstes mit einer variablen Menge an möglichen Interface Implementationen von der Renew profitieren kann .   
+Die Instantiierung der Plugins über das \textit{IPLugin} Interface verfolgt einen ähnliche Ansatz und war somit seiner Zeit voraus. Jedoch hat Java aufgeholt und bietet eine leichtgewichtige und native Umsetzung des Registrierdienstes mit einer variablen Menge an möglichen Interface Implementationen von der Renew profitieren kann.   
 
 
 \subsection{Plugin Manager}
 % DAG der Module 
-Der \textit{Plugin Manager} ist verantwortlich für das Erfassen und Einlesen der Renew Codebasis in der Arbeitsspeicher. Die Reihenfolge für die Plugin-Architektur ist strikt, da bestimmte Plugins gewisse Drittanbieter sowie Plugin-Bibliotheken brauchen. Wenn die Reihenfolge nicht stimmt werden benötigte Klassen nicht gefunden und die Applikation bricht mit einem Fehler ab. Daher ist das Ladend er Drittanbieter-Bibliotheken und das anschließende Laden der Plugins in der richtigen Reihenfolge eine kritische Aufgabe. 
+Der \textit{Plugin Manager} ist verantwortlich für das Erfassen und Einlesen der Renew Codebasis in der Arbeitsspeicher. Die Reihenfolge für die Plugin-Architektur ist strikt, da bestimmte Plugins gewisse Drittanbieter sowie Plugin-Bibliotheken brauchen. Wenn die Reihenfolge nicht stimmt werden benötigte Klassen nicht gefunden und die Applikation bricht mit einem Fehler ab. Daher ist das Ladend der Drittanbieter-Bibliotheken und das anschließende Laden der Plugins in der richtigen Reihenfolge eine kritische Aufgabe. 
 \bigbreak
 
-Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernimmt. Jener erstellt einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüfte dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren wird ein \textit{java.lang.module.FindException} Fehler geworfen, anderenfalls sind alle Voraussetzungen für das Starten der Applikation erfüllt und die Applikation beginnt ihre Ausführung. 
+Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernimmt. Jener erstellt, vor dem Starten der Applikation, einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüfte dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren wird ein \textit{java.lang.module.FindException} Fehler geworfen, anderenfalls sind alle Voraussetzungen für das Starten der Applikation erfüllt und die Applikation beginnt ihre Ausführung. 
 \bigbreak
 
 Damit übernimmt das Modulsystem von Java die Erstellung der richtigen einlese Reihenfolge der Plugins als einen gerichteter azyklischer Graphen und übernimmt eine weitere interne Aufgabe.
