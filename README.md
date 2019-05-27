@@ -1,2 +1,2 @@
 ### Build pdf
-- `pdflatex Thesis.tex`
+- `pdflatex -interaction=nonstopmode Thesis.tex`
