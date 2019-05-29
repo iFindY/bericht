@@ -1,6 +1,5 @@
 \chapter{Prototypen} 
 	In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren bis die Applikation den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. \newline
-
 	Für die Umsetzung werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen muss um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
 
 % Anforderungen an System 
@@ -15,14 +14,13 @@
 	Für die Umsetzung des modularen Renew's wird für jedes Plugin eine moderne Projektstruktur benötigt, die den Inhalt entsprechend dem etablierten Maven Standardverzeichnislayout auf Java Module und die dafür benötigten Ressourcen aufteilt. 
 
 \subsection{Entwicklungsumgebung} 
-	In der existierenden Renew Entwicklungsumgebung werden alle Plugin Projekte durch eine versteckte \textit{.project} beschrieben. Das heißt, der Klassenpfad und die Bindung der Codebausteine geschieht versteckt und für den Entwickler schwer zugänglich. Es liegt ein weiter und verschachtelter Weg durch die UI Konfiguration von Eclipse, die sich mit der Zeit verändern kann. Dieser Umstand wurde von mir im letzten Projekt beobachtet und kostete Zeit für alle Projektteilnehmer, da die Universitätsrechner strikten Rechten unterliegen, die keine Benutzer definierte Eclipse Entwicklungsumgebung aufsetzen lässt. Darüber hinaus ist die Konfiguration von Renew in anderen Entwicklungsumgebungen wie IDEA oder Netbeans mit der \textit{.project} Konfigurationsdatei nicht möglich. \bigbreak
+	In der existierenden Renew Entwicklungsumgebung werden alle Plugin Projekte durch eine versteckte \textit{.project} beschrieben. Das heißt, der Klassenpfad und die Bindung der Codebausteine geschieht versteckt und für den Entwickler schwer zugänglich. Damit ist der Entwickler gezwungen den weiten und verschachtelten Weg durch die UI Konfiguration von Eclipse zu betreten, der sich mit der Zeit wandeln kann. Dieser Sachverhalt wurde von mir im letzten Projekt beobachtet und kostete Zeit für alle Projektteilnehmer, da die Universitätsrechner strikten Rechten unterliegen, die keine Benutzer definierte Eclipse Entwicklungsumgebung aufsetzen lässt. Darüber hinaus ist die Konfiguration von Renew in anderen Entwicklungsumgebungen wie IDEA oder Netbeans mit der \textit{.project} Konfigurationsdatei nicht möglich. \bigbreak
 
 	Um eine Entwicklungsumgebung unabhängige Konfiguration anzulegen wird ein neues Werkzeug benötigt. 
 
 \subsection{Packaging}
 	Da Renew an das Modulsystem angepasst werden muss, muss die Prozedur für das Kompilieren  und das Verpacken der Codebasis die Veränderung miterleben.\newline
-
-	Renew benutzt zur Zeit das \textit{Apache Ant} Werkzeug, dass alle Plugins kompiliert und in einer ausführbare Form bringt. Das \textit{Ant} Werkzeug ist in Jahre gekommen und enthält wesentlich geringeren Funktionsumfang gegenüber der Aktuellen Konkurrenz, wie Maven und Gradle. Diese bieten eine Abhängigkeitsverwaltung, konfigurierbare Plugins und Programmiersprachen. Im Gesetz zu der aufgeblasenen XML-Konfiguration von Ant, die jeden kleinen Schritt ausführlich dokumentieren, beherrschen die modernen \textit{build} Werkzeuge die Komplexität durch den \textit{Convention over Configuration} Ansatz und flexiblen Ausdrucksweisen. \bigbreak
+	Renew benutzt zur Zeit das \textit{Apache Ant} Werkzeug, dass alle Plugins kompiliert und in einer ausführbare Form bringt. Dieses ist in Jahre gekommen und enthält wesentlich geringeren Funktionsumfang gegenüber der Aktuellen Konkurrenz, wie Maven und Gradle. Sie bieten eine Abhängigkeitsverwaltung, konfigurierbare Plugins und Programmiersprachen. Im Gesetz zu der aufgeblasenen XML-Konfiguration von Ant, die jeden kleinen Schritt ausführlich dokumentiert, beherrschen die modernen \textit{build} Werkzeuge die Komplexität durch den \textit{Convention over Configuration} Ansatz und flexiblen Ausdrucksweisen. \bigbreak
 
 	Die minimalen Version von Renew soll sich an einem modernen \textit{build} Werkzeug bedienen und eine ausführbares Ergebnis erzielen.
 
@@ -30,7 +28,6 @@
 % wie setze ich die Anforderungen um 
 \section{Spezifikation}
 	Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur.\newline 
-
 	Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug wiederaufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.\bigbreak
 
 	Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Projekt Abhängigkeiten analysiert und innerhalb der \textit{module-info.java} aufgenommen werden.\bigbreak
@@ -52,7 +49,7 @@
 	\end{figure}
 	       
 % Wie das Gradel build system alles zusammenhalten. 
-	Nachdem die Projektstruktur unseren Wünschen entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien festgehalten, indem wir Java- sowie Ressourcen-\textit{sourceSets} definieren und Projekte sowie Drittanbieter-Bibliotheken Abhängigkeiten für den  Kompilation-Pfad bestimmen.
+	Nachdem die Projektstruktur unseren Wünschen entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien festgehalten, indem wir Java- sowie Ressourcen-\textit{sourceSets} definieren und Projekte sowie Drittanbieter-Bibliotheken Abhängigkeiten für den  Kompilation-Pfad bestimmen \ref{fig:gradle_project}. \bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -124,7 +121,7 @@
 	  \label{fig:resultStr}
 	\end{figure}
 
-	Das Resultat \ref{fig:resultStr} erlaubt eine einfache Paketstruktur Analyse durchzuführen, um die \textit{Split Packages} zu identifizieren. \newline
+	Das resultierende Resultat in der Abbildung \ref{fig:resultStr} erlaubt eine einfache Paketstruktur Analyse durchzuführen, um die \textit{Split Packages} zu identifizieren. \newline
 
 
 	Auf den ersten Blick kann eine Überschneidung zwischen den Gui und den RenewAnt Plugin erkannt werden, da beide den \textit{de.renew.ant} Namensraum besetzen, der sich um bestimmte Ant spezifische Aufgaben kümmert. Aufgrund dessen wird der Namensraum in dem Gui Plugin in \textit{task} zum Gunsten des RenewAnt Plugins umbenannt. Des weiteren könnten beide \textit{Task's} in den RenewAnt Plugin verschoben werden, da dieser keine Abhängigkeiten in dem Gui Plugin besitzt und nicht in den Aufgabenbereich der UI fallen. 
@@ -166,7 +163,8 @@
 	  \label{fig:deps}
 	\end{figure}
 
- 	Im nächsten Schritt werden global genutzte Drittanbieter-Bibliotheken deklariert. Diese werden aus dem \textit{Maven Repository} beim initiiere des Projekts geladen und auf den Klassenpfad aller Plugin Projekte eingebunden. Somit liegt die Verwaltung der Bibliotheken und der dazugehörigen Version an den Maven Repository und muss nicht mehr im GitLab Repository bereitgestellt werden. Die deklarierten Drittanbieter-Bibliotheken in der Konfiguration erleichtern zusätzlich die Aufgabe der manuellen Erstellung der Klassenpfade und die Einbindung der Bibliotheken in der Entwicklungsumgebung, da die Konfiguration von der Entwicklungsumgebung automatisch aufgegriffen und auf das Projekt angewandt wird.\newpage
+ 	Im nächsten Schritt werden global genutzte Drittanbieter-Bibliotheken deklariert. Diese werden aus dem \textit{Maven Repository} beim initiiere des Projekts geladen und auf den Klassenpfad aller Plugin Projekte eingebunden. Somit liegt die Verwaltung der Bibliotheken und der dazugehörigen Version an den Maven Repository und muss nicht mehr im GitLab Repository bereitgestellt werden.\newline
+ 	Zusätzlich erleichtert die Deklaration der Drittanbieter-Bibliotheken, unter einer separaten Konfiguration, die Aufgabe der manuellen Erstellung der Klassenpfade und die Einbindung der Bibliotheken in der Entwicklungsumgebung, da die Konfiguration von der Entwicklungsumgebung automatisch aufgegriffen und auf das Projekt angewandt wird.\bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -194,13 +192,13 @@
 	  \label{fig:windmang}
 	\end{figure}
 
-	Die Plugins benötigen einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{buidl.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagment Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken  und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
+	Jedes einzelne Plugins benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{buidl.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagment Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken  und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
 
 	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
 
 \subsection{Modularisierung}	
-	Nachdem alle benötigen Renew Plugins kompiliert, verpackt und ausgeführt werden können, müssen die neu entstandenen Abhängigkeitsbeziehungen analysiert werden. Die Analyse der Plugins geschieht nun über die erstellten Gradle Scripte, die für jedes Projekt die benötigten Bibliotheken und Projekte für die Kompilation deklariert. Aus diesen wird ein Abhängigkeitsgraph erstellt, der Zyklen und versteckte Abhängigkeiten offenlegt. \bigbreak
+	Nachdem alle benötigen Renew Plugins kompiliert, verpackt und ausgeführt werden können, müssen die neu entstandenen Abhängigkeitsbeziehungen analysiert werden. Die Analyse der Plugins geschieht nun über die erstellten Gradle Scripte, die für jedes Projekt die benötigten Bibliotheken und Projekte für die Kompilation deklarieren. Aus diesen wird anschließend ein Abhängigkeitsgraph erstellt, der Zyklen und versteckte Abhängigkeiten offenlegt. \bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -218,27 +216,24 @@
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.7\textwidth]{material/images/loaderUtil-info.png}
-	  \caption{Module Infos}
+	  \caption{Benötigten Bibliotheken}
 	  \label{fig:loaderUtil}
 	\end{figure}
 
-	In diesem Zustand wird Renew kompiliert und ausgeführt. Das Ergebnis ist eine lauffähige Applikation, die identisch zu der initialen minimal Version von Renew funktioniert. \bigbreak
-
+	In diesem Zustand wird Renew kompiliert und ausgeführt. Das Ergebnis ist eine lauffähige Applikation, die ihre vollständige Funktion zugleich aus dem Modul- und Klassenpfad bezieht und identisch zu der initialen minimal Version von Renew funktioniert.\newline
 	Im nächsten Schritt werden Plugins migriert, die nur auf die neu entstandenen Module aufsetzen, wie zum Beispiel das \textit{Simulator} und das \textit{JHotDrow} Plugins. Ihre Abhängigkeiten liegen auf dem Modulpfaden, daher gibt es keinen Grund mit dem Klassenpfad zu interagieren. \newline
 	Da diese die zweite Modulschicht repräsentieren, fordern sie bestimmte Funktionalität mit dem \textit{requiers} Schlüssel aus den Loader, Util und Windowmanagment Plugins. Um diese Anforderung zu entsprächen, müssen die notwendigen Plugins ihre Pakete  explizit für ihre Nutzer öffnen. Dazu deklarieren die angeforderten Plugins in ihrer \textit{module-info.java} mit dem \textit{exports} Schlüssel Pakte, die sie für andere Plugins zur Verfügung stellen möchte.
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.8\textwidth]{material/images/utilCH-info.png}
-	  \caption{Module Infos}
+	  \includegraphics[width=0.7\textwidth]{material/images/utilCH-info.png}
+	  \caption{Exportierte Pakete}
 	  \label{fig:utilCH}
 	\end{figure}
 
-	In der Abbildung \ref{fig:utilCH} wurde das Util Plugin Modul angepasst und bietet jetzt das \textit{de.renew.util}  Paket für den Gebrauch an.\bigbreak
-
-	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind. \newline
-	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
-
+	In der Abbildung \ref{fig:utilCH} wurde das Util Plugin Modul angepasst und bietet jetzt das \textit{de.renew.util} Paket für den Gebrauch an.\newline
+	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
+	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \newline
 	Auf der nächsten Seite in der Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
 	\begin{figure}
 	  \centering
@@ -267,8 +262,7 @@
 
 % Gradel: Vergleichen der Code Zeile in Ant und Gradle.
 	Ein zusätzlicher Vorteil der neuen Projektverwaltung liegt an der neuen Umsetzung mit einer Programmiersprache, die es erlaubt mit Felder, Variablen, Schleifen und Objekten zu arbeiten. Dies hat zu Folge, dass der Übergang von den Renew Java Code zu den \textit{build} Skript von Gradle für den Entwickler leichter nachzuvollziehen ist und somit Akzeptanz und Anpassungsfähigkeit mit sich bringt. \newline
-
-	Die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeug spiegelt sich in der Code Menge wieder, die geschrieben werden muss. Zum Beispiel benötigt die Ant Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von Renew 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden.
+	Hierzu kann die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeug an der benötigten Code Menge, die geschrieben werden muss, abgelesen werden. Zum Beispiel benötigt die Ant Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von Renew 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden.
 
 	\begin{figure}[h!]
 	  \centering
