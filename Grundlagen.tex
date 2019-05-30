@@ -18,7 +18,7 @@
   Jede Java-Anwendung wird zuerst in einer für menschlich verständlichen Sprache geschrieben und anschließend in Byte-Code übersetzt. In Folge dessen ist der Code einsatzbereit für die Ausführung und wird an die virtuelle Maschine weiter gereicht.
 
   % Aufgabe des Klassenpfads 
-  Um die compilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechenden Code erwartet. Die Ortsangaben nennt man \textit{Classapth} oder Klassenpfad. Dieser beschreibt eine Liste von Orten an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. 
+  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{Classapth} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. 
 
   % Ergebniss des Klassenpfad
   Nachdem der Klassenpfad für die entsprechenden Klassenlader gesetzt ist, kann das \textit{Classlaoder System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
@@ -33,7 +33,7 @@
   In Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR-Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, so dass der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
 
   % Classloading mit Richtung 
-  Beim Starten der Applikation werden Klasse instanziiert, indem der Klassenpfad, von Links nach Rechts, nach dem benötigten Typ durchsucht und diese erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
+  Beim Starten der Applikation werden Klassen instanziiert, indem der Klassenpfad, von links nach rechts, nach dem benötigten Typ durchsucht und diese erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
 
   \begin{figure}[h]
     \includegraphics[width=\textwidth]{material/images/Classpath-Manifest2.pdf}
@@ -45,7 +45,7 @@
   Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Meta-Information über den Container in sich trägt. 
   
   % Manifest Meta-information 
-  Mit Hilfe der Strukturrichtlinie befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archive aus dem web erweitert und für die Ausführung genutzt. Des weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist.\newline
+  Mit Hilfe der Strukturrichtlinie befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist.\newline
   Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferten Meta-Information komplett ist. \cite{classLoadingOracle}
 
 
@@ -68,9 +68,9 @@
     \end{figure}
     
     % Aufbau
-    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Classloader}. Dieser Classloader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Classloader für Erweiterungen kann Klassen laden, die Standarderweiterungspakete im Erweiterungsverzeichnis \textit{lib/ext} sich befinden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunter liegende \textit{Applikation Classloader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zuletzt können Benutzerdefinierte Classloader erstellt werden, die sich auf der unteren Ebene der Classloader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug um ihnen große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Classloader}.\bigbreak 
+    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Classloader}. Dieser Classloader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Classloader für Erweiterungen kann Klassen laden, die Standarderweiterungspakete im Erweiterungsverzeichnis \textit{lib/ext} sich befinden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunter liegende \textit{Applikation Classloader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zuletzt können Benutzerdefinierte Classloader erstellt werden, die sich auf der unteren Ebene der Classloader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug, um ihnen große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Classloader}.\bigbreak 
     % Delegierungsmodell übergang
-    Das in \ref{fig:cl} abgebildete Classloader System verhindert, dass Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem der selbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird.  \cite{classLoadingIntro} 
+    Das in \ref{fig:cl} abgebildete Classloader System verhindert, dass Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem derselbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welcher eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Classloader-Hierarchie abgearbeitet wird.  \cite{classLoadingIntro} 
     
 
   \subsection{Delegierungsmodell} \label{sec:dm}
@@ -97,7 +97,7 @@
     Geladene Klassen werden sowohl durch den Klassennamen als auch durch den Classloader eindeutig identifiziert. Demzufolge werden geladene Klassen in \textit{Namensräume} unterteilt, die vom \textit{Classloader System} individuell behandelt werden \cite{namespaces}. 
 
     % Idee 
-    Ein \textit{Namensraum} ist eine Gruppe von Klassennamen, die von einem bestimmten Classloader geladen worden ist. Wenn ein Eintrag für eine Klasse einem \textit{Namensraum} hinzugefügt wurde, ist es nicht möglich, eine andere Klasse mit dem selben Namen und unterschiedlichen Inhalt in den gleichen \textit{Namensraum} einzubinden. Nichtsdestotrotz können mehrere Kopien einer beliebigen Klasse in die Applikation geladen werden, indem für jede Klasse ein Classloader mit dem separaten \textit{Namensraum} erstellt wird \cite{customClDiffSpace}. 
+    Ein \textit{Namensraum} ist eine Gruppe von Klassennamen, die von einem bestimmten Classloader geladen worden ist. Wenn ein Eintrag für eine Klasse einem \textit{Namensraum} hinzugefügt wurde, ist es nicht möglich, eine andere Klasse mit demselben Namen und unterschiedlichen Inhalt in den gleichen \textit{Namensraum} einzubinden. Nichtsdestotrotz können mehrere Kopien einer beliebigen Klasse in die Applikation geladen werden, indem für jede Klasse ein Classloader mit dem separaten \textit{Namensraum} erstellt wird \cite{customClDiffSpace}. 
 
     \begin{figure}[h]
       \centering
@@ -130,10 +130,10 @@
   \end{figure}
 
   % ist ein Garantie
-  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klassen eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt.\bigbreak 
+  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags eine mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klasse eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt.\bigbreak 
   
   % Dynamische Klassenbindung 
-  Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf der selben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick ihn ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
+  Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instantiieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
 
 \section{Reflection}\label{sec:refl}
 
@@ -142,10 +142,10 @@
   Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mit Hilfe der Reflection-API während der Laufzeit instanziiert, bearbeitet und genutzt werden. Somit ermöglicht Reflection das Arbeiten mit Klassen von den man im Voraus nicht wissen kann, wie zum Beispiel von Klassen, die in der Zeit nach der Applikation entstanden sind.\bigbreak 
 
  % Überblick: Problemstellung die Reflexion löst 
-  In vielen Fällen der Applikationsentwicklung möchte man seinen Applikation von andren Nutzern und Entwicklern erweitern lassen, ohne das diese bei jeder Änderungen die komplette Applikation umbauen. Somit stellt sich die Frage, wie erstellt man ein Mechanismus der mit beliebigen Klassen arbeiten kann. Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtlung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. 
+  In vielen Fällen der Applikationsentwicklung möchte man die Applikation von andren Nutzern und Entwicklern erweitern lassen, ohne das diese bei jeder Änderungen die komplette Applikation umbauen. Somit stellt sich die Frage, wie erstellt man ein Mechanismus der mit beliebigen Klassen arbeiten kann. Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtlung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. 
 
 
-  Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klassenstruktur ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
+  Dementsprechend sollte Reflection genutzt werden, diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
 
   % Sequenzdiagram 
   In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mit Hilfe von Reflection visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur des Objekt Typs deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. \newline
@@ -176,7 +176,7 @@
   \end{itemize}
   \bigbreak 
 
-  Um den Zusammenhang und den Nutzen von Reflection darzustellen wird in der Abbildung \ref{my-refl} ein Szenario durchgespielt, das eine unbekannten Typen mit Hilfe des Konstruktors initialisiert, dessen Methoden aufruft, das Feld bearbeitet und wiedergibt ohne die Objektstruktur im Voraus zu kennen. Des Weiteren ist zu beachten, dass statische Klassenmethoden sowie private Felder und Methoden mit Hilfe von Reflection offen zugänglich gemacht werden können.\cite{Forman04javareflection}\bigbreak 
+  Um den Zusammenhang und den Nutzen von Reflection darzustellen wird in der Abbildung \ref{my-refl} ein Szenario durchgespielt, das eine unbekannten Typen mit Hilfe des Konstruktors initialisiert, dessen Methoden aufruft, das Feld bearbeitet und wiedergibt, ohne die Objektstruktur im Voraus zu kennen. Des Weiteren ist zu beachten, dass statische Klassenmethoden sowie private Felder und Methoden mit Hilfe von Reflection offen zugänglich gemacht werden können.\cite{Forman04javareflection}\bigbreak 
 
   % Bild mit Code der eine Objekt erstellt und Methoden aufruft. Mit Kommentaren zwischen den Zeilen.
   \begin{lstlisting}[caption=Reflection in Aktion,label=my-refl,captionpos=b]
@@ -207,7 +207,7 @@
   \begin{itemize}
     \item Zum Beispiel wird \textit{Dependency Injection} mit Hilfe von Reflection realisiert, indem ein Framework, wie zum Beispiel Spring, die entsprechenden Implementierung für ein Interface sucht und initiiert. In Diesem Zusammenhang wird Anhand des \textit{implement} Schlüssels und zusätzlicher Meta-Information aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
     \item Beim Serialisieren und Deserialisieren von Objekten werden die Objektfelder in JSON und wieder zurück konvertiert, ohne die Feldnamen sowie ihre Anzahl zu kennen.
-    \item Die Web-Container Tomcat oder WildFly leiteten die Web-Anfragen an das entsprechenden Module durch das Analysieren der \textit{web.xml} und Anfordern der passenden URI.
+    \item Die Web-Container Tomcat oder WildFly leiteten die Web-Anfragen an das entsprechende Modul durch das Analysieren der \textit{web.xml} und Anfordern der passenden URI.
     \item JUnit verwendet Reflection, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
   \end{itemize}
 

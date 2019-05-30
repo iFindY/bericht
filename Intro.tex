@@ -19,10 +19,10 @@ Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Pl
 
 \section{Konstellation des Simulators} \label{sec:KdS}
 
-Mit der Plugin Architektur hat Renew den Lebenszyklus weit überschritten. Dies kann an den Codestellen abgelesen werden, die zum Teil aus der JDK 1.4 Version stammen. Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik. Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauenden Code modularisiert wird, ist der Betrieb von Renew in der Zukunft gefährdet. Im Zuge dessen ist das Portieren der Applikation unvermeidlich und trägt ein gewisses Risiko mit sich. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin-Code eine zentrale Funktion in System vertretet.\bigbreak
+Mit der Plugin Architektur hat Renew den Lebenszyklus weit überschritten. Dies kann an den Codestellen abgelesen werden, die zum Teil aus der JDK 1.4 Version stammen. Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik. Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauende Code modularisiert wird, ist der Betrieb von Renew in der Zukunft gefährdet. Im Zuge dessen ist das Portieren der Applikation unvermeidlich und trägt ein gewisses Risiko mit sich. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin Code eine zentrale Funktion in System vertretet.\bigbreak
 
 Indem die Applikation neu strukturiert wird, sind weitere Mängel zu erwarten, denn das Vernachlässigen der Gesamtarchitektur und die Konzentration auf eigne Plugins führt zu Code-Duplizierung und Problemen in der Verständlichkeit der Plugin-Abhängigkeiten.\newline
-Beifolgend stellt sich die Frage: Wie Portierbar ist Renew und was muss getan werden, damit der Umstieg auf das Modulsystem von Java gelingt.
+Beifolgend stellt sich die Frage: Wie portierbar ist Renew und was muss getan werden, damit der Umstieg auf das Modulsystem von Java gelingt.
 
 \section{Ziel} \label{sec:Z}
 
@@ -30,12 +30,12 @@ Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen de
 
 \section{Umsetzung} \label{sec:U}
 
-Als Teil der Umsetzung entstehen zwei Prototypen, die ausgewählte Teile von Renew modular restrukturieren. Demzufolge wird die Codebase sowie Design Entscheidungen bei Bedarf modernisiert und auf das Modulsystem von Java angepasst. Dabei soll der Schwerpunkt dieser Arbeit beim Erarbeiten einer modularen Renew Umsetzung liegen und demnach Plugins in erweiterbare Java Module transformieren.\newline
-Dafür wird die bestehende Projekt Konstruktion reorganisiert, sodass Plugins durch mehrere Module repräsentiert wenden können. Darauf aufbauend müssen Plugins die Moduleigenschaften einhalten und die entsprechenden Regel und Konfigurationen erfüllen. Und zum Schluss wird die Renew Applikation mit einem modernen \textit{build} Werkzeug organisiert und für die Ausführung verpackt.\newline
+Als Teil der Umsetzung entstehen zwei Prototypen, die ausgewählte Teile von Renew modular restrukturieren. Demzufolge wird die Codebasis sowie Design Entscheidungen bei Bedarf modernisiert und auf das Modulsystem von Java angepasst. Dabei soll der Schwerpunkt dieser Arbeit beim Erarbeiten einer modularen Renew Umsetzung liegen und demnach Plugins in erweiterbare Java Module transformieren.\newline
+Dafür wird die bestehende Projekt Konstruktion reorganisiert, sodass Plugins durch mehrere Module repräsentiert wenden können. Darauf aufbauend müssen Plugins die Moduleigenschaften einhalten und die entsprechenden Regeln und Konfigurationen erfüllen. Und zum Schluss wird die Renew Applikation mit einem modernen \textit{build} Werkzeug organisiert und für die Ausführung verpackt.\newline
 Das Ergebnis soll den Modularisierungskonzept in jedem Abschnitt des Lebenszyklus von Renew unterstützen. Daher wird erwartet, dass das modulare Denken in der Entwicklungsumgebung beim Entwickeln, beim Kompilieren und Verpacken sowie beim Ausführen der Applikation integriert wird. \bigbreak
 
 %todo 
-Das Ergebnis soll als Grundlage für die nächste Lebenszyklus von Renew dienen und die Entwicklung einfach, flexible und erweiterbar gestalten. Dafür wir die Unterstützung von \textit{Mulan} benötigt, welches die wesentlich Funktion von Renew voraussetzt. 
+Das Ergebnis soll als Grundlage für die nächste Lebenszyklus von Renew dienen und die Entwicklung einfach, flexible und erweiterbar gestalten. Dafür wir die Unterstützung von \textit{Mulan} benötigt, welches die wesentliche Funktion von Renew voraussetzt. 
 
 \section{Aufbau der Arbeit} \label{sec:AdA}
 Hier kommt der Aufbau 
