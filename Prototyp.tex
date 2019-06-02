@@ -32,7 +32,7 @@
 
 	Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Projekt Abhängigkeiten analysiert und innerhalb der \textit{module-info.java} aufgenommen werden.\bigbreak
 
-	Zu Letzt entsteht eine bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die mit Hilfe von den \textit{Plugin Manager} verwaltet werden. 
+	Zu Letzt entsteht eine bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die mit Hilfe des \textit{Plugin Manager} verwaltet werden. 
 
 % was werde ich tun um die Spezifikation zu erfüllen 
 \section{Entwurf}
@@ -43,41 +43,43 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.6\textwidth]{material/images/project-structure.png}
+	  \includegraphics[width=0.5\textwidth]{material/images/project-structure.png}
 	  \caption{Projektstruktur}
 	  \label{fig:projektstruktur}
 	\end{figure}
 	       
 % Wie das Gradel build system alles zusammenhalten. 
-	Nachdem die Projektstruktur unseren Wünschen entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien festgehalten, indem wir Java- sowie Ressourcen-\textit{sourceSets} definieren und Projekte sowie Drittanbieter-Bibliotheken Abhängigkeiten für den  Kompilation-Pfad bestimmen \ref{fig:gradle_project}. \bigbreak
+	Nachdem die Projektstruktur der gewünschten Form entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien \ref{fig:gradle_project} festgehalten, indem Java sowie Ressourcen Stammverzeichnisse definiert und Projekte sowie Drittanbieter-Bibliotheken Abhängigkeiten für den Kompilation-Pfad bestimmen werden. \bigbreak
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.6\textwidth]{material/images/gradle_project.png}
+	  \includegraphics[width=0.5\textwidth]{material/images/gradle_project.png}
 	  \caption{Gradle Konfiguration}
 	  \label{fig:gradle_project}
 	\end{figure}
 
- 	Die oben genannten Schritte müssen für jedes Projekt, das für die minimale Version von Renew auserwählt wurde durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, wurden alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb von Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. 
+ 	Die oben genannten Schritte müssen für jedes Projekt der minimale Version von Renew durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, wurden alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb von Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. 
 
 
 % Modualisierungsiddee wie ich vorgehn werden(BottomUP). 
-	Da jetzt eine lauffähige minimale Renew Version für den Klassenpfad erstellt werden kann, ist es Zeit diese zu Modularisieren und die einzelnen Plugins auf den Modulpfad zu migrieren. Dafür werde ich den in dem Kapitel Migration \ref{sec:bottomUP} vorgestellten \textit{bottom up} Ansatz verwenden. 
+	Da jetzt eine lauffähige minimale Renew Version für den Klassenpfad erstellt werden kann, ist es Zeit diese zu Modularisieren und die einzelnen Plugins auf den Modulpfad zu migrieren. Dafür werde ich den \textit{bottom up} Ansatz aus dem Kapitel Migration \ref{sec:bottomUP} verwenden und schritt für schritt die Plugins auf den Modulpfad bewegen. 
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.6\textwidth]{material/images/module_project.png}
+	  \includegraphics[width=0.5\textwidth]{material/images/module_project.png}
 	  \caption{Modulumwandlung}
 	  \label{fig:module_project}
 	\end{figure}
 
-	Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad als automatische Module eingebunden und werden damit aus den Klassen- sowie Modulpfaden für die Nutzung zugleich erreichbar sein. Anschließend werden Plugins als explizite Module migriert, die keine Plugin Abhängigkeiten besitzen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen müssen, wie zum Beispiel das \textit{Util} Plugin. Für die Ausführung auf dem Modulpfad, werden sie durch eine \textit{moduel-info.java} Konfigurationsdatei erweitert. Diese muss sich im Stammverzeichnis des Moduls befinden wie in der Abbildung \ref{fig:module_project} dargestellt und deklariert die benötigten automatischen Module. In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.\bigbreak 
+	Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad als automatische Module eingebunden und werden damit aus den Klassen- sowie Modulpfaden für die Nutzung zugleich erreichbar sein. Anschließend werden Plugins als explizite Module migriert, die keine Plugin Abhängigkeiten besitzen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen müssen.   Beispielsweise besitzt das \textit{Util} Plugin keine Abhängigkeiten auf Renew Plugins und wird für die Ausführung auf dem Modulpfad, durch eine \textit{moduel-info.java} Konfigurationsdatei erweitert. Wie in der Abbildung \ref{fig:module_project} dargestellt, muss sich diese im Stammverzeichnis des Moduls befinden und deklariert die benötigten automatischen Module.\newline
+	In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.\bigbreak 
 
 	Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
 
 
 \section{Umsetzung}
-
+	Die Umsetzung realisiert den Entwurf und erstellt eine neue Projektstruktur für alle Plugins der minimalen Renew Version \ref{fig:plugin_deps}. Diese werden anschließend mit Gradle Werkzeug zusammengeführt und bilden ein kompilierfähiges Konstrukt. Nachfolgend werden die auserwählten Plugins, mit der \textit{module-info.java} versehen und deklarieren innerhalb der Konfigurationsdateien die zuvor vorgestellten Kommunikationskanäle \ref{sec:mod_kop} zwischen den Plugins.\newline
+	Der Modularisierungsprozess geschieht iterativ und wird für jedes Plugin einzeln nacheinander durchgeführt.
 
 \subsection{Umstrukturierung}
  % projektstruktur anpassen
@@ -86,7 +88,6 @@
  	% andere Sprachen auser Java 
 
 	Für die Umsetzung der Anforderungen und des Entwurfs wird zuerst die Projektstruktur jedes Plugins angepasst. Dafür wird die Struktur jedes Plugins analysiert, umstrukturiert und im weiteren Verlauf von Mängeln befreit. In den meisten Fällen werden \textit{split pakages} und gemischte Strukturen innerhalb der Codebasis erwartet.\bigbreak
-
 	Zuerst wird eine grobe Maven Projektstruktur erstellt, in dem sich zusätzlich ein Plugin Wurzelverzeichnis befindet. Anschließend migriert man die Codebasis in das Plugin Wurzelverzeichnis, welches den neuen Plugin Namen trägt.
 
 	\begin{figure}[h!]
@@ -97,12 +98,8 @@
 	\end{figure}
 
 
-	Das Gui Plugin enthält die geläufige mangelnde Organisation der Ressourcen. Zum Teil befinden sich diese in den \textit{etc} Verzeichnis und zum Teil sind diese in den Java \textit{source set} im \textit{images} Verzeichnis integriert, wie in der Abbildung \ref{fig:gui} dargestellt.
-
-
-	Um diese zu beheben, wird das Verzeichnis \textit{de.renew.gui.images}, das mit den \textit{png} und \textit{gif} Daten befühlt ist, in das Ressourcen Verzeichnis migriert. Damit die Applikation diese wiederfindet, werden die Zugriffspfade für die Ressourcen innerhalb des Gui Plugin an das neue Verzeichnis angepasst, indem die internen statischen Konstanten, wie \textit{CPNIMAGES}, auf den entsprechenden Ort verweisen. 
-
-
+	Das Gui Plugin enthält die geläufige mangelnde Organisation der Ressourcen. Zum Teil befinden sich diese in den \textit{etc} Verzeichnis und zum Teil sind diese in den Java \textit{source set} im \textit{images} Verzeichnis integriert, wie in der Abbildung \ref{fig:gui} dargestellt.\newline
+	Um diese zu beheben, wird das Verzeichnis \textit{de.renew.gui.images}, das mit den \textit{png} und \textit{gif} Daten befühlt ist, in das Ressourcen Verzeichnis migriert. Damit die Applikation diese wiederfindet, werden die Zugriffspfade für die Ressourcen innerhalb des Gui Plugin an das neue Verzeichnis angepasst, indem die internen statischen Konstanten, wie \textit{CPNIMAGES}, auf den entsprechenden Ort verweisen. \newline
 	Zum Schluss werden die \textit{README} und die \textit{plugin.cfg}  aus dem \textit{etc} Verzeichnis in das Ressourcen Verzeichnis bewegt. Somit ist eine Struktur erstellt worden, die sich auf das Modulsystem von Java anwenden lässt. \bigbreak
 
 	\begin{figure}[h!]
@@ -233,19 +230,26 @@
 
 	In der Abbildung \ref{fig:utilCH} wurde das Util Plugin Modul angepasst und bietet jetzt das \textit{de.renew.util} Paket für den Gebrauch an.\newline
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
-	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \newline
-	Auf der nächsten Seite in der Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
-	\begin{figure}
+	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
+	In der folgenden Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
+	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_1.pdf}
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_2.pdf}
-	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_3.pdf}
+  	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_3.pdf}
+	  \label{fig:migration1}
+	\end{figure}
+	\begin{figure}[h!]
+	  \centering
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_4.pdf}
 	  \caption{Migration}
 	  \label{fig:migration}
 	\end{figure}	
 
+\newpage
 \section{Evaluation}
+	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen Renew Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
+
 \subsection{Struktur} \label{sub:struktur}
 % Projektstruktur: tolle Sache, zusätzlich kännten die testsrc sachen richtig eingegleiderst werden. 
 	Die Anforderung einer minimalen Version von Renew zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es unerwartete Strukturänderungen, die durchgeführt werden müssen. Zum Beispiel besitzen einige Plugins wie das Util, Loader und Simulator Plugin Test Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard Layout ein \textit{src/test/java/module.name} Test Ressourcen, mit den dazugehörigen Test Klassen, angelegt und verwaltet werden. \newline
@@ -266,14 +270,14 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.4\textwidth]{material/images/Remote_config.png}
+	  \includegraphics[width=0.5\textwidth]{material/images/Remote_config.png}
 	  \caption{Remote Plugin Konfiguration}
 	  \label{fig:remote_config}
 	\end{figure}	
 
-	Obwohl die globale Konfiguration für die vollständige Renew Version sich steigern wird, deuten die Zahlen auf einen geringeren Code-Abdruck des Gradle \textit{build} Werkzeugs hin.\newpage
+	Obwohl die globale Konfiguration für die vollständige Renew Version sich steigern wird, deuten die Zahlen auf einen geringeren Code-Abdruck des Gradle \textit{build} Werkzeugs hin.\bigbreak
 
-\subsection{Aufwertung} \label{sub:optimierung}
+\subsection{Modulumsetzung} \label{sub:optimierung}% aufwertung
 % Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten.(RenewAnt) 
 	Nachdem die Modularisierung abgeschlossen wurde, ist eine globale Sicht auf die Umsetzung möglich und offenbart Optimierungspotenzial für die Abstimmung der Modulabhängigkeiten. Zum Beispiel wird das RenewAnt Plugin nur für die Kompilation benötigt und muss nicht für die Ausführung mitgeliefert werden. Daher kann dieses als eine statische Abhängigkeit im Gui Plugin verankert werden und wird der Laufzeit nicht beigefügt.\bigbreak
 
@@ -307,12 +311,11 @@
 	\end{figure}
 
 \subsection{Endergebnis} \label{sub:endergebnis}
-	
 	Nachdem Renew verfeinert wurde, einsteht eine eindeutige Darstellung der Plugin Abhängigkeiten und dessen Aufbau. Ersichtlich wird, dass Module eine einfache Art und Wiese bieten, um den Aufbau komplexer Systeme zu Verwalten und Umstrukturieren.
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.37\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
+	  \includegraphics[width=0.6\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
 	  \caption{Minimale modulare Renew Version}
 	  \label{fig:trans_config}
 	\end{figure}
