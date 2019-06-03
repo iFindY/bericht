@@ -1,24 +1,26 @@
 \chapter{Prototypen} 
-	In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren bis die Applikation den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. \newline
-	Für die Umsetzung werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
+	In diesem Kapitel entstehen Prototypen, die Renew schrittweise modularisieren, bis die Applikation den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. Darüber hinaus wird die minimale Renew Version für die Unterstützung der Mulan-Plattform erweitert, sodass eine spielbare \textit{Mulan-Settler} Variation ausgeführt werden kann.
 
+\section{Minimaler Renew Prototyp} \label{sec:minimaler_prototyp}
+	Für die Umsetzung des ersten Prototyps werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
+% section minimaler_prototyp (end)
 % Anforderungen an System 
-\section{Anforderungen} \label{sec:anforderungen}
+\subsection{Anforderungen} \label{sec:anforderungen}
 	Im Kern der Modernisierung von Renew liegt die Anpassung von Renew an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den Renew Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von Renew nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
 
 % Was soll der Prototyp leisten 
-\subsection{Interaktion}
+\subsubsection{Interaktion}
 	Der erste modulare Renew Prototyp soll mit einer minimalen Plugin Anzahl auf dem Modulpfad betriebsfähig sein und eine Möglichkeit bieten Petrinetze zu erstellen, zu simulieren und zu serialisieren. Das heißt, es muss eine UI zu sehen sein, die mit den nötigen Werkzeugen und der darunter liegender Logik ausgestattet ist. 
 
-\subsection{Projektstruktur}
+\subsubsection{Projektstruktur}
 	Für die Umsetzung des modularen Renew's wird für jedes Plugin eine moderne Projektstruktur benötigt, die den Inhalt entsprechend dem etablierten Maven Standardverzeichnislayout auf Java Module und die dafür benötigten Ressourcen aufteilt. 
 
-\subsection{Entwicklungsumgebung} 
+\subsubsection{Entwicklungsumgebung} 
 	In der existierenden Renew Entwicklungsumgebung werden alle Plugin Projekte durch eine versteckte \textit{.project} beschrieben. Das heißt, der Klassenpfad und die Bindung der Codebausteine geschieht versteckt und für den Entwickler schwer zugänglich. Damit ist der Entwickler gezwungen den weiten und verschachtelten Weg durch die UI Konfiguration von Eclipse zu betreten, der sich mit der Zeit wandeln kann. Dieser Sachverhalt wurde von mir im letzten Projekt beobachtet und kostete Zeit für alle Projektteilnehmer, da die Universitätsrechner strikten Rechten unterliegen, die keine Benutzer definierte Eclipse Entwicklungsumgebung aufsetzen lässt. Darüber hinaus ist die Konfiguration von Renew in anderen Entwicklungsumgebungen wie IDEA oder Netbeans mit der \textit{.project} Konfigurationsdatei nicht möglich. \bigbreak
 
 	Um eine Entwicklungsumgebung unabhängige Konfiguration anzulegen wird ein neues Werkzeug benötigt. 
 
-\subsection{Packaging}
+\subsubsection{Packaging}
 	Da Renew an das Modulsystem angepasst werden muss, muss die Prozedur für das Kompilieren  und das Verpacken der Codebasis die Veränderung miterleben.\newline
 	Renew benutzt zurzeit das \textit{Apache Ant} Werkzeug, dass alle Plugins kompiliert und in einer ausführbare Form bringt. Dieses ist in Jahre gekommen und enthält wesentlich geringeren Funktionsumfang gegenüber der Aktuellen Konkurrenz, wie Maven und Gradle. Sie bieten eine Abhängigkeitsverwaltung, konfigurierbare Plugins und Programmiersprachen. Im Gesetz zu der aufgeblasenen XML-Konfiguration von Ant, die jeden kleinen Schritt ausführlich dokumentiert, beherrschen die modernen \textit{build} Werkzeuge die Komplexität durch den \textit{Convention over Configuration} Ansatz und flexiblen Ausdrucksweisen. \bigbreak
 
@@ -26,7 +28,7 @@
 
 
 % wie setze ich die Anforderungen um 
-\section{Spezifikation}
+\subsection{Spezifikation}
 	Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur.\newline 
 	Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug wiederaufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.\bigbreak
 
@@ -35,7 +37,7 @@
 	Zu Letzt entsteht eine bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die mit Hilfe des \textit{Plugin Manager} verwaltet werden. 
 
 % was werde ich tun um die Spezifikation zu erfüllen 
-\section{Entwurf}
+\subsection{Entwurf}
 	Der Entwurf berücksichtigt die schrittweise Migration und lässt die Renew Applikation während der Gesamtmigration betriebsfähig bleiben. Das heißt, Plugins auf den Klassenpfad sowie Modulpfad können nahtlos mit einander kommunizieren und ihre Funktion während der Migration weiterhin erfüllen.\bigbreak
 
 % Grobe darstellung der Projketstruktur als baum 
@@ -77,11 +79,11 @@
 	Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
 
 
-\section{Umsetzung}
+\subsection{Umsetzung}
 	Die Umsetzung realisiert den Entwurf und erstellt eine neue Projektstruktur für alle Plugins der minimalen Renew Version \ref{fig:plugin_deps}. Diese werden anschließend mit Gradle Werkzeug zusammengeführt und bilden ein kompilierfähiges Konstrukt. Nachfolgend werden die auserwählten Plugins, mit der \textit{module-info.java} versehen und deklarieren innerhalb der Konfigurationsdateien die zuvor vorgestellten Kommunikationskanäle \ref{sec:mod_kop} zwischen den Plugins.\newline
 	Der Modularisierungsprozess geschieht iterativ und wird für jedes Plugin einzeln nacheinander durchgeführt.
 
-\subsection{Umstrukturierung}
+\subsubsection{Umstrukturierung}
  % projektstruktur anpassen
  	% split packages 
  	% resources am falschen Ort 
@@ -123,7 +125,7 @@
 
 	Auf den ersten Blick kann eine Überschneidung zwischen den Gui und den RenewAnt Plugin erkannt werden, da beide den \textit{de.renew.ant} Namensraum besetzen, der sich um bestimmte Ant spezifische Aufgaben kümmert. Aufgrund dessen wird der Namensraum in dem Gui Plugin in \textit{task} zu den Gunsten des RenewAnt Plugins umbenannt. Des Weiteren könnten beide \textit{Task's} in den RenewAnt Plugin verschoben werden, da dieser keine Abhängigkeiten in dem Gui Plugin besitzt und nicht in den Aufgabenbereich der UI fallen. 
 
-\subsection{Gradle}
+\subsubsection{Gradle}
  % gradle build script erstellen
  		% Projektstrutur defenieren ()
  		% Klassenpfade für plugin-module und automatischen-module defenieren
@@ -174,7 +176,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.9\textwidth]{material/images/jar.png}
+	  \includegraphics[width=\textwidth]{material/images/jar.png}
 	  \caption{Jar Task}
 	  \label{fig:jar}
 	\end{figure}
@@ -194,7 +196,7 @@
 	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
 
-\subsection{Modularisierung}	
+\subsubsection{Modularisierung}	
 	Nachdem alle benötigen Renew Plugins kompiliert, verpackt und ausgeführt werden können, müssen die neu entstandenen Abhängigkeitsbeziehungen analysiert werden. Die Analyse der Plugins geschieht nun über die erstellten Gradle Scripte, die für jedes Projekt die benötigten Bibliotheken und Projekte für die Kompilation deklarieren. Aus diesen wird anschließend ein Abhängigkeitsgraph erstellt, der Zyklen und versteckte Abhängigkeiten offenlegt. \bigbreak
 
 	\begin{figure}[h!]
@@ -247,10 +249,10 @@
 	\end{figure}	
 
 \newpage
-\section{Evaluation}
+\subsection{Evaluation}
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen Renew Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
 
-\subsection{Struktur} \label{sub:struktur}
+\subsubsection{Struktur} \label{sub:struktur}
 % Projektstruktur: tolle Sache, zusätzlich kännten die testsrc sachen richtig eingegleiderst werden. 
 	Die Anforderung einer minimalen Version von Renew zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es unerwartete Strukturänderungen, die durchgeführt werden müssen. Zum Beispiel besitzen einige Plugins wie das Util, Loader und Simulator Plugin Test Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard Layout ein \textit{src/test/java/module.name} Test Ressourcen, mit den dazugehörigen Test Klassen, angelegt und verwaltet werden. \newline
 
@@ -258,7 +260,7 @@
 	Des Weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zu Folge, dass der generierte Code umgeleitet werden muss, um an der entsprächen Position die Funktion zu erfüllen. Zusätzlich muss JavaCC den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generieren Java Klassen bilden die Basis für die Plugins und somit sind sie zwingen erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich Komplexität, die neu für Renew ist und in der Zukunft sorgfältig gewartet werden muss. \bigbreak
 
 % Projektstruktur: Ant Spagettii Code.  
-\subsection{Verwaltung} \label{sub:verwaltung}
+\subsubsection{Verwaltung} \label{sub:verwaltung}
 % Gradle: Profetieren von Versionsverwaltung und Platzs.
 	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwicklers in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und der darunter liegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. \newline
 
@@ -277,7 +279,7 @@
 
 	Obwohl die globale Konfiguration für die vollständige Renew Version sich steigern wird, deuten die Zahlen auf einen geringeren Code-Abdruck des Gradle \textit{build} Werkzeugs hin.\bigbreak
 
-\subsection{Modulumsetzung} \label{sub:optimierung}% aufwertung
+\subsubsection{Modulumsetzung} \label{sub:optimierung}% aufwertung
 % Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten.(RenewAnt) 
 	Nachdem die Modularisierung abgeschlossen wurde, ist eine globale Sicht auf die Umsetzung möglich und offenbart Optimierungspotenzial für die Abstimmung der Modulabhängigkeiten. Zum Beispiel wird das RenewAnt Plugin nur für die Kompilation benötigt und muss nicht für die Ausführung mitgeliefert werden. Daher kann dieses als eine statische Abhängigkeit im Gui Plugin verankert werden und wird der Laufzeit nicht beigefügt.\bigbreak
 
@@ -289,7 +291,7 @@
 	\end{figure}
 
 % Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv. 
-	Des Weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das Util Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
+	Des Weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das \textit{Util} Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
 
 	Um die Übersicht über die unmittelbar genutzten Module zu behalten, kann mithilfe des \textit{transitiv}  Schlüssels eine angeforderte Bibliothek für alle Nutzer-Plugins offengelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin erweitern und nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. \bigbreak
 
@@ -310,7 +312,7 @@
 	  \label{fig:trans_gradle}
 	\end{figure}
 
-\subsection{Endergebnis} \label{sub:endergebnis}
+\subsubsection{Endergebnis} \label{sub:endergebnis}
 	Nachdem Renew verfeinert wurde, einsteht eine eindeutige Darstellung der Plugin Abhängigkeiten und dessen Aufbau. Ersichtlich wird, dass Module eine einfache Art und Wiese bieten, um den Aufbau komplexer Systeme zu Verwalten und Umstrukturieren.
 
 	\begin{figure}[h!]
@@ -320,6 +322,31 @@
 	  \label{fig:trans_config}
 	\end{figure}
 
+
+\section{Mulan-Settler Renew Prototyp} \label{sec:mmulan_settler}
+Die Siedler oder Settler ist eine Aufbau-Strategiespiele, dass mit Hilfe der Renew und der Mulan (Multi-Agent Nets) Plattform Simuliert werden kann. \bigbreak
+Für die Umsetzung des zweiten Prototyps werden Anforderungen erfasst, die der Renew Prototyp erfüllen muss, um die Mulan-Settler Variation der Mulan Plattform zu betreiben. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp.
+
+\subsection{Anforderungen} \label{sec:anforderungen2}
+Der Mulan-Settler Renew Prototyp soll die Mulan Plattform unterstützen, dabei sind nur die für Settler nötigen Mulan-Plugins einzubringen, die auf dem modularen Renew ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten.
+
+\subsection{Spezifikation}
+Für die Umsetzung des Prototyps muss die minimale Renew Version neu definiert und die benötigten zusätzlich Renew Plugins ausfindig gemacht werden. Zusätzlich muss das Settler Plugin auf die erforderliche Mulan Plugins analysiert werden, um diese der Laufzeitumgebung beizufügen und den Bedürfnissen bei Bedarf anzupassen. \newline
+Da Mulan und Settler auf Renew aufbauen müssen die Änderungen nicht nur innerhalb der Mulan Plugins, sondern auch innerhalb ihrer \textit{Ant build scripte} angepasst werden, damit die Renew Klassen für das Kompilieren der internen Konstrukte gefunden und genutzt werden können. 
+
+\subsection{Entwurf}
+% Bild: Schicht Settler Mulan Renew Schichten architektur 
+Für die Gestaltung der Mulan-Settler Variation wird zunächst der Aufbau der Gesamtumsetzung geschildert und der Zusammenhang der Akteure dargestellt. Anschließend werden die benötigten Komponenten in Form der benötigten Plugins erarbeitet und der Zusammenhang abgebildet.\bigbreak
+% Ant Skript Änderungen Bild mit Tasks die Renew Klassen nutzen
+Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare Renew angepasst werden, damit diese die passenden Renew Klassen für das Kompilieren interner Mulan Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden interne Ressourcen mit Hilfe der Renew Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen Mulan und Renew das Schlüsselkriterium der Umsetzung des Prototypen. \bigbreak
+% Renew IU ist nicht bereit für Mulan 
+Da das modulare Renew auf der Abschlussarbeit von Martin Wincierz \cite{martinWinc} aufbaut, ist Mulan für die Oberflächenanpassung zu diesem Zeitpunkt nicht bereit und muss nicht nur an das modulare Renew, sondern auch an die erweiterte Oberfläche von Renew angepasst werden.\newline
+Somit ist das Aufsetzen des Settler Spiels und der erforderlichen Mulan Plugins mit Schwierigkeiten verbunden die sorgfältig behandelt werden müssen. 
+%
+\subsection{Umsetzung}
+
+
+\subsection{Evaluation}
 
 
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
