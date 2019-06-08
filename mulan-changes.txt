@@ -1,0 +1,95 @@
+diff --git a/Platform/etc/plugin.cfg b/Platform/etc/plugin.cfg
+index df3f67b3a..4a8681254 100644
+--- a/Platform/etc/plugin.cfg
++++ b/Platform/etc/plugin.cfg
+@@ -10,7 +10,7 @@
+ name = CAPA
+ mainClass = de.renew.agent.platform.plugin.CapaPlugin
+ provides = de.renew.agent.mulan.platform
+-requires = de.renew.util,de.renew.simulator,de.renew.misc,de.renew.agent.fipa,de.renew.agent.mulanagent,de.renew.agent.platformservice,de.renew.remote,de.renew.agent.transport,de.renew.agent.subscriptionmonitor
++requires = de.renew.util,de.renew.simulator,de.renew.misc,de.renew.agent.fipa,de.renew.agent.mulanagent,de.renew.agent.platformservice,de.renew.remote
+ # Note:
+ # CAPA also has a soft dependency on the plugin providing de.renew.gui.
+ 
+diff --git a/build.xml b/build.xml
+index e5cd87770..356542f1d 100644
+--- a/build.xml
++++ b/build.xml
+@@ -382,14 +382,14 @@ invocation of ant on each Renew Plugin or other Mulan subproject.
+   </target>
+ 
+   <target name="Settler"
+-          depends="init,lib,depend.mulantasks,Platform,RemoteDC2,JadexLibs,OWLSHOPPlanner"
+-          description="builds the Mulan Settler Plugin">
++          depends="init,lib,depend.mulantasks,Platform,RemoteDC2,Viewer,JadexLibs,OWLSHOPPlanner"
++          description="builds the Mulan Sniffer Plugin">
+       <ant dir="Settler" target="fsdist" inheritAll="false"/>
+   </target>
+ 
+   <target name="SLEditor"
+           depends="init,lib,depend.mulanontologytasks,Fipa,Platform"
+-          description="builds the Mulan SLEditor Plugin">
++          description="builds the Mulan Sniffer Plugin">
+       <ant dir="SLEditor" target="dist" inheritAll="false"/>
+   </target>
+ 
+
+
+##########################subscriptionmonitor##################################
+ERROR: KVTFactory: Registration of de.renew.agent.subscriptionmonitor.ontology.SubscriptionRecord failed, skipping...
+ERROR:             Detailed message: java.lang.ClassNotFoundException: de.renew.agent.subscriptionmonitor.ontology.SubscriptionRecord
+ERROR: KVTFactory: Registration of de.renew.agent.subscriptionmonitor.ontology.EventType failed, skipping...
+ERROR:             Detailed message: java.lang.ClassNotFoundException: de.renew.agent.subscriptionmonitor.ontology.EventType
+##########################fs plugin not found##################################
+ERROR: AddPluginNetsExtension: Could not read shadow net system from file ontology/platform.sns within jar  [Ljava.util.jar.JarFile;@473837fa due to java.lang.ClassNotFoundException: de.renew.feature.structures.formalism.fs.ShadowConcept.
+java.lang.ClassNotFoundException: de.renew.feature.structures.formalism.fs.ShadowConcept
+#################velocity plugin requerd ###########################################
+ERROR: 
+PLEASE add the plugin(s) with the following provisions in their plugin.cfg
+
+* org.apache.velocity [Required by: Feature Structure Ontology Generator]
+
+#################gui formalism required ###########################################
+WARN: 
+There are plugins with unfulfilled dependencies:
+WARN: Plugin with unfulfilled dependencies: Renew Feature Structures
+ ---> providing 
+ * de.renew.feature.structures;
+ ---> requiring but missing 
+ * de.renew.gui.formalism
+
+ERROR: 
+PLEASE add the plugin(s) with the following provisions in their plugin.cfg
+########################transport service required####################################
+ERROR: Action exception in step (1): Method call resulted in an exception: java.lang.NoClassDefFoundError: de/renew/agent/transport/AccStub
+java.lang.RuntimeException: Action exception in step (1): Method call resulted in an exception: java.lang.NoClassDefFoundError: de/renew/agent/transport/AccStub
+############################################################
+Could not read shadow net system from file ontology/platform.sns within jar  [Ljava.util.jar.JarFile;@6a2bad87 due to java.lang.ClassNotFoundException: de.renew.feature.structures.formalism.fs.ShadowConcept.
+java.lang.ClassNotFoundException: de.renew.feature.structures.formalism.fs.ShadowConcept
+############################################################
+ERROR: 
+PLEASE add the plugin(s) with the following provisions in their plugin.cfg
+
+* de.renew.gui.formalism [Required by: Renew Feature Structures]
+#########################settler is loaded first and fail to bind ui ###################################
+DEBUG: Bound Service: class de.renew.agent.settler.SettlerPlugin
+DEBUG: ************ INITIALIZING Settler ********
+DEBUG: AddPluginNetsExtension with URL file:/Users/arkadi/MEVS2018/workspace/Mulan/dist/plugins/settler-0.6.0.jar
+/Users/arkadi/MEVS2018/workspace/Mulan/dist/plugins/settler-0.6.0.jar
+DEBUG: SimulatorPlugin: Registering extension de.renew.agent.settler.SettlerPlugin$SettlerSimulatorExtension@24105dc5.
+DEBUG: PluginManager looking for Renew Gui
+DEBUG: PluginManager looking for Renew Gui
+DEBUG: SimplePluginLoader loading from file:/Users/arkadi/MEVS2018/workspace/Renew/dist/plugins/de.renew.gui.jar
+DEBUG: * creating a de.renew.gui.GuiPlugin with cl de.renew.plugin.PluginClassLoader@6fadae5d
+DEBUG: SimplePluginLoader: Could not instantiate Renew Gui, caused by java.lang.NoSuchMethodException: de.renew.gui.GuiPlugin.<init>(de.renew.plugin.PluginProperties).
+DEBUG: DIPluginLoader loading from file:/Users/arkadi/MEVS2018/workspace/Renew/dist/plugins/de.renew.gui.jar
+DEBUG: * creating a de.renew.gui.GuiPlugin with cl de.renew.plugin.PluginClassLoader@6fadae5d
+DEBUG: Bound Service: class de.renew.gui.GuiPlugin
+DEBUG: ************ INITIALIZING Renew Gui ********
+DEBUG: initializing GUI plugin.
+DEBUG: Drawing loader source: /Users/arkadi/MEVS2018/workspace/Renew
+DEBUG: CPNSimulation: New net system created.
+DEBUG: SimulatorPlugin: Registering extension de.renew.gui.CPNSimulation$SimulatorGuiCompilationExtension@1e81f160.
+DEBUG: SimulatorPlugin: Registering extension de.renew.gui.BreakpointManager@1acaf3d.
+DEBUG: SimulatorPlugin: Registering extension de.renew.gui.GuiPlugin$SimulationStateListener@6057aebb.
+DEBUG: WARNING: Soft dependency from plugin CAPA to de.renew.gui: listener is created with no-arg constructor of class de.renew.agent.platform.plugin.CapaPluginGuiDependency.

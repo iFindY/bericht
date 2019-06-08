@@ -233,6 +233,7 @@
 	In der Abbildung \ref{fig:utilCH} wurde das Util Plugin Modul angepasst und bietet jetzt das \textit{de.renew.util} Paket für den Gebrauch an.\newline
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
 	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
+
 	In der folgenden Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
 	\begin{figure}[h!]
 	  \centering
@@ -324,28 +325,74 @@
 
 
 \section{Mulan-Settler Renew Prototyp} \label{sec:mmulan_settler}
-Die Siedler oder Settler ist eine Aufbau-Strategiespiele, dass mit Hilfe der Renew und der Mulan (Multi-Agent Nets) Plattform Simuliert werden kann. \bigbreak
+Die Siedler oder Settler ist eine Aufbau-Strategiespiele, das mit Hilfe der Renew und der Mulan (Multi-Agent Nets) Plattform Simuliert werden kann. \bigbreak
 Für die Umsetzung des zweiten Prototyps werden Anforderungen erfasst, die der Renew Prototyp erfüllen muss, um die Mulan-Settler Variation der Mulan Plattform zu betreiben. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp.
 
 \subsection{Anforderungen} \label{sec:anforderungen2}
-Der Mulan-Settler Renew Prototyp soll die Mulan Plattform unterstützen, dabei sind nur die für Settler nötigen Mulan-Plugins einzubringen, die auf dem modularen Renew ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten.
+Der Mulan-Settler Renew Prototyp soll die Mulan Plattform unterstützen, dabei sind nur die für Settler nötigen Mulan-Plugins einzubringen, die auf dem modularen Renew ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten. \newline 
+Ziel des Prototypen ist die Darstellung des parallelen Betriebs von alten und neuen Softwarekomponenten, die mit Hilfe des Modulsystem von Java zusammengeführt werden können und in der Konsequent als ein Beispiel für eine Migration ohne  Zeitdruck und Betriebsausfall. 
 
 \subsection{Spezifikation}
-Für die Umsetzung des Prototyps muss die minimale Renew Version neu definiert und die benötigten zusätzlich Renew Plugins ausfindig gemacht werden. Zusätzlich muss das Settler Plugin auf die erforderliche Mulan Plugins analysiert werden, um diese der Laufzeitumgebung beizufügen und den Bedürfnissen bei Bedarf anzupassen. \newline
-Da Mulan und Settler auf Renew aufbauen müssen die Änderungen nicht nur innerhalb der Mulan Plugins, sondern auch innerhalb ihrer \textit{Ant build scripte} angepasst werden, damit die Renew Klassen für das Kompilieren der internen Konstrukte gefunden und genutzt werden können. 
+Für die Umsetzung des Prototyps muss die minimale Renew Version neu definiert werden, denn die Mulan Plattform im Kontext des Settler Plugins benötigt eine größere Menge an Renew Plugins. Dafür müssen die erforderliche Mulan Plugins für Settler ausgelesen werden, um anschließend die entsprechenden Renew Abhängigkeiten abzuleiten. \newline
+Da die Mulan Plugins auf die Renew-Codebasis angewiesen sind und dessen Klassen für das Kompilieren, Bauen und das Ausführen der Plugins benötigen, müssen die entsprechenden Referenzen in den Mulan Plugins, Ressourcen und \textit{Ant} Skripten angepasst werden. \newline
+Die Settler und Mulan \textit{Ant} Skripte sollen nicht auf das \textit{Gradle} Werkzeug migriert werden, statt dessen werden nichts weiter als geringe Anpassungen an die neue Renew Struktur durchgeführt. \newline
+Die Basis für diesen Prototypen sollen alle Renew sowie Mulan Plugins aus den Abhängigkeitsgraph des Settler Spiels bilden, die aus dem  \textit{plugin.cfg} Konfigurationsdatei für die Laufzeitumgebung und aus dem \textit{Ant} Skript für die Kompilierumgebung abgelesen werden können. 
+
 
 \subsection{Entwurf}
 % Bild: Schicht Settler Mulan Renew Schichten architektur 
 Für die Gestaltung der Mulan-Settler Variation wird zunächst der Aufbau der Gesamtumsetzung geschildert und der Zusammenhang der Akteure dargestellt. Anschließend werden die benötigten Komponenten in Form der benötigten Plugins erarbeitet und der Zusammenhang abgebildet.\bigbreak
 % Ant Skript Änderungen Bild mit Tasks die Renew Klassen nutzen
-Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare Renew angepasst werden, damit diese die passenden Renew Klassen für das Kompilieren interner Mulan Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden interne Ressourcen mit Hilfe der Renew Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen Mulan und Renew das Schlüsselkriterium der Umsetzung des Prototypen. \bigbreak
+Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare Renew angepasst werden, damit diese die passenden Renew Klassen für das Kompilieren interner Mulan Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden interne Ressourcen mit Hilfe der Renew Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen Mulan und dem modularen Renew Prototypen das Schlüsselkriterium der Umsetzung. \bigbreak
 % Renew IU ist nicht bereit für Mulan 
 Da das modulare Renew auf der Abschlussarbeit von Martin Wincierz \cite{martinWinc} aufbaut, ist Mulan für die Oberflächenanpassung zu diesem Zeitpunkt nicht bereit und muss nicht nur an das modulare Renew, sondern auch an die erweiterte Oberfläche von Renew angepasst werden.\newline
 Somit ist das Aufsetzen des Settler Spiels und der erforderlichen Mulan Plugins mit Schwierigkeiten verbunden die sorgfältig behandelt werden müssen. 
-%
+
 \subsection{Umsetzung}
+% Ablesen der Plugin cfg's 
+Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt.
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/settler-mulan-renew.pdf}
+	  \caption{Minimale modulare Renew Version}
+	  \label{fig:trans_config}
+	\end{figure}
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/settler-mulan-plugins.pdf}
+	  \caption{Minimale modulare Renew Version}
+	  \label{fig:trans_config}
+	\end{figure}
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-tree-extend.pdf}
+	  \caption{Minimale modulare Renew Version}
+	  \label{fig:trans_config}
+	\end{figure}
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-mulan-vm.pdf}
+	  \caption{Minimale modulare Renew Version}
+	  \label{fig:trans_config}
+	\end{figure}
 
 
+%  sammel alle problem in ein text ud presentier das Ergebnis der Umsetzung der benötigten Plugins 
+
+% Ablesen der Ant build Skript 
+% Nicht alle plugins können abgelesen werden -> Anpassung der benötigten Plugins cfgs 
+% Anpassen der Build Skripte an das veränderte Renew -> durch ausprobieren des Build targets Settler.
+% Anpassen der exestierender Shadow Netze (sns) -> RNW referenziert die Renew Klassen mit den sie gebaut wurden  
+% Anpassen der UI Zugriffe von Mulan 
+% hinzufügen des settler.rnw in das settler spiel 
+% STARTFÄHIG
+
+% benötigte Mulan plugin ant skripte referenzierten nicht benötigte plugin ant targets  
+% !! haustermann ausfrage wie  auf die de.renew.agent.transport,de.renew.agent.subscriptionmonitor umgestiegen wurde und hier beschreiben. welches plugin wurde uaseinander gezogen für den servie ??? wie war es mit dem ontology generator ?
 \subsection{Evaluation}
 
 
