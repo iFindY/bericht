@@ -370,40 +370,53 @@
 \subsection{Umsetzung}
 % Ablesen der Plugin cfg's 
 	Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt.
+	% ÜBERBLICK: Plugin.cfgs ablesen groben überblick verschaffen
+	% AUSPROBIEREN: mit dem target Settler bauen und schauen ob dieses funktioniert. 
+	% ERWARTUNG: dieses muss alle benötigten Mulan und Renew Plugns in den build miteinbezihen. 
+	% FEHLER: nicht alle nötigen plugins sind in den plugin cfgs enthalten
+	% ANALYSE: Es besteht eine Abhängigkeit zwischen den de.renew.agent.transport und den de.renew.agent.subscriptionmonitor Plugn 
+	% BEHANDLUNG: Diese werden in die Plugncfgs nachgezogen und in den Ant skripten verankert, nähmlich im Kern Mulan Plugn CAPA,
+	% ERGEBNISS: Mulan Plugn Menge hat zugenommen 
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/settler-mulan-plugins.pdf}
 	  \caption{Settler Mulan Abhängigkeit}
 	  \label{fig:trans_config}
 	\end{figure}
-
+	% FOLGERUNG: Die Renew Plugnmenge nimmt auch zu.
+	% BEHANDLUNG: Modularisierung von zusätzlichen  Renew Plugns  
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-tree-extend.pdf}
 	  \caption{Minimale modulare Renew Version für Settler}
 	  \label{fig:trans_config}
-	\end{figure}
-
+	\end{figure}	
+	% AUSPROBIEREN: Ausführen des Settler targets 
+	% FEHLER: Die Pfad Abhängigkeiten von Settler und Ant entspricht nicht dem modularen Renew 
+	% ANALYSE: modularRenew Klassen besitzen zum teile eine andere Packetstruktur
+	% BEHANDLUNG: die Benötigten Klassen werden in den Settler und Ant Skripten nachgepflegt 
+	% AUSFÜHRUNG: Plugns anpassung in -> UseCaseComponents,YamlToFSConceptDiagram,KnowledgeRoundtrip,MulanDoc,FSOntologyGenerator,AgentRoleModeler
+	% AUSFÜHRUNG: in Ant mulantargets.xml anpassen 
+	% AUSPROBIEREN: Der Setterl task wird wider verwendetz
+	% FEHLER: Settler kann nicht auf UI Methoden des Gui Plugns zugreifen.
+	% BEHANDLUNG: Wurde mit einer Abschluss arbeit überarbeitet und nicht  in mulan angepasst. 
+	% AUSFÜHRUNG: GUI Plugn analyse und anpassung des Zugriff auf die das neue Gui Plugin 
+	% AUSPROBIEREN: Start der Mulan Rewn Applikation 
+	% FEHLER: Schadow netze könen nicht geladen werden.
+	% BEHANDLUNG: diese tragen metainforation über ihren Compiler aus RRenew und müssen angepasst werden.
+	% BEHANDLUNG: mit hilfe der regulären ausdrücke alle Shadow netz metainformation  mit dem neuen Kompiler ersetzen. 
+	% AUSPROBIEREN: Start von Mualn 
+	% FEHLER: das Settler Shadownetz wird nicht gefunden.
+	% ANALYSE: Dieses wird normalerweise nicht mitgelifert, sondern mit eine bash startcrit referenziert. 
+	% BEHANDLUNG: Für uns ist Settler das Ziel daher wird dieses netz mit Kompeliert und  im Settler plugn verpackt. 
+	% VERTIG:
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/settler-renew-mulan-vm.pdf}
 	  \caption{Gesamt Umsetzung}
 	  \label{fig:trans_config}
 	\end{figure}
-
-
-%  sammel alle problem in ein text ud presentier das Ergebnis der Umsetzung der benötigten Plugins 
-
-% Ablesen der Ant build Skript 
-% Nicht alle plugins können abgelesen werden -> Anpassung der benötigten Plugins cfgs 
-% Anpassen der Build Skripte an das veränderte Renew -> durch ausprobieren des Build targets Settler.
-% Anpassen der exestierender Shadow Netze (sns) -> RNW referenziert die Renew Klassen mit den sie gebaut wurden  
-% Anpassen der UI Zugriffe von Mulan 
-% hinzufügen des settler.rnw in das settler spiel 
-% STARTFÄHIG
-
-% benötigte Mulan plugin ant skripte referenzierten nicht benötigte plugin ant targets  
-% !! haustermann ausfrage wie  auf die de.renew.agent.transport,de.renew.agent.subscriptionmonitor umgestiegen wurde und hier beschreiben. welches plugin wurde uaseinander gezogen für den servie ??? wie war es mit dem ontology generator ?
+	% SCHLUSSSATZ: alles ok 
 \newpage
 \subsection{Evaluation}
 

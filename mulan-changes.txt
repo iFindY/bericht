@@ -35,6 +35,25 @@ index e5cd87770..356542f1d 100644
  
 
 
+diff --git a/Platform/etc/plugin.cfg b/Platform/etc/plugin.cfg
+index 4a8681254..df3f67b3a 100644
+--- a/Platform/etc/plugin.cfg
++++ b/Platform/etc/plugin.cfg
+@@ -10,7 +10,7 @@
+ name = CAPA
+ mainClass = de.renew.agent.platform.plugin.CapaPlugin
+ provides = de.renew.agent.mulan.platform
+-requires = de.renew.util,de.renew.simulator,de.renew.misc,de.renew.agent.fipa,de.renew.agent.mulanagent,de.renew.agent.platformservice,de.renew.remote
++requires = de.renew.util,de.renew.simulator,de.renew.misc,de.renew.agent.fipa,de.renew.agent.mulanagent,de.renew.agent.platformservice,de.renew.remote,de.renew.agent.transport,de.renew.agent.subscriptionmonitor
+ # Note:
+ # CAPA also has a soft dependency on the plugin providing de.renew.gui.
+
+
+
+
+
+
+
 ##########################subscriptionmonitor##################################
 ERROR: KVTFactory: Registration of de.renew.agent.subscriptionmonitor.ontology.SubscriptionRecord failed, skipping...
 ERROR:             Detailed message: java.lang.ClassNotFoundException: de.renew.agent.subscriptionmonitor.ontology.SubscriptionRecord
