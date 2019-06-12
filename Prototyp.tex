@@ -3,8 +3,7 @@
 
 \section{Minimaler Renew Prototyp} \label{sec:minimaler_prototyp}
 	Für die Umsetzung des ersten Prototyps werden zuerst Anforderungen erfasst, die der modularisierte Renew Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
-% section minimaler_prototyp (end)
-% Anforderungen an System 
+
 \subsection{Anforderungen} \label{sec:anforderungen}
 	Im Kern der Modernisierung von Renew liegt die Anpassung von Renew an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den Renew Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von Renew nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
 
@@ -26,8 +25,6 @@
 
 	Die minimale Version von Renew soll sich an einem modernen \textit{build} Werkzeug bedienen und eine ausführbares Ergebnis erzielen.
 
-
-% wie setze ich die Anforderungen um 
 \subsection{Spezifikation}
 	Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur.\newline 
 	Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug wiederaufgebaut werden. Dieses soll so gut wie möglich die bestehende Drittanbieter-Bibliotheken verwalten, Module kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.\bigbreak
@@ -36,11 +33,9 @@
 
 	Zu Letzt entsteht eine bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die mit Hilfe des \textit{Plugin Manager} verwaltet werden. 
 
-% was werde ich tun um die Spezifikation zu erfüllen 
 \subsection{Entwurf}
 	Der Entwurf berücksichtigt die schrittweise Migration und lässt die Renew Applikation während der Gesamtmigration betriebsfähig bleiben. Das heißt, Plugins auf den Klassenpfad sowie Modulpfad können nahtlos mit einander kommunizieren und ihre Funktion während der Migration weiterhin erfüllen.\bigbreak
 
-% Grobe darstellung der Projketstruktur als baum 
 	Für den ersten Prototypen wird zuerst eine Projektstruktur erstellt, die für jedes Plugin Projekt die Möglichkeit bieten soll, aus mehreren Modulen zu bestehen. Dafür wird eine Struktur \ref{fig:projektstruktur} erstellt, die im Java Verzeichnis alle Module bündelt, die über den Modulnamen disjunkt voneinander verwaltet werden. Nichtsdestotrotz gehören sie zum gleichen Projekt und teilen unter sich das Ressourcen Verzeichnis, das im weiteren Verlauf zum Erstellen der ausführbaren Pakete benötigt wird.
 
 	\begin{figure}[h!]
@@ -50,7 +45,6 @@
 	  \label{fig:projektstruktur}
 	\end{figure}
 	       
-% Wie das Gradel build system alles zusammenhalten. 
 	Nachdem die Projektstruktur der gewünschten Form entspricht, muss diese in der Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien \ref{fig:gradle_project} festgehalten, indem Java sowie Ressourcen Stammverzeichnisse definiert und Projekte sowie Drittanbieter-Bibliotheken Abhängigkeiten für den Kompilation-Pfad bestimmen werden. \bigbreak
 
 	\begin{figure}[h!]
@@ -60,10 +54,7 @@
 	  \label{fig:gradle_project}
 	\end{figure}
 
- 	Die oben genannten Schritte müssen für jedes Projekt der minimale Version von Renew durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, wurden alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb von Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. 
-
-
-% Modualisierungsiddee wie ich vorgehn werden(BottomUP). 
+ 	Die oben genannten Schritte müssen für jedes Projekt der minimale Version von Renew durchgeführt und im Anschluss über die entsprechende Entwicklungsumgebung  validiert werden. Wenn diese alle Klassen und die benötigten Abhängigkeiten finden und kompilieren kann, wurden alle Projekte richtig strukturiert, definiert und mit einander sauber verbunden. In diesem Zustand ist die komplette Struktur des Projekts innerhalb von Gradle verpackt und kann von jeder Entwicklungsumgebung ausgelesen werden. \newline
 	Da jetzt eine lauffähige minimale Renew Version für den Klassenpfad erstellt werden kann, ist es Zeit diese zu Modularisieren und die einzelnen Plugins auf den Modulpfad zu migrieren. Dafür werde ich den \textit{bottom up} Ansatz aus dem Kapitel Migration \ref{sec:bottomUP} verwenden und schritt für schritt die Plugins auf den Modulpfad bewegen. 
 
 	\begin{figure}[h!]
@@ -254,20 +245,15 @@
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen Renew Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
 
 \subsubsection{Struktur} \label{sub:struktur}
-% Projektstruktur: tolle Sache, zusätzlich kännten die testsrc sachen richtig eingegleiderst werden. 
 	Die Anforderung einer minimalen Version von Renew zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es unerwartete Strukturänderungen, die durchgeführt werden müssen. Zum Beispiel besitzen einige Plugins wie das Util, Loader und Simulator Plugin Test Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard Layout ein \textit{src/test/java/module.name} Test Ressourcen, mit den dazugehörigen Test Klassen, angelegt und verwaltet werden. \newline
 
-% Projektstruktur: JavaCC komplexität durch task graph und plugins. 
 	Des Weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zu Folge, dass der generierte Code umgeleitet werden muss, um an der entsprächen Position die Funktion zu erfüllen. Zusätzlich muss JavaCC den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generieren Java Klassen bilden die Basis für die Plugins und somit sind sie zwingen erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich Komplexität, die neu für Renew ist und in der Zukunft sorgfältig gewartet werden muss. \bigbreak
 
-% Projektstruktur: Ant Spagettii Code.  
 \subsubsection{Verwaltung} \label{sub:verwaltung}
-% Gradle: Profetieren von Versionsverwaltung und Platzs.
 	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwicklers in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und der darunter liegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. \newline
 
 	Die Verwaltung der Bibliotheken spielt eine große Rolle für Renew, da im Verlauf der Entwicklung, Drittanbieter-Bibliotheken angepasst wurden und somit keine Möglichkeit besteht eine saubere Version der Bibliothek einzubinden. Infolgedessen entstehen  unsaubere Abhängigkeiten, die nicht aktualisiert werden können. Diese werden wie zuvor, durch das Auslesen aus einem lokalen \textit{libs} Verzeichnis, in das Projekt eingebunden und müssen in der Zukunft, für die saubere Umsetzung von der benutzerdefinierten Logik befreit werden.\bigbreak
 
-% Gradel: Vergleichen der Code Zeile in Ant und Gradle.
 	Ein zusätzlicher Vorteil der neuen Projektverwaltung liegt an der neuen Umsetzung mit einer Programmiersprache, die es erlaubt mit Felder, Variablen, Schleifen und Objekten zu arbeiten. Dies hat zu Folge, dass der Übergang von den Renew Java Code zu den \textit{build} Skript von Gradle für den Entwickler leichter nachzuvollziehen ist und somit Akzeptanz und Anpassungsfähigkeit mit sich bringt. \newline
 	Hierzu kann die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeug an der benötigten Code Menge, die geschrieben werden muss, abgelesen werden. Zum Beispiel benötigt die Ant Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von Renew 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden.
 
@@ -281,7 +267,6 @@
 	Obwohl die globale Konfiguration für die vollständige Renew Version sich steigern wird, deuten die Zahlen auf einen geringeren Code-Abdruck des Gradle \textit{build} Werkzeugs hin.\bigbreak
 
 \subsubsection{Modulumsetzung} \label{sub:optimierung}% aufwertung
-% Modularisierung: Pluginarten wie compile, runtime mit der static Abhängigkeiten.(RenewAnt) 
 	Nachdem die Modularisierung abgeschlossen wurde, ist eine globale Sicht auf die Umsetzung möglich und offenbart Optimierungspotenzial für die Abstimmung der Modulabhängigkeiten. Zum Beispiel wird das RenewAnt Plugin nur für die Kompilation benötigt und muss nicht für die Ausführung mitgeliefert werden. Daher kann dieses als eine statische Abhängigkeit im Gui Plugin verankert werden und wird der Laufzeit nicht beigefügt.\bigbreak
 
 	\begin{figure}[h!]
@@ -291,7 +276,6 @@
 	  \label{fig:remote_config}
 	\end{figure}
 
-% Modularisierung: Simple Umsetzung der Abhängigkeiten imt transitiv. 
 	Des Weiteren wird klar, dass die Renew Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt, Plugins die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das \textit{Util} Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
 
 	Um die Übersicht über die unmittelbar genutzten Module zu behalten, kann mithilfe des \textit{transitiv}  Schlüssels eine angeforderte Bibliothek für alle Nutzer-Plugins offengelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin erweitern und nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. \bigbreak
@@ -303,7 +287,6 @@
 	  \label{fig:trans_config}
 	\end{figure}
 
-% Gradel: unterstützt die modualre idee mit api und implemetnation.
 	Um den aktualisierten Java Kontext so gut wie möglich nachzubilden, unterstützt Gradle die Idee der  Modularisierung und dessen Kopplungsarten, indem die Modulkopplung mit Hilfe von unterstützenden API's zum Entwerfen der transitiven und statischen Abhängigkeiten angeboten wird. Diese bestehen aus zwei weiteren Konfigurationspfaden, die durch \textit{api} und \textit{implimentation} gekennzeichnet sind. Die \textit{api} Konfiguration beschreibt eine transitive Abhängigkeit, die durch die Modulhierarchie weitergereicht wird und die \textit{implimentation} Konfiguration, die die genutzten Bibliotheken privat nutzt. Somit können die transitiven Renew Abhängigkeiten, die in der \textit{module-info.java} deklariert sind, auf die Projektstruktur mithilfe von Gradle abgebildet werden. 
 
 	\begin{figure}[h!]
@@ -325,13 +308,10 @@
 
 
 \section{Mulan-Settler Renew Prototyp} \label{sec:mmulan_settler}
-% Einleitung 
 	Die Siedler oder Settler ist eine Aufbau-Strategiespiele, das mit Hilfe der Mulan (Multi-Agent Nets) Plattform aufgebaut und mit Renew simuliert werden kann. \bigbreak
-% was passiert hier im Kapitel 
 	Für die Gestaltung der Mulan-Settler Variation wird zunächst der Aufbau der Gesamtumsetzung geschildert und der Zusammenhang der Akteure dargestellt. Anschließend werden Anforderungen erfasst, die der Renew Prototyp erfüllen muss, um die Mulan-Settler Variation der Mulan Plattform zu betreiben. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp.
 
 \subsection{Kontext}
-% Was hat mulan mit dem Prototypen zu tun
 	Mulan \cite{Roelke04} ist ein Multiagenten Rahmenwerk, mit dem Agenten entwickelt und mit einander Verbunden werden können. Diese agieren nach eigenem Interesse und verhandeln über Kommunikationskanäle, die von Mulan angeboten werden. Um eine auf Mulan basierende Multi-Agent-Anwendung zu erstellen, müssen zahlreiche Protokollnetze gezeichnet und Wissensbasen erstellt werden, die das Verhalten und die Interaktion von Agenten implementieren. Somit bietet Mulan ein Kommunikationsplattform sowie ein Gerüst für die Umsetzung der darauf aufsetzender Agenten und dessen Eigenschaften sowie Fähigkeiten, die mit Referenznetzen entworfen werden können. \cite{cabac} \bigbreak
 	\begin{figure}[h!]
 	  \centering
@@ -339,11 +319,8 @@
 	  \caption{Mulan Plugins}
 	  \label{fig:mulan_plugin}
 	\end{figure}
-% Übergangn Settler 
 	Das Spiel Settler ist mit Mulan umgesetzt und implementiert somit die Agenten Anforderungen des Multi Agenten System. Diese halten Wissensbasen über die Spielregeln und können mit Hilfe der Protokollnetze bestimmte Entscheidungen treffen und Handlungen ausführen. Wie zum Beispiel Straßen bauen oder Karten handeln.  
-% Übergang Renew
 	Um die erstellten Konstrukte auszuführen wird der Renew Petrinetz Simulator verwendet, mit dem die umgesetzten Mulan-Strukturen  ausgeführt werden können. \bigbreak
-% Mulan und Settler auch nur Plugins die von den plugin Manager verwaltet werden 
 	Eine vereinfachte Gesamtarchitektur ist in der Abbildung \ref{fig:mulan_plugin} dargestellt und visualisiert die benötigten Grundlagen für die Ausführung von Settler. \bigbreak
 	Des weiteren besitzt das Mulan-Rahmenwerk sowie das Settler Spiel eine Plugin konforme Architektur und werden somit genauso wie die Renew Plugins von dem Renew Plugin-Manager ausgelesen und verwaltete.
 
@@ -359,73 +336,57 @@
 
 
 \subsection{Entwurf}
-% Mulan Plugins und Renew Plugins auslesen 
 	Zuerst werden Komponenten in Form der benötigten Plugins aus Renew und Mulan für das Settler Spiel erarbeitet und der Zusammenhang zwischen den Applikationen abgebildet.\bigbreak
-% Ant Skript Änderungen Bild mit Tasks die Renew Klassen nutzen
-	Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare Renew angepasst werden, damit diese die passenden Renew Klassen für das Kompilieren interner Mulan Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden kritische Ressourcen, wie \textit{Shadown Netze}, mit Hilfe der Renew Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen Mulan und dem modularen Renew Prototypen das Schlüsselkriterium der Umsetzung. \bigbreak
-% Renew IU ist nicht bereit für Mulan 
+	Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare Renew angepasst werden, damit diese die passenden Renew Klassen für das Kompilieren interner Mulan Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden kritische Ressourcen, wie \textit{Shadow Netze}, mit Hilfe der Renew Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen Mulan und dem modularen Renew Prototypen das Schlüsselkriterium der Umsetzung. \bigbreak
 	Da das modulare Renew auf der Abschlussarbeit von Martin Wincierz \cite{martinWinc} aufbaut, ist Mulan für die Oberflächenanpassung zu diesem Zeitpunkt nicht bereit und muss nicht nur an das modulare Renew, sondern auch an die erweiterte Oberfläche von Renew angepasst werden.\newline
 	Somit ist das Aufsetzen des Settler Spiels und der erforderlichen Mulan Plugins mit Schwierigkeiten verbunden die sorgfältig behandelt werden müssen. 
 
 \subsection{Umsetzung}
-% Ablesen der Plugin cfg's 
-	Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt.
-	% ÜBERBLICK: Plugin.cfgs ablesen groben überblick verschaffen
-	% AUSPROBIEREN: mit dem target Settler bauen und schauen ob dieses funktioniert. 
-	% ERWARTUNG: dieses muss alle benötigten Mulan und Renew Plugns in den build miteinbezihen. 
-	% FEHLER: nicht alle nötigen plugins sind in den plugin cfgs enthalten
-	% ANALYSE: Es besteht eine Abhängigkeit zwischen den de.renew.agent.transport und den de.renew.agent.subscriptionmonitor Plugn 
-	% BEHANDLUNG: Diese werden in die Plugncfgs nachgezogen und in den Ant skripten verankert, nähmlich im Kern Mulan Plugn CAPA,
-	% ERGEBNISS: Mulan Plugn Menge hat zugenommen 
+	Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt. Da die Mulan Plugins auf Renew aufbauen, werden zusätzliche Plugins für die modulare Renew Umsetzung durch den Abhängigkeitsgraphen aufgedeckt. Wie zum Beispiel das Renew \textit{Feature Structure} Plugin, das an der Modellierung von Prozessen und der Erstellung von Ontologien beteiligt ist. \bigbreak
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/settler-mulan-plugins.pdf}
-	  \caption{Settler Mulan Abhängigkeit}
-	  \label{fig:trans_config}
+	  \caption{Settler Mulan Plugin Menge}
+	  \label{fig:settler_mulan_plugins}
 	\end{figure}
-	% FOLGERUNG: Die Renew Plugnmenge nimmt auch zu.
-	% BEHANDLUNG: Modularisierung von zusätzlichen  Renew Plugns  
+	Im Folgenden werden die benötigten Renew Plugins modularisiert und zum ersten mal das Mulan Settler \textit{target} ausgeführt. Dieses soll das Settler Spiel mit allen nötigen Abhängigkeiten von Mulan sowie Renew kompilieren und verpacken. Jedoch wird man während der Ausführung auf Plugin Klassen verwiesen, die für das Kompilieren notwendig sind und nicht als Teil des Settler \textit{target's} sowie der \textit{plugin.cfg's} gelistet sind. \newline 
+	Die nachfolge Analyse ergab zusätzliche Abhängigkeiten aus den \textit{Platform Transport Service} sowie \textit{Subscription Monitor} Plugins, die ein älteres Plugin ersetzen und noch nicht komplett in die Ant Umgebung eingebunden sind. Daher werden diese in den Settler Ant \textit{target} verankert sowie in den \textit{CAPA} Plugin \textit{plugin.cfg} nachgerüstet. In der Konsequenz muss der Abhängigkeitsbaum durch die nachträglichen Mulan Plugins erweitert und auf zusätzlicher Renew Plugins inspiziert werden. \newline
+	In den Abbildungen \ref{fig:settler_mulan_plugins} sowie \ref{fig:renew_mulan_plugins} werden die endgültigen Plugin Mengen aus Mulan sowie Renew dargestellt, die Settler für die Ausführung benötigt. \bigbreak
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-tree-extend.pdf}
 	  \caption{Minimale modulare Renew Version für Settler}
-	  \label{fig:trans_config}
+	  \label{fig:renew_mulan_plugins}
 	\end{figure}	
-	% AUSPROBIEREN: Ausführen des Settler targets 
-	% FEHLER: Die Pfad Abhängigkeiten von Settler und Ant entspricht nicht dem modularen Renew 
-	% ANALYSE: modularRenew Klassen besitzen zum teile eine andere Packetstruktur
-	% BEHANDLUNG: die Benötigten Klassen werden in den Settler und Ant Skripten nachgepflegt 
-	% AUSFÜHRUNG: Plugns anpassung in -> UseCaseComponents,YamlToFSConceptDiagram,KnowledgeRoundtrip,MulanDoc,FSOntologyGenerator,AgentRoleModeler
-	% AUSFÜHRUNG: in Ant mulantargets.xml anpassen 
-	% AUSPROBIEREN: Der Setterl task wird wider verwendetz
-	% FEHLER: Settler kann nicht auf UI Methoden des Gui Plugns zugreifen.
-	% BEHANDLUNG: Wurde mit einer Abschluss arbeit überarbeitet und nicht  in mulan angepasst. 
-	% AUSFÜHRUNG: GUI Plugn analyse und anpassung des Zugriff auf die das neue Gui Plugin 
-	% AUSPROBIEREN: Start der Mulan Rewn Applikation 
-	% FEHLER: Schadow netze könen nicht geladen werden.
-	% BEHANDLUNG: diese tragen metainforation über ihren Compiler aus RRenew und müssen angepasst werden.
-	% BEHANDLUNG: mit hilfe der regulären ausdrücke alle Shadow netz metainformation  mit dem neuen Kompiler ersetzen. 
-	% AUSPROBIEREN: Start von Mualn 
-	% FEHLER: das Settler Shadownetz wird nicht gefunden.
-	% ANALYSE: Dieses wird normalerweise nicht mitgelifert, sondern mit eine bash startcrit referenziert. 
-	% BEHANDLUNG: Für uns ist Settler das Ziel daher wird dieses netz mit Kompeliert und  im Settler plugn verpackt. 
-	% VERTIG:
+
+	Im weiteren Fortgang müssen die Klassenpfade innerhalb der Mulan Plugins angepasst werden, denn diese verweisen auf Renew Plugins mit der alten Projektstruktur und werden daher nicht gefunden. Um diesen Zustand zu beheben, wird die Korrektur, mit Hilfe der regulären Ausdrücke, Mulan übergreifend nachgezogen und enthält zum Schluss keine Referenzen auf alte sowie nicht existierende Paketstrukturen von Renew. Die betroffenen Mulan Plugins sind: UseCaseComponents, YamlToFSConceptDiagram, KnowledgeRoundtrip, MulanDoc, FSOntologyGenerator, SLEditor, WF und das AgentRoleModeler Plugin. \newline 
+	Mit dem letzten Schritt wurden alle Mulan Java Klassen innerhalb der Renew Plugin Menge richtig verbunden, dennoch bestehen Probleme bei der Referenzierung der Aufrufmethoden. Wie in der Einleitung angedeutet, setzt das modulare Renew auf Renew mit erweiterten Benutzeroberfläche auf und wurde bislang nicht mit Mulan zusammengeführt. Aus diesem Grund kann die \textit{KnowledgeBaseGenerator} Klasse aus dem AgentRoleConverter Plugin nicht auf alle versprochenen Methoden von der erweiterten Benutzeroberfläche zugreifen, wie zum Beispiel das Ausführen eines Speicherdialogs. Diese fehl Verhalten wird behoben indem Settler auf die angepasste Schnittstelle zugreift und das entsprechende Dialog koordiniert. \bigbreak
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=\textwidth]{material/images/settler-renew-mulan-vm.pdf}
-	  \caption{Gesamt Umsetzung}
+	  \includegraphics[width=0.8\textwidth]{material/images/shadownet.png}
+	  \caption{SNS Netz}
+	  \label{fig:sns_netz}
+	\end{figure}
+	Obwohl die Klassen sowie Methoden mit einander verzahnt wurden, müssen zusätzlich Ressourcen mit Hilfe des Ant Werkzeugs und speziell für Renew implementierte \textit{Ant Tasks} generiert werden. Diese nutzen Java Klassen, die in viele Paketen der Renew Plugins direkt verankert sind. Somit müssen Ant Skripte für die entsprechenden \textit{Task's} adaptiert werden. Zum Beispiel in der \textit{commontasks.xml} für den \textit{CreateShadownetsTask}, der sich jetzt in einem anderen Paket befindet. Dieser ist zuständig für das Koppeliren der Renew Zeichnungen in in ausführbare Shadow Petrinetze. Auch wenn der \textit{CreateShadownetsTask} Shadow Netze aus den Renew Zeichnungen generieren kann, gibt es bereits kompilierte Netze die als einfache Ressourcen mit Mulan mitgeliefert werden. \newline
+	Im Gegensatz zu den Renew Zeichnungen enthalten die Shadow Netze keine UI-Information, wie zum Beispiel Position oder Färbung der Netzelemente. Jedoch enthalten diese Information über den genutzten Netz-Compiler der für das Kompilieren der Datei zuständig war und für das Öffnen zuständig sein wird. Daher müssen bereits kompilierten Renew Zeichnungen für die modulare Renew Basis angepasst werde. Dafür wird mit Hilfe eines Text-Editors und einem regulären Ausdruck die entsprechenden Klassenverweise auf den \textit{XFSNetCompiler} aktualisiert, um den Ausführungskontext zu entsprechen. \newline
+	Das Ergebnis sowie ein Beispiel für ein aktualisiertes Shadow Netz ist in der Abbildung \ref{fig:sns_netz} dargestellt. \bigbreak
+	Zu diesem Zeitpunkt wurden alle Mängel und Uneindeutigkeiten zwischen Settler, Mulan und den modularen Renew beseitigt, dennoch fehlt für die Ausführung die Zeichnung \textit{settler.rnw}. Diese befindet sich im Settler Plugin und wird nicht in der Standardausführung mitgeliefert, sondern bei Bedarf mit einem \textit{sh} Skript während des Starts nachgeladen. \newline
+	Da die Umsetzung auf Settler abzielt, wird dieses Skript im Ant \textit{build} Prozess verankert und in das Settler Plugin mit kompiliert und verpackt. \newline
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.84\textwidth]{material/images/settler-renew-mulan-vm.pdf}
+	  \caption{Settler-Mulan Variation}
 	  \label{fig:trans_config}
 	\end{figure}
-	% SCHLUSSSATZ: alles ok 
-\newpage
-\subsection{Evaluation}
 
+	Zusammengefasst ist das Settler Spiel bereit für die Ausführung und enthält alle nötigen Konfigurationen für das modulare Renew mit der erweiterten Oberfläche. Dafür wurden zahlreiche Anpassungen durchgeführt, die eine Brücke zwischen der Mulan-Settler Variation und dem modularen Renew bilden. Es wurden Plugins modularisiert, Ressourcen angepasst, Skripte umgeschrieben und kleine Mängel behoben. \newline
+	In der Abbildung \ref{fig:trans_config} ist der fertige Prototyp abgebildet, der die Spezifikation erfüllt und als ein praktisches Beispiel für eine Migration einer existierender Software dient. 
+
+\subsection{Evaluation}
+% Für eine einfache Lösung zu Kompleziert.
+% PAralel betrieb ist möglich, jedoch müssen Änderungen trotzdem für die Komplette umsetzung an vielen Stellen angepasst werden. 
+% Einfach für komplonenten die auf den Modulpfad exestieren ->> also für erweiterungen des MOdulpfades. 
 
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
-
-
-
 % Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, plugin, runtime, compile, api und implimentation. 
-
-
-

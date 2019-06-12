@@ -49,7 +49,14 @@ index 4a8681254..df3f67b3a 100644
  # CAPA also has a soft dependency on the plugin providing de.renew.gui.
 
 
+./ant/commontasks.xml:	 classname="de.renew.task.CreateShadownetsTask"
 
+➜  Mulan git:(master) grep -Ri --include "*.java" "de.renew.gui.formalism" .
+./AgentRoleModeler/src/de/renew/agent/arm/core/ARMGuiConfigurator.java:import de.renew.gui.formalism.JavaGuiCreator;
+./AgentRoleModeler/src/de/renew/agent/arm/AgentRoleModelerPlugin.java:import de.renew.gui.formalism.FormalismGuiPlugin;
+./SLEditor/src/de/renew/agent/sleditor/SLEditorPlugin.java:import de.renew.gui.FormalismGuiPlugin;
+./WF/src/de/renew/agent/wf/ui/GuiHelper.java:import de.renew.gui.FormalismGuiPlugin;
+./WF/src/de/renew/agent/wf/ui/AgentWorkflowGuiCreator.java:import de.renew.gui.FormalismGuiCreator;
 
 
 
@@ -90,7 +97,7 @@ ERROR:
 PLEASE add the plugin(s) with the following provisions in their plugin.cfg
 
 * de.renew.gui.formalism [Required by: Renew Feature Structures]
-#########################settler is loaded first and fail to bind ui ###################################
+#########################settler is loaded first and fail to bind ui #######knowladebasegenerator############################
 DEBUG: Bound Service: class de.renew.agent.settler.SettlerPlugin
 DEBUG: ************ INITIALIZING Settler ********
 DEBUG: AddPluginNetsExtension with URL file:/Users/arkadi/MEVS2018/workspace/Mulan/dist/plugins/settler-0.6.0.jar

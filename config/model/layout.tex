@@ -37,7 +37,10 @@
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{wrapfig}
-
+\usepackage{listings}
+  \lstdefinestyle{ascii-tree}{
+    literate={├}{|}1 {─}{--}1 {└}{+}1 
+  }
 \usepackage[T1]{fontenc}
 \usepackage{inconsolata}
 
