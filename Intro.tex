@@ -15,7 +15,7 @@ Renew ist ein Petrinetz Simulator, der die oben genannten Petrinetz Formalismen 
 
 Da die ursprüngliche Umsetzung von Olaf Kummer eine empfindliche, monolithische Architektur besaß und viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung unstrukturiert \cite{schummacher}. Ab diesen Punkt kann Renew über die Plugin Schnittstellen erweitert werden, ohne die existierende Logik zu beeinflussen.\bigbreak
 
-Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mit Hilfe der Plugins modifizieren. Der Plugin-Manager baut auf zwei primären Namensräume auf. Zum einen braucht dieser zusätzliche Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen \cite{douvigneau}.
+Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mithilfe der Plugins modifizieren. Der Plugin-Manager baut auf zwei primären Namensräume auf. Zum einen braucht dieser zusätzlichen Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen \cite{douvigneau}.
 
 \section{Konstellation des Simulators} \label{sec:KdS}
 
