@@ -183,7 +183,7 @@
     Um die Klassen aus den Modulpfad zu laden, wird das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die in Zugriffsgruppen eingeteilt sind. Der \textit{Bootstrap Classloader} besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
 
-\section{Das interne Modulsystem von Java} \label{sec:modular_java_base}
+\section{JDK Modulsystem} \label{sec:modular_java_base}
   Um die Aufgestellten Regeln und Konzepte des entworfenes Modulsystem in Java zu integrieren, muss die Java Plattform diese selbst als Vorreiter erfüllen. \bigbreak
   Demnach wurde die Laufzeitumgebung (\textit{Run-Time}), die aus der \textit{rt.jar} besteht, auf Module aufgeteilt und mit einander über Kommunikationsregeln und Schnittstellen verknüpft. Das Ergebnis der modularisierten \textit{rt.jar} ergab 70 Module, die sich gegenseitig ergänzen. \newline
   In der Konsequenz ist eine kleine Applikation, die sich nur an dem \textit{base} Modul bedient, mit einem Speicherbedarf von 16 MB umsetzbar. Im Gegensatz dazu müssten für ein paar Zeilen Code in der 8 Version von Java, 160 MB der \textit{rt.jar} in die Laufzeitumgebung miteinbezogen werden, um den Laufzeitanforderungen zu entsprechenden.\bigbreak

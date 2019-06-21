@@ -238,7 +238,7 @@
 	\end{figure}	
 
 \newpage
-\subsection{Evaluation}
+\section{Evaluation}
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen Renew Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
 
 \subsection{Struktur} \label{sub:struktur}
@@ -302,54 +302,5 @@
 	  \caption{Minimale modulare Renew Version}
 	  \label{fig:trans_config}
 	\end{figure}
-
-
-
-\subsection{Umsetzung}
-	Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt. Da die Mulan Plugins auf Renew aufbauen, werden zusätzliche Plugins für die modulare Renew Umsetzung durch den Abhängigkeitsgraphen aufgedeckt. Wie zum Beispiel das Renew \textit{Feature Structure} Plugin, das an der Modellierung von Prozessen und der Erstellung von Ontologien beteiligt ist. \bigbreak
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=\textwidth]{material/images/settler-mulan-plugins.pdf}
-	  \caption{Settler Mulan Plugin Menge}
-	  \label{fig:settler_mulan_plugins}
-	\end{figure}
-	Im Folgenden werden die benötigten Renew Plugins modularisiert und zum ersten Mal das Mulan Settler \textit{target} ausgeführt. Dieses soll das Settler Spiel mit allen nötigen Abhängigkeiten von Mulan sowie Renew kompilieren und verpacken. Jedoch wird man während der Ausführung auf Plugin Klassen verwiesen, die für das Kompilieren notwendig sind und nicht als Teil des Settler \textit{target's} sowie der \textit{plugin.cfg's} gelistet sind. \newline
-	Die nachfolge Analyse ergab zusätzliche Abhängigkeiten aus den \textit{Plattform Transport Service} sowie \textit{Subscription Monitor} Plugins, die ein älteres Plugin ersetzen und noch nicht komplett in die Ant Umgebung eingebunden sind. Daher werden diese in den Settler Ant \textit{target} verankert sowie in den \textit{CAPA} Plugin \textit{plugin.cfg} nachgerüstet. In der Konsequenz muss der Abhängigkeitsbaum durch die nachträglichen Mulan Plugins erweitert und auf zusätzlicher Renew Plugins inspiziert werden. \newline
-	In den Abbildungen \ref{fig:settler_mulan_plugins} sowie \ref{fig:renew_mulan_plugins} werden die endgültigen Plugin Mengen aus Mulan sowie Renew dargestellt, die Settler für die Ausführung benötigt. \bigbreak
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-tree-extend.pdf}
-	  \caption{Minimale modulare Renew Version für Settler}
-	  \label{fig:renew_mulan_plugins}
-	\end{figure}	
-
-	Im weiteren Fortgang müssen die Klassenpfade innerhalb der Mulan Plugins angepasst werden, denn diese verweisen auf Renew Plugins mit der alten Projektstruktur und werden daher nicht gefunden. Um diesen Zustand zu beheben, wird die Korrektur, mithilfe der regulären Ausdrücke, Mulan übergreifend nachgezogen und enthält zum Schluss keine Referenzen auf alte sowie nicht existierende Paketstrukturen von Renew. Die betroffenen Mulan Plugins sind: UseCaseComponents, YamlToFSConceptDiagram, KnowledgeRoundtrip, MulanDoc, FSOntologyGenerator, SLEditor, WF und das AgentRoleModeler Plugin. \newline
-	Mit dem letzten Schritt wurden alle Mulan Java Klassen innerhalb der Renew Plugin Menge richtig verbunden, dennoch bestehen Probleme bei der Referenzierung der Aufrufmethoden. Wie in der Einleitung angedeutet, setzt das modulare Renew auf Renew mit erweiterten Benutzeroberfläche auf und wurde bislang nicht mit Mulan zusammengeführt. Aus diesem Grund kann die \textit{KnowledgeBaseGenerator} Klasse aus dem AgentRoleConverter Plugin nicht auf alle versprochenen Methoden von der erweiterten Benutzeroberfläche zugreifen, wie zum Beispiel das Ausführen eines Speicherdialogs. Dieses fehl Verhalten wird behoben indem Settler auf die angepasste Schnittstelle zugreift und das entsprechende Dialog koordiniert. \bigbreak
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=0.8\textwidth]{material/images/shadownet.png}
-	  \caption{SNS Netz}
-	  \label{fig:sns_netz}
-	\end{figure}
-	Obwohl die Klassen sowie Methoden mit einander verzahnt wurden, müssen zusätzlich Ressourcen unter Verwendung des Ant Werkzeugs und speziell für Renew implementierte \textit{Ant Tasks} generiert werden. Diese nutzen Java Klassen, die in vielen Paketen der Renew Plugins direkt verankert sind. Somit müssen Ant Skripte für die entsprechenden \textit{Task's} adaptiert werden. Zum Beispiel in der \textit{commontasks.xml} für den \textit{CreateShadownetsTask}, der sich jetzt in einem anderen Paket befindet. Dieser ist zuständig für das Kompilieren der Renew Zeichnungen in ausführbare Shadow Netze. Auch wenn der \textit{CreateShadownetsTask} Shadow Netze aus den Renew Zeichnungen generieren kann, gibt es bereits kompilierte Netze die als einfache Ressourcen mit Mulan mitgeliefert werden. \newline
-	Im Gegensatz zu den Renew Zeichnungen enthalten die Shadow Netze keine UI-Information, wie zum Beispiel Position oder Färbung der Netzelemente, jedoch enthalten diese Information über den genutzten Netz-Compiler, der für das Kompilieren der Datei zuständig war und für das Öffnen zuständig sein wird. Daher müssen bereits kompilierte Renew Zeichnungen für die modulare Renew Basis angepasst werde. Dafür wird mithilfe eines Text-Editors und einem regulären Ausdruck die entsprechenden Klassenverweise auf den \textit{XFSNetCompiler} aktualisiert, um den Ausführungskontext zu entsprechen. \newline
-	Das Ergebnis sowie ein Beispiel für ein aktualisiertes Shadow Netz ist in der Abbildung \ref{fig:sns_netz} dargestellt. \bigbreak
-	Zu diesem Zeitpunkt wurden alle Mängel und Uneindeutigkeiten zwischen Settler, Mulan und den modularen Renew beseitigt, dennoch fehlt für die Ausführung die Zeichnung \textit{settler.rnw}. Diese befindet sich im Settler Plugin Projekt und wird nicht in der Standardausführung mitgeliefert, sondern bei Bedarf mit einem \textit{sh} Skript während des Starts nachgeladen. \newline
-	Da die Umsetzung auf Settler abzielt, wird dieses Skript im Ant \textit{build} Prozess verankert und in das Settler Plugin mit kompiliert und verpackt. \newline
-
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=0.84\textwidth]{material/images/settler-renew-mulan-vm.pdf}
-	  \caption{Settler-Mulan Variation}
-	  \label{fig:trans_config}
-	\end{figure}
-
-	Zusammengefasst ist das Settler Spiel bereit für die Ausführung und enthält alle nötigen Konfigurationen für das modulare Renew mit der erweiterten Oberfläche. Dafür wurden zahlreiche Anpassungen durchgeführt, die eine Brücke zwischen der Mulan-Settler Variation und dem modularen Renew bilden. Es wurden Plugins modularisiert, Ressourcen angepasst, Skripte umgeschrieben und kleine Mängel behoben. \newline
-	In der Abbildung \ref{fig:trans_config} ist der fertige Prototyp abgebildet, der die Spezifikation erfüllt und als ein praktisches Beispiel für eine Migration einer existierender Software dient. 
-
-\subsection{Evaluation}
-	Der entstandenen Prototyp deckt ein Migrationsszenario ab, das innerhalb eines Projektes mit einer großen Codebasis entstehen könnte. Die Erwartung eines nahtlosen Austausch von Renew gegen das modulare Renew hat sich nicht ergeben. Alle Änderungen die während des Entstehen de Prototypen sich resultieren, deuten auf einen mittleren Arbeitsaufwand für das initiale Aufsetzen von existierendem Alt-Code auf modulare Grundlagen. Es müssen Pfade, Ressourcen und Prozesse angepasst werden, die voraussichtlich alle Bereiche eine Applikation betreffen werden.\newline
-	Nichtsdestotrotz ergaben sich auch positive Resultate. Denn, das Erweitern der existierenden Modulmenge ergab ein einfaches, übersichtliches und nachhaltiges Verfahren, welches sich in der erweiterten Renew minimal Konfiguration erwiesen hat. Mit jedem weiteren modularisierten Plugin wurde das Hinzufügen von Plugins zu der Gesamtumsetzung immer simpler und verlangte keinen bis minimalen Aufwand für die benötigen Abhängigkeiten. Zusätzlich steigt ab einem gewissen Punkt die Unterstützung für das Koppeln der Module mit einer intelligenten IDE und bildet somit eine neues, willkommenes Hilfsmittel.
-
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
 % Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, plugin, runtime, compile, api und implimentation. 
