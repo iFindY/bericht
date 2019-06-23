@@ -30,12 +30,12 @@
 	Mit der Plugin Architektur hat Renew den Lebenszyklus weit überschritten. Dies kann an den Codestellen abgelesen werden, die zum Teil aus der JDK 1.4 Version stammen. Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik. Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauende Code modularisiert wird, ist der Betrieb von Renew in der Zukunft gefährdet. Im Zuge dessen ist das Portieren der Applikation unvermeidlich und trägt ein gewisses Risiko mit sich. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin Code eine zentrale Funktion in System vertretet.\newline
 	Als zusätzliche mögliche Schwachstellen der Renew Applikation, kann die Build-Umgebung von Renew oder unsaubere Software Entwicklung von nicht erfahrenen Studenten auftreten. Zumal die Build-Umgebung zusammen mit Renew in die Jahre gekommen ist und bestimmte obligatorische Funktionen der modernen Software Entwicklung nicht besitzt und das Konzept der Delegation der Plugin Architektur, zu Code-Duplizierung und Problemen in der Verständlichkeit der Plugin-Abhängigkeiten führt.\bigbreak
 
-	Beifolgend stellt sich die Frage: Wie portierbar ist Renew und was muss getan werden, damit der Umstieg auf das Modulsystem von Java gelingt.
+	Beifolgend stellt sich die Frage: Wie portierbar ist Renew und was muss beachtet werden, damit der Umstieg auf das Modulsystem von Java gelingt.
 
 % Welche Ziele ergeben sich, welches suche ich mir aus 
 \section{Ziel} \label{sec:Z}
 
-	Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen der Java Laufzeitumgebung, sodass eine minimal und anschließend eine  erweiterte Version von Renew entsteht, die schlussendlich ein Teil des \textit{Mulan} Rahmenwerks unterstützt. Dafür wird eine moderne Build-Umgebung eingerichtet die das Modulsystem unterstützt, um anschließend eine modulare Renew Version aufzusetzen. 
+	Das Ziel dieser Arbeit ist die Anpassung von Renew an die neuen Anforderungen der Java Laufzeitumgebung, sodass eine minimal und anschließend eine erweiterte Version von Renew entsteht, die schlussendlich ein Teil des \textit{Mulan} Rahmenwerks unterstützt. Dafür wird eine moderne Build-Umgebung eingerichtet die das Modulsystem unterstützt, um anschließend eine modulare Renew Version aufzusetzen. 
 	Der Zweck dieser Arbeit ist eine Struktur, die einen modernen und nachhaltigen Zustand der Renew Applikation anfertigt, um den Entwickler einen unkomplizierten Einstieg in die existierende Logik zu ermöglichen, sowie die Entwickler-Fähigkeiten in der Forschung verteilter Systeme voranzutreiben.\bigbreak
 
 \section{Aufbau der Arbeit} \label{sec:AdA}

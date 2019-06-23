@@ -2,21 +2,6 @@
 	Die Siedler oder Settler ist eine Aufbau-Strategiespiele, das unter Verwendung der Mulan (Multi-Agent Nets) Plattform aufgebaut und mit Renew simuliert werden kann. \bigbreak
 	Für die Gestaltung der Mulan-Settler Variation wird zunächst der Aufbau der Gesamtumsetzung geschildert und der Zusammenhang der Akteure dargestellt. Anschließend werden Anforderungen erfasst, die der Renew Prototyp erfüllen muss, um die Mulan-Settler Variation der Mulan Plattform zu betreiben. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp.
 
-\section{Kontext}
-	Mulan \cite{Roelke04} ist ein Multiagenten Rahmenwerk, mit dem Agenten entwickelt und mit einander verbunden werden können. Diese agieren nach eigenem Interesse und verhandeln über Kommunikationskanäle, die von Mulan angeboten werden. Um eine auf Mulan basierende Multi-Agent-Anwendung zu erstellen, müssen zahlreiche Protokollnetze gezeichnet und Wissensbasen erstellt werden, die das Verhalten und die Interaktion von Agenten implementieren. Somit bietet Mulan ein Kommunikationsplattform sowie ein Gerüst für die Umsetzung der darauf aufsetzenden Agenten und dessen Eigenschaften sowie Fähigkeiten, die mit Referenznetzen entworfen werden können. \cite{cabac} \bigbreak
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=0.5\textwidth]{material/images/settler-mulan-renew.pdf}
-	  \caption{Mulan Plugins}
-	  \label{fig:mulan_plugin}
-	\end{figure}
-	Das Spiel Settler ist mit Mulan umgesetzt und implementiert somit die Agenten Anforderungen des Multi Agenten System. Diese halten Wissensbasen über die Spielregeln und können mit Hilfe der Protokollnetze bestimmte Entscheidungen treffen und Handlungen ausführen. Wie zum Beispiel Straßen bauen oder Karten handeln.\newline
-	Damit die erstellten Settler Agenten und dessen Aufbau simulairt werden kann, wird der Renew Petrinetz Simulator verwendet, mit dem die umgesetzten Agenten-Strukturen betrieben werden können.\newline
-	Des weiteren besitzt das Settler Spiel sowie das Mulan-Rahmenwerk eine Plugin konforme Architektur und werden somit genauso, wie die Renew Plugins von dem Renew Plugin-Manager ausgelesen und verwaltete.\bigbreak
-
-	Eine vereinfachter Zusammenhang ist in der Abbildung \ref{fig:mulan_plugin} dargestellt und visualisiert die benötigten Grundlagen für die Ausführung von Settler.
-
-
 \section{Anforderungen} \label{sec:anforderungen2}
 	Der Mulan-Settler Renew Prototyp soll die Mulan Plattform unterstützen, dabei sind nur die für Settler nötigen Mulan-Plugins einzubringen, die auf dem modularen Renew ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten. \newline 
 	Ziel des Prototypen ist die Darstellung des parallelen Betriebs von alten und neuen Softwarekomponenten, die mithilfe des Modulsystem von Java zusammengeführt werden können und in der Konsequent als ein Beispiel für eine Migration ohne  Zeitdruck und Betriebsausfall dienen.
@@ -36,15 +21,18 @@
 
 \section{Umsetzung}
 	Zuerst wird die existierende Struktur von Mulan betrachtet und die Settler Abhängigkeit laut den \textit{plugin.cfg's} abgelesen. Dafür werden die Settler Abhängigkeit innerhalb Renew und Mulan betrachtet und ein Abhängigkeitsgraph erstellt. Da die Mulan Plugins auf Renew aufbauen, werden zusätzliche Plugins für die modulare Renew Umsetzung durch den Abhängigkeitsgraphen aufgedeckt. Wie zum Beispiel das Renew \textit{Feature Structure} Plugin, das an der Modellierung von Prozessen und der Erstellung von Ontologien beteiligt ist. \bigbreak
+
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/settler-mulan-plugins.pdf}
 	  \caption{Settler Mulan Plugin Menge}
 	  \label{fig:settler_mulan_plugins}
 	\end{figure}
+
 	Im Folgenden werden die benötigten Renew Plugins modularisiert und zum ersten Mal das Mulan Settler \textit{target} ausgeführt. Dieses soll das Settler Spiel mit allen nötigen Abhängigkeiten von Mulan sowie Renew kompilieren und verpacken. Jedoch wird man während der Ausführung auf Plugin Klassen verwiesen, die für das Kompilieren notwendig sind und nicht als Teil des Settler \textit{target's} sowie der \textit{plugin.cfg's} gelistet sind. \newline
 	Die nachfolge Analyse ergab zusätzliche Abhängigkeiten aus den \textit{Plattform Transport Service} sowie \textit{Subscription Monitor} Plugins, die ein älteres Plugin ersetzen und noch nicht komplett in die Ant Umgebung eingebunden sind. Daher werden diese in den Settler Ant \textit{target} verankert sowie in den \textit{CAPA} Plugin \textit{plugin.cfg} nachgerüstet. In der Konsequenz muss der Abhängigkeitsbaum durch die nachträglichen Mulan Plugins erweitert und auf zusätzlicher Renew Plugins inspiziert werden. \newline
 	In den Abbildungen \ref{fig:settler_mulan_plugins} sowie \ref{fig:renew_mulan_plugins} werden die endgültigen Plugin Mengen aus Mulan sowie Renew dargestellt, die Settler für die Ausführung benötigt. \bigbreak
+
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.6\textwidth]{material/images/settler-renew-tree-extend.pdf}
@@ -54,12 +42,14 @@
 
 	Im weiteren Fortgang müssen die Klassenpfade innerhalb der Mulan Plugins angepasst werden, denn diese verweisen auf Renew Plugins mit der alten Projektstruktur und werden daher nicht gefunden. Um diesen Zustand zu beheben, wird die Korrektur, mithilfe der regulären Ausdrücke, Mulan übergreifend nachgezogen und enthält zum Schluss keine Referenzen auf alte sowie nicht existierende Paketstrukturen von Renew. Die betroffenen Mulan Plugins sind: UseCaseComponents, YamlToFSConceptDiagram, KnowledgeRoundtrip, MulanDoc, FSOntologyGenerator, SLEditor, WF und das AgentRoleModeler Plugin. \newline
 	Mit dem letzten Schritt wurden alle Mulan Java Klassen innerhalb der Renew Plugin Menge richtig verbunden, dennoch bestehen Probleme bei der Referenzierung der Aufrufmethoden. Wie in der Einleitung angedeutet, setzt das modulare Renew auf Renew mit erweiterten Benutzeroberfläche auf und wurde bislang nicht mit Mulan zusammengeführt. Aus diesem Grund kann die \textit{KnowledgeBaseGenerator} Klasse aus dem AgentRoleConverter Plugin nicht auf alle versprochenen Methoden von der erweiterten Benutzeroberfläche zugreifen, wie zum Beispiel das Ausführen eines Speicherdialogs. Dieses fehl Verhalten wird behoben indem Settler auf die angepasste Schnittstelle zugreift und das entsprechende Dialog koordiniert. \bigbreak
+
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.8\textwidth]{material/images/shadownet.png}
 	  \caption{SNS Netz}
 	  \label{fig:sns_netz}
 	\end{figure}
+	
 	Obwohl die Klassen sowie Methoden mit einander verzahnt wurden, müssen zusätzlich Ressourcen unter Verwendung des Ant Werkzeugs und speziell für Renew implementierte \textit{Ant Tasks} generiert werden. Diese nutzen Java Klassen, die in vielen Paketen der Renew Plugins direkt verankert sind. Somit müssen Ant Skripte für die entsprechenden \textit{Task's} adaptiert werden. Zum Beispiel in der \textit{commontasks.xml} für den \textit{CreateShadownetsTask}, der sich jetzt in einem anderen Paket befindet. Dieser ist zuständig für das Kompilieren der Renew Zeichnungen in ausführbare Shadow Netze. Auch wenn der \textit{CreateShadownetsTask} Shadow Netze aus den Renew Zeichnungen generieren kann, gibt es bereits kompilierte Netze die als einfache Ressourcen mit Mulan mitgeliefert werden. \newline
 	Im Gegensatz zu den Renew Zeichnungen enthalten die Shadow Netze keine UI-Information, wie zum Beispiel Position oder Färbung der Netzelemente, jedoch enthalten diese Information über den genutzten Netz-Compiler, der für das Kompilieren der Datei zuständig war und für das Öffnen zuständig sein wird. Daher müssen bereits kompilierte Renew Zeichnungen für die modulare Renew Basis angepasst werde. Dafür wird mithilfe eines Text-Editors und einem regulären Ausdruck die entsprechenden Klassenverweise auf den \textit{XFSNetCompiler} aktualisiert, um den Ausführungskontext zu entsprechen. \newline
 	Das Ergebnis sowie ein Beispiel für ein aktualisiertes Shadow Netz ist in der Abbildung \ref{fig:sns_netz} dargestellt. \bigbreak
