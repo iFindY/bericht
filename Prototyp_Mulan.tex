@@ -8,7 +8,7 @@
 
 \section{Spezifikation}
 	Für die Umsetzung des Prototyps muss die minimale Renew Version neu definiert werden, denn die Mulan Plattform im Kontext des Settler Plugins benötigt eine größere Menge an Renew Plugins. Dafür müssen die erforderliche Mulan Plugins für Settler ausgelesen werden, um anschließend die entsprechenden Renew Abhängigkeiten abzuleiten. \newline
-	Da die Mulan Plugins auf die Renew-Codebasis angewiesen sind und dessen Klassen für das Kompilieren, Bauen und das Ausführen der Plugins benötigen, müssen die entsprechenden Referenzen in den Mulan Plugins, Ressourcen und \textit{Ant} Skripten angepasst werden. \newline
+	Da die Mulan Plugins auf die Renew-Codebasis angewiesen sind und dessen Klassen für das Kompilieren, Verpacken und das Ausführen der Plugins benötigen, müssen die entsprechenden Referenzen in den Mulan Plugins, Ressourcen und \textit{Ant} Skripten angepasst werden. \newline
 	Die Settler und Mulan \textit{Ant} Skripte sollen nicht auf das \textit{Gradle} Werkzeug migriert werden, statt dessen werden lediglich Anpassungen an die neue Renew Struktur durchgeführt. \bigbreak
 	Die Basis für diesen Prototypen sollen alle Renew sowie Mulan Plugins aus den Abhängigkeitsgraph des Settler Spiels bilden, die aus der \textit{plugin.cfg} Konfigurationsdatei für die Laufzeitumgebung und aus dem \textit{Ant} Skript für die Kompilierumgebung abgelesen werden können. 
 
