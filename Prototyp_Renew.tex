@@ -68,14 +68,11 @@
 	Dieses Vorgehen wird solange durchgeführt bis jedes Plugin sich auf dem Modulpfad befindet. 
 
 \section{Umsetzung}
+
 	Die Umsetzung realisiert den Entwurf und erstellt eine neue Projektstruktur für alle Plugins der minimalen Renew Version \ref{fig:plugin_deps}. Diese werden anschließend mit Gradle Werkzeug zusammengeführt und bilden ein kompilierfähiges Konstrukt. Nachfolgend werden die auserwählten Plugins, mit der \textit{module-info.java} versehen und deklarieren innerhalb der Konfigurationsdateien die zuvor vorgestellten Kommunikationskanäle \ref{sec:mod_kop} zwischen den Plugins.\newline
 	Der Modularisierungsprozess geschieht iterativ und wird für jedes Plugin einzeln nacheinander durchgeführt.
 
 \subsection{Umstrukturierung}
- % projektstruktur anpassen
- 	% split packages 
- 	% resources am falschen Ort 
- 	% andere Sprachen auser Java 
 
 	Für die Umsetzung der Anforderungen und des Entwurfs wird zuerst die Projektstruktur jedes Plugins angepasst. Dafür wird die Struktur jedes Plugins analysiert, umstrukturiert und im weiteren Verlauf von Mängeln befreit. In den meisten Fällen werden \textit{split pakages} und gemischte Strukturen innerhalb der Codebasis erwartet.\bigbreak
 	Zuerst wird eine grobe Maven Projektstruktur erstellt, in dem sich zusätzlich ein Plugin Wurzelverzeichnis befindet. Anschließend migriert man die Codebasis in das Plugin Wurzelverzeichnis, welches den neuen Plugin Namen trägt.
@@ -179,7 +176,16 @@
 	  \label{fig:windmang}
 	\end{figure}
 
-	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{buidl.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagment Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken  und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
+	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{buidl.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagment Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
+
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=\textwidth]{material/images/javacc_gradle.png}
+	  \caption{Java Compiler Compiler}
+	  \label{fig:javacc}
+	\end{figure}
+
+	Für die Konfiguration der einzelnen Plugins spielt der \textit{JavaCC} Parser eine große Rolle, denn dieser wandelt eine Grammatikspezifikation in ausführbaren Java Code um. Die genannte Technik wird in dem \textit{Formalism}, \textit{Feature Structures}, \textit{CH} und in dem \textit{Misc} Plugin verwendet. Der \textit{JavaCC} Parser erstellt Java Klassen, die obligatorisch für die Ausführung von Renew sind. Dementsprechend werden diese als generierte Ressourcen im \textit{build} Verzeichnis abgelegt und dem Java \textit{SourceSet} beigefügt. \bigbreak
 
 	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
@@ -222,22 +228,17 @@
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
 	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
 
-	In der folgenden Abbildung \ref{fig:migration} wird die komplette Migration in vier Schritten dargestellt.
-	\begin{figure}[h!]
+	In der folgenden Abbildung \ref{fig:mig} wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und aus den Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad Angewiesen sind. Das wären der \textit{Simulator} sowie \textit{JHotDraw} Plugin. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  
+
+	\begin{figure}[h!] 
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_1.pdf}
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_2.pdf}
   	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_3.pdf}
-	  \label{fig:migration1}
+  	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_4.pdf}
+	  \label{fig:mig}
 	\end{figure}
-	\begin{figure}[h!]
-	  \centering
-	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_4.pdf}
-	  \caption{Migration}
-	  \label{fig:migration}
-	\end{figure}	
-
-\newpage
+	
 \section{Evaluation}
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen Renew Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
 
