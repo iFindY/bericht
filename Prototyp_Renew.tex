@@ -111,16 +111,20 @@
 	Auf den ersten Blick kann eine Überschneidung zwischen den Gui und den RenewAnt Plugin erkannt werden, da beide den \textit{de.renew.ant} Namensraum besetzen, der sich um bestimmte Ant spezifische Aufgaben kümmert. Aufgrund dessen wird der Namensraum in dem Gui Plugin in \textit{task} zu den Gunsten des RenewAnt Plugins umbenannt. Des Weiteren könnten beide \textit{Task's} in den RenewAnt Plugin verschoben werden, da dieser keine Abhängigkeiten in dem Gui Plugin besitzt und nicht in den Aufgabenbereich der UI fallen. 
 
 \subsection{Gradle}
- % gradle build script erstellen
- 		% Projektstrutur defenieren ()
- 		% Klassenpfade für plugin-module und automatischen-module defenieren
- 		% Abhängigkeiten Defeneiren und auf den Klassenpfad legen
- 		% Subprojekte einbindne über schleifen 
- 		% Verärbung der ähnlichen Abläufe wie das compieliren verpacken und bewegen 
- 		% Was genau muss ein Unterprojekt besitzen
- 		% erst hier wird klar das es keine Zyklen gibt 
 
- 	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für den Kompilation Schritt definiert und die benötigten Projekte sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Dafür wird ein übergeordneter Gradle Projekt deklariert, der alle Subprojekte aus allen Plugin Verzeichnissen erstellt. \bigbreak
+ 	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für den Kompilation Schritt definiert und die benötigten Projekte sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Mit der Unterstützung der Gradle Projektumgebung und einer IDE, können anschließend alle Abhängigkeiten aufgedeckt und auf Zyklen überprüft werden. \newline
+ 	Für die Umsetzung der Gradle Projektumgebung wird zuerst das bestehende Ant System analysiert. Dieses besteht aus Skripten, die sich in jedem Plugin befinden und die entsprechenden Projekte ausführbare Jar's erstellen. Die Ant Skripte sind sehr ähnlich aufgebaut und wiederholen ein Erstellungsmusster für alle Plugins. \newline
+	\begin{figure}[h!]
+	  \centering
+	  \includegraphics[width=0.4\textwidth]{material/images/ant-build.pdf}
+	  \caption{Ant Skript}
+	  \label{fig:antscript}
+	\end{figure}
+
+	In der Abbildung \ref{fig:antscript} ist ein Modell für die Erstellung eines Plugins mit dem Ant Werkzeug dargestellt. Ant initiiert das Skript mit Feldern und benötigten Variablen aus einer globalen Konfiguration, generiert Java Daten mit dem \textit{jj Target}, kompiliert und verpackt die ausführbaren Klassen. \bigbreak
+	
+	Für die Gradle Umsetzung werden Schritte, die über die etablierten Operationen zum Erstellen einer Ausführbaren Java Applikation wahrgenommen und in der folgenden Gradle Umgebung eingebunden.\newline
+	Dafür wird zuerst ein übergeordneter Gradle Projekt deklariert, der Subprojekte aus allen Plugin Verzeichnissen erstellt.\bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -228,14 +232,15 @@
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
 	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis alle Plugins auf dem Modulpfaden befinden, durchgeführt werden. Nähmilch das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
 
-	In der folgenden Abbildung \ref{fig:mig} wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und aus den Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad Angewiesen sind. Das wären der \textit{Simulator} sowie \textit{JHotDraw} Plugin. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  
+	In der folgenden Abbildung wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und aus den Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad Angewiesen sind. Das wären der \textit{Simulator} sowie \textit{JHotDraw} Plugin. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  
 
 	\begin{figure}[h!] 
 	  \centering
-	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_1.pdf}
-	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_2.pdf}
-  	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_3.pdf}
-  	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_4.pdf}
+	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_1.pdf}
+	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_2.pdf}
+  	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_3.pdf}
+  	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_4.pdf}
+  	  \caption{Migration}
 	  \label{fig:mig}
 	\end{figure}
 	
@@ -299,7 +304,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.6\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
+	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
 	  \caption{Minimale modulare Renew Version}
 	  \label{fig:trans_config}
 	\end{figure}

@@ -16,27 +16,28 @@
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-% Ziel
-Diese Arbeit behandelt die Modularisierung und die Erweiterung des Petrinetz Simulators \textit{Renew} auf eine Mikroservice Architektur.
-
-% Kontext
-\textit{Renew} wurde für die Modellierung von komplexen und verteilten Systemen mithilfe der Petrinetze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. 
+Diese Arbeit behandelt die Modularisierung und die Migration des Petrinetz Simulators \textit{Renew} auf das Modulsystem von Java.\newline
+Renew wurde für die Modellierung von komplexen und verteilten Systemen mithilfe der Petrinetze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. 
 
 % Zustand
-Diese Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen.
-Dementsprechend blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert. \bigbreak
+Die Plugin Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen. Dementsprechend blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert. \bigbreak
 
 % Problematik  
-Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet. Da die moderne Rechenleistung sich in der parallelen und verteilten Datenverarbeitung befindet, kann \textit{Renew} in jetzigem Zustand sich diese nicht zunutze machen. Darüber hinaus verpflichtet das neu eingeführt Modulsystem von Java die Aufteilung existierender Systeme auf entkoppelte, eigenständige Einheiten. Ziel dieser Arbeit ist die Vorbereitung und Umstrukturierung von \textit{Renew} für die Mikroservice-Architektur, um ihre interne Struktur verteilt auszuführen.\bigbreak
+Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn Das Modulsystem von Java führt eine neues Konzept der Module ein, das den Betrieb von Altsoftware 
+in absehbarer Zeit aufhebt. Dementsprechend muss Renew sich dieser Herausforderung stellen und an die neue Umgebung anpassen. \newline
+
+% Da die Anzahl der Renew Plugins, ihre Größe sowie ihre Komplexität ständig wächst, steigt der Wartungsaufwand. Dementsprechend ist die Modularisierung von Java essentiell wichtig für die Beherrschung der zunehmenden Komplexität von Renew und damit auch für die Wartbarkeit der langlebigen Architektur.\newline
+% Darüber hinaus fördert das Modulsystem von Java das parallele und gemeinschaftliche Arbeiten an modularisierten Projekten, die in dem Renew Kontext eine wichtige Rolle spielen.\newline
+
+Ziel dieser Arbeit ist die Migration von Renew auf das Modulsystem von Java sowie das Ersetzen des existierendes \textit{Build} Werkzeug durch Gradle, welches eine intelligente Projektverwaltung sowie eine überlege Integration in moderne Technologien verspricht. \newline
+Darüber hinaus soll die Modularisierung und die Migration von Renew die Entwicklung einer möglichen nachfolgenden Mikroservice Architektur begünstigen.\bigbreak
 
 % Stand
-Es existieren bereits Arbeiten im \textit{Renew} Kontext, die nach einem verteilten Unifikationsverfahren streben und sich mit möglichen Optimierungsabläufe befassen.
-Diese konzentrieren sich auf die verteilte Umsetzung des Algorithmus und die Schwächen in der bestehenden Implementation. Dennoch bleibt die Grundstruktur identisch. \bigbreak
+Da das Modulsystem von Java ein aktuelles Thema ist, gibt es keine Abschlussarbeiten, die sich mit dem Modularisieren von Renew beschäftigt haben, trotzdem ist die Forschung im Bereich der verteilten Ausführung von Berechnung ein wichtiges Thema. Daher existieren bereits Arbeiten im \textit{Renew} Kontext, die nach einem verteilten Unifikationsverfahren streben und sich mit möglichen Optimierungsabläufe befassen.
+Diese konzentrieren sich auf die verteilte Umsetzung des Algorithmus und die Schwächen in der bestehenden Implementation. Dennoch bleibt die Grundstruktur von Renew unverändert. \bigbreak
 
 % Aufbau
-Im ersten Abschnitt diese Arbeit wird die Code Basis um-strukturiert und gestaltet \textit{Renew} modular. 
-Folgerichtig wird \textit{Renew} auf die Korrektheit überprüft und nicht mehr unterstützten Legacy Architektur Entscheidungen überarbeitet. Im zweiten Abschnitt wird \textit{Renew} als ein Mikroservice Verband aufgesetzt.
-
+Im ersten Abschnitt diese Arbeit werden Grundlagen der Java Laufzeitumgebung erarbeitet. Anschließend werden aufbauende Konzepte der Modularisierung von Java diskutiert, die im Folgenden die Migration von bestehenden Applikationen auf das Modulsystem von Java einleiten. Für die Umsetzung der erarbeiteten Konzepte entsteht eine Spezifikation, die von zwei Prototypen umgesetzt wird. Zum Schluss folgt eine Evaluation der gesetzten Ziele.
 \linespread{1.25}\selectfont
 
 % Wenn ihr Pakete braucht dann bindet die bitte in layout.tex ein und scheibt eine mail rum damit alle anderen merge konflikte vermeiden können.
