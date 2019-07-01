@@ -1,12 +1,60 @@
 \chapter{Gesamt Evaluation}
-Dieses Kapitel evaluiert die gesetzten Anforderungen aus der Anforderungsanalyse und der Anforderungsspezifikation und bewertet die Migration auf das Modulsystem von Java.\bigbreak	
+Dieses Kapitel evaluiert die gesetzten Anforderungen aus der Anforderungsanalyse sowie der Anforderungsspezifikation und bewertet die Migration auf das Modulsystem von Java.\bigbreak	
 
 In den Grundalgen Kapitel wurde wichtige Konzepte und Einschaften der Modularisierung erarbeitet, die in der Zukunft helfen sollen Module sauber zu entwerfen, zu erstellen oder zu bewerten. Dazu gehören kritische Modul Charakteristika, wie Modulkopplung, Modulbindung, Seiteneﬀektfreiheit, Modulgröße und Namensräume. \bigbreak
 
 Mithilfe des Migrationskapitels werden zwei wesentliche Vorgehensweisen dargestellt, mit den eine Migration durchgeführt werden kann. Dieses beschreibt unter anderem wie das Modulsystem von Java sich eine Kontinuierliche Migration auf das Modulsystem vorstellt. \newline
-Die Migration des Renew Prototypen bediene sich dieser Idee und modularisiert die Plugins entsprechen der \textit{bottom Up} Ansatzes. Darüber hinaus sind wesentliche Migrationshürden auf das Modulsystem von Java benannt worden, die die essenziellen Probleme zusammenfassen. \bigbreak
+Die Migration des Renew Prototypen bediene sich dieser Idee und modularisiert die Plugins entsprechend dem \textit{bottom Up} Ansatzes. Darüber hinaus wurden wesentliche Modulsystem Migrationshürden benannt, die die essenziellen Probleme zusammenfassen. \bigbreak
 
- 
+Für den Ersatz der veralteten Projektorganisation des Quellcodes wird die geforderte Projektstruktur in ein Maven Standard Layout überführt, welches den Java Code von den Java Compiler-Compiler Code trennt und die dazugehörigen Ressourcen separat verwaltet. Zusätzlich wurden die interne Struktur der Plugin Pakete, die sich mit anderen Plugins überschneiden aufgelöst und umbenannt, um den Java Anforderung des Modulpfades zu entsprechen. Darüber hinaus wurde ein Modulname eingeführt, der nach der Java Konvention mit den Organisations- oder Applikationsdomäne beginnt und mit den Feature Namen endet. Der neue Modulname fasst den Quellcode eines Moduls zusammen und ermöglicht das Erstellen zusätzlicher Module innerhalb eines Plugins, die ein gemeinsames Ziel verfolgen. Des Weiteren spiegelt der Modulname die interne Paketstruktur wider und gestaltet die Codebasis Leserlich und Verständlich, da die Entwickler sofort ablesen können, aus welchen Modulen die Klassen stammen und für welchen Zweck diese entwickelt worden sind.\newline
+Der Aufwand für die Umstrukturierung war wie erwartet groß, denn die Modernisierung der internen Struktur eines Elements aus einem gekoppelten Verband diverse Folgen für die Zugriffe auf dessen Ressourcen und Funktionalität mit sich bringt. Demnach müssen alle Zugriffe auf das Plugin angepasst, die \textit{import} Angaben Plugin-Weit überarbeitet und die existierende Meta-Information angeglichen werden. In Folge dessen wurden Änderungen nötig, die Plugin-Übergreifend aufgelöst werden müssen und über den Rahmen des Plugins hinausgehen. Dies führt zu Unsicherheit, da Änderungen in mehre als hundert Klassen entstehen und die Konsistenz der kompletten Applikation in Frage stellt. \newline
+Im Endeffekt, ist die Umsetzung einer neuen Projektstruktur in einer ausgereiften Applikation eine wichtige und verantwortungsvolle Aufgabe, die schwerwiegende Konsequenzen trägt oder Nachhaltigkeit und Beständigkeit mit sich bringt.\bigbreak    
+
+Während der Modularisierung des ersten Prototypen, der die kontinuierliche Migration abdeckt, wurde der gemischte Betrieb von modularisiertem Renew Code mit dem alt System betrachtet. Dementsprechend sollte die Migration nicht nur Module bilden, sondern dessen integrierten Betrieb mit dem Altsystem inspizieren.\newline 
+Die Migration verfolgte den \textit{Chicken little} Ansatz und nutzte den von Java zur Verfügung gestellten Kommunikationskanal, der den Klassenpfad mit dem Modulpfad verbindet. Somit entstand kein zusätzlicher Aufwand für die manuelle Erstellung und die nachfolgende Qualitätskontrolle einer Kommunikationsbrücke. Die benannte Kommunikationskanal ist ein begehrenswertes Ausstattungsmerkmal des Modulsystems von Java, da dieses das Herzstück einer \textit{Chicken littel} Migration implementiert. Dementsprechend wurde während der Migration nur auf die Adaption an die neuen Umgebung geachtet und die Kontext übergreifende Kommunikation und dessen Integrität vernachlässigt. \newline
+
+Die Modularisierung wurde mit dem \textit{bottom up} Verfahren umgesetzt, das den Code von den simplen, bis zu den komplizierten Plugins modularisierte und in das bestehende System integrierte.  Für die Umsetzung der Migration wurden, wie bereits besprochen, die Plugins nacheinander Umstrukturiert und Ausführbar gestaltet. Dies beinhaltet einen grundlegend Schritt der Modularisierung, nämlich die Deklaration der Modulschnittstellen in der \textit{module-info.java}. Diese muss ständig während der gesamten Migration nach gepflegt werden, da mit jedem nachträglichen Plugin, neue Pakete in bereits modularisierten Plugin Modulen geöffnet werden mussten.
+
+
+- Migtation Einleitungssatz 
+- Evaluation des Migrationsablaufes
+	- was wurde dafür getan (modul info)
+	- wie wurde es getan (automatische expletize unbenannte module ( verweise auf Grundlagen Kapitel))
+	- was für folgen hatte sie (Konfiguration, Transitivität,Kontext, Schichten(Nattürliches ereigniss(hat sich selbst entwicklet)))
+	- Mehrwert  sichtbar ?
+
+
+
+% PROJEKTSTRUKTUR 
+	% ^-> Anforderungen aus der Modularisierung 
+	% -> Probleme die aufgetaucht sind. erwartet, unerwartet, kritik an das Projekt, lob an das Projekt  (pafad umbau lässt)
+	% -> Was bringt es auf lange Sicht -> erweiterbarkeit war die anforderung (Mehr module im Plugin) 
+	% ^-> Unerwartete mängel wurden behoben ->  stark veraltete und auf zeit unsauberer Projekt aufbau (bilder, resourcen, unterschieldiche Klassen typen und für verschiedenen zweck  im sleben Packet) 
+	% ^-> Konvention der modulanamengenbunf, das auf den source aufbau hinweist 
+	% -> es Felen konventionen die in der AUssicht näher beschprochen werden 
+	% ^-> Konsistenz gegeben, sind die verädnerungen kritisch (Ohne kla defenierte schnissteleln ja (keine schnittstellen verwaltung also ja))?
+	% AUFWAND FÜR DIE UMSTRUKTURIERUNG
+
+% MODULARISIERUNG
+% -> Modularisierung von  passenden Strukturen sehr einfach aber auch sehr schwer.  Auslesen der zugriffe auf das Modul kahn sehr Müsehlig sein und muss plugin weit getestet und angepasst werden
+% -> Die Migration von Modulaen gelingt ohne probleme, jedes MIgrationsszenario kann mit Hilfe der Expliziten automatischen unbenannten und offenen Module abgedeckt werden. Besonders positiv fiel das automaotsiche modul auf, dass  für den Klassenpfad und für den Modulpfad zugägnlich ist und Bausteine einer Bibliothke, schritt für schritt modularisieren lässt.  Modularisierung nicht nur der Code Base sondern der Arbhängigkeiten in kleien Schritten möglich. 
+% -> Die Transitive Konfiguration in einem Modulsystem hat einen erheblichen Postivien einfluss auf die Pluginkopplung( Plugin Schichten (Kontexte/ Abhängigkeiten) werden transitiv wietergereicht ohne Komplikation oder verstündniss oder aurbeitsaufwand für aufgliegende module )
+% -> Was kan der Prototyp leisten ? wie weit geht die Unterstützung lan  man ihn an weitere Studenten delegieren. tut es was ich versprochen habe 
+% -> Konsequenzen für Renew und allgemein für appliaktionen ( was hat renew erlebt was wird allen zustoßen)
+% -> Mehrwert ist da oder nicht ? was kann man mit dem modulsystem von java erreichen
+% MODULARISIERUNG MULAN 
+% Wleche seite der Modualriseirung hat Mulan gezeigt 
+% -> AUFWAND FÜR DSIE MODULARISIERUNG
+
+
+
+% GRADLE
+% Hat sich das Gradle wärkzueg behauptet ? 
+% verstädnlichkeit, 
+% code menge, 
+% erweiterbarkeit, 
+% konfiguration , 
+% mehrwert in der nutzung 
 
 
 

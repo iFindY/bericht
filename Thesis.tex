@@ -16,14 +16,13 @@
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-Diese Arbeit behandelt die Modularisierung und die Migration des Petrinetz Simulators \textit{Renew} auf das Modulsystem von Java.\newline
-Renew wurde für die Modellierung von komplexen und verteilten Systemen mithilfe der Petrinetze entwickelt. Da die Software viel Fachwissen voraussetze und sensibel auf Änderungen ungeübter Entwickler reagierte, entstand eine Plugin-Architektur, die \textit{Renew} mit Funktionalität anreichern lies ohne ihre innere Struktur zu verletzen. 
-
+Diese Arbeit behandelt die Modularisierung und die Migration des Petrinetz Simulators \textit{Renew} auf das Modulsystem von Java. \bigbreak
+% renew 
+Renew ist ein Petrinetz Simulator, der für die Modellierung von komplexen und verteilten Systemen entwickelt worden ist. Dieser wurde in einer einfachen monolithischen Architektur umgesetzt, die sensibel auf Änderungen ungeübter Entwickler reagierte. Aus diesem Grund wurde eine Plugin-Architektur entwickelt, die \textit{Renew} auf Plugins zerlegte und mit zusätzlicher Funktionalität anreichern lies, ohne ihre innere Struktur zu verletzen. \bigbreak
 % Zustand
 Die Plugin Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen. Dementsprechend blieb die Plugin-Architektur von \textit{Renew} in den letzten sechzehn Jahren unverändert. \bigbreak
-
 % Problematik  
-Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn Das Modulsystem von Java führt eine neues Konzept der Module ein, das den Betrieb von Altsoftware 
+Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn das Modulsystem von Java führt eine neues Konzept der Module ein, das den Betrieb von Altsoftware 
 in absehbarer Zeit aufhebt. Dementsprechend muss Renew sich dieser Herausforderung stellen und an die neue Umgebung anpassen. \newline
 
 % Da die Anzahl der Renew Plugins, ihre Größe sowie ihre Komplexität ständig wächst, steigt der Wartungsaufwand. Dementsprechend ist die Modularisierung von Java essentiell wichtig für die Beherrschung der zunehmenden Komplexität von Renew und damit auch für die Wartbarkeit der langlebigen Architektur.\newline
