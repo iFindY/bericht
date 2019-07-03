@@ -24,11 +24,12 @@
 
 	Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von Renew mithilfe der Plugins modifizieren. Der Plugin-Manager baut auf zwei primären Namensräume auf. Zum einen braucht dieser zusätzlichen Bibliotheken zum verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen \cite{douvigneau}.
 
-% Fragestellungen
-\section{Konstellation des Simulators} \label{sec:KdS}
+\section{Motivation} \label{sec:motivation}
+	Mit der Plugin Architektur hat Renew den Lebenszyklus weit überschritten. Dies kann an den Codestellen abgelesen werden, die zum Teil aus der JDK 1.4 Version stammen. Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik. Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauende Code modularisiert wird, ist der Betrieb von Renew in der Zukunft gefährdet. Im Zuge dessen ist das Portieren der Applikation unvermeidlich und trägt ein gewisses Risiko mit sich.
 
-	Mit der Plugin Architektur hat Renew den Lebenszyklus weit überschritten. Dies kann an den Codestellen abgelesen werden, die zum Teil aus der JDK 1.4 Version stammen. Somit entsprechen die erstmaligen Gestaltungsmöglichkeiten, Architekturentscheidungen und ihre Umsetzung, nicht mehr den aktuellen Stand der Technik. Vor allem durch die Einführung des Modulsystem von Java, mit dem der JDK sowie der darauf aufbauende Code modularisiert wird, ist der Betrieb von Renew in der Zukunft gefährdet. Im Zuge dessen ist das Portieren der Applikation unvermeidlich und trägt ein gewisses Risiko mit sich. Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin Code eine zentrale Funktion in System vertretet.\newline
-	Als zusätzliche mögliche Schwachstellen der Renew Applikation, kann die Build-Umgebung von Renew oder unsaubere Software Entwicklung von nicht erfahrenen Studenten auftreten. Zumal die Build-Umgebung zusammen mit Renew in die Jahre gekommen ist und bestimmte obligatorische Funktionen der modernen Software Entwicklung nicht besitzt und das Konzept der Delegation der Plugin Architektur, zu Code-Duplizierung und Problemen in der Verständlichkeit der Plugin-Abhängigkeiten führt.\bigbreak
+\section{Fragestellung} \label{sec:KdS}
+	Es ist unklar wie sich die benutzerdefinierten Namensräume und die so gut wie unberührten Kern-Plugins auf die neuen Modulstruktur übertragen lassen. Zumal die Suche nach zusätzlichen Plugin Code eine zentrale Funktion in System vertretet.\newline
+	Als eine weitere mögliche Schwachstellen der Renew Applikation, kann die Build-Umgebung von Renew oder schwammige Software Entwicklung von nicht erfahrenen Studenten auftreten. Zumal die Build-Umgebung zusammen mit Renew in die Jahre gekommen ist und bestimmte obligatorische Funktionen der modernen Software Entwicklung nicht besitzt und die wilde Kopplung der Plugins untereinander zu Problemen in der Verständlichkeit der Plugin-Abhängigkeiten führt.\bigbreak
 
 	Beifolgend stellt sich die Frage: Wie portierbar ist Renew und was muss beachtet werden, damit der Umstieg auf das Modulsystem von Java gelingt.
 
@@ -46,5 +47,4 @@
 	Dafür wird die bestehende Projekt Konstruktion reorganisiert, sodass Plugins durch mehrere Module repräsentiert wenden können. Darauf aufbauend müssen Plugins die Moduleigenschaften einhalten und die entsprechenden Regeln und Konfigurationen erfüllen. Und zum Schluss wird die Renew Applikation mit einem modernen \textit{build} Werkzeug organisiert und für die Ausführung verpackt.\newline
 	Das Ergebnis soll den Modularisierungskonzept in jedem Abschnitt des Lebenszyklus von Renew unterstützen. Daher wird erwartet, dass das modulare Denken in der Entwicklungsumgebung beim Entwickeln, beim Kompilieren und Verpacken sowie beim Ausführen der Applikation integriert wird. \bigbreak
 
-%todo 
 	Das Ergebnis soll als Grundlage für die nächste Lebenszyklus von Renew dienen und die Entwicklung einfach, flexible und erweiterbar gestalten. Dafür wir die Unterstützung von \textit{Mulan} benötigt, welches die wesentliche Funktion von Renew voraussetzt. 
