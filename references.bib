@@ -1,26 +1,22 @@
-@book{ochsenschlager2013modellierung,
-  title={Modellierung verteilter Systeme: Konzeption, Formale Spezifikation und Verifikation mit Produktnetzen},
-  author={Ochsenschl{\"a}ger, P.},
-  isbn={9783322888419},
-  series={Programm Angewandte Informatik},
-  url={https://books.google.de/books?id=rnieBgAAQBAJ},
-  year={2013},
-  publisher={Vieweg+Teubner Verlag}
+
+@BOOK{Kummer02,
+        AUTHOR             = {Kummer, Olaf},
+        PUBLISHER          = {Logos Verlag},
+        TITLE              = {{Referenznetze}},
+        ADDRESS            = {Berlin},
+        YEAR               = 2002,
+        ISBN               = {978-3-8325-0035-1},
+        URL =    {http://www.logos-verlag.de/cgi-bin/engbuchmid?isbn=0035\&lng=eng\&id=}
 }
 
 
-@Book{kummerReferenznetze,
-  title={Referenznetze},
-  author={Olaf Kummer },
-  isbn={978-3-8325-0035-1 },
-  year={2002},
-  publisher={Logos}
-}
-@Thesis{martinWinc,
-  author    = {Martin Wincierz},
-  title     = {Verbesserung der Erweiterbarkeit und Benutzbarkeit der grafischen Oberfläche des Petrinetz Simulators Renew},
-  school    = {Universität Hamburg},
-  year      = {2018}
+@MastersThesis{Wincierz18,
+  author =  {Martin Wincierz},
+  title =   {{Verbesserung der Erweiterbarkeit und Benutzbarkeit der grafischen Oberfl{\"a}che des Petrinetz Simulators \textsc{Renew}}},
+  school =  FBIUniHHab2011,
+  year =    2018,
+  type =    masterarbeit,
+  address = FBIUniAdresse
 }
 
 
@@ -35,32 +31,127 @@
    URL       = {http://logos-verlag.de/cgi-bin/engbuchmid?isbn=0768\&lng=eng\&id=}
 }
 
-@Thesis{douvigneau,
-  author    = {Michael Duvigneau},
-  title     = {Konzeptionelle Modellierung von Plugin-Systemen mit Petrinetzen},
-  school    = {Universität Hamburg},
-  year      = {2009}
+
+@PhdThesis{Duvigneau09,
+  author =  {Duvigneau, Michael},
+  address =  FBIUniAdresse,
+  school =  FBIUniHHab2006,
+  title =  {{Konzeptionelle Modellierung von Plugin-Systemen mit
+                  Petrinetzen}},
+  type =  dissertation,
+  year =  2009,
+  month =  oct,
+  url =   {http://www.sub.uni-hamburg.de/opus/volltexte/2010/4662/},
+  note =   {\url{http://www.sub.uni-hamburg.de/opus/volltexte/2010/4662/}},
+  urn =   {urn:nbn:de:gbv:18-46623},
+  abstract =  {Die Komplexit{\"a}t moderner Softwaresysteme w{\"a}chst nicht
+                  zuletzt aufgrund des Wunsches, sowohl aktuelle als auch
+                  zuk{\"u}nftige Bed{\"u}rfnisse vieler verschiedener Anwender mit
+                  einem einzigen System befriedigen zu wollen.  Eine in der
+                  Praxis oft eingesetzte L{\"o}sung zur Bew{\"a}ltigung der sich
+                  ergebenden Komplexit{\"a}t besteht darin, ein Plugin-System
+                  in die Software zu integrieren.  Ein Plugin-System
+                  erlaubt es Anwendern, ein relativ schlankes Kernsystem
+                  w{\"a}hrend seines Einsatzes an individuelle Bed{\"u}rfnisse
+                  anzupassen, indem vorgefertigte Plugins auf einfachste
+                  Weise zum Softwaresystem hinzugef{\"u}gt oder wieder daraus
+                  entfernt werden.  Um den Konfigurationskomfort f{\"u}r
+                  Anwender weiter zu erh{\"o}hen, werden zunehmend dynamisch,
+                  also w{\"a}hrend der Laufzeit rekonfigurierbare
+                  Plugin-Systeme implementiert.
+
+                  Dem h{\"a}ufigen praktischen Einsatz des Plugin-Konzepts
+                  steht bisher eine relativ geringe Aufmerksamkeit in der
+                  Forschung gegen{\"u}ber.  Ziel dieser Arbeit ist daher die
+                  Definition, Modellierung und Implementierung zentraler
+                  Konzepte von Plugin-Systemen.  Eine weitere
+                  Herausforderung ergibt sich aus der Tatsache, dass
+                  moderne Softwaresysteme -- also auch Plugin-Systeme --
+                  inh{\"a}rent nebenl{\"a}ufig sind.  Die sich daraus ergebenden
+                  M{\"o}glichkeiten und Risiken werden im Rahmen der
+                  Modellierung behandelt.
+
+                  Einige Paradigmen und Techniken aus dem Bereich der
+                  Softwareentwicklung werden bereits zur Beschreibung von
+                  Plugin-Systemen eingesetzt.  Hierzu z{\"a}hlen das Paradigma
+                  der komponentenbasierten Softwareentwicklung sowie die
+                  Techniken zur Beschreibung von Softwarearchitekturen und
+                  der Entwurfsmuster.  Die im Rahmen dieser Ans{\"a}tze
+                  formulierten Konzepte zeigen jedoch Schw{\"a}chen in der
+                  Modellierung von dynamischen {\"A}nderungen und von
+                  m{\"o}glicherweise vorhandener Nebenl{\"a}ufigkeit. Daher werden
+                  diese Ans{\"a}tze durch das Paradigma der agentenorientierten
+                  Softwareentwicklung und die Technik der Modellierung mit
+                  Referenznetzen erg{\"a}nzt.  Beide Ans{\"a}tze sind auf die
+                  Modellierung nebenl{\"a}ufiger, sich dynamisch ver{\"a}ndernder
+                  Systeme ausgerichtet, werden aber noch nicht im Kontext
+                  von Plugin-Systemen eingesetzt.
+
+                  Das breite Spektrum praktisch eingesetzter Plugin-Systeme
+                  wird anhand der komplexen Softwarearchitekturen der
+                  Mozilla-Anwendungssuite und der Eclipse-Plattform sowie
+                  einiger weiterer Systeme vorgestellt.  Aus diesem
+                  Spektrum werden die einfache (dynamische)
+                  Rekonfigurierbarkeit, eine starke Kapselung und das
+                  Konzept der intendierten Erweiterbarkeit als zentrale
+                  Eigenschaften des Plugin-Konzepts herausgearbeitet.
+                  Weitere Anforderungen an das Modell sind die Festlegung
+                  von Plugin-Lebenszyklen, die Existenz mehrerer
+                  Verwaltungsebenen, das Ber{\"u}cksichtigen von
+                  Nebenl{\"a}ufigkeit sowie eine intuitive Modellierung mit
+                  pr{\"a}ziser Semantik.  Der auf Basis dieser Eigenschaften
+                  definierte Plugin-Begriff wird zu den Begriffen des
+                  Objekts, des Moduls, der Komponente und des Agenten in
+                  Beziehung gesetzt.
+
+                  Zum Sch{\"a}rfen der Begriffe werden zentrale Konzepte von
+                  Plugin-Systemen mittels Referenznetzen nach dem Prinzip
+                  der schrittweisen Verfeinerung modelliert
+                  ("Implementierung durch Spezifikation").  Das Modell
+                  deckt s{\"a}mtliche eben genannten Anforderungen ab, schr{\"a}nkt
+                  die Nebenl{\"a}ufigkeit nicht unn{\"o}tig ein und ist mit einer
+                  pr{\"a}zisen operationalen Semantik ausgestattet.  Die
+                  Tauglichkeit des modellierten Konzepts wird zum einen
+                  durch einen Abgleich mit den vielf{\"a}ltigen Eigenschaften
+                  existierender Plugin-Systeme belegt.  Zum anderen werden
+                  die konzeptionellen Ergebnisse in Form mehrerer
+                  Prototypen auf das Petrinetzwerkzeug Renew {\"u}bertragen.}
 }
 
-@Thesis{schummacher,
-  author    = {Jörn Schumacherr},
-  title     = {Eine Plugin-Architektur für Renew},
-  school    = {Universität Hamburg},
-  year      = {2003}
+@MASTERSTHESIS{Schumacher03,
+        AUTHOR             = {Schumacher, J{\"o}rn},
+        ADDRESS            = FBIUniAdresse,
+        MONTH              = oct,
+        SCHOOL             = FBIUniHHbis2005,
+        TITLE              = {{Eine Plugin-Architektur f{\"u}r Renew -- Konzepte, Methoden, Umsetzung}},
+        TYPE               = diplomarbeit,
+        YEAR               = 2003
 }
 
-@Thesis{cabac,
-  author    = {Lawrence Cabac},
-  title     = {Modeling Petri Net-Based Multi-Agent Application},
-  school    = {Universität Hamburg},
-  year      = {2010}
+
+@BOOK{Cabac10a,
+  title = {Modeling Petri Net-Based Multi-Agent Applications},
+  publisher = {Logos Verlag},
+  year = {2010},
+  author = {Cabac, Lawrence},
+  note = {http://www.sub.uni-hamburg.de/opus/volltexte/2010/4666/},    
+  series =   {Agent Technology -- Theory and Applications},
+  volume = {5},
+  address = {Berlin},
+  booktitle = {Agent Technology -- Theory and Applications},
+  url =       {http://www.logos-verlag.de/cgi-bin/engbuchmid?isbn=2673\&lng=eng\&id=},
 }
 
-@Article{userGuide,
-  author    = {Olaf Kummer, Frank Wienberg, Michael Duvigneau, Lawrence Cabac, Michael Haustermann, David Mosteller},
-  title     = {\textsc{Renew} – User Guide},
-  year      = {2016},
-  publisher = {Springer}
+@Manual{Kummer+99a,
+  title =    {Renew -- User Guide},
+  author =   {Kummer, Olaf and Wienberg, Frank},
+  organization = {University of Hamburg, Faculty of Informatics, Theoretical Foundations Group},
+  address =  {Hamburg},
+  edition =  {Release 1.0},
+  month =    mar,
+  year =     1999,
+  note =     {Available at: http://www.renew.de/},
+  url =      {http://www.renew.de/}
 }
 
 @Book{rechenberg2006informatik,
@@ -71,6 +162,17 @@
   year={2006},
   publisher={Hanser}
 }
+
+@book{ochsenschlager2013modellierung,
+  title={Modellierung verteilter Systeme: Konzeption, Formale Spezifikation und Verifikation mit Produktnetzen},
+  author={Ochsenschl{\"a}ger, P.},
+  isbn={9783322888419},
+  series={Programm Angewandte Informatik},
+  url={https://books.google.de/books?id=rnieBgAAQBAJ},
+  year={2013},
+  publisher={Vieweg+Teubner Verlag}
+
+
 
 @Book{sneed2016softwaremigration,
   title={Softwaremigration in der Praxis: Übertragung alter Softwaresysteme in eine moderne Umgebung},
@@ -132,6 +234,7 @@
   urldate = {2019-05-25},
   year = {2005}
 }
+
 @article{classLoadingOracle,
   author = {Oracle},
   title = {Setting the Class Path},
@@ -139,11 +242,16 @@
   howpublished = {\url{https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html}},
   urldate = {2019-05-25},
 }
-@misc{Forman04javareflection,
-    author = {Ira R. Forman and Nate Forman and Dr. John Vlissides Ibm and Ira R. Forman and Nate Forman},
-    title = {Java Reflection in Action},
-    year = {2004}
+
+@book{Forman04javareflection,
+ author = {Forman, Ira R. and Forman, Nate},
+ title = {Java Reflection in Action (In Action Series)},
+ year = {2004},
+ isbn = {1932394184},
+ publisher = {Manning Publications Co.},
+ address = {Greenwich, CT, USA},
 }
+
 
 % moduels  
 @article{jmsOracle,
