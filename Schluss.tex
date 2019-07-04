@@ -28,16 +28,20 @@ Das Grundlagenkapitel behandelt das Arbeiten mit dem Klassenpfad auf der virtuel
 
 In dem Kapitel der Modularisierung wurden wichtige Konzepte und Einschaften der Modularisierung erarbeitet, die in der Zukunft helfen sollen Module sauber zu entwerfen, zu erstellen oder zu bewerten. Dazu gehören kritische Modul Charakteristika, wie Modulkopplung, Modulbindung, Seiteneﬀektfreiheit, Modulgröße und Namensräume. \bigbreak
 
-Mithilfe des Migrationskapitels werden zwei wesentliche Vorgehensweisen dargestellt, mit den eine Migration durchgeführt werden kann. Dieses beschreibt unter anderem wie das Modulsystem von Java sich eine Kontinuierliche Migration auf das Modulsystem vorstellt. \newline
+Mithilfe des Migrationskapitels werden zwei wesentliche Vorgehensweisen dargestellt, mit den eine Migration durchgeführt werden kann. Zusätzlich wird auf das Modulsystem von Java eingegangen, das eine bestimmte Vorstellung von einer Kontinuierliche Migration auf das Modulsystem besitzt. \newline
 Die Migration des \textsc{Renew} Prototypen bediene sich dieser Idee und modularisiert die Plugins entsprechend dem \textit{bottom Up} Ansatzes. Darüber hinaus wurden wesentliche Modulsystem Migrationshürden benannt, welche die essenziellen Probleme zusammenfassen. \bigbreak
 
-Das Kapitel der Analyse und Ausgangssituation vermittelt die Zielsetzung und den Umfang der Abschlussarbeit sowie die nachfolgende Durchführung. Es werden Gründe für eine Migration auf das Modulsystem von Java zusammengetragen, die daraus resultierenden Konsequenzen analysiert und anschließend die Anforderung an die bevorstehende Prototypen behandelt. Zum Schluss wird ein aktueller Zustand der \textsc{Renew} sowie \textsc{Mulan} Software konstruiert, die im Nachfolgenden nach einem Umsetzungsplan die gesetzte Spezifikation erreichen sollen.\bigbreak
+Das Kapitel der Analyse und Ausgangssituation vermittelt die Zielsetzung und den Umfang der Abschlussarbeit sowie die nachfolgende Durchführung. Es werden Gründe für eine Migration auf das Modulsystem von Java zusammengetragen, die daraus resultierenden Konsequenzen analysiert und anschließend die Anforderung an die bevorstehende Prototypen behandelt. Zum Schluss wird ein aktueller Zustand der \textsc{Renew} sowie \textsc{Mulan} Software konstruiert, die im Nachfolgenden mit einem Umsetzungsplan die gesetzte Spezifikation erreichen sollen.\bigbreak
 
-Die Nachfolgenden Kapitel behandeln die Erstellung des \textsc{Renew} Prototypen, der die kontinuierliche Migration demonstriert. Dieser beinhaltet einen Umsetzungsplan, der die Projektstruktur reorganisiert, das Gradle Werkzeug für die Organisation des Projekts einführt und anschließend das Modulsystem von Java auf die vorbereitete Code-Basis aufsetzt. Zum Schluss folgt eine Evaluation, die den Prototypen auf das Modulsystem von Java abstimmt und Parallelen mit dem Gradle Werkzeug zieht. 
+In dem Kapitel des modularen \textsdc{Renew} Prototypen geht es um die Migration von \textsc{Renew} auf das Modulsystem von Java, die eine kontinuierliche und beispielhafte Migration demonstriert. Diese beinhaltet einen Umsetzungsplan, der die Projektstruktur reorganisiert, das Gradle Werkzeug für die Organisation des Projekts einführt und anschließend das Modulsystem von Java auf die vorbereitete Code-Basis aufsetzt. Zum Schluss folgt eine Evaluation, die den Prototypen auf das Modulsystem von Java optimal abstimmt und Parallelen mit dem Gradle Werkzeug zieht.\bigbreak
 % proptotypen kapitel 
 
-\section{Ausblick} 
+ Das Kapitel des \textsc{Mulan} Prototypen demonstriert mögliche Schwierigkeiten und den betreffenden Aufwand, der mit dem Austausch einer grundlegend Basis-Software in einem größeren System auftreten können. Da das Rahmenwerk \textsc{Mulan} auf dem \textsc{Renew} Simulator aufsetzt und ohne diesen nicht betriebsfähig ist, ist \textisc{Mulan} komplett an \textsc{Renew} während der Kompilation sowie der Laufzeit angewiesen. Daraus folgen Referenz- und Zugriffsschwierigkeiten, die Global behoben werden müssen. Zusätzlich wird mit diesem Prototypen eine Übergangsszenario Simuliert, das \textsc{Renew} mit dem Gradle Werkzeug und \textsc{Mulan} mit dem Ant Werkzeug zugleich eine funktionierendes Ergebnis liefern. \bigbreak
 
+ Zum Schluss wird das Ergebnis der Abschlussarbeit evaluiert, zusammengefasst und der Ausblick für die mögliche Forschung und Ausbau der Prototypen gegeben. 
+
+
+\section{Ausblick} 
 
 
 
