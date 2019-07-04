@@ -54,16 +54,16 @@ Noch was \hyperlink{https://kataloge.uni-hamburg.de/DB=1/SET=2/TTL=10/SHW?FRST=6
 
 
 
-% Zusammenhang zwischen Renew Petrinetze Nutzen 
-\textit{Renew} ist ein mächtiges Werkzeug zum Semulieren und Visualisieren von unterschiedlichen Petrinetzformalismen, die auf dem S/T-Netzmodel von Petrin \cite{Petri62}aufbaun. 
-Da die Konstruktion von den modernen und global vernetzten Systeme eine der Kerndisziplinen in der Softwareentwicklung ist, kann \textit{Renew} zuverlässig die Wechselwirkung diverser Prozesse von Mensch und Maschine modellieren und dammit als ein einflussreiches Werkzeug in dem Entwicklungsprozess dienen.
+% Zusammenhang zwischen \textsc{Renew} Petrinetze Nutzen 
+\textsc{Renew} ist ein mächtiges Werkzeug zum Semulieren und Visualisieren von unterschiedlichen Petrinetzformalismen, die auf dem S/T-Netzmodel von Petrin \cite{Petri62}aufbaun. 
+Da die Konstruktion von den modernen und global vernetzten Systeme eine der Kerndisziplinen in der Softwareentwicklung ist, kann \textsc{Renew} zuverlässig die Wechselwirkung diverser Prozesse von Mensch und Maschine modellieren und dammit als ein einflussreiches Werkzeug in dem Entwicklungsprozess dienen.
 % hier das Fazit 
 Besonders heute ist das Modulieren verteilter Systeme eine wichtige Disziplin, denn die Vernetzung über das Internet, aufspaltung monolithischer Architekturen und aufteilung der Verantwortung führt zu  schwierigen und nur schwer zu überblickenden Konstruktionen. <
 
 
 
 
-Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textit{Renew}.
+Zum Schluss folgt eine Bewertung und Aussichten für die Weiterentwicklung von \textsc{Renew}.
 
 
 

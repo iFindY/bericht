@@ -15,21 +15,21 @@ diff --git a/build.xml b/build.xml
 index e5cd87770..356542f1d 100644
 --- a/build.xml
 +++ b/build.xml
-@@ -382,14 +382,14 @@ invocation of ant on each Renew Plugin or other Mulan subproject.
+@@ -382,14 +382,14 @@ invocation of ant on each \textsc{Renew} Plugin or other \textsc{Mulan} subproject.
    </target>
  
    <target name="Settler"
 -          depends="init,lib,depend.mulantasks,Platform,RemoteDC2,JadexLibs,OWLSHOPPlanner"
--          description="builds the Mulan Settler Plugin">
+-          description="builds the \textsc{Mulan} Settler Plugin">
 +          depends="init,lib,depend.mulantasks,Platform,RemoteDC2,Viewer,JadexLibs,OWLSHOPPlanner"
-+          description="builds the Mulan Sniffer Plugin">
++          description="builds the \textsc{Mulan} Sniffer Plugin">
        <ant dir="Settler" target="fsdist" inheritAll="false"/>
    </target>
  
    <target name="SLEditor"
            depends="init,lib,depend.mulanontologytasks,Fipa,Platform"
--          description="builds the Mulan SLEditor Plugin">
-+          description="builds the Mulan Sniffer Plugin">
+-          description="builds the \textsc{Mulan} SLEditor Plugin">
++          description="builds the \textsc{Mulan} Sniffer Plugin">
        <ant dir="SLEditor" target="dist" inheritAll="false"/>
    </target>
  
@@ -51,7 +51,7 @@ index 4a8681254..df3f67b3a 100644
 
 ./ant/commontasks.xml:	 classname="de.renew.task.CreateShadownetsTask"
 
-➜  Mulan git:(master) grep -Ri --include "*.java" "de.renew.gui.formalism" .
+➜  \textsc{Mulan} git:(master) grep -Ri --include "*.java" "de.renew.gui.formalism" .
 ./AgentRoleModeler/src/de/renew/agent/arm/core/ARMGuiConfigurator.java:import de.renew.gui.formalism.JavaGuiCreator;
 ./AgentRoleModeler/src/de/renew/agent/arm/AgentRoleModelerPlugin.java:import de.renew.gui.formalism.FormalismGuiPlugin;
 ./SLEditor/src/de/renew/agent/sleditor/SLEditorPlugin.java:import de.renew.gui.FormalismGuiPlugin;
@@ -78,7 +78,7 @@ PLEASE add the plugin(s) with the following provisions in their plugin.cfg
 #################gui formalism required ###########################################
 WARN: 
 There are plugins with unfulfilled dependencies:
-WARN: Plugin with unfulfilled dependencies: Renew Feature Structures
+WARN: Plugin with unfulfilled dependencies: \textsc{Renew} Feature Structures
  ---> providing 
  * de.renew.feature.structures;
  ---> requiring but missing 
@@ -96,22 +96,22 @@ java.lang.ClassNotFoundException: de.renew.feature.structures.formalism.fs.Shado
 ERROR: 
 PLEASE add the plugin(s) with the following provisions in their plugin.cfg
 
-* de.renew.gui.formalism [Required by: Renew Feature Structures]
+* de.renew.gui.formalism [Required by: \textsc{Renew} Feature Structures]
 #########################settler is loaded first and fail to bind ui #######knowladebasegenerator############################
 DEBUG: Bound Service: class de.renew.agent.settler.SettlerPlugin
 DEBUG: ************ INITIALIZING Settler ********
 DEBUG: AddPluginNetsExtension with URL file:/Users/arkadi/MEVS2018/workspace/Mulan/dist/plugins/settler-0.6.0.jar
 /Users/arkadi/MEVS2018/workspace/Mulan/dist/plugins/settler-0.6.0.jar
 DEBUG: SimulatorPlugin: Registering extension de.renew.agent.settler.SettlerPlugin$SettlerSimulatorExtension@24105dc5.
-DEBUG: PluginManager looking for Renew Gui
-DEBUG: PluginManager looking for Renew Gui
+DEBUG: PluginManager looking for \textsc{Renew} Gui
+DEBUG: PluginManager looking for \textsc{Renew} Gui
 DEBUG: SimplePluginLoader loading from file:/Users/arkadi/MEVS2018/workspace/Renew/dist/plugins/de.renew.gui.jar
 DEBUG: * creating a de.renew.gui.GuiPlugin with cl de.renew.plugin.PluginClassLoader@6fadae5d
-DEBUG: SimplePluginLoader: Could not instantiate Renew Gui, caused by java.lang.NoSuchMethodException: de.renew.gui.GuiPlugin.<init>(de.renew.plugin.PluginProperties).
+DEBUG: SimplePluginLoader: Could not instantiate \textsc{Renew} Gui, caused by java.lang.NoSuchMethodException: de.renew.gui.GuiPlugin.<init>(de.renew.plugin.PluginProperties).
 DEBUG: DIPluginLoader loading from file:/Users/arkadi/MEVS2018/workspace/Renew/dist/plugins/de.renew.gui.jar
 DEBUG: * creating a de.renew.gui.GuiPlugin with cl de.renew.plugin.PluginClassLoader@6fadae5d
 DEBUG: Bound Service: class de.renew.gui.GuiPlugin
-DEBUG: ************ INITIALIZING Renew Gui ********
+DEBUG: ************ INITIALIZING \textsc{Renew} Gui ********
 DEBUG: initializing GUI plugin.
 DEBUG: Drawing loader source: /Users/arkadi/MEVS2018/workspace/Renew
 DEBUG: CPNSimulation: New net system created.

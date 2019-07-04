@@ -15,7 +15,7 @@
 		+ Autonomous and Adaptive Systems
 		+ Olaf Kummer [􏰣􏰒􏰌􏰊􏰎􏰣􏰒􏰌􏰊􏰎interoduction to Petri Nets and Refernaces Nets]
 		+ Sönke Rölke [Formalizing Scenario Nets and Creating a Renew-Plugin to Support their Development]
-		+ Renew – User Guide
+		+ \textsc{Renew} – User Guide
 		+ Michael Duvigneau [Konzeptionelle Modellierung von Plugin-Systemen mit Petrinetzen]
 		+ Felix Simmendinger [Referenznetze zur Modellierung von wissenschaftlichen Work􏱔ows]
 	- Java 9
