@@ -4,42 +4,34 @@
 
 \selectlanguage{ngerman}
 
-\input{./coverpage.tex} %for the cover title
-%If want to write a dedicati on, modxify the following.
-%\dedication{Zitat, kluger Spruch oder Widmung}
-
+\input{./coverpage.tex} 
 \newpage
-%\english version of abstract 
-%\chapter*{Abstract}
-%\addcontentsline{toc}{chapter}{Abstract}
-%Abstract in English 
+
 
 \chapter*{Kurzfassung}
 \addcontentsline{toc}{chapter}{Kurzfassung} 
-Diese Arbeit behandelt die Modularisierung und die Migration des Petrinetz Simulators \textsc{Renew} auf das Modulsystem von Java. \bigbreak
-% \textsc{Renew} 
-\textsc{Renew} ist ein Petrinetz Simulator, der für die Modellierung von komplexen und verteilten Systemen entwickelt worden ist. Dieser wurde in einer einfachen monolithischen Architektur umgesetzt, die sensibel auf Änderungen ungeübter Entwickler reagierte. Aus diesem Grund wurde eine Plugin-Architektur entwickelt, die \textsc{Renew} auf Plugins zerlegte und mit zusätzlicher Funktionalität anreichern lies, ohne ihre innere Struktur zu verletzen. \bigbreak
-% Zustand
-Die Plugin Architektur ermöglichte die Entwicklung einer Großzahl an Plugins von Mitarbeitern aus verschiedenen Forschungsbereichen. Dementsprechend blieb die Plugin-Architektur von \textsc{Renew} in den letzten sechzehn Jahren unverändert. \bigbreak
-% Problematik  
-Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn das Modulsystem von Java führt eine neues Konzept der Module ein, das den Betrieb von Altsoftware 
-in absehbarer Zeit aufhebt. Dementsprechend muss \textsc{Renew} sich dieser Herausforderung stellen und an die neue Umgebung anpassen. \newline
+% Motivation Modularisierung 
+Die Digitalisierung innerhalb der Geselschaft durchdringt jeden Bereich unsereres Lebens. Vom Web, Smartphones, \textit{Augmented Reality} bis zu \textit{Smart Cities} wird die Entwiklung und Beherschung komplexer Softwaresysteme eine bedeutende Aufgabe sein. Dementsprechend spielt der Wartungsaufwand, die Erweiterbarkeit und die Flexibiliätet des Systems eine zentralle Rolle für die Softwareentwiklung. Diesen wichtigen Aufgaben hat sich das Modulsystem von Java gewidmet und ermöglicht das Esrtellen von Modulen, die spezifische Aufgaben kapseln und die Komplexität innerhalb einer Applikationen reduzieren.\bigbreak
 
-% Da die Anzahl der \textsc{Renew} Plugins, ihre Größe sowie ihre Komplexität ständig wächst, steigt der Wartungsaufwand. Dementsprechend ist die Modularisierung von Java essentiell wichtig für die Beherrschung der zunehmenden Komplexität von \textsc{Renew} und damit auch für die Wartbarkeit der langlebigen Architektur.\newline
-% Darüber hinaus fördert das Modulsystem von Java das parallele und gemeinschaftliche Arbeiten an modularisierten Projekten, die in dem \textsc{Renew} Kontext eine wichtige Rolle spielen.\newline
+% zu lösendes Problem
+\textsc{Renew} ist ein Petrinetz Simulator, der für die Modellierung von komplexen und verteilten Systemen entwickelt worden ist. Dieser setzt auf eine Plugin-Architektur auf, die mithilfe von Plugins die Applikation mit zusätzlicher Funktionalität anreichern läst, ohne den Kern zu beeinfluss.\newline
+Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn das Modulsystem von Java führt eine obligatorisches Konzept der Module ein, das den Betrieb von Altsoftware 
+in absehbarer Zeit aufhebt. Dementsprechend muss \textsc{Renew} sich dieser Herausforderung stellen und an die neue Umgebung anpassen. \bigbreak
 
-Ziel dieser Arbeit ist die Migration von \textsc{Renew} auf das Modulsystem von Java sowie das Ersetzen des existierendes \textit{Build} Werkzeug durch Gradle, welches eine intelligente Projektverwaltung sowie eine überlege Integration in moderne Technologien verspricht. \newline
-Darüber hinaus soll die Modularisierung und die Migration von \textsc{Renew} die Entwicklung einer möglichen nachfolgenden Mikroservice Architektur begünstigen.\bigbreak
+% Lösungsansatz
+Im ersten Abschnitt diese Arbeit werden Grundlagen der Java Laufzeitumgebung erarbeitet. Anschließend werden aufbauende Konzepte der Modularisierung von Java diskutiert, die im Folgenden die Migration von bestehenden Applikationen auf das Modulsystem von Java einleiten. Für die Umsetzung der erarbeiteten Konzepte entsteht eine Spezifikation, die von zwei Prototypen erfüllt wird. Zum Schluss folgt eine Evaluation der gesetzten Ziele.\bigbreak
 
-% Stand
-Da das Modulsystem von Java ein aktuelles Thema ist, gibt es keine Abschlussarbeiten, die sich mit dem Modularisieren von \textsc{Renew} beschäftigt haben, trotzdem ist die Forschung im Bereich der verteilten Ausführung von Berechnung ein wichtiges Thema. Daher existieren bereits Arbeiten im \textsc{Renew} Kontext, die nach einem verteilten Unifikationsverfahren streben und sich mit möglichen Optimierungsabläufe befassen.
-Diese konzentrieren sich auf die verteilte Umsetzung des Algorithmus und die Schwächen in der bestehenden Implementation. Dennoch bleibt die Grundstruktur von \textsc{Renew} unverändert. \bigbreak
+% Ergebnisse 
+Das Ergebnis setzt sich aus zwei Migrationsszenarien zusammen. Das esrte Szenario deckt eine kontinuierliche Migration ab, die an einem Beispil schrittwiese illustriert wird. Im gegensatz dazu deckt der nachfoglde Prototpy Probleme auf, die entstehn können, wenn bestehende Systeme auf modularisierte Grundlagen aufsetzten.\bigbreak
 
-% Aufbau
-Im ersten Abschnitt diese Arbeit werden Grundlagen der Java Laufzeitumgebung erarbeitet. Anschließend werden aufbauende Konzepte der Modularisierung von Java diskutiert, die im Folgenden die Migration von bestehenden Applikationen auf das Modulsystem von Java einleiten. Für die Umsetzung der erarbeiteten Konzepte entsteht eine Spezifikation, die von zwei Prototypen umgesetzt wird. Zum Schluss folgt eine Evaluation der gesetzten Ziele.
+% Fazit
+Da die Anzahl der \textsc{Renew} Plugins, ihre Größe sowie ihre Komplexität ständig wächst, steigt der Wartungsaufwand. Dementsprechend ist die Modularisierung von Java essentiell wichtig für die Beherrschung der zunehmenden Komplexität von \textsc{Renew} und damit auch für die Wartbarkeit der langlebigen Architektur.\newline
+Darüber hinaus fördert das Modulsystem von Java das parallele und gemeinschaftliche Arbeiten an modularisierten Projekten, die in dem \textsc{Renew} Kontext eine wichtige Rolle spielen.\newline
+
+
 \linespread{1.0}\selectfont
 
-% Wenn ihr Pakete braucht dann bindet die bitte in layout.tex ein und scheibt eine mail rum damit alle anderen merge konflikte vermeiden können.
+
 \changelocaltocdepth{1}
 \tableofcontents % indice dei contenuti
 %\lista delle figure
@@ -47,7 +39,6 @@ Im ersten Abschnitt diese Arbeit werden Grundlagen der Java Laufzeitumgebung era
 \listoffigures
 %\listoftables
 \blankpage
-%\blankpage
 \input{Intro.tex}
 \input{Grundlagen.tex}
 \input{Modularity.tex}
@@ -59,14 +50,6 @@ Im ersten Abschnitt diese Arbeit werden Grundlagen der Java Laufzeitumgebung era
 \blankpage
       
 \begin{appendices}
-	%\input{AppendixA-Glossary.tex}\blankpage
-	% \input{Cassandra.tex}
-	% \input{BigTable.tex}
-	% \input{Dynamo.tex}
-	% \input{MapReduce.tex}
- %    \input{Spark.tex}
-	% \input{ElasticSearch.tex}
-	%\input{AppendixD.tex}
 \end{appendices}
 
 \blankpage
