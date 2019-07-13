@@ -44,6 +44,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{inconsolata}
 \usepackage{eso-pic} 
+\usepackage{dirtree}
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -169,7 +170,10 @@
   keywordstyle=\color{pblue},
   stringstyle=\color{pred},
   moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  inputencoding=utf8,
+  extendedchars=true,
+  literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1,
 }
 
 \lstdefinelanguage{json}{

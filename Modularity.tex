@@ -136,8 +136,15 @@
 
     Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken. Diese können ihre Schnittstelle exklusiven Module öffnen, die fortan als eine transitive Verbindung an gebundene Module weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren. Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Serviceanfrage sowie einen Serviceangebot, die durch den \textit{Java ServiceLoader} mit einender verknüpft werden.\newline
     Der \textit{ServiceLoader} übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. Das Konzept der Dienstregistrierung und -verwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \cite{softModDes,modulMitJava9} \bigbreak
-    
-    Im Folgenden werden die Möglichkeiten der Kopplungstypen gelistet \cite{jmsOracle}. Zu beachten ist die Wechselbeziehung zwischen den Modulen, die Pakete anbieten und Module anfordern. 
+
+      \begin{figure}[h!]
+      \centering
+      \includegraphics[width=\textwidth]{material/images/transitiv.pdf}
+      \caption{Abwandlung der Kopplungsarten}
+      \label{fig:abw-kopl}
+  \end{figure}
+
+    Im Folgenden werden die in der Abbildung \ref{fig:abw-kopl} dargestellten Möglichkeiten der Kopplungstypen gelistet. Zu beachten ist die Wechselbeziehung zwischen den Modulen, die Pakete anbieten und Module anfordern. \cite{jmsOracle}
 
     \begin{description}
       \item[requires]\hfill
@@ -157,30 +164,18 @@
         \newline \textit{provides} Service-Schnittstelle \textit{with} Service-Impl-1, Service-Impl-2
   \end{description}
 
-  \begin{figure}[h!]
-      \centering
-      \includegraphics[width=\textwidth]{material/images/transitiv.pdf}
-      \caption{Abwandlung der Kopplungsarten}
-      \label{fig:abw-kopl}
-  \end{figure}
 
   Wie in der grafischen Darstellung \ref{fig:abw-kopl} abgebildet, handelt es sich bei den Kopplungstypen um Zugriffsrechte, die als ein offener Vertrag zwischen Modulen aufgestellt werden. Dementsprechend dienen die Kopplungsschlüssel nicht nur der Lesbarkeit und Autonomie, sondern erweitern die Prozedur des Klassenladens durch explizite Schnittstellen und Zugriffsberechtigungen.\cite{modulMitJava9}
 
   \section{Module-Classloading} \label{sec:mod-cll}
     Im Abschnitt \ref{sec:nam} wurde Namensräume vorgestellt, die Klassen von einender trennen und diese als separate Software Komponenten behandeln, um die Sichtbarkeit der Codebasis gegenüber dem Restsystem abzugrenzen. Jedoch bring dieses Feature einen großen Aufwand mit sich, denn sofern die Applikation über eine große Anzahl an Bibliotheken nutzt und jedes davon auf einem eignen Classloader betreiben möchte wächst der Wartungsaufwand mit der Anzahl der Bibliotheken.\newline
     Mithilfe der Module und dessen neuen Ansatz der internen Kapselung, soll dieses Problem adressiert werden, indem separate Zugriffsräume für jedes Modul innerhalb eines Classloaders definiert werden, die sicherstellen, dass die interne Struktur eines Moduls während der Laufzeit nicht kompromittiert werden kann.\newline
-    Um die Modulkapselung zu garantieren, wird das im Abschnitt \ref{sec:cls} vorgestellte \textit{Java Classloader System} nicht ersetzt, sondern mit zusätzlichen Kontrollen versehen, die strikt nach deklarierten Modulbeschreibung Zugriff gewährleistet. Im Falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der Classloader neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}. Somit bleibt die ehemalige Classloader Hierarchie erhalten, die an das Modulsystem von Java angepasst worden ist. \cite{classLoadingOracle,modulMitJava9}\bigbreak
+    Um die Modulkapselung zu garantieren, wird das im Abschnitt \ref{sec:cls} vorgestellte \textit{Java Classloader System} nicht ersetzt, sondern mit zusätzlichen Kontrollen versehen, die strikt nach deklarierten Modulbeschreibung Zugriff gewährleistet. Im Falle der Nichteinhaltung der Zugriffsrechte zwischen den Modulen wirft der Classloader neue Fehlermeldungen wie die \textit{IllegalAccessException} oder die \textit{IllegalAccessError}. Somit bleibt die ehemalige Classloader Hierarchie erhalten, die an das Modulsystem von Java angepasst worden ist. \cite{classLoadingOracle, modulMitJava9}\bigbreak
 
-    \begin{figure}[h!]
-      \centering{}
-      \includegraphics[width=\textwidth]{material/images/Module-Classloading.pdf}
-      \caption{Laden der Klassen im Modulsystem}
-      \label{fig:mcl}
-  \end{figure}
+    Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist, wie in der Abbildung \ref{fig:jdk} abgebildet, beschäftigt sich das aktualisierte \textit{Classloader System} mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind. Diese nutzen immer noch das Delegierungsmodell \ref{sec:dm} und delegieren jede Anfrage zuerst an den Wurzel-Classloader. Mit dem Modulsystem von Java wurde dieses Verfahren durch zwei Sicherheitsmechanismen erweitert. Das erste Verfahren löst einer der größten Schwierigkeiten der Java Entwickelung, nämlich das Management der Abhängigkeiten eines Systems. Diese Herausforderung wird als \textit{Jar-Hell} bezeichnet und beschreibt eine komplexe Applikation, die eine lange Liste an genutzten Drittanbieter Bibliotheken benötigt. Das Problem taucht auf, da der Java Code den Klassenpfad nicht kontrolliert und annehmen muss, dass alle benötigten Bibliotheken auf den Klassenpfad vorhanden sind. Die Lokal eingerichtete Maschine oder Entwicklungsumgebung kann das Management verwalten, jedoch kann diese nicht garantieren, dass die Software in einer anderen Umgebung lauffähig bleibt. Dieser Anforderung hat sich das Modulsystem von Java gestellt und bietet die phasenübergreifende Wiedergabetreue auf allen System, indem die Module eine Voraussetzung deklarieren die der Modulpfad erfüllen muss bevor die Applikation ihre Arbeit beginnt. Somit wird das gleichen Verhalten sowie Fehlerprüfungen in der Kompilierungs- und Ausführungsphase erreicht.\newline
+    Die zweite Verfahren garantiert die Einhaltung der Nutzungsrechte einer Bibliothek, indem die Nutzung einer Bibliothek über klar definierte Schnittstellen geschieht und trennt somit den impliziten Zugriff auf den Inhalt innerhalb eines Namensraums. \bigbreak
 
-    Da der JDK nicht mehr aus einer \textit{rt.jar} besteht, sondern dessen Funktionalität auf Module aufgeteilt ist, wie in der Abbildung \ref{fig:jdk} abgebildet, beschäftigt sich das aktualisierte \textit{Classloader System} mit dem laden bestimmter Module, die in Gültigkeitsbereiche eingeteilt sind. Diese müssen nicht mehr das überholte Delegierungsmodell \ref{sec:dm} von Oben nach Unten durchsuchen, sondern suchen, die für den zuständigen Classloader, bekannten Module zuerst ab, bevor sie die Anfrage an den übergeordneten Classloader delegieren. Die Abbildung \ref{fig:mcl} visualisiert das Laden der Modul-Klassen, die in diesem Fall nicht mehr das unnötige Nachschlagen nach Klassen über die ganze Classloader Hierarchie bearbeitet.\newline
-    Indem das Delegierungsmodell abgelöst wurde, werden andere Sicherheitsmaßnahmen für das Schützen der Kern Bibliotheken benötigt. Dies übernimmt jetzt das Modulsystem von Java, indem ein globales Verbot nach gleichnamiger Benennung von Paketstrukturen gilt. Somit verbietet Java zwei gleiche Bibliotheken auf demselben Modulpfad und garantiert einen eindeutigen Abhängigkeitsgraphen. \newline
-    Um die Klassen aus den Modulpfad zu laden, wird das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die in Zugriffsgruppen eingeteilt sind. Der \textit{Bootstrap Classloader} besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
+    Um die Klassen aus den Modulpfad zu laden, wurde das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die in Zugriffsgruppen eingeteilt sind. Der \textit{Bootstrap Classloader} besitzt und geniest alle Sicherheitsprivilegien und steht demnach ganz oben in der Classloader Hierarchie. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
 
 \section{JDK Modulsystem} \label{sec:modular_java_base}

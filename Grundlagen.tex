@@ -28,7 +28,7 @@
   \end{figure}
 
   % Klassenpfad Zusammensetzbar  
-  In Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, so dass der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
+  Im Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, so dass der \textit{Applikation Classloader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
 
   % Classloading mit Richtung 
   Beim Starten der Applikation werden Klassen instanziiert, indem der Klassenpfad, von links nach rechts, nach dem benötigten Typ durchsucht und diese erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
@@ -128,7 +128,7 @@
   \end{figure}
 
   % ist ein Garantie
-  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags ein mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klasse eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt.\bigbreak 
+  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags ein mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klasse eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt.\cite{bloch2017effective}\bigbreak 
   
   % Dynamische Klassenbindung 
   Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen, für die Applikation unbekannte \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit kann dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden, ohne die Applikation zu verändern. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instanziieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter, ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
@@ -141,10 +141,6 @@
   In vielen Fällen der Applikationsentwicklung möchte man die Applikation von andren Nutzern und Entwicklern erweitern lassen, ohne dass diese bei jeder Änderung die komplette Applikation umbauen. Somit stellt sich die Frage, wie erstellt man ein Mechanismus, der mit beliebigen Klassen arbeiten kann.\newline
   Man könnte mit dem zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus Kern und Drittanbieter Bibliotheken, über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. Dementsprechend sollte Reflection genutzt werden. Diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
 
-  % Sequenzdiagram 
-  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflection visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur des Objekt Typs deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. \newline
-  Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection}
-
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{material/images/flussReflection.pdf}
@@ -152,8 +148,11 @@
     \label{fig:refl-fluss}
   \end{figure}
 
+  % Sequenzdiagram 
+  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflection visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur des Objekt Typs deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection} 
+
  % Nutzen: Felder Methode, Konstruktoren
-  \newpage Somit sind die drei Hauptmerkmale einer Klasse ihre Felder, Methoden wie Konstruktoren durch eine entsprechendes Java Objekt aus der Reflection-API repräsentiert. 
+  \bigbreak Somit sind die drei Hauptmerkmale einer Klasse ihre Felder, Methoden wie Konstruktoren durch eine entsprechendes Java Objekt aus der Reflection-API repräsentiert. 
 
   \begin{itemize}
     \item java.lang.reflect.Field
@@ -205,6 +204,117 @@
     \item JUnit verwendet Reflection, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
   \end{itemize}
 
+\section{Gradle}
+Gradle ist ein Build-Tool ähnlich wie Maven und Ant. Gradle ist das neueste dieser drei Build-Tools, und wird zunehmend eingesetzt. Es ist Open Source und hat viel Akzeptanz bei den Entwicklern gefunden, da es auf die Erfahrung aus den vorhandenen genannten Build-Tools zurückgreift. Mehrere bekannte Projekte wie Android, Spring Framework und Hibernate haben ihre Build-Systeme bereits auf Gradle migriert. Einige der Vorteile, die Gradle gegenüber Maven und Ant hat, sind präzisere Erstellungsskripte und eine flexiblere Erstellungssprache.\bigbreak
+
+\subsubsection{Beweggründe für Gradle}
+Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant gegenüber Gradle aufgelistet.
+\begin{itemize}
+  \item Die Verwendung von XML als Definitionssprache für die Erstellungslogik führt zu übermäßig großen und ausführlichen Erstellungsskripten im Vergleich zu Erstellungswerkzeugen mit einer prägnanteren Definitionssprache. \cite{muschko2014gradle}
+  \item Komplexe Erstellungslogik führt zu langen und nicht verwaltbaren Erstellungsskripten. Der Versuch, bedingte Logik wie \textit{if-then}, \textit{for-each} oder \textit{while} Anweisungen mit XML zu definieren, wirkt unnatürlich und aufgeblasen.\cite{muschko2014gradle}
+  \item Ant gibt keine Richtlinien zum Einrichten des Projekts. In einem Unternehmen führt dies häufig zu einer Build-Datei, die jedes Mal anders aussieht.\cite{berglund2011building}
+  \item Gemeinsame Funktionen werden häufig kopiert und eingefügt. Jeder neue Entwickler im Projekt muss die individuelle Struktur eines Builds verstehen.\cite{varanasi2015introducing}
+  \item Die Verwendung von Ant ohne Ivy erschwert das Verwalten von Abhängigkeiten. In vielen Fällen müssen die JAR-Dateien in die Versionskontrolle eincheckt und deren Organisation manuell verwaltet werden.\cite{varanasi2015introducing}
+\end{itemize}
+
+\subsubsection{Aufbau}
+  Die gradle Umgebung besteht aus mehreren Komponenten. Jede von den Komponenten wird in einem bestimmten Lebenszyklus von Gradle für das Erstellend er Applikation genutzt.\newline
+  Um Gradle zu starten, werden zwei Ausführbare Skripte mitgeliefert. Für die Ausführung auf den \textit{Unix} basierte Systeme kann \textit{graldew} verwendet werden und für die Windows Ausführung ist das \textit{gralde.bat} Skript zuständig.\bigbreak
+  \begin{figure}[h!]
+    \centering
+    \begin{minipage}{7cm}
+      \dirtree{%
+       .1 .
+       .1 build.gradle.
+       .1 gradle.
+       .2 wrapper.
+       .3 gradle-wrapper.jar.
+       .3 gradle-wrapper.properties.
+       .1 gradlew.
+       .1 gradlew.bat.
+       .1 settings.gradle.
+       }
+    \end{minipage}
+    \caption{Gradle Konfiguration}
+    \label{fig:gradle_project}
+  \end{figure}
+
+  Nach dem Anstoßen des Ausführung Skripts, wird Gradle konfiguriert und setzt eine bestimmte ziel Version für die Ausführung fest. Dies geschieht innerhalb der \textit{gradle/wrapper} Ordnerstruktur und initiiert Gradle für die Ausführung. Als nächstes sammelt Gradle die Information über alle Teilnehmer der Projektorganisation und legt eine globale Projektstruktur für die Ausführung fest. Dafür wird in der Initialisierungsphase die \textit{settings.gradle} der Projekte und die Lokale \textit{init.gradle} Konfigurationsdatei ausgelesen. Diese bestimmen Umgebungsvariablen, Eigenschaften und persönlichen Informationen. Des weiteren werden teilnehmende Projekte gesetzt und instantiiert.\newline
+  Nachdem die Initialisierungsphase beendet ist, werden erstellte Projekte konfiguriert. Die Konfiguration geschieht laut den \textit{build.gradle} Konfigurationsdatei und bereitet die Projekte für die Ausführung vor. Zum Schluss wird das Bauen durchgeführt, indem eine Reihe von Ausführungsschritten (Tasks) von dem Nutzer aufgerufen werden.\cite{mitra2015mastering}
+
+
+\subsubsection{Gradle build Skript}
+\begin{lstlisting}[caption=Gradle in Aktion \cite{ikkink2015gradle},label=my-grl,captionpos=b]
+
+  // Deklaration der genutzten Plugins 
+  plugins {
+      id 'java'
+  }
+  // Bibliothek Quellen 
+  repositories {
+      mavenCentral()
+  }
+  // Projektabhángigkeiten
+  dependencies {
+      compile('javax:javaee-web-api:8.0')
+  }
+  // Klassenpfade 
+  configurations {
+    libs
+    plugins
+    compile
+  }
+  // Felder
+  group 'de.firm'
+  description 'my first application'
+  version version
+  defaultTasks 'war'
+  // Projektstruktur
+  sourceSets {
+      main {
+          java {
+              srcDirs ['src/main/java']
+              webAppDirName 'src/main/webapp'
+              outputDir file('out/classes')
+          }
+          resources {
+              srcDirs ['src/main/resources']
+              output.resourcesDir = file('out/resources')
+          }
+      }
+  }
+  // Konfiguration eines Abarbeitungsschritts
+  task war {
+      setGroup("gradle")
+      setArchivesBaseName(name)
+      webInf {
+          into('classes') {
+              from sourceSets.main.java.outputDir
+              into('META-INF') {
+                  from(sourceSets.main.resources.files) {
+                      include("persistence.xml")
+                  }
+
+              }
+          }
+      }
+      metaInf {
+          from(sourceSets.main.resources) {
+              include("import.sql")
+          }
+          manifest {
+              attributes 'version': war_version
+              attributes 'description': war_description
+              attributes 'creator': war_creator
+              attributes 'classifire': war_classifire
+          }
+      }
+  }
+  // Task Graph Manipulation 
+  deploy.dependsOn(war)
+\end{lstlisting}
+
+In der Abbildung \ref{my-grl} ist eine Standard Struktur eines Gradle Build Skript abgebildet, die mit einem Java Plugin arbeitet und ein war Archiv erstellt. 
 
 
 % \subsubsection{OSGi}
