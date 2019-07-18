@@ -178,8 +178,12 @@
 
     Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten \textit{Classloader}zugewiesen werden. Der \textit{Bootstrap Classloader} ist der \textit{Classloader} der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
-  \section{Module Layers} \label{sec:module_layers}
-   Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen. Mit dem Modulsystem von Java wir ein neues Konzept der Modulschichten eingeführt, die um das Laden von Java Code während der Laufzeit kümmert. Die Modulschichten  laden und kapseln bestimmte Modulgruppen, die während der Laufzeit einer Applikation neue Module in das integriert. 
+  \section{Module Loading} \label{sec:module_Loading}
+   Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen. Mit dem Modulsystem von Java wir ein neues Konzept der Modulschichten eingeführt, das für das Laden von Java Code während der Laufzeit verantwortlich ist. Die Modulschichten validieren, kapseln und laden bestimmte Modulgruppen, die während der Laufzeit einer Applikation integriert werden können. Somit erweitern die Schichten das bestehende Klassenlader-Konzept durch erweiterte API's für die Verwaltung vom dynamischen Code und erzwingen zusätzlich die Korrektheit der Modulabhängigkeiten die dem System hinzugefügt werden. 
+
+   \subsubsection{Module Graph}\label{sub:module_graph}
+   \subsection{Module Layer} \label{sub:module_layer}
+
 
 - Classlaoder System bleibt 
 -  Es gibt zusätzliche Erweiterungsmöglichkeiten 
