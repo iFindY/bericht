@@ -176,18 +176,32 @@
     Dieser Anforderung hat sich das Modulsystem von Java gestellt und bietet die phasenübergreifende Wiedergabetreue auf allen Systemen, indem jedes Modul eine Voraussetzung deklariert, die der Modulpfad erfüllen muss, bevor die Applikation ihre Arbeit beginnt. Somit wird das gleiche Verhalten sowie Fehlerprüfungen in der Kompilierungs- und Ausführungsphase erreicht.\newline
     Das zweite Verfahren garantiert die Einhaltung der Nutzungsrechte einer Bibliothek, indem die Nutzung einer Bibliothek über klar definierte Schnittstellen geschieht und unterbindet somit den impliziten Zugriff auf den Inhalt innerhalb eines Namensraums. Beide Verfahren berufen sich auf die \textit{module-info.java} Konfigurationsdatei, die in sich die benötigte Information verankert. \bigbreak
 
-    Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten \textit{Classloader}zugewiesen werden. Der \textit{Bootstrap Classloader} ist der \textit{Classloader} der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
+    Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Classloader Systems} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten Classloader zugewiesen werden. Der \textit{Bootstrap} Classloader ist der Classloader der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension Classloader wurde von dem Plattform Classloader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation Classloader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
-  \section{Module Loading} \label{sec:module_Loading}
-   Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen. Mit dem Modulsystem von Java wir ein neues Konzept der Modulschichten eingeführt, das für das Laden von Java Code während der Laufzeit verantwortlich ist. Die Modulschichten validieren, kapseln und laden bestimmte Modulgruppen, die während der Laufzeit einer Applikation integriert werden können. Somit erweitern die Schichten das bestehende Klassenlader-Konzept durch erweiterte API's für die Verwaltung vom dynamischen Code und erzwingen zusätzlich die Korrektheit der Modulabhängigkeiten die dem System hinzugefügt werden. 
+  \section{Module Layer's} \label{sec:module_layers}
+     Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen. Mit dem Modulsystem von Java wird ein neues Konzept der Modulschichten eingeführt, das für das Laden von Java Code während der Laufzeit verantwortlich ist. Die Modulschichten kapseln, validieren  und laden bestimmte Modulgruppen, die während der Laufzeit einer Applikation integriert werden können. Demzufolge  erweitern die Schichten das bestehende Klassenlader-Konzept durch erweiterte API's für die Verwaltung von dem dynamischen Code und erzwingen zusätzlich die Korrektheit der Modulabhängigkeiten die dem System hinzugefügt werden.\bigbreak
 
-   \subsubsection{Module Graph}\label{sub:module_graph}
-   \subsection{Module Layer} \label{sub:module_layer}
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.5\textwidth]{material/images/module-graph.pdf}
+      \caption{Modul Graph}
+      \label{fig:module-graph}
+    \end{figure}
+
+     Das Laden von zusätzlicher Module geschieht in zwei Phasen. Zuerst wird eine Konfiguration erstellt, die zum Laden ausgewählter Module zuständig ist. Die Konfiguration benötigt Ortsangaben sowie Modulabhängigkeiten der Module, die mithilfe des \textit{ModulFinder} lokalisiert und ausgelesen werden. Im nächsten Schritt müssen die gefundenen Module auf Konsistenten geprüft werden. Dazu wird ein Modul Graph erzeugt, der aus den gegebenen Wurzel-Modulen alle geforderten Modulbeziehungen auflöst, auf \textit{Zyklen}, \textit{Split Packages} sowie valide Zugriffsrechte inspiziert und im Anschluss den Code für Ausführbar erklärt. Der Prozess stellt sicher, dass alle Abhängigkeiten, einschließlich der indirekten Abhängigkeiten, aufgelöst werden. Das Ergebnis besteht aus einer betriebsfähige Konfiguration, die für die Ausführung im Applikationskontext bereit ist.\bigbreak 
+
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.5\textwidth]{material/images/module-layer.pdf}
+      \caption{Modul Layer}
+      \label{fig:module-layer}
+    \end{figure}
 
 
-- Classlaoder System bleibt 
--  Es gibt zusätzliche Erweiterungsmöglichkeiten 
-- beim Start wird eine bootschicht erzeugt 
+    Nachdem die Konfiguration ausgewertet wurde, kann eine Modulschicht erstellt werden, die alle Module der konsistenten Konfiguration instantiiert. Dafür wird ein neuer Classlaoder von der Modulschicht erstellt und eine Hierarchie aufgebaut, die auf übergeordnete Modulschichten und Classlaoder verweist. Dementsprechend verweist eine Modulschicht immer auf einen übergeordneten Classloader, um dem Delegierungsmodell zu entsprechen und enthält zusätzliche Referenzen auf Modulschichten, die das Auflösen der benötigten Abhängigkeiten unterstützen.\bigbreak
+
+    Das neue Konzept der Modulschichten erweitert das bestehende System der selbst erstellten hierarchischen Namensräume, indem Modulabhängigkeiten beim Laden in die Applikation validiert, gruppiert und aktiv verwaltete werden können. Dementsprechend gehören Schichten zu Modulen wie Klassenladeprogramme zu Klassen. Ein Mechanismus zum Laden und Instantiieren von Elementen.
+
 
 \section{JDK Modulsystem} \label{sec:modular_java_base}
   Um die Aufgestellten Regeln und Konzepte des entworfenen Modulsystems in Java zu integrieren, muss die Java Plattform diese selbst als Vorreiter erfüllen. \bigbreak
