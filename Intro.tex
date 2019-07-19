@@ -22,7 +22,7 @@
 
 	\textsc{Renew} ist ein Petrinetz Simulator, der die oben genannten Petrinetz Formalismen unterstützt. Dieser ist in Java geschrieben und bietet eine Oberfläche zum Zeichnen und einen Simulator zum Ausführen der Netze \cite{Kummer+99a}.\bigbreak
 
-	Da die ursprüngliche Umsetzung von Olaf Kummer eine empfindliche, monolithische Architektur besaß und viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung unstrukturiert \cite{Schumacher03}. Ab diesen Punkt kann \textsc{Renew} über die Plugin Schnittstellen erweitert werden, ohne dass die existierende Logik  beeinflusst wird.\bigbreak
+	Da die ursprüngliche Umsetzung von Olaf Kummer eine empfindliche, monolithische Architektur besaß und viel Fachwissen voraussetzte, wurde diese zu einem Plugin Verband von Jörn Schumacher zu Gunsten der Robustheit und Erweiterung unstrukturiert \cite{Schumacher03}. Ab diesen Punkt kann \textsc{Renew} über die Plugin Schnittstellen erweitert werden, ohne dass die existierende Logik beeinflusst wird.\bigbreak
 
 	Mit seiner Umsetzung delegierte Jörn Schumacher die Ausführung von Logik an Plugins und erstellte eine zentrale Instanz, die den Lebenszyklus bekannter Plugins verwaltet und koordiniert. Die zentrale Instanz nennt sich Plugin-Manager und kann das Verhalten von \textsc{Renew} mithilfe der Plugins modifizieren. Der Plugin-Manager baut auf zwei primären Namensräumen auf. Zum einen braucht dieser zusätzlichen Bibliotheken zum Verwalten seiner Umgebung und zum anderen braucht er Plugins, die Funktionalität mit sich bringen \cite{Duvigneau09}.
 
