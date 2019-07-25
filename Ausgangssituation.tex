@@ -44,19 +44,32 @@
 		  \caption{Klassenpfad Suche}
 		  \label{fig:CP_Struktur}
 		\end{figure}
-		Der große Nachteil des Klassenpfad bevor dem Modulsystem von Java, ist die Auflösung von Archiv Grenzen und somit auch von Plugin Grenzen. Das heißt, Java kann nicht unterscheiden aus welcher Quelle die Klasse stammen und muss deswegen den kompletten Klassenpfad für eine Plugin Klassenabfrage durchsuchen. Infolgedessen ist das Überwachen der Plugins auf dem Klassenpfad nur schwer möglich, da der Klassenpfad nur Informationen über die Klassen und Pakete besitzt. Wie im Grundlagenkapitel \ref{sec:K} besprochen, können Klassen aus unterschiedlichen Orten einzeln oder in gruppiert geladen werden. Daher ist die Kontrolle der Quellen zu diesem Zeitpunkt nicht möglich. \bigbreak
+		Der große Nachteil des Klassenpfad bevor dem Modulsystem von Java, ist die Auflösung von Archiv Grenzen und somit auch von Plugin Grenzen. Das heißt, Java kann nicht unterscheiden aus welcher Quelle die Klasse stammen und muss deswegen den kompletten Klassenpfad für eine Plugin Klassenabfrage durchsuchen. Infolgedessen ist das Überwachen der Plugins auf dem Klassenpfad nur schwer möglich, da der Klassenpfad nur Informationen über die Klassen und ihre Pakete besitzt. Wie im Grundlagenkapitel \ref{sec:K} besprochen, können Klassen aus unterschiedlichen Orten einzeln oder in gruppiert geladen werden. Daher ist die Kontrolle der Klassen Quellen zu diesem Zeitpunkt nicht möglich. \bigbreak
 		\begin{figure}[h!]
 		  \centering
 		  \includegraphics[width=\textwidth]{material/images/Modulpfad.pdf}
 		  \caption{Modulpfad Suche}
 		  \label{fig:MP_Struktur}
 		\end{figure}
-		Dieses Verfahren wurde ständig bemängelt und wird mit der Einführung des Modulsystems von Java adressiert, indem die Konfigurationsdateien \textit{module-info.java} eingeführt wurde, die dem Archive oder Verzeichnis eine Identität verleiht. Demzufolge ist das Archiv oder Verzeichnis nicht mehr ein aussagen loser Behälter, sonder ein Objekt, das Information über seine Kennung, seinen Inhalt und seiner Kommunikationspartner besitzt.\newline{}
-		Dies bring zwei wesentliche Vorteile für die Arbeit mit dem Plugin Code. Die erste Eigenschaft beschreibt Referenzen auf Archiv-Objekte, die die benötigte Klassen besitzen. Der Klassenpfad wird nicht mehr von links nach rechts nach Klassen durchsucht \ref{fig:CP_Struktur}, sondern sofort das Richtige Modul mit den entsprechend Klassen über die \textit{export} Schnittstelle adressiert \ref{fig:MP_Struktur}. Dies spart Zeit und behebt zusätzlich unerwünschtes Verhalten, wie zum Beispiel das Überdecken von Klassen von anderen Klassen, die sich weiter vorne im Klassenpfad befinden.\newline 
+		Dieses Verfahren wurde ständig bemängelt und wird mit der Einführung des Modulsystems von Java adressiert, indem die Konfigurationsdateien \textit{module-info.java} eingeführt wurde, die der Klassen Quelle eine Identität verleiht. Demzufolge ist ein Archiv oder Verzeichnis nicht mehr ein aussagen loser Behälter, sonder ein Objekt, das Information über seine Kennung, seinen Inhalt und seiner Kommunikationspartner besitzt.\newline{}
+		Dies bring zwei wesentliche Vorteile für die Arbeit mit dem Plugin Code. Die erste Eigenschaft beschreibt Referenzen auf Archiv-Objekte, die die benötigte Klassen besitzen. Der Klassenpfad wird nicht mehr von links nach rechts durchsucht \ref{fig:CP_Struktur}, sondern über das Modul mit den entsprechend Klassen adressiert \ref{fig:MP_Struktur}. Dies spart Zeit und behebt zusätzlich unerwünschtes Verhalten, wie zum Beispiel das Überdecken von Klassen von weiteren Klassen des selben Typs, die sich weiter vorne im Klassenpfad befinden.\newline 
 		Der zweite Vorteil, ist das Auslesen der Modulinformation aller Module die sich auf den Modulpfad befinden. Demzufolge ist es jetzt möglich die Plugins in Archive zu verpacken und diese auf dem Modulpfad wieder zu finden, zu analysieren und zu sogar zu bearbeiten. Somit bring Java ein neues Instrument zum verwalten der Codebasis von modularisierten Anwendungen, die dem Nutzer bei Bedarf die internen Bausteine präsentieren lässt.\newline
 		In folgenden Kapitel der Auswirkungen \ref{sec:auswirkung} wird auf die \textit{ModulLayer} eingegangen, die das zielorientierte Laden nur notwendiger Module und somit nur notwendiger Plugins ermöglicht.
 
 	\subsection{Laufzeitumgebung} \label{sub:laufzeit_images}
+
+
+	- Die Modularisierung macht kein unterschied zwischen JDK und selbst geschriebenen Module, beide Modulklassen werden auf gleiche weise umgesetzt. 
+	- Es ist möglich nur das Notwendige aus den Module auszuwählen und diese auf einem Rechner zu installieren.
+	- Es ist nicht mehr notwendig den JDK mit der passenden Version auf der Maschine zu besitzen, denn die Module können mit den JDK Modulen kombiniert und als Laufzeit Bündel verpackt werden.
+	- Dafür wird eine Konfiguration benötigt, die sich um die Verzahnung und Verwaltung der Module Kümmert. 
+	- Diese Erstellt eine Komplette Ordner Struktur, die Lizenzinformation, Dokumentation Module und Startskript Besitzt. 
+	- Da für die Anwendung keine Lokale Java Installation benötigt wird, muss die Applikation in sich Komplett sein  und die Konfiguration interen verwalten. 
+	- Sicherheit der Anwendung muss auch intern geregelt werden 
+	- Optimizierungs Potential 
+	- Einfach auf Container und IoT Geräte  zu deployen 
+
+
 	- Creating images with selected content
 	- Generating native application launchers
 	- Judging the security, performance, and stability of images
@@ -73,6 +86,8 @@
 	- Is bound to the OS for which the platform modules chosen with --module -path were built
 
 
+	- https://openjdk.java.net/jeps/220
+	- maßgeschneiderten Laufzeit-Image die Module zusammen.
 	- Soll aussehen wie der jdk lokal 
 	+ es gibt kein java auf der maschien deswegen wir  die app über ein skript gestartet 
 
