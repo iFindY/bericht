@@ -56,50 +56,10 @@
 		Der zweite Vorteil, ist das Auslesen der Modulinformation aller Module die sich auf den Modulpfad befinden. Demzufolge ist es jetzt möglich die Plugins in Archive zu verpacken und diese auf dem Modulpfad wieder zu finden, zu analysieren und zu sogar zu bearbeiten. Somit bring Java ein neues Instrument zum verwalten der Codebasis von modularisierten Anwendungen, die dem Nutzer bei Bedarf die internen Bausteine präsentieren lässt.\newline
 		In folgenden Kapitel der Auswirkungen \ref{sec:auswirkung} wird auf die \textit{ModulLayer} eingegangen, die das zielorientierte Laden nur notwendiger Module und somit nur notwendiger Plugins ermöglicht.
 
-	\subsection{Laufzeitumgebung} \label{sub:laufzeit_images}
-
-
-	- Die Modularisierung macht kein unterschied zwischen JDK und selbst geschriebenen Module, beide Modulklassen werden auf gleiche weise umgesetzt. 
-	- Es ist möglich nur das Notwendige aus den Module auszuwählen und diese auf einem Rechner zu installieren.
-	- Es ist nicht mehr notwendig den JDK mit der passenden Version auf der Maschine zu besitzen, denn die Module können mit den JDK Modulen kombiniert und als Laufzeit Bündel verpackt werden.
-	- Dafür wird eine Konfiguration benötigt, die sich um die Verzahnung und Verwaltung der Module Kümmert. 
-	- Diese Erstellt eine Komplette Ordner Struktur, die Lizenzinformation, Dokumentation Module und Startskript Besitzt. 
-	- Da für die Anwendung keine Lokale Java Installation benötigt wird, muss die Applikation in sich Komplett sein  und die Konfiguration interen verwalten. 
-	- Sicherheit der Anwendung muss auch intern geregelt werden 
-	- Optimizierungs Potential 
-	- Einfach auf Container und IoT Geräte  zu deployen 
-
-
-	- Creating images with selected content
-	- Generating native application launchers
-	- Judging the security, performance, and stability of images
-	- Generating and optimizing images
-
-#########
-	- Es handelt sich um ein Java-Befehlszeilentool (im bin-Ordner Ihres JDK), mit dem Sie eine Reihe von Plattformmodulen auswählen und zu einem Laufzeitimage verknüpfen können. Ein solches Laufzeit-Image verhält sich genau wie ein JRE, enthält jedoch nur die von Ihnen ausgewählten Module und die Abhängigkeiten, die sie zum Funktionieren benötigen (wie in den Anweisungen unter "erfordert" angegeben). Während dieser Verbindungsphase kann jlink verwendet werden, um die Image-Größe weiter zu optimieren und die VM-Leistung, insbesondere die Startzeit, zu verbessern.
-
-	- Die zunehmende Containerisierung brachte auch den Druck mit sich, die Bereitstellung zu vereinfachen und zu automatisieren, was heute einige Größenordnungen häufiger geschieht.
-
-	- Es hört nicht bei der Verknüpfung von Plattformmodulen auf - es können auch Anwendungsimages erstellt werden, die Anwendungscode sowie Bibliotheks- und Frameworkmodule enthalten. Auf diese Weise können Sie mit Ihrem Build-Prozess eine vollständig eigenständige Bereitstellungseinheit erstellen, die aus Ihrer gesamten App mit genau den Plattformmodulen besteht, die für die Image-Größe und -Leistung nach Belieben optimiert und mit einem einfachen Aufruf eines nativen Skripts gestartet werden können.
-	- The command-line tool jlink creates runtime images from selected platform modules (use jdeps to determine which ones an application needs). To benefit from that, the application needs to run on Java 9+, but it doesn’t have to be modularized.
-	- Once the application and its dependencies have been fully modularized (without the use of automatic modules), jlink can create application images with it, including the app’s modules.
-	- Is bound to the OS for which the platform modules chosen with --module -path were built
-
-
-	- https://openjdk.java.net/jeps/220
-	- maßgeschneiderten Laufzeit-Image die Module zusammen.
-	- Soll aussehen wie der jdk lokal 
-	+ es gibt kein java auf der maschien deswegen wir  die app über ein skript gestartet 
-
-
-
-
-
-
-		- Performance 
-		- Braucht keinen JDk [ist selbst einer]
-		- Großes Optimierungspotenzial [jetzt  wird nur kompiliert] Größe und Performance 
-		-  Jlink Plugins 
+	\subsection{Laufzeit-Abbildung} \label{sub:laufzeit_images}
+		Für die Nutzung von Java Applikationen ist immer ein installierte Laufzeitumgebung notwendig, die Versionskompatibel mit der entsprechenden Applikation sein muss. Dementsprechend muss Java installiert und eingerichtet werden bevor unser Code ausgeführt werden kann. Für große Serveranwendungen ist der Aufwand gerechtfertigt, da diese unikale, langlebige und komplexe Gebilde sind. Für Anwendungen die kleiner sind und dynamisch zwischen Hardwareknoten verteilt werden müssen, ist das manuelle Anlegen der Laufzeitumgebung eine mühselige und fehleranfällige Aufgabe. \newline
+		Das Modulsystem von Java hat diese Herausforderung mithilfe der \textit{Laufzeit-Abbildung} adressiert. Dieses besteht aus einer Verzeichnis Struktur, die alle notwendigen Komponenten für den Betrieb der Applikation besitzt. Dazu zählen Module, Skripte, native Bibliotheken, Konfigurationen, Dokumentationen sowie Lizenzbedingungen und sogar Sicherheitsmechanismen zum Validieren der Komponenten sind vorgesehen. Diese generierten \textit{Laufzeit-Abbildungen} können einfach auf beliebig viele Hardwareknoten automatisiert verteilt und ausgeführt werden, ohne zusätzlichen Justierung der Software Umgebung. \newline
+		Die Eigenschaft der Abgeschlossenheit der \textit{Laufzeit-Abbildung}, kann von Renew aufgegriffen und genutzt werden, um ausgewählte Plugin Gruppen horizontal nach belieben zu skalieren. Zusätzlich hält die \textit{Laufzeit-Abbildung} nur notwendige Java sowie Benutzer erstellte Module, die bestens für die Ausführung der Applikation auf einander abgestimmt sind. Infolgedessen kann Renew auf optimale Ausführungsgeschwindigkeiten zählen. 
 
 	\subsection{Vision} \label{sub:moderner_zustand}
 		% Ziel
