@@ -111,11 +111,39 @@
 		Die Herausforderung dynamische Modulkombination aus einer großen Modulmenge zu erstellen, spielt eine zentrale Rolle in einem Modulverband. Daher ist die Administration ein wichtiges Instrument für das Entwickeln von Modularem Code.\newline
 		Für die Verwaltung der Codebasis existieren bereits Werkzeuge, die eingesetzt werden können wie zum Beispiel \textit{Ant}, \textit{Maven} und \textit{Gradle}. \bigbreak
 
-		Zur Zeit wird \textit{Ant} für das Kompilieren und Erstellen der ausführbaren Plugin Archive benutzt. \textit{Ant} ist ein imperatives Werkzeug, das dem System mitteilt, was getan werden muss und wie die Arbeit verrichten werden soll. Mit anderen Worten, es werden eine Reihe von Aktionsanweisungen bereitgestellt, die das System in derselben Reihenfolge ausführt. Dieses ist höchst flexibel und erlaubt eine feingranulare Konfiguration jedes einzelnen Ausführungsschritts. Der Nachteil einer expliziten Konfiguration, ist das Schreiben und Konfigurieren jeder kleinen Einzelheit, da \textit{Ant} an keinen Konventionen sowie Projektstrukturen gebunden ist. Infolgedessen führt die Entwicklung zu riesigen XML-Build-Dateien, die nur schwer zu warten sind.\bigbreak
+		Zur Zeit wird \textit{Ant} für das Kompilieren und Erstellen der ausführbaren Plugin Archive benutzt. \textit{Ant} ist ein imperatives Werkzeug, das dem System mitteilt, was getan werden muss und wie die Arbeit verrichten werden soll. Mit anderen Worten, es werden eine Reihe von Aktionsanweisungen bereitgestellt, die das System in derselben Reihenfolge ausführt. Dementsprechend ist \textit{Ant} höchst flexibel und erlaubt eine feingranulare Konfiguration jedes einzelnen Ausführungsschritts.\newline 
+		Obwohl die explizite Konfiguration viele Möglichkeiten bietet, ist das Schreiben und Konfigurieren an keinen Konventionen oder Strukturen gebunden. Infolgedessen führt die Entwicklung zu riesigen XML-Build-Dateien, die nur schwer zu warten sind.\bigbreak
 
-		Da das Bauen von Plugins mit \textit{Ant} umgesetzt wurde, existieren bereits Skripte, die alle notwendigen Schritte enthalten. Dazu wurden drei Skript Kategorien eingeführt, um die globale Verwaltung in \textsc{Renew} zu etablieren. Zu erst wurden allgemeinen \textit{task} und \textit{target} Skripte eingeführt, die für alle Plugins benötigt werden, um die wiederholenden Konfigurationen zu minimieren. Des Weiteren wird für jedes Plugin ein eigenes Skript mit dem entsprechenden Lebenszyklus eingerichtet, der aus den allgemeinen \textit{tasks}, \textit{targets} und zusätzlichen Plugin bezogenen Aufgaben zusammengesetzt wird. Und zum Schluss wird durch ein globales Build-Skript alle Plugin-Build-Skripte Referenziert und Verwaltet. Zum Beispiel zählt dazu das erstellen der Plugin Zusammenhänge und ihre Bearbeitungsreihenfolge. \newline
+		Da das Bauen von \textsc{Renew} Plugins mit \textit{Ant} umgesetzt wurde, existieren bereits Skripte, die alle notwendigen Schritte enthalten. Dazu wurden drei Skript Kategorien eingeführt, um die globale Verwaltung in \textsc{Renew} zu etablieren. Zu erst wurden allgemeinen \textit{task} und \textit{target} Skripte eingeführt, die für alle Plugins benötigt werden, um die wiederholenden Konfigurationen zu minimieren. Des Weiteren wird für jedes Plugin ein eigenes Skript mit dem entsprechenden Lebenszyklus eingerichtet, der aus den allgemeinen \textit{tasks}, \textit{targets} und zusätzlichen Plugin bezogenen Aufgaben zusammengesetzt wird. Und zum Schluss wird durch ein globales Build-Skript alle Plugin-Build-Skripte Referenziert und Verwaltet. Zum Beispiel zählt dazu das erstellen von Plugin Zusammenhänge und ihre Bearbeitungsreihenfolge.\bigbreak
 
-		-> Nachteil diskutieren  
+		Ungeachtet der reichen \textsc{Renew} Konfiguration besitzt \textit{Ant} keine Möglichkeit die Projektabhängigkeiten zu verwalten und greift dementsprechend auf ein lokales Verzeichnens, das vom Entwickler mitgelieferten Bibliotheken enthalten. Die Verwaltung der benötigt Bibliotheken ist mühselig und bedarf einen enormen Verwaltungsaufwand, um alle transitiven Abhängigkeiten aufzulösen und Konflikte zu beseitigen. Obwohl \textsc{Renew} die Einbindung von Java-Archiven selbst verwaltet, kann \textit{Ant} mit dem \textit{Ivy} Verwaltungswerkzug ergänzt werden, um die Abhängigkeiten zu organisieren. Dazu muss \textit{Ivy} in einer separaten Konfiguration eingerichtet werden, die wiederum für den allgemeinen Fall und für jedes Plugin erstellt werden muss. Somit steigt der Organisationsaufwand für das ganze Projekt und beeinträchtigt die Übersicht, denn das Fehlen einer Konvention, der Zuwachs an den XML-Konfigurationen und ihr globaler Zweck sind für den Entwickler nicht sofort ersichtlich.\newline
+		Zu diesem Zeitpunkten ist \textit{Ivy} nicht Teil von \textit{Renew} und bleibt ein wünschenswertes Feature.
+
+
+
+Einbindung von Java-Archiven, von denen ein Java-Projekt abhängig is
+
+		Die Flexibilität hat ihren Preis, denn jedes \textsc{Renew} Plugin wird mit einer gesamt Menge von sieben notwendigen Skripten konfiguriert. Des Weiteren 
+
+
+
+		ist gezwungen für jede einzelne Aktion, jeden einzelnen Ausführungsschritt sowie für jeden Lebenszyklus genau Strukturen und Abbarbeitugnsschritte zu deklarieren. dafür wurden fünf Konfigurationsdateien angelegt, die sich um die allgemeinen Aufgaben kümmern, 
+
+
+	Zusammen gezählt ergibt die globale Konfiguration fünf Skripte für die allgemeinen Aufgaben, ein Skript für jedes Plugin und ein Globales Skript. 
+		-> Nachteil diskutieren
+			-> Die Umsetzung wiederholt jeden einzelnen Plugin Lebenszyklus (schade , sind alle ähnlich)
+			-> Es gibt eine große Menge an targets tasks die ausgelagert sind (Zahl nennen) 
+			-> Hat keine Versionsverwaltung, mit Ivy ist möglich jedoch braucht jedes Plugin eine zusätzliche xml Konfiguration und eine globale zusätzliche Konfiguration 
+			-> Nachvollziehen Global build.xml -> common.xml -> plugin.xml  ist Custom Code nachvollziehen ohne Konvention schwierig 
+			-> Einrichtung der Umgebung -> ant, javacc, ..., libs, (im gradel teil erklären)
+		-> Besser machen   
+			-> Konvention über Konfiguration
+				-> Vorgefertigte Ausführungsschritte und Strukturen
+				-> Lebenszyklus der den Zustand der 
+			-> Abhänggietsverwaltung 
+			-> einfach zu nutzen über Parameter 
+
 
 
 
