@@ -109,117 +109,55 @@
 
 	\subsection{Projekt Verwaltung} \label{sub:verwaltung} % gradle tiefer erklären 
 		Die Herausforderung dynamische Modulkombination aus einer großen Modulmenge zu erstellen, spielt eine zentrale Rolle in einem Modulverband. Dementsprechend ist die Administration ein wichtiges Instrument für das Entwickeln von Modularem Code.\newline
-		Für die Verwaltung der Codebasis existieren bereits Werkzeuge, die eingesetzt werden können wie zum Beispiel \textit{Ant}, \textit{Maven} und \textit{Gradle}. Im Folgenden werden die wichtigsten For- und Nachteile der genannten Werkzeuge diskutiert und ein geeignetes System für \textsc{Renew} bestimmt. \bigbreak
-
-		Zur Zeit wird \textit{Ant} für das Kompilieren und Erstellen der ausführbaren Plugin Archive benutzt. \textit{Ant} ist das älteste der vorgestellten Werkzeuge und setzt die Grundlage für alle nachfolgenden Verwaltungsinstrumente.\newline  
-		Dieses ist imperative und teilt dem System mit, was getan werden muss und wie die Arbeit verrichten werden soll. Mit anderen Worten, es werden eine Reihe von Aktionsanweisungen bereitgestellt, die das System in derselben Reihenfolge ausführt. Dementsprechend ist \textit{Ant} höchst flexibel und erlaubt eine feingranulare Konfiguration jedes einzelnen Ausführungsschritts. Wie zum Beispiel das setzen der Code Ortsangaben, Aufteilen sowie Koordinieren der ausführbaren Code-Menge und natürlich die Kalibrierung des Compilers für die Übersetzung, die verpflichtend durchgeführt werden muss.\newline 
-		Obwohl die explizite Konfiguration viele Möglichkeiten bietet, ist das Schreiben und Konfigurieren an keinen Konventionen oder Strukturen gebunden. Infolgedessen führt die Entwicklung zu riesigen XML-Dateien, die nur schwer zu verstehen und zu warten sind.\bigbreak
-
-		Da \textsc{Renews} Entwicklung weit zurück liegt, gab es nur wenige Werkzeuge, die das Erstellen von Java Applikationen automatisiert durchführen konnten. Daher wurde auf das zurzeit fortschrittlichste Werkzeug mit dem Namen \textit{Ant} für die Umsetzung ausgewählt. Dementsprechend existieren bereits Skripte, die alle notwendigen Schritte enthalten.\newline
-		Dazu wurden drei Skript Kategorien eingeführt, um die globale Verwaltung in \textsc{Renew} zu etablieren. Zu erst wurden allgemeinen \textit{task} und \textit{target} Skripte eingeführt, die für alle Plugins benötigt werden, um die wiederholenden Konfigurationen zu minimieren. Des Weiteren wird für jedes Plugin ein eigenes Skript mit dem entsprechenden Lebenszyklus eingerichtet, der aus den allgemeinen \textit{tasks}, \textit{targets} und zusätzlichen Plugin bezogenen Aufgaben zusammengesetzt wird. Und zum Schluss wird durch ein globales XML-Skript alle Plugin XML-Skripte Referenziert und Verwaltet. Zum Beispiel zählt dazu das erstellen von Plugin Zusammenhänge und ihre Bearbeitungsreihenfolge.\bigbreak
-
+		Für die Verwaltung der Codebasis existieren bereits Werkzeuge, die eingesetzt werden können wie zum Beispiel \textit{Ant}, \textit{Maven} und \textit{Gradle}. Da \textit{Ant} in \textsc{Renew} eingesetzt wird und \textit{Gradle} zu diesem Zeitpunkt die führende Position einnimmt, werden im Folgenden Gründe für den Umstieg von \textit{Ant} auf \textit{Gradle} formuliert. \bigbreak
+		% ant problem 
+		Zur Zeit wird \textit{Ant} für das Kompilieren und Erstellen der ausführbaren Plugins Archiven in \textsc{Renew} benutzt. \textit{Ant} ist das älteste der vorgestellten Werkzeuge und setzt die Grundlage für alle nachfolgenden Verwaltungsinstrumente.\newline  
+		Dieses ist imperative und teilt dem System mit, was getan werden muss und wie die Arbeit verrichten werden soll. Mit anderen Worten, es wird eine Reihe von Aktionsanweisungen bereitgestellt, die das System in derselben Reihenfolge ausführt. Dementsprechend ist \textit{Ant} höchst flexibel und erlaubt eine feingranulare Konfiguration jedes einzelnen Ausführungsschritts. Wie zum Beispiel das setzen der Ortsangaben, Aufteilen sowie Koordinieren der ausführbaren Code-Menge und natürlich die Kalibrierung des Compilers für die Übersetzung, die verpflichtend durchgeführt werden muss.\newline 
+		Obwohl die explizite Konfiguration viele Möglichkeiten bietet, ist das Schreiben und Konfigurieren an keinen Konventionen oder Strukturen gebunden. Infolgedessen führt die Entwicklung zu riesigen XML-Dateien, die nur schwer zu verstehen und zu warten sind. Des Weiteren ist \textit{Ant} auf die Laufzeitumgebung angewiesen und erwartet bestimmte Bibliotheken und Applikationen vorinstalliert auf der Ausführungsmaschine, wie zum Beispiel \textit{Ant} selbst, \textit{Javacc} und andere Applikationen relevanten Werkzeuge, die aus dem Klassenpfad erreichbar sein müssen. \bigbreak
+		% Renew ant aufbau 
+		Da \textsc{Renew} mit dem \textit{Ant} Werkzeuge verwaltet wird, existieren bereits Skripte mit allen notwendigen Schritte für das Erstellen der \textit{Renew} Plugins. Dazu wurden drei Skript Kategorien eingeführt, um die globale Verwaltung in \textsc{Renew} zu etablieren. Zu erst wurden allgemeinen \textit{task} und \textit{target} Skripte eingeführt, die für alle Plugins benötigt werden, um die wiederholenden Konfigurationen zu minimieren. Des Weiteren wird für jedes Plugin ein eigenes Skript mit dem entsprechenden Lebenszyklus eingerichtet, der aus den allgemeinen \textit{tasks}, \textit{targets} und zusätzlichen Plugin bezogenen Aufgaben zusammengesetzt wird und zum Schluss ein ausführbares Ergebnis liefert. Die Idee und Implementation des Lebenszyklus zu Entwurfszeit ist Innovativ und ähnelt stark der \textit{Maven} Umsetzung, die in der Zukunft mit einem integrierten \textit{out of the box} Ansatz werben wird. \newline
+		Nachdem alle Plugins Konstruktion fähig sind, wird ein globales XML-Skript eingerichtet, das alle Plugin XML-Skripte Referenziert und Verwaltet. Zum Beispiel zählt dazu das erstellen von Plugin Zusammenhängen und ihre Bearbeitungsreihenfolge.\bigbreak
 		% überleitung auf schwächen 
-		Obwohl \textit{Ant} das Bauen von Java Applikationen automatisiert hat, war die Verwaltung der Projektabhängigkeiten nicht ein Teil der Umsetzung. Dementsprechend müssen direkte sowie transitive Projektabhängigkeiten von den Entwickler mitgeliefert und in die entsprechenden Klassenpfade der auserwählten Projekt- \textit{task} und \textit{targets} konfliktfrei eingebunden werden.\newline
-		Die Verwaltung der benötigt Bibliotheken ist mühselig und bedarf einen enormen Verwaltungsaufwand, um alle transitiven Abhängigkeiten aufzulösen und Konflikte zu beseitigen. Die Anforderung der höchst gewünschten Abhängigkeitsverwaltung wurde erst in der nächsten Genration von \textit{Maven} umgesetzt und im Anschluss von einem Tochterprojekt von \textit{Ant} namens \textit{Ivy} übernommen.\bigbreak
-
-		Momentan verwaltet \textsc{Renew} die Drittanbieter Bibliotheken manuell mit \textit{Ant} und kann die Organisation der Abhängigkeiten bei Bedarf durch den Familienmitglied \textit{Ivy} verwalten lassen. Dazu muss \textit{Ivy} in einer separaten Konfiguration eingerichtet werden, die wiederum für den allgemeinen Fall und für jedes Plugin erstellt werden muss. Die Konfiguration enthält benötigte Bibliotheken, den Versionsrahmen sowie Kriterien zum ein und ausschließen von transitiven Abhängigkeiten. \newline
-		Somit erfüllt \textit{Ivy} den Wunsch nach Ordnung und Organisation von Drittanbieter Bibliotheken, jedoch hat diese einen Preis. Die Konfiguration wird in einer separaten XML-Datei verwaltet und gestaltet das Lesen und Nachvollziehen der ganzen Konstruktion mühselig, denn das Fehlen einer Konvention, der Zuwachs an den XML-Konfigurationen und ihr globaler Zweck sind für den Entwickler nicht sofort ersichtlich.\newline
+		Obwohl \textit{Ant} das Bauen von Java Applikationen automatisiert, war die Verwaltung der Projektabhängigkeiten nicht ein Teil der Umsetzung. Dementsprechend müssen direkte sowie transitive Projektabhängigkeiten von den Entwickler mitgeliefert und in die entsprechenden Klassenpfade der auserwählten Projekt- \textit{task} und \textit{targets} konfliktfrei eingebunden werden.\newline
+		Die Verwaltung der benötigt Bibliotheken ist mühselig und bedarf einen enormen Verwaltungsaufwand, um alle transitiven Abhängigkeiten aufzulösen und Konflikte zu beseitigen. Die Anforderung der höchst gewünschten Abhängigkeitsverwaltung wurde erst in der nächsten Genration von \textit{Maven} umgesetzt und im Anschluss von einem Tochterprojekt von \textit{Ant} namens \textit{Ivy} übernommen.\newline
+		Momentan verwaltet \textsc{Renew} die Drittanbieter Bibliotheken manuell und kann die Organisation der Abhängigkeiten bei Bedarf durch den Familienmitglied \textit{Ivy} verwalten lassen. Dazu muss \textit{Ivy} in einer separaten Konfiguration eingerichtet werden, die wiederum für den allgemeinen Fall und für jedes Plugin erstellt werden muss. Die Konfiguration enthält die benötigten Bibliotheken, den Versionsrahmen sowie Kriterien zum ein und ausschließen von transitiven Abhängigkeiten. \newline
+		Somit erfüllt \textit{Ivy} den Wunsch nach Ordnung und Organisation von Drittanbieter Bibliotheken, jedoch hat diese einen Preis. Die Konfiguration wird in einer separaten XML-Datei verwaltet und gestaltet das Lesen und Nachvollziehen der zusammengeführten Konstruktion von \textit{Ant} und \textit{Ivy} mühselig, denn das Fehlen einer Konvention, der Zuwachs an den XML-Dateien und ihr globaler Zweck sind für den Entwickler nicht sofort ersichtlich.\newline
 		Zu diesem Zeitpunkten ist \textit{Ivy} nicht Teil von \textit{Renew}, daher bleibt die Abhängigkeitsverwaltung ein wünschenswertes Feature.\bigbreak
+		% weg von ant über maven zu gradle 
+		Da die imperative Konfiguration mit \textit{Ant} unstrukturiert und aufwändig ist, wurde ein eindeutige Konvention gewünscht, die ein fertiges Gerüst an Ausführungsschritten anbietet und für jeden Entwickler sofort verständlich ist. Der Nachfolger \textit{Apache Maven} hat diese Anforderung erfüllt und führt einen global eindeutigen und integrierten Lebenszyklus ein, der mit Plugins und Ausführungsschritten belegt werden kann. Somit verkörpert \textit{Maven} mit dem \textit{convention over configuration} Ansatz ein fertiges deklaratives Rahmenwerk, das trotz der gewünschten Konvention die angebotene Funktion streng an den Plugin Anbieter bindet und somit das Nachrüsten von zusätzlicher Features einschränkt. Aus diesem Grund war das Bedürfnis nach dem nächsten Nachfolger, der die allgemeingültige Konvention von \textit{Maven} übernimmt und diese mühelos erweitern lässt, groß.\bigbreak
+		Die Herausforderung mit einer Konvention zu arbeiten und diese bei Bedarf erweitern zu können, hat sich das \textit{Gradle} Projekt gewidmet und verspricht eine flexible und erweiterbare Konvention zum Erstellen von ausführbaren Bibliotheken.\newline
+		Dafür wurde das in \textit{Ant} und \textit{Maven} eingesetzt XML-Format als die einschränkende Schwachstelle identifiziert, denn dieses eignet sich bestens für die Übermittlung von Datenobjekten und dessen Eigenschaften, jedoch für das Schreiben von einfacher Logik werden hunderte Konfigurationszeilen benötigt. Dementsprechend ist das Einführen von zusätzlicher Logik in dem XML-Format nur schwer möglich.\newline
+		Aus diesem Grund verzichtet \textit{Gradle} auf den Einsatz von XML und führt eine Programmiersprache ein, die Logik kompakt definieren lässt und diese mit der mitgelieferten Ausführungscode problemlos zusammenführen kann. Der ausgewählte Kandidat trägt den Namen \textit{Groovy}. \textit{Groovy} ist eine dynamische Programmiersprache, die für der virtuellen Maschine von Java entwickelt worden ist und erlaubt das Manipulieren von Objektverhalten während der Laufzeit.\newline
+		Dementsprechend stellt \textit{Gradle} eine Lebenszyklus zur Verfügung, der mit Funktionalität belegt werden kann und erlaubt zusätzlich das Manipulieren und Erweitern von Objekten, die Abarbeitungsschritte repräsentieren. In der Konsequenz gestattet \textit{Gradle} das instantiieren von vereinbarten Verarbeitungsketten, die an Ort und Stelle kompakt erweitert werden können und erfüllt somit das Bedürfnis nach der gewünschten Kombination aus Konvention und Flexibilität. \bigbreak 
+		% wrapper 
+		Das Problem der einfachen Manipulation eine gegebenen Ausführungsstruktur war ein wichtiger Beweggrund für die Entwicklung von \textit{Gradle}, dennoch gab es weitere Wünsche, die das Arbeiten mit Fremdcode erleichtern sollen. Zum Beispiel eine Konvention für die Build-Umgebung einer Applikation, die vom Entwickler konfiguriert, veröffentlicht und eine betriebsfähige \textit{out of the box} Routine repräsentiert. Dieser Wunsch wurde  durch den \textit{Gradle-Wrapper} erfüllt, der eine eine eigene und passende \textit{Java} Version mit sich bringt, die im Weiteren für das Nachladen und Platzieren auf dem Klassenpfad der benötigter Bibliotheken kümmert. Somit ist das Laden und Bauen einer Applikation nicht mehr an die lokale Maschine gebunden und benötigt keine \textit{Java} oder Drittanbieter Werkzeuge für das Erstellen eines ausführbaren Ergebnisses. 
+		% 
+		Zusammengefasst vereinigt \textit{Gradle} das Beste aus \textit{Ant} und \textit{Maven}, wie zum Beispiel die Flexibilität von \textit{Ant}, die Konvention sowie die Bibliotheksverwaltung von \textit{Maven} und erweitert diese durch eine Umgebungskonvention sowie eine adaptive Domäne spezifische Sprache, die das Schreiben von Code sowie das Erweitern und Konfigurieren von Abarbeitungsschritten mühelos gestaltet. \bigbreak
 
-		% Gradle Block 
-		
+		% Liste der Vorteile 
 
 
+		Mit der Einführung von \textit{Gradle} als Verwaltungswerkzeug eröffnen sich neue Möglichkeiten für die Verwaltung von \textsc{Renew}. \textsc{Renew} kann nun auf einen Lebenszyklus mit allen notwendigen Schritten für die Erstellung einer ausführbaren Java Applikation zugreifen und macht somit die manuelle Erstellung von der Schrittsequenz wie Kopieren, Kompilieren und Verpacken für jedes einzelne Plugin überflüssig. Des Weiteren kann der Lebenszyklus jedes Plugins individuell beeinflusst und erweitert werden, um maßgeschneiderte Ausführungsschritte zu erstellen oder bestehende Schritte auszubauen. Somit können außergewöhnliche und notwendige Schritte für gewisse Plugins, wie zum Beispiel das Generieren von Java Klassen mit dem \textit{JavaCC} Werkzeug, in den bereits vorkonfigurierten Lebenszyklus unkompliziert an der zweckmäßigen Stelle integriert werden.\newline
+		Demnach konfiguriert das Hauptskript den allgemeinen Lebenszyklus für alle Plugins und jedes Plugin für sich enthält nur von der Norm abweichende Logik, die das Lesen und verstehen der Plugin Funktionalität einfach und unproblematisch gestaltet.\newline
+		Darüber hinaus ist eine 
+		% Groovy can play this trick by funneling all method calls through a device called MetaClass. This allows a dynamic approach to object orientation, only part of which involves adding methods to existing classes.
+		% What makes dynamic languages so powerful is their dynamic method dispatch. Allow yourself some time to let this sink in. It’s not the dynamic typing that makes a dynamic language dynamic. It’s the dynamic method dispatch.
+		%        getMetaClass().invokeMethod(this, "foo", EMPTY_PARAMS_ARRAY)
+		% That way, method calls are redirected through the object’s MetaClass. This MetaClass can now do tricks with method invocations such as intercepting, redirecting, adding/ removing methods at runtime, and so on.
+		% Groovy is bytecode compatible with Java and obeys Java’s protocol of full class con- struction before execution. But Groovy is still fully dynamic, generating classes trans- parently at runtime when needed. Despite the fixed set of methods in the bytecode of a class, Groovy can modify the set of available methods as visible from a Groovy caller’s perspective by routing method calls through the MetaClass,
+		% When executed, the InvokerHelper as part of the MOP looks for the method named "println" with a String argument, finds that the Groovy runtime has registered such a method for java.lang.Object, and calls that implementation.
 
-Einbindung von Java-Archiven, von denen ein Java-Projekt abhängig is
-
-		Die Flexibilität hat ihren Preis, denn jedes \textsc{Renew} Plugin wird mit einer gesamt Menge von sieben notwendigen Skripten konfiguriert. Des Weiteren 
-
-
-
-		ist gezwungen für jede einzelne Aktion, jeden einzelnen Ausführungsschritt sowie für jeden Lebenszyklus genau Strukturen und Abbarbeitugnsschritte zu deklarieren. dafür wurden fünf Konfigurationsdateien angelegt, die sich um die allgemeinen Aufgaben kümmern, 
-
-
-	Zusammen gezählt ergibt die globale Konfiguration fünf Skripte für die allgemeinen Aufgaben, ein Skript für jedes Plugin und ein Globales Skript. 
-		-> Nachteil diskutieren
-			-> Die Umsetzung wiederholt jeden einzelnen Plugin Lebenszyklus (schade , sind alle ähnlich)
-			-> Es gibt eine große Menge an targets tasks die ausgelagert sind (Zahl nennen) 
-			-> Hat keine Versionsverwaltung, mit Ivy ist möglich jedoch braucht jedes Plugin eine zusätzliche xml Konfiguration und eine globale zusätzliche Konfiguration 
-			-> Nachvollziehen Global build.xml -> common.xml -> plugin.xml  ist Custom Code nachvollziehen ohne Konvention schwierig 
-			-> Einrichtung der Umgebung -> ant, javacc, ..., libs, (im gradel teil erklären)
-		-> Besser machen   
-			-> Konvention über Konfiguration
-				-> Vorgefertigte Ausführungsschritte und Strukturen
-				-> Lebenszyklus der den Zustand der 
-			-> Abhänggietsverwaltung 
-			-> einfach zu nutzen über Parameter 
-
+		% For every class A in the class loader, Groovy maintains a metaclass—an object of type MetaClass. This metaclass maintains the collection of all methods and properties of A, starting with the bytecode information of A and adding additional methods that Groovy knows about per default (DefaultGroovyMethods).
+		% Metaclasses are the main workhorses for dynamic programming in Groovy
+		%  metaclass additions are rarely known at compile time
 
 
 
 
-		Das Bauen von Ausführbaren Plugins wird  
 
-
-		+ Zur Zeit wird Ant verwendet 
-			+ Ant hat diese Vorteile -> Flexibilität
-			+ Ant Nachteile an Renew Beispiel -> Alles selber Schreien, alles Custem Code, alles schwer zu Warten
-			+ So wird Ant in Renew Kontext eingesetzt (Build Skripte mit Aufgaben, Anzahl und Worflow, Ivy + viel mehr Skripte)
-			+ Wie kann es besser gemacht werden -> welche Eigenschaft wäre erwünscht -> Maven
-		+ Was Fehlt Maven und wieso sollte man Gradle verwenden
-			+ Vorgefertigte Ausführungsschritte und Strukturen -> jedoch eingeschränkt in der Konfiguration 
-			+ in der Regel immer noch groß und umständlich
-			+ Dafür einfach zu nutzen über Parameter 
-			# Konvention über Konfiguration
-			+ Immer noch XML -> Maschinen Code (maschinenfreundliches Format)-> Einfache Logik kann 100 Konfigurationszeilen einnehmen 
-		+ Gradle Vorteile -> Ausdrucksweise bestens für den Zweck geeignet. 
-			+ Struktur und Tasks können wie bei Maven konfiguriert und wie bei Ant erweitert werden.
-			+ Eigene integrierte Abhängigkeitsverwaltung 
-			+ Im Vergleich zu Ant braucht man keine extra Konfigurationsdateien 
-			+ Hay Groovy ist eine JVM Sprache 
-			+ Plugins mit vorgefertigten Arbeitsabläufen -> Ant hat dies nicht 
-			+ ohne dass wir uns jemals wiederholen müssen
-
-
-
-		- Ant hat keine feste Struktur 
-		- hierarhiesche struktur, keine prozeduralen Fähigkeiten
-
-		- Während Ant von Entwicklern verlangt, dass sie alle Befehle schreiben, die zur erfolgreichen Ausführung einer Aufgabe führen, stützt sich Maven auf Konventionen und stellt die verfügbaren Ziele bereit, die aufgerufen werden können.
-		- Als zusätzliche und wahrscheinlich wichtigste Ergänzung hat Maven die Möglichkeit eingeführt, Abhängigkeiten über das Netzwerk herunterzuladen
-		- XML als Build-Konfigurationsformat ist streng strukturiert und stark standardisiert. Die Anpassung von Zielen ist schwierig. Da sich Maven hauptsächlich auf das Abhängigkeitsmanagement konzentriert, ist es in Maven schwieriger, komplexe, angepasste Build-Skripte zu schreiben als in Ant.
-		- Hauptvorteil von Maven ist sein Lebenszyklus. Solange das Projekt auf bestimmten Standards basiert, kann man mit Maven den gesamten Lebenszyklus relativ einfach durchlaufen. Das kostet Flexibilität.
-		- Die Idee ist, Sprachen zu entwickeln, um Probleme zu lösen, die zu einer bestimmten Domäne gehören. Im Falle von Builds ist Gradle eines der Ergebnisse der Anwendung von DSL.
-		- Gradle kombiniert gute Teile beider Tools und baut darauf mit DSL und anderen Verbesserungen auf. Es verfügt über die Leistungsfähigkeit und Flexibilität von Ant sowie über den Lebenszyklus und die Benutzerfreundlichkeit von Maven.
-		- Gradle verwendet kein XML. Stattdessen hatte es ein eigenes DSL, das auf Groovy (einer der JVM-Sprachen) basierte. Daher sind Gradle-Build-Skripte in der Regel viel kürzer und klarer als diejenigen, die für Ant oder Maven geschrieben wurden. Die Menge an Boilerplate-Code ist bei Gradle viel geringer, da mit DSL ein bestimmtes Problem gelöst werden soll: Verschieben Sie Software durch den gesamten Lebenszyklus, von der Kompilierung über die statische Analyse und das Testen bis hin zur Paketierung und Bereitstellung.
-
-		- Der Hauptunterschied besteht darin, dass wir bei Maven nicht angeben müssen, was getan werden soll. Wir erstellen keine Aufgaben, sondern stellen die Parameter ein
-		- Später wird die Verwendung von Konventionen gefördert und es werden sofort einsatzbereite Ziele angegeben.
-		- Für Neulinge ist Ant das klarste Werkzeug überhaupt. Durch einfaches Lesen des Konfigurations-XML kann man verstehen, was es tut. Das Schreiben von Ant-Aufgaben wird jedoch leicht sehr komplex. Maven und insbesondere Gradle haben bereits eine Reihe von Aufgaben, die sofort oder über Plugins verfügbar sind.
-		- Die Lesbarkeit von Ant und die Einfachheit von Maven sind meiner Meinung nach falsche Argumente, die nur während der kurzen anfänglichen Gradle-Lernkurve gelten. Sobald man sich an Gradle DSL gewöhnt hat, ist seine Syntax kürzer und verständlicher als die von Ant oder Maven. Darüber hinaus bietet nur Gradle sowohl Konventionen als auch die Erstellung von Befehlen. Während Maven mit Ant-Aufgaben erweitert werden kann, ist es mühsam und nicht sehr produktiv. Gradle with Groovy bringt es auf das nächste Level.
-
-		- Der Hauptvorteil von Ant ist seine Flexibilität. Ant schreibt keine Kodierungskonventionen oder Projektstrukturen vor. Infolgedessen muss Ant alle Befehle von den Entwicklern selbst schreiben, was manchmal zu riesigen XML-Build-Dateien führt, die nur schwer zu warten sind. Da es keine Konventionen gibt, bedeutet die Kenntnis von Ant nicht, dass wir alle Ant-Build-Dateien schnell verstehen. Es wird wahrscheinlich einige Zeit dauern, bis Sie sich an eine unbekannte Ant-Datei gewöhnt haben. Dies ist ein Nachteil gegenüber den anderen neueren Tools.
-		- Maven verwendet XML-Dateien weiterhin genau wie Ant, jedoch auf eine viel einfachere Art und Weise. Der Name des Spiels ist hier Konvention über Konfiguration. Während Ant die Flexibilität bietet und erfordert, dass alles von Grund auf neu geschrieben wird, stützt sich Maven auf Konventionen und stellt vordefinierte Befehle (Ziele) bereit. Einfach ausgedrückt, Maven ermöglicht es uns, uns auf das zu konzentrieren, was unser Build tun soll, und gibt uns den Rahmen dafür. Ein weiterer positiver Aspekt von Maven war die integrierte Unterstützung für das Abhängigkeitsmanagement. Die Konfigurationsdatei von Maven, die Anweisungen für das Build- und Abhängigkeitsmanagement enthält, heißt standardmäßig pom.xml. Darüber hinaus schreibt Maven eine strikte Projektstruktur vor, während Ant auch dort Flexibilität bietet.
-		-  Maven wurde sehr populär, da Build-Dateien jetzt standardisiert wurden und die Pflege der Build-Dateien im Vergleich zu Ant deutlich weniger Zeit in Anspruch nahm. Maven-Konfigurationsdateien sind zwar standardisierter als Ant-Dateien, werden jedoch in der Regel immer noch groß und umständlich. Die strengen Konventionen von Maven haben den Preis, viel weniger flexibel zu sein als Ant. Die Anpassung von Zielen ist sehr schwierig, daher ist das Schreiben von benutzerdefinierten Build-Skripten im Vergleich zu Ant viel schwieriger.
-		- Gradle gibt uns die volle Kontrolle über das Bauen wie Ant, ohne dass wir uns jemals wiederholen müssen, indem wir intelligente Vorgaben in Form von Konventionen bereitstellen. Gradle arbeitet wirklich nach Konventionen über die Konfiguration, genau wie Maven. Es steht uns jedoch nie im Weg, wenn wir abweichen müssen. Auch dies steht in völligem Kontrast zu Maven. Gradle versucht, das richtige Gleichgewicht zwischen Konventionen und Konfigurierbarkeit aufrechtzuerhalten.
-
-		->
-		- In der vorherigen Generation von Build-Tools wie Ant und Maven wurde XML als Repräsentation der Build-Logik ausgewählt. XML kann zwar von Menschen gelesen werden, es ist jedoch eher ein maschinenfreundliches Format (das von Programmen leichter gelesen / geschrieben werden kann). Es eignet sich hervorragend zum Darstellen und Austauschen von hierarchischen Daten. Wenn es jedoch um das Schreiben von Logik geht, kann selbst die einfachste Logik problemlos Hunderte von Zeilen umfassen. Andererseits kann ein Gradle-Build mit sehr benutzerfreundlichem Groovy DSL konfiguriert werden.
-		- Da Gradle auf der JVM ausgeführt wird, läuft es unter Windows, Mac OS X und Linux auf die gleiche Weise. Gradle verfügt außerdem über ein erweitertes Abhängigkeitsauflösungssystem und kann Abhängigkeiten aus den vorhandenen Maven- und Ivy-Repositorys oder sogar einem Dateisystem auflösen. Im Laufe der Jahre hat sich Gradle zu einem sehr stabilen Open Source-Projekt mit aktiven Mitwirkenden und kommerzieller Unterstützung entwickelt. Das reichhaltige Plugin-Ökosystem und die lebendige Community machen Gradle zu einer hervorragenden Wahl für eine Vielzahl von Projekten. Gradle verfügt bereits über eine beeindruckende Liste von Anwendern, zu denen Technologiegiganten wie Google Android, LinkedIn, Unity 3D, Netflix und viele mehr gehören. Open Source-Bibliotheken und Frameworks wie Spring, Hibernate und Grails verwenden Gradle, um ihre Builds zu unterstützen.
-
-		- Es gibt zwei Arten von Build-Tools: Imperative Build-Tools und Deklarative Build-Tools. Ein zwingendes Build-Tool teilt dem System mit, was und wie es zu tun ist. Mit anderen Worten, es werden eine Reihe von Aktionsanweisungen oder Befehlen bereitgestellt, die das System in derselben Reihenfolge ausführt und diese Aktionen ausführt. Sie können Ant als Beispiel für das imperative Build-System nehmen. 
-		- Ein deklaratives Build-Tool weist das System an und gibt an, was Sie tun würden erreichen möchten, und das System wird herausfinden, wie es zu interpretieren ist. Bei einem deklarativen Ansatz muss der Benutzer nur das Was und nicht das Wie bestimmen. Dies ist eine der Schlüsselinnovationen, die Maven in die Build-Welt gebracht hat, nachdem Ant eine gewisse Popularität erlangt hatte, in der wir nicht jeden Schritt einer Aktion schreiben und am Ende ein sehr umfangreiches und ausführliches Build-Skript erstellen müssen. 
-		- Bei Maven müssen einige Konfigurationsparameter für den Build geschrieben werden, und das Build-System entscheidet selbst, wie es interpretiert werden soll. Intern basiert die deklarative Ebene auf einer mächtigen imperativen Ebene, die dies kann direkt nach Bedarf zugegriffen werden. 
-		- Ant und Maven sind sehr gute und zuverlässige Buildsysteme. Sie sind innovativ in allen Bereichen, für die sie entworfen und gebaut wurden. Jeder von ihnen hat wichtige Innovationen in den Bauraum eingebracht. 
-		- Gradle kombiniert die guten Teile beider Tools und bietet zusätzliche Funktionen und verwendet Groovy als domänenspezifische Sprache (Domain Specific Language, DSL). Es verfügt über die Leistungsfähigkeit und Flexibilität des Ant-Tools mit Maven-Funktionen wie dem Build-Lebenszyklus und der einfachen Bedienung. 
-		- Gradle ist ein deklaratives Allzweck-Build-Tool. Dies ist ein allgemeiner Zweck, da damit so ziemlich alles erstellt werden kann, was Sie im Erstellungsskript implementieren möchten. 
-		- Es ist deklarativ, da Sie nicht viel Code in der Build-Datei sehen möchten, der nicht lesbar und weniger wartbar ist. Gradle bietet zwar die Idee von Konventionen und eine einfache und aussagekräftige Erstellung, macht das Tool aber auch anpassungsfähig und die Entwickler können es erweitern. 
-		- Es bietet auch eine einfache Möglichkeit, das Standardverhalten und verschiedene Hooks anzupassen, um Features von Drittanbietern hinzuzufügen.
-
-
-		Da \textit{Gradle} das zurzeit aufstrebende Software Instrument für das erstellen von ausführbaren Software Artefakten ist und die besten Eigenschaften von \textit{Maven} sowie \textit{Ant} in sich vereint, ist dieses bestens für das Modulsystem gewappnet und sollte im \textsc{Renew} Kontext eingesetzt werden. \bigbreak
-	    Die zentrale Aufgabe von \textit{Gradle} besteht aus dem Bauen von kompatiblen Plugins mit den geeigneten Modulen, die über Konfigurationsdateien, Benutzereingaben, und äußeren Einflüssen gesteuert und ausgeführt werden sollten.
-
+		% Renew  Paragraph TODO
+		% bild HVV automat gegenbeispiel 
+		% Beispiel Labnda , weitergabe an ausführbaren code -> das Problem der Einschränkung ist nicht neue 
 	\subsection{Homogene Umgebung} % plugin.cfg vergleich
 		Ein weit verbreitetes Problem der Softwareentwicklung, ist der Unterschied der Laufzeit- sowie Entwicklungsumgebung. Die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um der Diskrepanz des Ausführungskontextes entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Aus diesem Grund deklariert die \textit{module-info.java} eine globale Plattformunabhängige Anforderung an benötigten Modulen und Bibliotheken, die zu der Kompilations- sowie Ausführungszeit präsent sein müssen.\bigbreak
 
