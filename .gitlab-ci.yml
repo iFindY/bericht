@@ -1,0 +1,13 @@
+image: marvinmenzerath/latex
+
+build:
+  stage: build
+  artifacts:
+    paths:
+      - Thesis.pdf
+    expire_in: 1 week
+    when: on_success
+  script:
+    - pdflatex -interaction=nonstopmode Thesis.tex
+  tags:
+    - latex
