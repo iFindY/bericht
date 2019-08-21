@@ -1,4 +1,4 @@
-image: marvinmenzerath/latex
+image: blang/latex:ctanfull
 
 build:
   stage: build
