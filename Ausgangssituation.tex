@@ -137,7 +137,7 @@
 		Das Problem der einfachen Manipulation einer gegebenen Ausführungsstruktur war ein wichtiger Beweggrund für die Entwicklung von \textit{Gradle}, dennoch gab es weitere Wünsche, die das Arbeiten mit Fremdcode erleichtern sollen. Zum Beispiel eine Konvention für die Build-Umgebung einer Applikation, die vom Entwickler konfiguriert, veröffentlicht und eine betriebsfähige \textit{out of the box} Routine anbietet. Dieser Wunsch wurde durch den \textit{Gradle-Wrapper} erfüllt, der eine eigene \textit{Gradle} Version mit sich bringt, die im Weiteren für das Nachladen und Platzieren der benötigten Bibliotheken auf dem Klassenpfad kümmert. Somit ist das Laden und Bauen einer Applikation nicht mehr an die lokale Maschine gebunden und benötigt kein Java oder Drittanbieter Werkzeuge für das Erstellen eines ausführbaren Ergebnisses. 
 
 		\subsubsection{Renew und Gradle}
-		Zusammengefasst vereinigt \textit{Gradle} das Beste aus \textit{Ant} und \textit{Maven}, wie zum Beispiel die Flexibilität von \textit{Ant}, die Konvention sowie die Bibliotheksverwaltung von \textit{Maven} und erweitert diese durch eine Umgebungskonvention sowie eine adaptive Domäne spezifische Sprache, die das Schreiben von Code sowie das Erweitern und Konfigurieren von Abarbeitungsschritten mühelos gestaltet. Des Weiteren wird mit einer abgeschlossenen Umgebung das Bauen und Nutzen von komplexer Software wesentlich einfacher, denn diese ist präpariert und benötigt keine Intervention des Nutzers. \newline
+		Zusammengefasst vereinigt \textit{Gradle} das Beste aus \textit{Ant} und \textit{Maven}, wie zum Beispiel die Flexibilität von \textit{Ant}, die Konvention sowie die Bibliotheksverwaltung von \textit{Maven} und erweitert diese durch eine Umgebungskonvention sowie eine adaptive Domäne spezifische Sprache, die das Schreiben von Code sowie das Erweitern und Konfigurieren von Abarbeitungsschritten mühelos gestaltet. Des Weiteren werden mit einer abgeschlossenen Umgebung das Bauen und Nutzen von komplexer Software wesentlich einfacher, denn diese ist präpariert und benötigt keine Intervention des Nutzers. \newline
 		Im Folgenden werden Gründe für \textsc{Renew}'s Umstieg auf \textit{Gradle} zusammengefasst.\bigbreak
 		\begin{itemize}
 			\item \textsc{Renew} kann nun auf einen Lebenszyklus mit allen notwendigen Schritten für die Erstellung einer ausführbaren Java Applikation zugreifen und macht somit die manuelle Erstellung von allgemeinen Schrittsequenz wie Kopieren, Kompilieren und Verpacken aus dem \textit{ant} Verzeichnis überflüssig. 
@@ -148,12 +148,12 @@
 		\end{itemize}
 		% bild HVV automat gegenbeispiel 
 	\subsection{Plugin Charakteristika} \label{sub:plugin_beschriftung}
-		Jedes \textsc{Renew} Plugin bietet eine Funktion an, die in bestimmten Einsatzszenarien genutzt werden kann. Um die Funktion anderer Plugins zu nutzen und eigene Funktion anzubieten, wird bestimmte Informationen erwartet, die den Namen, den Zweck und die Basis des Plugins beschreibt. Die definierte Information wird in der \textit{plugin.cfg} gespeichert und von dem \textsc{Renew} Plugin Manager ausgelesen, um die Plugins in Relation zueinander zu setzen und diese in der richtigen Reihenfolge zu instanziieren. \newline	
-		Mit der Einführung des Modulsystems ist es möglich die Plugins in einer Modulrepräsentation zu betreiben. Dementsprechend wird das Plugin mit einer \textit{module-info.java} erweitert, die sich mit der \textit{plugin.cfg} in der Funktionalität überschneidet. Im Folgenden werden die Schwächen der \textit{plugin.cfg} gegenüber der \textit{module-info.java} untersucht und die Hürden für den Umstieg zusammengefasst. 
+		Jedes \textsc{Renew} Plugin bietet eine Funktion an, die in bestimmten Einsatzszenarien genutzt werden kann. Um die Funktion anderer Plugins zu nutzen und eigene Funktion anzubieten, wird bestimmte Informationen erwartet, die den Namen, den Zweck und die Basis des Plugins beschreibt. Die benötigte Information wird in der \textit{plugin.cfg} aufbewahrt und von dem \textsc{Renew} Plugin Manager ausgelesen, um die Plugins in Relation zueinander zu setzen und entsprechend der Aufbaureihenfolge zu instanziieren. \newline	
+		Mit der Einführung des Modulsystems können die Plugins in einer Modulrepräsentation betrieben werden. Dementsprechend wird das Plugin mit einer \textit{module-info.java} erweitert, die sich mit der \textit{plugin.cfg} in der Funktionalität überschneidet. Im Folgenden werden die Schwächen der \textit{plugin.cfg} gegenüber der \textit{module-info.java} untersucht und zusammengefasst. 
 
 		\subsubsection{Die Schwäche der Plugin.cfg} \label{sub:die_plugin_cfg}
 			% nachteile der pluign.cfg Schnittstellen
-			Obwohl die \textit{plugin.cfg} die Beziehung der Plugins untereinander beschreibt, ist diese Informantin unvollständig, denn der \textit{plugin.cfg} aus der Abbildung \textit{fig:plugin_cfg} fehlt die Information über explizite Schnittstellen des Plugins und dafür ausgelegten Pakete. Diese besitzt nur eine Auflistung von Plugin Namen, die für die Ausführung präsent sein müssen. Infolgedessen greift der Entwickler auf Funktionalität zu, die nicht für ihn bestimmte ist und beeinträchtigt somit die Wartbarkeit des Systems. Denn jede Änderung und Aktualisierung der Plugin Logik, kann zu Fehlern und unerwarteten Verhalten seiner Nutzer führen. \newline
+			Obwohl die \textit{plugin.cfg} die Beziehung der Plugins untereinander beschreibt, ist diese Informantin lückenhaft, denn der \textit{plugin.cfg} aus der Abbildung \ref{fig:plugin_cfg} fehlt die Information über explizite Schnittstellen des Plugins und dafür ausgelegten Pakete. Die \textit{plugin.cfg} besitzt nur eine Auflistung von Plugin Namen, die für die Ausführung präsent sein müssen. Infolgedessen greift der Entwickler auf Funktionalität zu, die nicht für ihn bestimmte ist und beeinträchtigt somit die Wartbarkeit des Systems. Denn jede Änderung der Plugin Logik, kann zu Fehlern und unerwarteten Verhalten seiner Nutzer führen. \newline
 			\begin{figure}[h!]
 			  \centering
 			  \includegraphics[width=0.6\textwidth]{material/images/cfg.pdf}
@@ -161,13 +161,13 @@
 			  \label{fig:plugin_cfg}
 			\end{figure}
 			% nachteil Drittanbieter werden nicht mitgezogen 
-			Auch wenn die Plugin Abhängigkeit in der \textit{plugin.cfg} existieren, beschreiben diese keine Drittanbieter-Bibliotheken, die ein wichtiger Bestandsteil der Software abbilden. In der Konsequenz kann \textsc{Renew} nicht automatisch nachprüfen, ob alle benötigten Drittanbieter-Bibliotheken integriert und mitgeliefert worden sind, damit die Software für die Ausführung bereit ist.\newline
+			Auch wenn die Plugin Abhängigkeit in der \textit{plugin.cfg} existieren, beinhalten die Konfigurationsdatei keine Drittanbieter-Bibliotheken, die ein wichtiger Bestandsteil der Software abbilden. In der Konsequenz kann \textsc{Renew} nicht automatisch nachprüfen, ob alle benötigten Drittanbieter-Bibliotheken integriert und mitgeliefert worden sind, um die Software für die Ausführung zu validieren.\newline
 			% nachteile Homogene Umgebung
 			Des Weiteren besitzt die \textit{plugin.cfg} ausschließlich die Information über die Laufzeitumgebung, die sich gegenüber der Entwicklungsumgebung unterscheiden kann. Denn, die Entwickler arbeiten auf einer bestens eingerichteten Maschine mit allen nötigen Bibliotheken und Abhängigkeit, die in der Zielumgebung zu meist nicht existieren. Um der Diskrepanz des Ausführungskontextes entgegen zu wirken, wird eine Richtlinie benötigt, die den Kontext einer Applikation beschreibt. Leider wird dieses Verhalten nicht von der \textit{plugin.cfg} unterstützt. 
 
 		\subsubsection{Die Stärken der module-info.java} \label{sub:module-info.java}
 			%  problemstellung der module-info.java (das und dies war nicht toll und deswegen)
-			Die Java Module wurden entwickelt, um die Codebasis beherrschbar, flexibel und ersetzbar zu gestalten. Demzufolge verfolgt der Modularisierungsansatz und das Plugin Konzept ein ähnlicher Herangehensweise. Der Modularisierungsansatz nutzt die \textit{module-info.java} Konfigurationsdatei, die die \textit{plugin.cfg} Konfiguration aufgreift und erweitert. \newline
+			Die Java Module wurden entwickelt, um die Codebasis beherrschbar, flexibel und austauschbar zu gestalten. Demzufolge verfolgt der Modularisierungsansatz und das Plugin Konzept eine ähnliche Herangehensweise. Der Modularisierungsansatz nutzt die \textit{module-info.java} Konfigurationsdatei, die die Information aus der \textit{plugin.cfg} aufgreift und erweitert. \newline
 			\begin{figure}[h!]
 			  \centering
 			  \includegraphics[width=0.6\textwidth]{material/images/m-info.pdf}
@@ -175,14 +175,49 @@
 			  \label{fig:module_info}
 			\end{figure}
 
-			Der Unterschied zwischen der \textit{module-info.java} und der \textit{plugin.cfg} wird bei der ersten Betrachtung sofort ersichtlich, denn die \textit{module-info.java} schränkt den Zugriffsraum auf das Modul ein, indem nur ausgewählte Schnittstellenpakete geöffnet werden, die darüber hinaus von jedem oder nur von auserwählten Konsumenten genutzt werden können.\newline
+			Der Unterschied zwischen der \textit{module-info.java} und der \textit{plugin.cfg} wird bei der ersten Betrachtung sofort ersichtlich, denn die \textit{module-info.java} schränkt den Zugriffsraum auf das Modul ein, indem nur ausgewählte Schnittstellenpakete geöffnet werden, die darüber hinaus von jedem oder nur von auserwählten Konsumenten genutzt werden können. In der Abbildung \ref{fig:module_info} wird die Funktion des \textit{formalism} Plugins über das Paket \textit{de.renew.formalism.function} für die \textsc{Renew} \textit{misc} und \textit{feature structure} Plugins freigegeben. \newline
 			Somit enthält jedes Plugin-Modul einen verpflichtenden Kommunikationsvertrag, mit dem das Modul mit seiner Umgebung kommuniziert.\newline
-			Die verpflichtende Eigenschaft ist neu für \textit{Renew}, da die \textit{plugin.cfg} bislang nur eine optionale Beschriftung trägt und Fehler oder Mängel zu einem späten Zeitpunkt ungünstig auftreten lässt. Um dem entgegen zu wirken, greift Java direkt in das Projekt ein und führt die benötigten statischen Analysen durch, bevor die Applikation kompiliert und ausgeführt wird. Die Inspektion ist in Java integriert und stellt sicher, dass alle Abhängigkeiten zur Kompilations- sowie Laufzeit vorhanden sind. Das genannte Verhalten ist mit der \textit{plugin.cfg} nicht umsetzbar, da diese nicht Teil von der Java ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. \newline
-			Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken kann zu hunderten Einträgen führen, die an der Stelle keine Beitrag zu der Struktur leisten. \newline
-
+			Die verpflichtende Eigenschaft ist neu für \textit{Renew}, da die \textit{plugin.cfg} bislang nur eine optionale Beschriftung trägt und Fehler oder Mängel zu einem späten Zeitpunkt ungünstig auftreten lässt. Um dem entgegen zu wirken, greift Java direkt in das Projekt ein und führt die benötigten statischen Analysen durch, bevor die Applikation kompiliert und ausgeführt wird. Die Inspektion ist in Java integriert und stellt sicher, dass alle Abhängigkeiten zur Kompilations- sowie Laufzeit verfügbar sind. Die Validation mit der \textit{plugin.cfg} ist leider nicht möglich, da diese nicht Teil von Java ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. \newline
+			Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und bestimmte Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls implizit an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken, kann zu hunderten Einträgen führen, die an der Stelle keinen Beitrag zu der Struktur leisten. 
 
 		\subsubsection{Direkter Vergleich} \label{sub:Direkter_Vergleich}
 		% bild vergleich 
+		\begin{table}
+		\centering
+		\begin{tabular}{l|l}
+			\textbf{module-info.java} & \textbf{plugin.cfg} \\
+			\hline
+			\\[-1em]
+			 Plugin Abhängigkeiten & Plugin Abhängigkeiten \\
+			 \\[-1em]
+		     Bibliothek Abhängigkeiten & \\
+		     \\[-1em]
+		     Entwicklung- und Laufzeitanalyse & Laufzeitanalyse \\
+		     \\[-1em]
+		     Wesentlich & Redundant \\
+		     \\[-1em]
+		     Funktonangebot & Codeangebot \\
+		     \\[-1em]
+		     Verpflichtend & Optional \\
+		     \\[-1em]
+		     Einschränkender Zugriff & Offener Zugriff \\
+		     \\[-1em]
+		     Gekapselt und Eindeutig & Gemischt und Verteilt \\
+		     \\[-1em]
+		     Integrierte Services & Renew Services \\
+		     \\[-1em]
+		     Namen & Namen \\
+		     \\[-1em]
+		      & Beschreibung \\
+		      \\[-1em]
+		      & Eigenschaften \\
+		      \\[-1em]
+		      & Version \\
+		      \\[-1em]
+
+
+		\end{tabular}
+		\end{table}
 
 	\subsection{Zyklen Frei} % Plugisn unter einander sind zyklen frei, das plugin selbst ist es nicht  
 		Mit den zyklenfreien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale \textsc{Renew} Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklen Freiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
