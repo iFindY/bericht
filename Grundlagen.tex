@@ -236,7 +236,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
        }
     \end{minipage}
     \caption{Gradle Konfiguration}
-    \label{fig:gradle_project}
+    \label{fig:gradle_project_structure}
   \end{figure}
 
   Nach dem Anstoßen des Ausführung Skripts, wird Gradle konfiguriert und setzt eine bestimmte Zielversion für die Ausführung fest. Dies geschieht innerhalb der \textit{gradle/wrapper} Ordnerstruktur und initiiert Gradle für die Ausführung. Als nächstes sammelt Gradle die Information über alle Teilnehmer der Projektorganisation und legt eine globale Projektstruktur für die Ausführung fest. Dafür wird in der Initialisierungsphase die \textit{settings.gradle} der Projekte und die Lokale \textit{init.gradle} Konfigurationsdatei ausgelesen. Diese bestimmen Umgebungsvariablen, Eigenschaften und persönlichen Informationen. Des Weiteren werden teilnehmende Projekte gesetzt und instantiiert.\newline

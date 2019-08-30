@@ -334,10 +334,10 @@
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-module-info.pdf}
 	  \caption{Kompilation Abhängigkeiten}
-	  \label{fig:deps}
+	  \label{fig:mod_deps}
 	\end{figure}
 
-	Der neu entstandene Graf wurde im Vergleich zu dem Grafen aus der Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader} Projekt. Des Weiteren sind auf der Abbildung \ref{fig:deps} keine Zyklen in der minimalen Version zu beobachten und dementsprechend müssen auch keine weiteren Anpassungen durchgeführt werden. \bigbreak
+	Der neu entstandene Graf wurde im Vergleich zu dem Grafen aus der Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader} Projekt. Des Weiteren sind auf der Abbildung \ref{fig:mod_deps} keine Zyklen in der minimalen Version zu beobachten und dementsprechend müssen auch keine weiteren Anpassungen durchgeführt werden. \bigbreak
 
 	Die Migration von der minimalen Version von \textsc{Renew} wird von den \textit{Loader, Util} und \textit{Windowmanagment} Plugin eingeleitet. Diese besitzen keine Abhängigkeiten innerhalb der Plugin Menge und brauchen keinen Zugriff auf den Klassenpfad nachdem sie sich auf dem Modulpfad befinden. Im Gegensatz dazu, behalten Plugins, die sich auf dem Klassenpfad befinden und als ein unbenanntes Modul interpretiert werden, alle Zugriffsrechte auf die interne Struktur migrierter Plugins, wie bereits in den Abschnitt \ref{fig:modacc} beschrieben wurde.\bigbreak
 
@@ -419,7 +419,7 @@
 	  \centering
 	  \includegraphics[width=0.4\textwidth]{material/images/gui_config.png}
 	  \caption{Statische Konfiguration}
-	  \label{fig:remote_config}
+	  \label{fig:gui_config}
 	\end{figure}
 
 	Des Weiteren wird klar, dass die \textsc{Renew} Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt Plugins, die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das \textit{Util} Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
@@ -449,7 +449,7 @@
 	  \centering
 	  \includegraphics[width=0.8\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
 	  \caption{Minimale modulare \textsc{Renew} Version}
-	  \label{fig:trans_config}
+	  \label{fig:fin_res}
 	\end{figure}
 % Kritik: Module brauchen explezite schnittstellen, in unseren Fall wurde lediglich die benötigte Logik für die nutzung geöffnet.
 % Gradle: Trennen der Klassenpfade hilft die Struktur zu verwalten automatic, plugin, runtime, compile, api und implimentation. 

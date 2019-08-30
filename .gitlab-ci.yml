@@ -8,6 +8,6 @@ build:
     expire_in: 1 week
     when: on_success
   script:
-    - pdflatex -interaction=nonstopmode Thesis.tex
+    - bibtex Thesis;pdflatex -interaction=nonstopmode Thesis.tex
   tags:
     - latex
