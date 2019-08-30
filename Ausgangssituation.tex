@@ -177,50 +177,47 @@
 
 			Der Unterschied zwischen der \textit{module-info.java} und der \textit{plugin.cfg} wird bei der ersten Betrachtung sofort ersichtlich, denn die \textit{module-info.java} schränkt den Zugriffsraum auf das Modul ein, indem nur ausgewählte Schnittstellenpakete geöffnet werden, die darüber hinaus von jedem oder nur von auserwählten Konsumenten genutzt werden können. In der Abbildung \ref{fig:module_info} wird die Funktion des \textit{formalism} Plugins über das Paket \textit{de.renew.formalism.function} für die \textsc{Renew} \textit{misc} und \textit{feature structure} Plugins freigegeben. \newline
 			Somit enthält jedes Plugin-Modul einen verpflichtenden Kommunikationsvertrag, mit dem das Modul mit seiner Umgebung kommuniziert.\newline
-			Die verpflichtende Eigenschaft ist neu für \textit{Renew}, da die \textit{plugin.cfg} bislang nur eine optionale Beschriftung trägt und Fehler oder Mängel zu einem späten Zeitpunkt ungünstig auftreten lässt. Um dem entgegen zu wirken, greift Java direkt in das Projekt ein und führt die benötigten statischen Analysen durch, bevor die Applikation kompiliert und ausgeführt wird. Die Inspektion ist in Java integriert und stellt sicher, dass alle Abhängigkeiten zur Kompilations- sowie Laufzeit verfügbar sind. Die Validation mit der \textit{plugin.cfg} ist leider nicht möglich, da diese nicht Teil von Java ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. \newline
-			Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und bestimmte Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls implizit an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken, kann zu hunderten Einträgen führen, die an der Stelle keinen Beitrag zu der Struktur leisten. 
+			Die verpflichtende Eigenschaft ist neu für \textit{Renew}, da die \textit{plugin.cfg} bislang nur eine optionale Beschriftung trägt und Fehler oder Mängel zu einem späten Zeitpunkt ungünstig auftreten lässt. Um dem entgegen zu wirken, greift Java direkt in das Projekt ein und führt die benötigten statischen Analysen durch, bevor die Applikation kompiliert und ausgeführt wird. Die Inspektion ist in Java integriert und stellt sicher, dass alle Abhängigkeiten zur Kompilations- sowie Laufzeit verfügbar sind und keine von diesen eine Zyklus hervorruft.\newline
+			Die Validation mit der \textit{plugin.cfg} ist leider nicht möglich, da sie nicht Teil der Java Plattform ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und bestimmte Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls implizit an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken, kann zu hunderten Einträgen führen, die an der Stelle keinen Beitrag zu der Struktur leisten. 
 
 		\subsubsection{Direkter Vergleich} \label{sub:Direkter_Vergleich}
-		% bild vergleich 
-		\begin{table}
-		\centering
-		\begin{tabular}{l|l}
-			\textbf{module-info.java} & \textbf{plugin.cfg} \\
-			\hline
-			\\[-1em]
-			 Plugin Abhängigkeiten & Plugin Abhängigkeiten \\
-			 \\[-1em]
-		     Bibliothek Abhängigkeiten & \\
-		     \\[-1em]
-		     Entwicklung- und Laufzeitanalyse & Laufzeitanalyse \\
-		     \\[-1em]
-		     Wesentlich & Redundant \\
-		     \\[-1em]
-		     Funktonangebot & Codeangebot \\
-		     \\[-1em]
-		     Verpflichtend & Optional \\
-		     \\[-1em]
-		     Einschränkender Zugriff & Offener Zugriff \\
-		     \\[-1em]
-		     Gekapselt und Eindeutig & Gemischt und Verteilt \\
-		     \\[-1em]
-		     Integrierte Services & Renew Services \\
-		     \\[-1em]
-		     Namen & Namen \\
-		     \\[-1em]
-		      & Beschreibung \\
-		      \\[-1em]
-		      & Eigenschaften \\
-		      \\[-1em]
-		      & Version \\
-		      \\[-1em]
+			Im Folgende wird eine Tabelle mit Eigenschaften abgebildet, die Gemeinsamkeiten und Unterschiede der beiden Konfigurationsdatei darstellt. Dazu zählt die Verwaltung der Abhängigkeiten, 
+			% bild vergleich 
+			\begin{table}[!h]
+			\centering
+			\begin{tabular}{l|l}
+				\textbf{module-info.java} & \textbf{plugin.cfg} \\
+				\hline
+				\\[-1em]
+				Plugin Abhängigkeiten & Plugin Abhängigkeiten \\
+				\\[-1em]
+			    Bibliothek Abhängigkeiten & \\
+			    \\[-1em]
+			    Entwicklung- und Laufzeitanalyse & Laufzeitanalyse \\
+			    \\[-1em]
+			    Wesentlich & Redundant \\
+			    \\[-1em]
+			    Funktonangebot & Codeangebot \\
+			    \\[-1em]
+			    Plattform Verpflichtend & Plattform Optional \\
+			    \\[-1em]
+			    Einschränkender Zugriff & Offener Zugriff \\
+			    \\[-1em]
+			    Gekapselt und Eindeutig & Gemischt und Verteilt \\
+			    \\[-1em]
+			    Integrierte Java Services & Renew Services \\
+			    \\[-1em]
+			    Namen & Namen \\
+			    \\[-1em]
+			    & Beschreibung \\
+			    \\[-1em]
+			    & Eigenschaften \\
+			    \\[-1em]
+			    & Version \\
+			    \\[-1em]
+			\end{tabular}
+			\end{table}
 
-
-		\end{tabular}
-		\end{table}
-
-	\subsection{Zyklen Frei} % Plugisn unter einander sind zyklen frei, das plugin selbst ist es nicht  
-		Mit den zyklenfreien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale \textsc{Renew} Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklen Freiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
 
 	\subsection{Service Loader} 
 		Der \textsc{Renew} Plugin-Manager ist der Kern der Applikation und verbindet alle Plugins und erforderliche Drittanbieter-Bibliotheken miteinander. Die geschickte Umsetzung entkoppelt Komponenten voneinander und erlaubt das einfache Hinzufügen sowie Entfernen von Plugins, ohne die bestehende Architektur zu verändern. Die notwendigen Werkzeuge, die im Grundlagenkapitel besprochen wurden, ermöglichten die Umsetzung der dynamische Plugin Kopplung. \bigbreak
@@ -234,9 +231,9 @@
 	% DAG der Module 
 		Der \textit{Plugin Manager} ist verantwortlich für das Erfassen und Einlesen der \textsc{Renew} Codebasis in dem Arbeitsspeicher. Die Reihenfolge für die Plugin-Architektur ist strikt, da bestimmte Plugins gewisse Drittanbieter sowie Plugin-Bibliotheken brauchen. Wenn die Reihenfolge nicht stimmt werden benötigte Klassen nicht gefunden und die Applikation bricht mit einem Fehler ab. Daher ist das Laden der Drittanbieter-Bibliotheken und das anschließende Laden der Plugins in der richtigen Reihenfolge eine kritische Aufgabe. \bigbreak
 
-		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernimmt. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
+		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernehmen kann. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Im Gegensatz dazu, wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
 
-		Damit übernimmt das Modulsystem von Java die Erstellung der richtigen Einlese Reihenfolge der Plugins als einen gerichteten azyklischen Graphen und übernimmt eine weitere interne Aufgabe.
+		Damit übernimmt das Modulsystem von Java die Erstellung der richtigen Einlesereihenfolge der Plugins als einen gerichteten azyklischen Graphen und realisiert somit eine interne Aufgabe des Plugin-Managers.
 	\subsection{Modul Schichten}\label{sub:module_layer}
 	
 \section{Anforderungsanalyse} 
@@ -303,6 +300,8 @@
 
 
 
+%	\subsection{Zyklen Frei} % Plugisn unter einander sind zyklen frei, das plugin selbst ist es nicht  
+%		Mit den zyklenfreien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale \textsc{Renew} Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklen Freiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
 %		- Plugin Gruppen verwalten ist in sich eine Herausforderung, da jedes Plugin kritisch für die Ausführung ist. 
 %		- Module verwalten wird noch wichtiger. 
 %		- Die Codebasen für unterschiedliche Module muss innerhalb und außerhalb(globale Einstellungen und Abhängigkeiten) eines Plugins verwaltet werden
