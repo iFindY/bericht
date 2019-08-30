@@ -181,7 +181,7 @@
 			Die Validation mit der \textit{plugin.cfg} ist leider nicht möglich, da sie nicht Teil der Java Plattform ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und bestimmte Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls implizit an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken, kann zu hunderten Einträgen führen, die an der Stelle keinen Beitrag zu der Struktur leisten. 
 
 		\subsubsection{Direkter Vergleich} \label{sub:Direkter_Vergleich}
-			Im Folgende wird eine Tabelle mit Eigenschaften abgebildet, die Gemeinsamkeiten und Unterschiede der beiden Konfigurationsdatei darstellt. Dazu zählt die Verwaltung der Abhängigkeiten, 
+			Im Folgende wird eine Tabelle mit Eigenschaften abgebildet, die Gemeinsamkeiten und Unterschiede der beiden Konfigurationsdatei darstellt.
 			% bild vergleich 
 			\begin{table}[!h]
 			\centering
@@ -234,8 +234,12 @@
 		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernehmen kann. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Im Gegensatz dazu, wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
 
 		Damit übernimmt das Modulsystem von Java die Erstellung der richtigen Einlesereihenfolge der Plugins als einen gerichteten azyklischen Graphen und realisiert somit eine interne Aufgabe des Plugin-Managers.
+
+
 	\subsection{Modul Schichten}\label{sub:module_layer}
 	
+
+
 \section{Anforderungsanalyse} 
 	Indem der Java-JDK mit der neunten Version von Java modularisiert wurde, ändern sich die grundsätzlichen Funktionsrichtlinien der Plattform, die Konsequenzen für bestehende Systeme mit sich bringen. Denn das Modulsystem von Java führt eine obligatorische Kapselung der Code-Komponenten ein, die über erweiterte Sicherheitsmechanismen verfügen und nur über explizite Schnittstellen geladen und angesprochen werden können.\newline 
 	Diese Abschlussarbeit beschäftigt sich mit der Untersuchung von Anforderungen der modularisierten Java Plattform, sowie dem entsprechenden Aufwand für das Anpassen bestehender Systeme. \newline
