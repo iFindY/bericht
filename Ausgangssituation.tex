@@ -181,7 +181,7 @@
 			Die Validation mit der \textit{plugin.cfg} ist leider nicht möglich, da sie nicht Teil der Java Plattform ist und nur von dem \textsc{Renew} Plugin Manager zur Laufzeit verarbeitet wird. Des Weiteren unterstützt die \textit{module-info.java} transitive und statische Abhängigkeiten, die flexible Modul-Zugriffsrechte für die Nutzung weiterreichen und bestimmte Module für optional deklarieren. Dementsprechend wird der Kontext eines Plugin-Moduls implizit an seine Nutzer weitergereicht und macht das Lesen der benötigten Abhängigkeiten verständlich. Denn, die explizite Deklaration jedes benötigten Plugin-Moduls und der dazugehörigen Drittanbieter-Bibliotheken, kann zu hunderten Einträgen führen, die an der Stelle keinen Beitrag zu der Struktur leisten. 
 
 		\subsubsection{Direkter Vergleich} \label{sub:Direkter_Vergleich}
-			Im Folgende wird eine Tabelle mit Eigenschaften abgebildet, die Gemeinsamkeiten und Unterschiede der beiden Konfigurationsdatei darstellt.
+			Im Folgende wird eine Tabelle mit Eigenschaften abgebildet, die Gemeinsamkeiten und Unterschiede der beiden Konfigurationsdatei darstellt.\bigbreak
 			% bild vergleich 
 			\begin{table}[!h]
 			\centering
@@ -218,7 +218,7 @@
 			\end{tabular}
 			\end{table}
 
-
+	\newpage
 	\subsection{Service Loader} 
 		Der \textsc{Renew} Plugin-Manager ist der Kern der Applikation und verbindet alle Plugins und erforderliche Drittanbieter-Bibliotheken miteinander. Die geschickte Umsetzung entkoppelt Komponenten voneinander und erlaubt das einfache Hinzufügen sowie Entfernen von Plugins, ohne die bestehende Architektur zu verändern. Die notwendigen Werkzeuge, die im Grundlagenkapitel besprochen wurden, ermöglichten die Umsetzung der dynamische Plugin Kopplung. \bigbreak
 
@@ -227,18 +227,70 @@
 
 		Die Instanziierung der Plugins über das \textit{IPLugin} Interface verfolgt einen ähnlichen Ansatz und war somit seiner Zeit voraus. Jedoch hat Java aufgeholt und bietet eine leichtgewichtige und native Umsetzung des Registrierdienstes mit einer variablen Menge an möglichen Interface Implementationen von der \textsc{Renew} profitieren kann.   
 
-	\subsection{Plugin Manager}
-	% DAG der Module 
-		Der \textit{Plugin Manager} ist verantwortlich für das Erfassen und Einlesen der \textsc{Renew} Codebasis in dem Arbeitsspeicher. Die Reihenfolge für die Plugin-Architektur ist strikt, da bestimmte Plugins gewisse Drittanbieter sowie Plugin-Bibliotheken brauchen. Wenn die Reihenfolge nicht stimmt werden benötigte Klassen nicht gefunden und die Applikation bricht mit einem Fehler ab. Daher ist das Laden der Drittanbieter-Bibliotheken und das anschließende Laden der Plugins in der richtigen Reihenfolge eine kritische Aufgabe. \bigbreak
+	\subsection{Plugin Management}
+	% Das Plugin Konzpet 
+		Eine Plugin-Architektur ist eine Architektur, die externen Code aufruft, ohne alle Details der Codebasis im Voraus zu kennen. Um eine Kommunikation mit dem Kern aufnehmen zu können, müssen die Plugins einer Konvention folgen. Die Konvention wird als ein \textit{interface} umgesetzt welches beiden Kommunikationspartner umsetzen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht Kommunikationsvertrag zwischen den Plugins und dem Plugin-Manager. \bigbreak
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
+			\caption{UML Diagramm für das Plugin-Muster \cite{tubiblio36573}}
+			\label{fig:pluginUMLD}
+		\end{figure}
+	% Der Plugin Manager % einer der aufgaben 
+		Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus währender der Laufzeit. Die Struktur der Plugin-Architektur ist strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlese Reihenfolge der Plugins nicht stimmt, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
 
+		\subsubsection{Das Klassenlader System von \textsc{Renew}}
+			Die Umsetzung der \textsc{Renew} Plugin Architektur ist durch ein Klassenlader System umgesetzt, welches den \textsc{Renew} Code in drei Gruppen aufteilt und durch separate Klassenlader in die Applikation aufnimmt. Die Klassenlader verfolgen den empfohlenen und integrierten \textit{parant first} Ansatz, der in dem Kapitel \ref{sec:cls} diskutiert wurde und delegiert somit jede Anfrage zuerst an seinen übergeordneten Klassenlader bevor die Klassensuche selbständig durchgeführt wird. \newline
+			In der ersten Instanz wird die Basis etabliert, die den Plugin Manager sowie die Drittanbieter-Bibliotheken einliest und versorgt damit den darunter liegenden Plugin-Klassenlader mit Funktion. Der darunter liegende Plugin-Klassenlader lädt anschließend alle Plugins nach einender in der richtigen Reihenfolge ein und garantiert das Vorkommen jeder benötigten Plugin Klasse auf dem Klassenpfad, wenn diese benötigt wird. Zuletzt wird ein Dynamischer Klassenlader erstellt, der für das Simulieren der Petrinetze entsprechende Klassen und Ressourcen beim Ausführen einliest. \newline
+			Die Abbildung der ausformulierten Klassenlader Systems von \textit{Duvigneau} wird in der Abbildung \ref{fig:classLoadDuv} dargestellt. \newline
+			% Bild Klassloader 
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=0.6\textwidth]{material/images/klasslaoderDou.png}
+				\caption{Klassenlader System von \textsc{Renew} \cite{Duvigneau09}}
+				\label{fig:classLoadDuv}
+			\end{figure}
+
+			Welche Ziele hat die Umsetzung verfolgt? Wurde alle Ziele einer Plugin Architektur erreicht und gibt es noch Lücken in der Umsetzung und welche? Gibt es andere Systeme, die es besser machen. 
+			- PLugins sollen den Molothien brchen, um die Apllikation einfach erweitern zu können. 
+			- PLugins sollen austauschbar sein, nicht alle PLugins müssen der Applikation beitrterte.
+			- Plugins sollen dynamisch nachgeladen werden können. 
+			
+
+\newpage
 		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernehmen kann. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Im Gegensatz dazu, wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
 
 		Damit übernimmt das Modulsystem von Java die Erstellung der richtigen Einlesereihenfolge der Plugins als einen gerichteten azyklischen Graphen und realisiert somit eine interne Aufgabe des Plugin-Managers.
 
 
-	\subsection{Modul Schichten}\label{sub:module_layer}
-	
+	\subsection{Plugin Manger }\label{sub:module_layer}
+		% 1.	Was ist ein Plugin System und aus welchen Konstrukten besteht es? Welche Ziele verfolgt das genannte System und mit welchen Konzepten werden die Ziele Umgesetzt. 
+		%		-> Plugin Patern Bild 
+		Eine Plugin-Architektur ist eine Architektur, die externen Code aufruft, ohne alle Details dieses Codes im Voraus zu kennen. Um eine Kommunikation mit dem Kern aufnehmen zu können, müssen die Plugins einer Konvention folgen. Die Konvention wird als ein \textit{interface} umgesetzt welches beiden Kommunikationspartner bekannt ist. Das UML-Diagramm \ref{fig:pluginUML} veranschaulicht Kommunikationsvertrag zwischen den Plugins und dem Plugin-Manager. \newline
+			% \begin{figure}[h!]
+			%   \centering
+			%   \includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
+			%   \caption{UML Diagramm für das Plugin-Muster \cite{tubiblio36573}}
+			%   \label{fig:pluginUML}
+			% \end{figure}
 
+			2.	Wie wurde das Plugin Management System in Renew umgesetzt. Welche Ziele hat die Umsetzung verfolgt? Wurde alle Ziele einer Plugin Architektur erreicht und gibt es noch Lücken in der Umsetzung und welche? Gibt es andere Systeme, die es besser machen. 
+			-> Classloader System Bild 
+			3.	Wie unterstützt das Modulsystem die Plugin Architektur? Welche neue Konzepte und Werkzeuge wurden eingeführt, die hilfreich sind. Welche Ziele der Plugin Architektur und des Modulsystem überschneiden sich.
+			-> Schichten und Modulgraph Bild 
+			4	An welcher Stelle machen sich die Änderungen bemerkbar. Was muss getan werden, damit der Renew Plugin Manager die neuen Funktionen nutzen kann. Welche Aufgaben werden von der Java Plattform übernehmen und wie ändert sich  der Aufgabenbereich des Plugin Managers. 
+			->  Plugin Manager Schichten und Modulgraph 
+			5	Ein Umsetzungsbeispiel, das die Vorteile demonstriert. 
+			-> Eine Mögliche Umsetzung 
+
+
+
+
+
+Sie müssen vom Hauptprogramm oder -paket auf irgendeine Weise auffindbar und verwendbar sein, unabhängig davon, ob sie einer Bibliothekskonvention entsprechen und sich in einem bestimmten Verzeichnis befinden oder ob jemand eine Konfigurationsdatei bearbeiten muss, um auf sie zu verweisen.
+
+
+In diesem Muster wird das Entwerfen einer Anwendung zur Unterstützung des Plug-in-Konzepts erläutert, mit dem eine Anwendung zur Laufzeit um dynamisch geladene Module oder Klassen erweitert werden kann, die beim Kompilieren nicht bekannt sind.
 
 \section{Anforderungsanalyse} 
 	Indem der Java-JDK mit der neunten Version von Java modularisiert wurde, ändern sich die grundsätzlichen Funktionsrichtlinien der Plattform, die Konsequenzen für bestehende Systeme mit sich bringen. Denn das Modulsystem von Java führt eine obligatorische Kapselung der Code-Komponenten ein, die über erweiterte Sicherheitsmechanismen verfügen und nur über explizite Schnittstellen geladen und angesprochen werden können.\newline 
