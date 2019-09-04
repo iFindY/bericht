@@ -261,37 +261,6 @@
 			
 
 
-			% Ziele 
-			+ Ziel gesetzt : Einfache dynamische Rekonfiguration Der Prototyp soll das Hinzufügen und Entfernen von Plugins während der Laufzeit unterstützen.
-			% Ergebnisse 
-			+ Trotz oder gerade aufgrund des Anspruchs, eine praxistaugliche Implementierung erreichen zu wollen, wurde bei der Entwicklung des Prototypen anstelle einer sauberen, aber umständlichen objektorientierten Umsetzung der architektonischen Vision eine schnellere Variante implementiert, welche nur die nötigste Funktionalität bereitstellt. % schnelle variante wiel kompleziert 
-			+ Für den praktischen Einsatz als IDE hat sich diese Classloader-Architektur als ausreichend herausgestellt, obwohl sie das Entladen von Plugin-Klassen nicht unterstützt. % einfache variante ok kann aber nicht alles 
-			+ Die damit verbundene Entkopplung der Plugin-Funktionalität ist auch ohne das Entladen der Klassen durchführbar und stellt den Anwender in vielen Fällen bereits zufrieden. Allerdings führt die auf das Entfernen folgende Integration einer modifizierten Variante des Plugins zu unerwünschten Effekten, da noch die alten Klassen verwendet werden. % nutzer seghen nicht was mit den PLugins passiert allso egal. Problem beim aktualisieren der PLugins 
-			 +  Im Einsatz als eher kurzfristig laufender Editor ist dieses Manko hinnehmbar, da ein Anwender gegebenenfalls die Anwendung beenden und neu starten kann, um die Reste eines entfernten Plugins endgültig zu beseitigen. Im Einsatz als langfristig laufende Ausführungsumgebung für petrinetzbasierte Softwaresysteme stellt dieses Manko jedoch eine erhebliche Beeinträchtigung der Systemstabilität dar. % auf kurze zeit ok af lange zeit schlecht 
-
-
-			% Annamhen 
-			+ Der in Abschnitt 5.2 vorgestellte Prototyp einer in Java implementierten Plugin-Verwaltung weist einige Unzulänglichkeiten im Bezug auf das dynamische Laden und Konfigurieren eines modularen Systems auf, welche im OSGi-Rahmenwerk detailliert und ausgereift gelöst sind.	 %  ich weis ist nicht toll aber mit OSGi soll es funktionieren  
-			+ Die Bundle-Verwaltung des OSGi-Rahmenwerkes [Module layer, siehe OSG06a, Kapi- tel 3] ist deutlich stärker auf dynamische Rekonfigurierbarkeit des Systems ausgelegt als die Plugin-Verwaltung des in Abschnitt 5.2 
-			vorgestellten Java-Prototypen, welcher einige vereinfachende Annahmen zugrunde liegen. % da gibrts bundels die 
-			- Aufgrund des experimentellen Status’ des Prototypen erfordert die Konfiguration durch den Anwender derzeit detaillierte Kenntnisse über die Präzedenzen in der Star- treihenfolge der Plugins, so dass die Anforderung der einfachen Konfigurierbarkeit momentan nicht erfüllt is
-			-  Probleme in der Definition der Abhängigkeiten zwischen den Renew-Plugins sichtbar geworden, welche aufgrund der Unzulänglichkeiten des ersten Java-Pro- totypen nicht zu Tage traten
-			%das tun was wir brauchen 
-
-			% Probleme 
-			+ Keine Kapselung auf dem Klassenpfad obwohl eine klare Strukturen, um hinzufügbar oder entfernbare Systemkomponenten sauber vom restlichen System trennen zu können wünschenswert ist. 
-			+ Offene Systeme benötigen klare Strukturen, die das Information-Hiding-Prinzip befolgt, 
-			 um die hinzufügbare oder entfernbare Systemkomponenten sauber vom restlichen System trennen zu können.  
-			+  Dafür benötigen die Plugins Schnittstellenspezifikation, über die die interne Information nicht von Außen sichtbar ist.
-
-
-			 % PFad 
-			Welche Ziele hat die Umsetzung verfolgt? Wurde alle Ziele einer Plugin Architektur erreicht und gibt es noch Lücken in der Umsetzung und welche? Gibt es andere Systeme, die es besser machen. 
-			- PLugins sollen den Molothien brchen, um die Apllikation einfach erweitern zu können. 
-			- PLugins sollen austauschbar sein, nicht alle PLugins müssen der Applikation beitrterte.
-			- Plugins sollen dynamisch nachgeladen werden können. 
-			
-
 \newpage
 		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernehmen kann. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Im Gegensatz dazu, wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
 
