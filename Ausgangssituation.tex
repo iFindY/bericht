@@ -229,7 +229,7 @@
 
 	\subsection{Plugin Management}
 	% Das Plugin Konzpet 
-		Eine Plugin-Architektur ist eine Architektur, die externen Code aufruft, ohne alle Details der Codebasis im Voraus zu kennen. Um eine Kommunikation mit dem Kern aufnehmen zu können, müssen die Plugins einer Konvention folgen. Die Konvention wird als ein \textit{interface} umgesetzt welches beiden Kommunikationspartner umsetzen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht Kommunikationsvertrag zwischen den Plugins und dem Plugin-Manager. \bigbreak
+		Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diesen später entlädt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins der Spezifikation folgen, um eine Kommunikation mit dem Kern aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht den Kommunikationsvertrag zwischen den Plugins und dem Plugin-Manager. \bigbreak
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
@@ -237,12 +237,12 @@
 			\label{fig:pluginUMLD}
 		\end{figure}
 	% Der Plugin Manager % einer der aufgaben 
-		Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus währender der Laufzeit. Die Struktur der Plugin-Architektur ist strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlese Reihenfolge der Plugins nicht stimmt, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
+		Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus mit allen möglichen Plugin Zuständen währender der Laufzeit. Die Struktur der Plugin-Architektur ist strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlese Reihenfolge der Plugins nicht stimmt oder erwartete Plugins nicht präsent sind, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
 
 		\subsubsection{Das Klassenlader System von \textsc{Renew}}
 			Die Umsetzung der \textsc{Renew} Plugin Architektur ist durch ein Klassenlader System umgesetzt, welches den \textsc{Renew} Code in drei Gruppen aufteilt und durch separate Klassenlader in die Applikation aufnimmt. Die Klassenlader verfolgen den empfohlenen und integrierten \textit{parant first} Ansatz, der in dem Kapitel \ref{sec:cls} diskutiert wurde und delegiert somit jede Anfrage zuerst an seinen übergeordneten Klassenlader bevor die Klassensuche selbständig durchgeführt wird. \newline
-			In der ersten Instanz wird die Basis etabliert, die den Plugin Manager sowie die Drittanbieter-Bibliotheken einliest und versorgt damit den darunter liegenden Plugin-Klassenlader mit Funktion. Der darunter liegende Plugin-Klassenlader lädt anschließend alle Plugins nach einender in der richtigen Reihenfolge ein und garantiert das Vorkommen jeder benötigten Plugin Klasse auf dem Klassenpfad, wenn diese benötigt wird. Zuletzt wird ein Dynamischer Klassenlader erstellt, der für das Simulieren der Petrinetze entsprechende Klassen und Ressourcen beim Ausführen einliest. \newline
-			Die Abbildung der ausformulierten Klassenlader Systems von \textit{Duvigneau} wird in der Abbildung \ref{fig:classLoadDuv} dargestellt. \newline
+			In der ersten Instanz wird die Basis etabliert, die den Plugin Manager sowie die Drittanbieter-Bibliotheken einliest und versorgt damit den darunter liegenden Plugin-Klassenlader mit Funktion. Der Plugin-Klassenlader lädt anschließend alle Plugins nach einender in der richtigen Reihenfolge ein und garantiert das Vorkommen jeder benötigten Plugin Klasse auf dem Klassenpfad, wenn diese benötigt wird. Zuletzt wird ein Dynamischer Klassenlader erstellt, der für das Simulieren der Petrinetze entsprechende Klassen und Ressourcen beim Ausführen einliest. \newline
+			Die Abbildung der ausformulierten Klassenlader Systems von Michael Duvigneau wird in der Abbildung \ref{fig:classLoadDuv} dargestellt. \newline
 			% Bild Klassloader 
 			\begin{figure}[h!]
 				\centering
@@ -250,7 +250,42 @@
 				\caption{Klassenlader System von \textsc{Renew} \cite{Duvigneau09}}
 				\label{fig:classLoadDuv}
 			\end{figure}
+			Duvigneaus Java Prototyp \cite{Duvigneau09} sollte eine Plugin-Verwaltung anbieten, die Plugins einfach sowie dynamisch rekonfigurieren lässt und das Hinzufügen und Entfernen von Plugins während der Laufzeit ermöglicht. Da der Prototyp nur die Praxistauglichkeit demonstrieren sollte, wurde eine schnellere Variante implementiert, die nur die nötigste Funktionalität bereitstellt. Die Umsetzung der Klassenlader-Architektur aus der Abbildung \ref{fig:classLoadDuv} hat sich als ausreichend, jedoch nicht Mängelfrei herausgestellt. Die Umsetzung unterstützte eine essenzielle Charakteristika eines dynamischen Systems nicht, nämlich das Entladen der Plugin Codebasis aus der Applikation während der Laufzeit. Denn, die Plugins werden mit einem gemeinsamen Klassenlader in das System eingebunden, der keine Möglichkeit anbietet eine auserwählte Codebasis zu vergessen. Dementsprechend können Plugins, die mit einem gemeinsamen Klassenlader geladen worden sind, nicht mehr separat behandelt werden. Dies hat zur Folge, dass die Applikation während der Laufzeit ständig wächst und die Möglichkeit verliert Plugins während der Laufzeit zu aktualisieren. Somit ist man an einen Neustart angewiesen, der die initiale Codebasis zurücksetzt und Plugins aktualisiert. Daraus folgt eine erhebliche Beeinträchtigung der Wartbarkeit und der Systemstabilität für Systeme mit einem permanenten Betrieb. \bigbreak
+			Einer der vorgeschlagenen Lösungsansätze ist das Erstellen eines Klassenlader per Plugin und die Aufbereitung und Verwaltung der Kommunikation zwischen diesen. Da der mitgelieferte Klassenlader von Java nur einen übergeordnet Klassenlader akzeptiert, erfordert die Umsetzung eine eigene Klassenlader Implementation, die variable Elternkontenmenge akzeptiert und die \textit{parent first} Delegation intelligent umsetzt.\newline
+			Die genannte Umsetzung bedarf einen enormen Aufwand und viel Eigenimplementation. Eine Alternative bietet das \textit{OSGi} Rahmenwerk, welches auf dynamische Systeme ausgelegt ist und eine Komponenten basierte Entwicklung ermöglicht. Das \textit{OSGi} Rahmenwerk organisiert den Code in \textit{bundels}, die sich auf separaten \textit{OSGi} Klassenlader befinden und über eine Verknüpfung der \textit{bundels} eine Applikation modellieren. \newline
+			Die Umsetzung von \textit{OSGi} im \textsc{Renew} Kontext hat sich für schwierig erwiesen, da die Verwaltung der Plugins als \textit{OSGi bundles}, mit einem erweiterten Lebenszyklus und ihre Kommunikation, nicht den gewünschten Anforderungen der Plugin-Architektur entsprach \cite{Duvigneau09}. Demzufolge wurde die Java Umsetzung des Klassenlader Systems der \textit{OSGi} Umsetzung vorgezogen und bis zum jetzigen Standpunkt einwandfrei betrieben. \bigbreak
 
+			Mit der Einführung des Modulsystem von Java, ist Java fähig das genannt Problem anzugehen und bietet eine Alternative zu den beiden genannten Lösungsansätzen. Die Umsetzungsmöglichkeit der dynamischen Plugins Verwaltung wird im nächsten Kapitel der neu eingeführten Modulschichten diskutiert. 
+
+			\subsubsection{Plugin Management mit Modulschichten}\label{ssub:plugin_managment_mit_modulschichten}
+			
+
+
+			% Ziele 
+			+ Ziel gesetzt : Einfache dynamische Rekonfiguration Der Prototyp soll das Hinzufügen und Entfernen von Plugins während der Laufzeit unterstützen.
+			% Ergebnisse 
+			+ Trotz oder gerade aufgrund des Anspruchs, eine praxistaugliche Implementierung erreichen zu wollen, wurde bei der Entwicklung des Prototypen anstelle einer sauberen, aber umständlichen objektorientierten Umsetzung der architektonischen Vision eine schnellere Variante implementiert, welche nur die nötigste Funktionalität bereitstellt. % schnelle variante wiel kompleziert 
+			+ Für den praktischen Einsatz als IDE hat sich diese Classloader-Architektur als ausreichend herausgestellt, obwohl sie das Entladen von Plugin-Klassen nicht unterstützt. % einfache variante ok kann aber nicht alles 
+			+ Die damit verbundene Entkopplung der Plugin-Funktionalität ist auch ohne das Entladen der Klassen durchführbar und stellt den Anwender in vielen Fällen bereits zufrieden. Allerdings führt die auf das Entfernen folgende Integration einer modifizierten Variante des Plugins zu unerwünschten Effekten, da noch die alten Klassen verwendet werden. % nutzer seghen nicht was mit den PLugins passiert allso egal. Problem beim aktualisieren der PLugins 
+			 +  Im Einsatz als eher kurzfristig laufender Editor ist dieses Manko hinnehmbar, da ein Anwender gegebenenfalls die Anwendung beenden und neu starten kann, um die Reste eines entfernten Plugins endgültig zu beseitigen. Im Einsatz als langfristig laufende Ausführungsumgebung für petrinetzbasierte Softwaresysteme stellt dieses Manko jedoch eine erhebliche Beeinträchtigung der Systemstabilität dar. % auf kurze zeit ok af lange zeit schlecht 
+
+
+			% Annamhen 
+			+ Der in Abschnitt 5.2 vorgestellte Prototyp einer in Java implementierten Plugin-Verwaltung weist einige Unzulänglichkeiten im Bezug auf das dynamische Laden und Konfigurieren eines modularen Systems auf, welche im OSGi-Rahmenwerk detailliert und ausgereift gelöst sind.	 %  ich weis ist nicht toll aber mit OSGi soll es funktionieren  
+			+ Die Bundle-Verwaltung des OSGi-Rahmenwerkes [Module layer, siehe OSG06a, Kapi- tel 3] ist deutlich stärker auf dynamische Rekonfigurierbarkeit des Systems ausgelegt als die Plugin-Verwaltung des in Abschnitt 5.2 
+			vorgestellten Java-Prototypen, welcher einige vereinfachende Annahmen zugrunde liegen. % da gibrts bundels die 
+			- Aufgrund des experimentellen Status’ des Prototypen erfordert die Konfiguration durch den Anwender derzeit detaillierte Kenntnisse über die Präzedenzen in der Star- treihenfolge der Plugins, so dass die Anforderung der einfachen Konfigurierbarkeit momentan nicht erfüllt is
+			-  Probleme in der Definition der Abhängigkeiten zwischen den Renew-Plugins sichtbar geworden, welche aufgrund der Unzulänglichkeiten des ersten Java-Pro- totypen nicht zu Tage traten
+			%das tun was wir brauchen 
+
+			% Probleme 
+			+ Keine Kapselung auf dem Klassenpfad obwohl eine klare Strukturen, um hinzufügbar oder entfernbare Systemkomponenten sauber vom restlichen System trennen zu können wünschenswert ist. 
+			+ Offene Systeme benötigen klare Strukturen, die das Information-Hiding-Prinzip befolgt, 
+			 um die hinzufügbare oder entfernbare Systemkomponenten sauber vom restlichen System trennen zu können.  
+			+  Dafür benötigen die Plugins Schnittstellenspezifikation, über die die interne Information nicht von Außen sichtbar ist.
+
+
+			 % PFad 
 			Welche Ziele hat die Umsetzung verfolgt? Wurde alle Ziele einer Plugin Architektur erreicht und gibt es noch Lücken in der Umsetzung und welche? Gibt es andere Systeme, die es besser machen. 
 			- PLugins sollen den Molothien brchen, um die Apllikation einfach erweitern zu können. 
 			- PLugins sollen austauschbar sein, nicht alle PLugins müssen der Applikation beitrterte.
