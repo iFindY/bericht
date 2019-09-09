@@ -265,44 +265,27 @@
 			Mit der Integration der Module sowie Modulschichten in die Java Plattform, sollen die angesprochenen Probleme adressiert und gelöst werden. Aus diesem Grund kümmert sich das Modulsystem von Java um die Authentizität sowie Integrität des Modulinhalts und führt zusätzlich das Konzept der Modulschichten eine, die das Verwalten der System Modulbausteine übernehmen und den genauen Aufenthaltsort jedes Moduls sowie seiner zuständigen Verwaltungsinstanz kennt.\newline
 			Die Verwaltung des Modulinhalts und dessen Abhängigkeiten werden über die expliziten Schnittstellen angegeben  und über eine Konfiguration, die einen Teil der Modulschicht darstellt, validiert. Die Konfiguration erstellt einen Modul Abhängigkeitsgraphen, der aus einer gegebenen Verzeichnis Menge, einem auserwählten Wurzelmodul und einer optionalen Anzahl von untergeordneten Konfigurationen Modulbeziehungen herstellt. Die Konfiguration validiert und stellt sicher, dass alle benötigten Abhängigkeiten gefunden und aufgelöst werden, keine Zyklen durch das hinzufügen neuer Module entstehen und jedes Modul eindeutig jeder Suchanfrage zugeordnet werden kann. Somit überblickt die Konfiguration das Modulsetup und den Zustand ihre Schicht sowie der darunterliegenden Modulschichten. Dies hat zur Folge, dass Module nur einmal in der Schicht Konfiguration auftreten können und verhindert das Überladen von Modulfunktionalität.\newline
 			Die elastische Konfigurationseinstellung und die globale Konsistenz der Applikation ermöglichen eine verzweigten Delegation der Suchanfrage an bekannte Modulschichten und dessen Module, die zuvor Validiert und in die Applikation eingebettet worden sind. Somit kennt die Applikation alle Module sowie die dazugehörige Modulschichten und kann die Suchanfrage an die entsprechende Schicht weiterleiten, ohne ein Sicherheitsrisiko einzugehen.\newline
-			Die neu eingeführte verzweigte Delegation spielt eine große Rolle für das Plugin Konzept, denn die Plugins erweitern und werden von anderen zahlreichen Plugins erweitert. Das dynamische Verhalten der Plugins kann ohne Struktur und umfassende Sicherheitsmechanismen nicht mängelfrei in einem großen System bestehen.  Dementsprechend muss das Erweiterungsmodul von unerwarteten äußeren Einflüssen geschützt werden und vor dem Einbinden eine valide Strukturintegration nachweisen. Die genannten Anforderungen werden bestens von den Modulen und den Modulschichten abgedeckt, die mit der zusätzliche verzweigte Delegation neue Möglichkeiten der Java Plattform bieten.\newline
-			Im Folgenden wird eine Prototyp vorgestellt, der ein Plugin System simuliert, welches aus Modulen sowie  Modulschichten besteht und als ein Grundriss für die mögliche Umsetzung der nächsten \textsc{Renew} Version dienen könnte. \bigbreak
+			Die neu eingeführte verzweigte Delegation spielt eine große Rolle für das Plugin Konzept, denn die Plugins erweitern und werden von anderen zahlreichen Plugins erweitert. Das dynamische Verhalten der Plugins kann ohne Struktur und umfassende Sicherheitsmechanismen nicht mängelfrei in einem großen System bestehen.  Dementsprechend muss das Erweiterungsmodul von unerwarteten äußeren Einflüssen geschützt werden und vor dem Einbinden eine valide Strukturintegration nachweisen. Die genannten Anforderungen werden bestens von den Modulen und den Modulschichten abgedeckt, die mit der zusätzliche verzweigte Delegation neue Möglichkeiten der Java Plattform bieten.\bigbreak
+			Im Folgenden wird eine Prototyp vorgestellt, der ein Plugin System simuliert, welches aus Modulen sowie  Modulschichten besteht und als ein Grundriss für die mögliche Umsetzung der nächsten \textsc{Renew} Version dienen könnte. \newpage
 			
-\newpage
-		Das Modulsystem von Java bringt einen neuen Abschnitt in den Lebenszyklus einer Java Applikation, der diese wichtige Aufgabe des \textit{Plugin Managers} übernehmen kann. Jener erstellt vor dem Starten der Applikation einen gerichteten Graphen aus angeforderten Modulen sowie Bibliotheken und prüft dessen Existenz auf dem Modulpfad. Wenn diese nicht existieren, wird ein \textit{java.lang.module.FindException} Fehler geworfen. Im Gegensatz dazu, wenn alle Voraussetzungen für das Starten der Applikation erfüllt sind, beginnt die Applikation ihre Ausführung. \bigbreak
-
-		Damit übernimmt das Modulsystem von Java die Erstellung der richtigen Einlesereihenfolge der Plugins als einen gerichteten azyklischen Graphen und realisiert somit eine interne Aufgabe des Plugin-Managers.
-
-
-	\subsection{Plugin Manager }\label{sub:module_layer}
-		% 1.	Was ist ein Plugin System und aus welchen Konstrukten besteht es? Welche Ziele verfolgt das genannte System und mit welchen Konzepten werden die Ziele Umgesetzt. 
-		%		-> Plugin Patern Bild 
-		Eine Plugin-Architektur ist eine Architektur, die externen Code aufruft, ohne alle Details dieses Codes im Voraus zu kennen. Um eine Kommunikation mit dem Kern aufnehmen zu können, müssen die Plugins einer Konvention folgen. Die Konvention wird als ein \textit{interface} umgesetzt welches beiden Kommunikationspartner bekannt ist. Das UML-Diagramm \ref{fig:pluginUML} veranschaulicht Kommunikationsvertrag zwischen den Plugins und dem Plugin-Manager. \newline
-			% \begin{figure}[h!]
-			%   \centering
-			%   \includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
-			%   \caption{UML Diagramm für das Plugin-Muster \cite{tubiblio36573}}
-			%   \label{fig:pluginUML}
-			% \end{figure}
-
-			2.	Wie wurde das Plugin Management System in Renew umgesetzt. Welche Ziele hat die Umsetzung verfolgt? Wurde alle Ziele einer Plugin Architektur erreicht und gibt es noch Lücken in der Umsetzung und welche? Gibt es andere Systeme, die es besser machen. 
-			-> Classloader System Bild 
-			3.	Wie unterstützt das Modulsystem die Plugin Architektur? Welche neue Konzepte und Werkzeuge wurden eingeführt, die hilfreich sind. Welche Ziele der Plugin Architektur und des Modulsystem überschneiden sich.
-			-> Schichten und Modulgraph Bild 
-			4	An welcher Stelle machen sich die Änderungen bemerkbar. Was muss getan werden, damit der Renew Plugin Manager die neuen Funktionen nutzen kann. Welche Aufgaben werden von der Java Plattform übernehmen und wie ändert sich  der Aufgabenbereich des Plugin Managers. 
-			->  Plugin Manager Schichten und Modulgraph 
-			5	Ein Umsetzungsbeispiel, das die Vorteile demonstriert. 
-			-> Eine Mögliche Umsetzung 
-
-
-
-
-
-Sie müssen vom Hauptprogramm oder -paket auf irgendeine Weise auffindbar und verwendbar sein, unabhängig davon, ob sie einer Bibliothekskonvention entsprechen und sich in einem bestimmten Verzeichnis befinden oder ob jemand eine Konfigurationsdatei bearbeiten muss, um auf sie zu verweisen.
-
-
-In diesem Muster wird das Entwerfen einer Anwendung zur Unterstützung des Plug-in-Konzepts erläutert, mit dem eine Anwendung zur Laufzeit um dynamisch geladene Module oder Klassen erweitert werden kann, die beim Kompilieren nicht bekannt sind.
-
+			 \begin{figure}[h!]
+			   \centering
+			   \includegraphics[width=0.8\textwidth]{material/images/ModulLayerDepsDraw.pdf}
+			   \caption{Grundriss einer möglichen Plugin Architektur auf Basis der Modulschichten}
+			   \label{fig:ModSchichtKonzept}
+			 \end{figure}
+			
+			Ganz Oben in der Schichten Hierarchie befindet sich der \textit{Boot Layer}, dieser enthält die von Java zur Verfügung gestellten Module sowie unseren Einstiegspunkt der Applikation mit der statischen \textit{main} Methode. Der Einstiegspunkt der Applikation erstellt und verwaltet die Plugins über die zur Laufzeit  erstellten Modulschichten. Die darunterliegenden Schichten \textit{eins} und \textit{zwei} stellen zwei unterschiedliche Plugin Funktionalitäten dar, die dieselbe Bibliothek \textit{gson} in unterschiedlicher Version nutzen und die Möglichkeit des parallelen Betriebs illustrieren. Die Modulschicht \textit{drei} baut auf der \textit{zweiten} und \textit{dritten} Modulschichten auf und benötigt dessen Funktionalität für die eignen Implementation. Zum Beispiel könnte es die Funktion des \textit{GUI}-Plugins darstellen und die \textit{Util} sowie \textit{WindowManagment} Plugins aus der zweiten sowie dritten Modulschicht anfordert. Dementsprechend kann ein Plugin mithilfe der Modulschichten zwei oder mehr übergeordnete Schichten referenziert und auf ihre Funktionalität Konfliktfrei zugreifen.\newline
+			Da das \textit{Gui}-Plugin nicht auf allen \textsc{Renew}-Plugins aufbaut, sondern diese lediglich Koordiniert, muss die Logik, die in parallelen Modulschichten entstehen, für das \textit{Gui}-Plugin zugänglich gemacht werden. Dies wird mithilfe des Java \textit{ServiceLoader} umgesetzt, der für ein gegebenes Schnittstellen Modul alle zugänglichen Implementationen erfasst und als ein Service für die Ausführung dem \textit{Gui}-Plugin anbietet.\bigbreak
+			
+			
+			-> So ich bin hier fertig und fasse kurz alles zusammen.
+			
+			
+			  
+			 
+			
+		
 \section{Anforderungsanalyse} 
 	Indem der Java-JDK mit der neunten Version von Java modularisiert wurde, ändern sich die grundsätzlichen Funktionsrichtlinien der Plattform, die Konsequenzen für bestehende Systeme mit sich bringen. Denn das Modulsystem von Java führt eine obligatorische Kapselung der Code-Komponenten ein, die über erweiterte Sicherheitsmechanismen verfügen und nur über explizite Schnittstellen geladen und angesprochen werden können.\newline 
 	Diese Abschlussarbeit beschäftigt sich mit der Untersuchung von Anforderungen der modularisierten Java Plattform, sowie dem entsprechenden Aufwand für das Anpassen bestehender Systeme. \newline
