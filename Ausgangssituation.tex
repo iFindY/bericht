@@ -227,7 +227,7 @@
 
 		Die Instanziierung der Plugins über das \textit{IPLugin} Interface verfolgt einen ähnlichen Ansatz und war somit seiner Zeit voraus. Jedoch hat Java aufgeholt und bietet eine leichtgewichtige und native Umsetzung des Registrierdienstes mit einer variablen Menge an möglichen Interface Implementationen von der \textsc{Renew} profitieren kann.   
 
-	\subsection{Plugin Management}
+	\subsection{Plugin Management} \label{sec:pm}
 	% Das Plugin Konzpet 
 		Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diese zu einem später Zeitpunkt entfernt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins einem Kommunikationsvertrag eingehen und befolgen, um eine Kommunikation mit der Kernapplikation aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht die Beziehung zwischen den Plugins und dem Plugin-Manager der Kernapplikation. \bigbreak
 		\begin{figure}[h!]

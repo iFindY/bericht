@@ -1,9 +1,6 @@
 \chapter{Gesamt Evaluation}
 Dieses Kapitel evaluiert die gesetzten Anforderungen aus der Anforderungsanalyse sowie der Anforderungsspezifikation und bewertet die Migration auf das Modulsystem von Java.\bigbreak	
 
-% Übergang  
-
-
 Für den Ersatz der veralteten Projektorganisation des Quellcodes wird die geforderte Projektstruktur in ein Maven Standard Layout überführt, welches den Java Code von den Java Compiler-Compiler Code trennt und die dazugehörigen Ressourcen separat verwaltet. Zusätzlich wurden die interne Struktur der Plugin Pakete, die sich mit anderen Plugins überschneiden aufgelöst und umbenannt, um den Java Anforderung des Modulpfades zu entsprechen. Darüber hinaus wurde ein Modulname eingeführt, der nach der Java Konvention mit den Organisations- oder Applikationsdomäne beginnt und mit den Feature Namen endet. Der neue Modulname fasst den Quellcode eines Moduls zusammen und ermöglicht das Erstellen zusätzlicher Module innerhalb eines Plugins, die ein gemeinsames Ziel verfolgen. Des Weiteren spiegelt der Modulname die interne Paketstruktur wieder und gestaltet die Codebasis Leserlich und Verständlich, da die Entwickler sofort ablesen können, aus welchen Modulen die Klassen stammen und für welchen Zweck diese entwickelt worden sind.\newline
 Der Aufwand für die Umstrukturierung war wie erwartet groß, denn die Modernisierung der internen Struktur eines Elements aus einem gekoppelten Verband diverse Folgen für die Zugriffe auf dessen Ressourcen und Funktionalität mit sich bringt. Demnach müssen alle Zugriffe auf das Plugin angepasst, die \textit{import} Angaben Plugin-Weit überarbeitet und die existierende Meta-Information angeglichen werden. In Folge dessen wurden Änderungen nötig, die Plugin-Übergreifend aufgelöst werden müssen und über den Rahmen des Plugins hinausgehen. Dies führt zu Unsicherheit, da Änderungen in mehre als hundert Klassen entstehen und die Konsistenz der kompletten Applikation in Frage stellt. \newline
 Im Endeffekt, ist die Umsetzung einer neuen Projektstruktur in einer ausgereiften Applikation eine wichtige und verantwortungsvolle Aufgabe, die  Nachhaltigkeit und Beständigkeit mit sich bringt.\bigbreak    
@@ -34,7 +31,6 @@ Die Migration des \textsc{Renew} Prototypen bediene sich dieser Idee und modular
 Das Kapitel der Analyse und Ausgangssituation vermittelt die Zielsetzung und den Umfang der Abschlussarbeit sowie die nachfolgende Durchführung. Es werden Gründe für eine Migration auf das Modulsystem von Java zusammengetragen, die daraus resultierenden Konsequenzen analysiert und anschließend die Anforderung an die bevorstehenden Prototypen behandelt. Zum Schluss wird ein aktueller Zustand der \textsc{Renew} sowie \textsc{Mulan} Software konstruiert, die im Nachfolgenden mit einem Umsetzungsplan die gesetzte Spezifikation erreichen sollen.\bigbreak
 
 In dem Kapitel des modularen \textsc{Renew} Prototypen geht es um die Migration von \textsc{Renew} auf das Modulsystem von Java, die eine kontinuierliche und beispielhafte Migration demonstriert. Diese beinhaltet einen Umsetzungsplan, der die Projektstruktur reorganisiert, das Gradle Werkzeug für die Organisation des Projekts einführt und anschließend das Modulsystem von Java auf die vorbereitete Code-Basis aufsetzt. Zum Schluss folgt eine Evaluation, die den Prototypen auf das Modulsystem von Java optimal abstimmt und Parallelen mit dem Gradle Werkzeug zieht.\bigbreak
-% proptotypen kapitel 
 
  Das Kapitel des \textsc{Mulan} Prototypen demonstriert mögliche Schwierigkeiten und den betreffenden Aufwand, der mit dem Austausch einer grundlegend Basis-Software in einem größeren System auftreten könnte. Da das Rahmenwerk \textsc{Mulan} auf dem \textsc{Renew} Simulator aufsetzt und ohne diesen nicht betriebsfähig ist, ist \textsc{Mulan} komplett an \textsc{Renew} während der Kompilation sowie der Laufzeit angewiesen. Daraus folgen Referenz- und Zugriffsschwierigkeiten, die global behoben werden müssen. Zusätzlich wird mit diesen Prototypen eine Übergangsszenario simuliert, das \textsc{Renew} mit dem Gradle Werkzeug und \textsc{Mulan} mit dem Ant Werkzeug zugleich ein funktionierendes Ergebnis liefern. \bigbreak
 
@@ -62,38 +58,30 @@ In dem Kapitel des modularen \textsc{Renew} Prototypen geht es um die Migration 
 	Das Problem der \textit{Split Packages} ist in \textsc{Renew} weit verbreitet. Durch die Reorganisation der gesplitteten Pakete ändert sich der Paketname der Klassen, die an vielen Stellen im Code mit einem direkten Verwies genutzt werden. Obwohl die Klassen Verweise gepflegt wurden, können bereits erstellte oder generierte Ressourcen auf der lokalen Maschine des Nutzers, wie zum Beispiel die \textsc{Renew} Netze Zeichnungen, nicht korrekt angezeigt werden, da diese auf den veralteten voll-qualifizierten Klassennamen referenzieren.\newline
 	Für die valide Darstellung der \textit{legacy} Zeichnungen, benötigt \textsc{Renew} eine Transferfunktion, die Ressourcen nach funktionsuntüchtigen Klassen abtastet und diese vor dem Öffnen substituiert.
 	
-	
  \subsubsection{Migration der Ant Tasks}
-
+	Die Umsetzung des BPMN Plugins beinhaltet die Aufnahme der benötigten Ant Ausführungsschritte in die neue Gradle Build-Umgebung, die Klassen und Ressourcen für den Betrieb generieren. Dank der nahtlosen Integration von Ant in Gradle, war es möglich die Ausführungsschritte mit minimalen Aufwand aus Gradle aufzurufen und die Funktionalität nahtlos in die Produktion der Bibliothek einzubinden. Jedoch wird der Aufruf über eine von Gradle zur Verfügung gestellte Ant Instanz durchgeführt, welche die Arbeitsweise von Ant voraussetzt. Somit muss \textit{Renew} Entwickler zwei Disziplinen beherrschen, die sich im selben Kontext befinden.\newline
+	Die Ant Ausführungsschritte können im \textit{Groovy}, \textit{Java} oder \textit{Kotlin} Format als \textit{Gradle Tasksk} umgesetzt werden, um die Prozedur ohne Einschränkungen, zusätzlichen Aufwand und Ant Kenntnisse betreiben zu können. 
+	
  \subsubsection{Zerlegung der Plugins}
+	Dank der Injektion der Moduleigenschaften in Plugins, können die Plugins in das Modulsystem von Java aufgenommen werden und verfügen nun über erweiterte Services, die das Verwalten und Validiert der Code-Bausteine automatisch übernehmen. In der Konsequenz ermöglichen die eingeführten Änderungen den Betrieb der Plugins auf dem Modulpfad, die nun auf alle neuen Features des Modulsystems zugreifen können. Dennoch können Plugins ihre Moduleigenschaften weiter schärfen, um die Idee der Modularisierung weiter zu verfolgen. \newline
+	Einer der zentrale Eingenschaften der Module ist ihre Größe, die einen klaren übersichtlichen Aufgabenbereich abdeckt und leicht verstanden sowie ausgetauscht werden kann. Diese Eigenschaft wird nicht von jedem Plugin-Modul umgesetzt, da bestimmte Plugins komplexe Aufgaben lösen und die komplette Verarbeitungskette intern umsetzen. Somit führt die Weiterentwicklung der Plugins zu großen und übersichtlichen Komponenten, die komplexe Aufgaben lösen und die Verarbeitungskette der Teilaufgaben unübersichtlich arrangieren, sodass die Logik nur schwer zu überblickbar ist. Denn, nicht jedes Detail kann sofort wahrgenommen und in der globalen Umsetzung richtig interpretiert werden.\newline
+	Um die Verarbeitungsschritte in einem größerem Plugin von einander zu differenzieren, müssen Plugins, die bereits als ein ganzes einzelnes Modul umgesetzt worden sind, in kleinere Aufgabenbereich aufgeteilt und in Moduleinheiten zerlegt werden. Infolgedessen entstehen gekapselte Verarbeitungsschritte die separat verstanden sowie ausgetauscht werden können und bringen damit  \textit{Renew} ein Schritt näher zu einer erstrebenswerte Perspektive der perfekten Umsetzung eines Modularen Systems. \newline
+	Die Aufteilung der großen Plugins in kleinere Moduleinheiten, ist eine individuelle und zeitintensive Aufgabe, die ein tiefgründiges und theoretisches Verständnis des Plugins erfordert. Denn, nicht jede mögliche Aufteilung der Code-Blöcke garantiert die Korrektheit der Plugins in ihrer neuen Form. \newline
+	In der Konsequenz konnte diese Abschlussarbeit die Aufgabe nicht Umsetzen. Trotzdem bleibt die Aufteilung der Plugins in kleine beherrschbare Module eine grundlegende Herausforderung, die in der Zukunft Thematisiert werden muss. 
+
+
  \subsubsection{Grundriss Prototyp}
+	Die momentane Umsetzung von \textsc{Renew} basiert auf einem Klassenlader System welches das Entladend der Plugin nicht erlaubt. In der Konsequenz bleiben die Klassen auf dem Klassenpfad, sind immer erreichbar und können nicht aktualisiert werden. Für das geschilderte Problem wurde ein Lösungsansatz \ref{sec:pm} vorgestellt, welcher auf dem Modulsystem von Java aufbaut und eine mögliche Umsetzung für den dynamischen Lademechanismus abbildet. Der vorgestellte Grundriss demonstriert wie die Plugins separat über Modulschichten verteilt und verwaltet werden können.\newline
+	Für die Integration des Grundrisses in das Plugin Management, muss der Plugin Manager eine neue Aufgabe übernehmen, nämlich die Aufteilung der Plugins auf die Modulschichten mit den dazugehörigen Drittanbieter Bibliotheken, die Verknüpfung der Modulschichten untereinander und das Laden und Entladen von bestehender oder neu hinzugekommener Plugin Schichten. Des Weiteren müssen für die UI optionale Plugins mit dem \textit{Service Loader} von Java erstellt und verknüpft werden, sodass die UI für sie unbekannte Plugins manipulieren kann. \newline
+	Die Aufgabe beschäftigt sich mit der Umsetzung lang gewünschten Verhalten, welches nun mit Java ohne zusätzlichen Drittanbieter Rahmenwerks angegangen werden kann. 
 
-
-\newpage 
-
-
--> Eingene Libs die kustoimzed wurden sollen in das eingen gitlab eingechecht und geholtle werden köenn um diese nicht im repo zu haben 
--> Für die netze die mit der alten version umgesetzt worden sind köntnen man eine transofrimier funtkoin einbanuen,  die in den alten bildenrn die klassenreferenzen anpsst
--> ant Task die genutzt werden in groovy oder koltin umwnadlen um sich komplet von ant zu lösen
-
-
--> Größere Plugins (CH) (Formalsim) sollen auf module aufgeteilt werde
--> Plugins sollen ihre schnittstellenb bedacht angeben und müssten demenstrechend angepast werden ( jetzt wird das nötigste freigegeeben)
-
--> Den tollen Grundriss Prototpyne für den Nächsten Prototypen umsetzen
- 
-
-++kann zu einer strengeren Klassifizierung von Plugin-Systemen ausgebaut werden.
-
-\newpage
-
-- Migtation Einleitungssatz 
-- Evaluation des Migrationsablaufes
-	- was wurde dafür getan (modul info)
-	-  nicht alle charactersitica von den good practice müssen umgesetzt werden
-	- wie wurde es getan (automatische expletize unbenannte module ( verweise auf Grundlagen Kapitel))
-	- was für folgen hatte sie (Konfiguration, Transitivität,Kontext, Schichten(Nattürliches ereigniss(hat sich selbst entwicklet)))
-	- Mehrwert  sichtbar ?
+%- Migtation Einleitungssatz 
+%- Evaluation des Migrationsablaufes
+%	- was wurde dafür getan (modul info)
+%	-  nicht alle charactersitica von den good practice müssen umgesetzt werden
+%	- wie wurde es getan (automatische expletize unbenannte module ( verweise auf Grundlagen Kapitel))
+%	- was für folgen hatte sie (Konfiguration, Transitivität,Kontext, Schichten(Nattürliches ereigniss(hat sich selbst entwicklet)))
+%	- Mehrwert  sichtbar ?
 
 
 
