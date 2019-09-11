@@ -1,21 +1,24 @@
 \chapter{\textsc{Mulan} Prototyp} \label{cha:mulan_settler}
 	Die Siedler oder Settler ist ein Aufbau-Strategiespiel, das unter Verwendung der \textsc{Mulan} (Multi-Agent Nets) Plattform aufgebaut und mit \textsc{Renew} simuliert werden kann. \bigbreak
+	
 	Für die Gestaltung der \textsc{Mulan}-Settler Variation wird zunächst der Aufbau der Gesamtumsetzung geschildert und der Zusammenhang der Akteure dargestellt. Anschließend werden Anforderungen erfasst, die der \textsc{Renew} Prototyp erfüllen muss, um die \textsc{Mulan}-Settler Variation der \textsc{Mulan} Plattform zu betreiben. Infolgedessen entstehen ein Implementierungsplan sowie ein Prototyp.
 
 \section{Anforderungen} \label{sec:anforderungen2}
-	Der \textsc{Mulan}-Settler \textsc{Renew} Prototyp soll die \textsc{Mulan} Plattform unterstützen, dabei sind nur die für Settler nötigen \textsc{Mulan}-Plugins einzubringen, die auf dem modularen \textsc{Renew} ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten. \newline 
-	Ziel des Prototyps ist die Darstellung des parallelen Betriebs von alten und neuen Softwarekomponenten, die mithilfe des Modulsystems von Java zusammengeführt werden können und in der Konsequenz als ein Beispiel für eine Migration ohne  Zeitdruck und Betriebsausfall dienen.
+	Der \textsc{Mulan}-Settler \textsc{Renew} Prototyp soll die \textsc{Mulan} Plattform unterstützen, dabei sind nur die für Settler nötigen \textsc{Mulan}-Plugins einzubringen, die auf dem modularen \textsc{Renew} ihre Funktion erfüllen sollen. Das Ergebnis soll eine UI präsentieren und geringe Interaktionsmöglichkeiten anbieten.\newline 
+	Ziel des Prototyps ist die Darstellung des parallelen Betriebs von alten und neuen Softwarekomponenten, die mithilfe des Modulsystems von Java zusammengeführt werden können und in der Konsequenz als ein Beispiel für eine Migration ohne Zeitdruck und Betriebsausfall dienen.
 
 \section{Spezifikation}
 	Für die Umsetzung des Prototyps muss die minimale \textsc{Renew} Version neu definiert werden, denn die \textsc{Mulan} Plattform im Kontext des Settler Plugins benötigt eine größere Menge an \textsc{Renew} Plugins. Dafür müssen die erforderliche \textsc{Mulan} Plugins für Settler ausgelesen werden, um anschließend die entsprechenden \textsc{Renew} Abhängigkeiten abzuleiten. \newline
 	Da die \textsc{Mulan} Plugins auf die Renew-Codebasis angewiesen sind und dessen Klassen für das Kompilieren, Verpacken und das Ausführen der Plugins benötigen, müssen die entsprechenden Referenzen in den \textsc{Mulan} Plugins, Ressourcen und \textit{Ant} Skripten angepasst werden. \newline
-	Die Settler und \textsc{Mulan} \textit{Ant} Skripte sollen nicht auf das \textit{Gradle} Werkzeug migriert werden, stattdessen werden lediglich Anpassungen an die neue \textsc{Renew} Struktur durchgeführt. \bigbreak
+	Die Settler und \textsc{Mulan} \textit{Ant} Skripte sollen nicht auf das \textit{Gradle} Werkzeug migriert werden, stattdessen werden lediglich Anpassungen an die neue \textsc{Renew} Struktur durchgeführt.\bigbreak
+	
 	Die Basis für diesen Prototypen sollen alle \textsc{Renew} sowie \textsc{Mulan} Plugins aus den Abhängigkeitsgraph des Settler Spiels bilden, die aus der \textit{plugin.cfg} Konfigurationsdatei für die Laufzeitumgebung und aus dem \textit{Ant} Skript für die Kompilierumgebung abgelesen werden können. 
 
 
 \section{Entwurf}
 	Zuerst werden Komponenten in Form der benötigten Plugins aus \textsc{Renew} und \textsc{Mulan} für das Settler Spiel erarbeitet und der Zusammenhang zwischen den Applikationen abgebildet.\bigbreak
 	Nachdem die Basis für das Settler Spiel erarbeitet wurde, müssen die \textit{Ant Skripte} an das modulare \textsc{Renew} angepasst werden, damit diese die passenden \textsc{Renew} Klassen für das Kompilieren interner \textsc{Mulan} Strukturen genutzt werden können. Zum Teil werden es interne Plugin Klassen sein und zum Teil werden kritische Ressourcen, wie \textit{Shadow Netze} mithilfe der \textsc{Renew} Basis übersetzt. Daher ist das nahtlose Verzahnen zwischen \textsc{Mulan} und dem modularen \textsc{Renew} Prototypen das Schlüsselkriterium der Umsetzung. \bigbreak
+	
 	Da das modulare \textsc{Renew} auf der Abschlussarbeit von Martin Wincierz \cite{Wincierz18} aufbaut, ist \textsc{Mulan} für die Oberflächenanpassung zu diesem Zeitpunkt nicht bereit und muss nicht nur an das modulare Renew, sondern auch an die erweiterte Oberfläche von \textsc{Renew} angepasst werden.\newline
 	Somit ist das Aufsetzen des Settler Spiels und der erforderlichen \textsc{Mulan} Plugins mit Schwierigkeiten verbunden die sorgfältig behandelt werden müssen. 
 
@@ -67,5 +70,5 @@
 	In der Abbildung \ref{fig:mul_prot} ist der fertige Prototyp abgebildet, der die Spezifikation erfüllt und als ein praktisches Beispiel für eine Migration einer existierenden Software dient. 
 
 \section{Evaluation}
-	Der entstandene Prototyp deckt ein Migrationsszenario ab, das innerhalb eines Projektes mit einer großen Codebasis entstehen könnte. Die Erwartung eines nahtlosen Austausches von \textsc{Renew} gegen das modulare \textsc{Renew} hat sich nicht ergeben. Alle Änderungen, die in den entstehenden Prototypen  resultieren, deuten auf einen mittleren Arbeitsaufwand für das initiale Aufsetzen von existierendem Alt-Code auf modulare Grundlagen. Es müssen Pfade, Ressourcen und Prozesse angepasst werden, die voraussichtlich alle Bereiche eine Applikation betreffen werden.\newline
+	Der entstandene Prototyp deckt ein Migrationsszenario ab, das innerhalb eines Projektes mit einer großen Codebasis entstehen könnte. Die Erwartung eines nahtlosen Austausches von \textsc{Renew} gegen das modulare \textsc{Renew} hat sich nicht ergeben. Alle Änderungen, die in den entstehenden Prototypen resultieren, deuten auf einen mittleren Arbeitsaufwand für das initiale Aufsetzen von existierendem Alt-Code auf modulare Grundlagen. Es müssen Pfade, Ressourcen und Prozesse angepasst werden, die voraussichtlich alle Bereiche eine Applikation betreffen werden.\newline
 	Nichtsdestotrotz ergaben sich auch positive Resultate. Denn, das Erweitern der existierenden Modulmenge ergab ein einfaches, übersichtliches und nachhaltiges Verfahren, welches sich in der erweiterten \textsc{Renew} minimal Konfiguration erwiesen hat. Mit jedem weiteren modularisierten Plugin wurde das Hinzufügen von Plugins zu der Gesamtumsetzung immer simpler und verlangte keinen bis minimalen Aufwand für die benötigen Abhängigkeiten. Zusätzlich steigt ab einem gewissen Punkt die Unterstützung für das Koppeln der Module mit einer intelligenten IDE und bildet somit ein neues, willkommenes Hilfsmittel.

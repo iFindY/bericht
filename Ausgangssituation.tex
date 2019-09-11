@@ -342,22 +342,3 @@
 	Die wichtigen Szenarien für das Erreichen des gesetzten Ziels werden mit zwei Prototypen umgesetzt. Der \textsc{Renew} Prototyp wird eine kontinuierliche  Modularisierung der Plugins und dessen Betriebsfähigkeit mit nur zum Teil Modularisierter Codebasis abdecken. Dazu gehört das Erstellen einer neuen Projektstruktur für die auserwählten Plugins und behandelt auserwählte Richtlinien, die mit dem Modulsystem von Java eingeführt worden sind. Für das Anfertigen von ausführbar Code, wird das Gradle Werkzeug integriert, das einen Kompilation Kontext für die neuen Module erstellt. Dazu gehörten eine Abhängigkeitsverwaltung sowie Projektkopplung. Um die Plugins mit einender als Module zu verzahnen, werden Schnittellen untersucht und in der \textit{module-info} Konfigurationsdatei in den Plugins verankert. In der folgenden Evaluation wird das Ergebnis evaluiert und sauber Aufbereitet.\bigbreak 
 
 	Im Gegensatz dazu behandelt der \textsc{Mulan} Prototyp die Zusammenführung bestehender Systeme mit modularisiertem Code. Für die Umsetzung werden nur für das Spiel Settler relevanten \textsc{Mulan} Plugins erarbeitet und auf die minimale \textsc{Renew} Version aufgesetzt. Doch zuerst muss eine erweiterte Analyse der minimalen \textsc{Renew} Version durchgeführt werden, um die benötigten \textsc{Renew} Plugins für das \textsc{Mulan} Rahmenwerk nachzurüsten. Im weiteren Verlauf behandelt dieser Prototyp Konsequenzen der Umstellung auf eine neue \textsc{Renew} Grundlage und der benötigten Ausführungsschritte für die Adaption. Die Evaluation bewertet den Aufwand für die Umsetzung des Prototypen. 
-
-
-
-%	\subsection{Zyklen Frei} % Plugisn unter einander sind zyklen frei, das plugin selbst ist es nicht  
-%		Mit den zyklenfreien Plugins werden Abhängigkeiten aufgelöst, die sich an falschen stellen befinden und mehr als eine Aufgabe Plugin übergreifend lösen möchten. Diese haken sich in den Betrieb der unmittelbar angrenzenden Komponenten ein und machen sich unverzichtbar für die Ausführung der Software. Die minimale \textsc{Renew} Version hat keine Laufzeitzyklen und erfüllt somit das Kriterium der Zyklen Freiheit, nichtsdestotrotz sind diese in der erweiterten Version nicht ausgeschlossen.
-%		- Plugin Gruppen verwalten ist in sich eine Herausforderung, da jedes Plugin kritisch für die Ausführung ist. 
-%		- Module verwalten wird noch wichtiger. 
-%		- Die Codebasen für unterschiedliche Module muss innerhalb und außerhalb(globale Einstellungen und Abhängigkeiten) eines Plugins verwaltet werden
-%		- Eine saubere Struktur ist das Schlüsselkriterium 
-%		- Die Module müssen sich gegenseitig kennen und dynamisch Zusammensetzbar sein.
-%		- Kontrolliertes Ausrollen der Module ist wichtig für Renew, daher ist ein unterstützendes Tool willkommen.
-%		- Diese muss Plugins auf Basis komplexer globaler Entscheidungen konstruieren. 
-%		- Daher muss das Tool flexibel gesonderte Aufgabenstellungen umsetzen und bei Bedarf die Meta-Inforamtio der Plugins bearbeiten. 
-%		- Dynamische Klassennamen Änderung ist möglich. (Es wird bereits Klasse Generiert basierend auf irgend etwas, jetzt können passende Module referenziert erstellt werden basierend auf etwas) 
-
-
- %	Die saubere Umsetzung behandelt den internen Aufbau, Namen- und Paketkonventionen sowie die Modulschnittstellen, die das Interagieren mit den Modulen einheitlich beschreiben und einen Vertrag mit den Nutzer eingehen. Zusätzlich muss der Inhalt eines Moduls klar festgelegt werden, da dieser nur einen Teil der zusammengesetzte Software abbildet und den Funktionsumfang beschränkt. \bigbreak 
-
- %Es müssen neue Konzepte integriert, Richtlinien befolgt und veraltete Konstrukte ersetze werde. Zu den genannten Problemen gehören Zyklen, Split-Packages und interne API-Zugriffe, die für den Umstieg sorgfältig gepflegt werden müssen.

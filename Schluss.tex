@@ -43,7 +43,47 @@ In dem Kapitel des modularen \textsc{Renew} Prototypen geht es um die Migration 
 
 \section{Ausblick} 
 
+	Mit dieser Arbeit wurde das Modulsystem von Java in die \textsc{Renew} Applikation integriert, organisiert und erforscht. Die Ergebnisse deuten auf eine Aufwertung der Plugin-Eigenschaften, mühelose Projektverwaltung sowie neue Möglichkeiten für die Umsetzung des Plugin-Managements. Dennoch konnten nicht alle auftretenden Fragen an Ort und Stelle geklärt werden.\bigbreak
+	Im Folgenden werden offene Fragestellungen gelistet, die für Konsistenz, Erweiterbarkeit und die Fortentwicklung von \textsc{Renew} relevant sind. 
+	
+ \subsubsection{Migration der Plugins}
+	\textsc{Renew} besteht aus einer großen Plugin Anzahl, die zu einem gewissen Grad mit einander verzahnt ist. Das  Zusammenfügen der Plugins geschieht mit verschiedenen Verfahren, zu unterschiedlichen Zeitphasen und an diversen Stellen. Somit ist die Modularisierung und das Erstellen der \textsc{Renew} Plugin-Basis keine triviale Aufgabe und benötigt mehr Zeit als zuerst angenommen. Aus diesem Grund konnten nicht alle \textsc{Renew} Plugins in das Modulsystem überführt werden und müssen in der Zukunft nachgepflegt werden. 
 
+ \subsubsection{Integration der Mulan Plugins}
+	Der \textsc{Mulan} Prototyp bestätigt den parallelen Betrieb von modularen sowie nicht modularem Code-Bausteinen. Nichtsdestotrotz muss die Agentenplattform in der Zukunft auf das Modulsystem von Java migriert werden und kann von der \textsc{Renew} Umsetzung profitieren.\newline 
+	Die \textsc{Mulan} Agenten Plattform orientiert sich an \textsc{Renew} und baut auf dem selben Plugin Konzept auf. Dies ermöglicht den Plugin Manager die \textsc{Renew} sowie die \textsc{Mulan} Plugins zu gleich zu verwalten. Daraus folgt eine strukturelle Ähnlichkeit, die mit dem Modulsystem von Java und Gradle ausgenutzt werden kann, indem dieselbe Projektstruktur aufgesetzt und von Gradle in den \textsc{Renew} Kontext für das Kompilieren mit aufgenommen wird.\newline
+	Dafür muss die Projektstruktur der \textsc{Mulan} Plugins an die \textsc{Renew} Umsetzung angeglichen und zusätzlich durch eine \textit{build.gradle} Konfigurationsdatei erweitert werden. Somit kann Gradle die globale Konfiguration an alle \textsc{Mulan} Plugins delegieren und jedes \textsc{Mulan} Plugin durch eine individuelle Konfigurationen individuell herrichten. 
+		
+ \subsubsection{Abhängigkeitsmanagement}
+	Eine wichtige mitgelieferte Fähigkeit von Gradle, ist die Abhängigkeitsverwaltung, die uns mit der passenden Bibliothek und der passenden Version aus dem Web versorgt. Die Abhängigkeitsverwaltung wurde mit den ersten Prototypen in \textsc{Renew} nur zum Teil integriert, da einige Drittanbieter Bibliotheken speziell an \textsc{Renew} angepasst wurden und nicht mehr aus dem globalen Maven-Repository heruntergeladen werden können. Dementsprechend werden die modifizierten Bibliotheken aus dem lokalen Verzeichnis und alle anderen aus dem Web referenziert.\newline
+	Für die saubere Umsetzung der Abhängigkeitsverwaltung, müssen die modifizierten Bibliotheken von dem Arbeitsbereich gehosted werden, um das Bandbreite der Internetverbindung zu entlasten und eine schnelles Auschecken des Projekts zu ermöglichen. 	
+	
+ \subsubsection{Rückwärts Kompatibilität}
+	Das Problem der \textit{Split Packages} ist in \textsc{Renew} weit verbreitet. Durch die Reorganisation der gesplitteten Pakete ändert sich der Paketname der Klassen, die an vielen Stellen im Code mit einem direkten Verwies genutzt werden. Obwohl die Klassen Verweise gepflegt wurden, können bereits erstellte oder generierte Ressourcen auf der lokalen Maschine des Nutzers, wie zum Beispiel die \textsc{Renew} Netze Zeichnungen, nicht korrekt angezeigt werden, da diese auf den veralteten voll-qualifizierten Klassennamen referenzieren.\newline
+	Für die valide Darstellung der \textit{legacy} Zeichnungen, benötigt \textsc{Renew} eine Transferfunktion, die Ressourcen nach funktionsuntüchtigen Klassen abtastet und diese vor dem Öffnen substituiert.
+	
+	
+ \subsubsection{Migration der Ant Tasks}
+
+ \subsubsection{Zerlegung der Plugins}
+ \subsubsection{Grundriss Prototyp}
+
+
+\newpage 
+
+
+-> Eingene Libs die kustoimzed wurden sollen in das eingen gitlab eingechecht und geholtle werden köenn um diese nicht im repo zu haben 
+-> Für die netze die mit der alten version umgesetzt worden sind köntnen man eine transofrimier funtkoin einbanuen,  die in den alten bildenrn die klassenreferenzen anpsst
+-> ant Task die genutzt werden in groovy oder koltin umwnadlen um sich komplet von ant zu lösen
+
+
+-> Größere Plugins (CH) (Formalsim) sollen auf module aufgeteilt werde
+-> Plugins sollen ihre schnittstellenb bedacht angeben und müssten demenstrechend angepast werden ( jetzt wird das nötigste freigegeeben)
+
+-> Den tollen Grundriss Prototpyne für den Nächsten Prototypen umsetzen
+ 
+
+++kann zu einer strengeren Klassifizierung von Plugin-Systemen ausgebaut werden.
 
 \newpage
 
