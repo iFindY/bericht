@@ -16,14 +16,14 @@
   Jede Java-Anwendung wird zuerst in einer für menschlich verständlichen Sprache geschrieben und anschließend in Byte-Code übersetzt. Infolgedessen ist der Code einsatzbereit für die Ausführung und wird an die virtuelle Maschine weiter gereicht.
 
   % Aufgabe des Klassenpfads 
-  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{Classapth} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. 
+  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{ClassPath} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. 
 
   % Ergebniss des Klassenpfad
   Nachdem der Klassenpfad für die entsprechenden Klassenlader gesetzt ist, kann das \textit{Klassenlader System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
 
   \begin{figure}[h]
     \includegraphics[width=\textwidth]{material/images/Classpath2.pdf}
-    \caption{Java Classpath}
+    \caption{Java ClassPath}
     \label{fig:cps}
   \end{figure}
 
@@ -35,7 +35,7 @@
 
   \begin{figure}[h]
     \includegraphics[width=\textwidth]{material/images/Classpath-Manifest2.pdf}
-    \caption{Jar Classpath}
+    \caption{Jar ClassPath}
     \label{fig:cpa}
   \end{figure}
 
@@ -219,7 +219,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
 
 \subsubsection{Aufbau}
   Die gradle Umgebung besteht aus mehreren Komponenten. Jede von den Komponenten wird in einem bestimmten Lebenszyklus von Gradle für das Erstellen der Applikation genutzt.\newline
-  Um Gradle zu starten, werden zwei Ausführbare Skripte mitgeliefert. Für die Ausführung auf dem \textit{Unix} basierte Systeme kann \textit{graldew} verwendet werden und für die Windows Ausführung ist das \textit{gralde.bat} Skript zuständig.\bigbreak
+  Um Gradle zu starten, werden zwei Ausführbare Skripte mitgeliefert. Für die Ausführung auf dem \textit{Unix} basierte Systeme kann \textit{gradlew} verwendet werden und für die Windows Ausführung ist das \textit{gradlew.bat} Skript zuständig.\bigbreak
   \begin{figure}[h!]
     \centering
     \begin{minipage}{7cm}
@@ -254,7 +254,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
   repositories {
       mavenCentral()
   }
-  // Projektabhángigkeiten
+  // Projektabhängigkeiten
   dependencies {
       compile('javax:javaee-web-api:8.0')
   }
