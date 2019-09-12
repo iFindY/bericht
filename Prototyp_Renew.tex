@@ -315,6 +315,8 @@
 
 	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{build.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagement Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
 
+	Ant spielt eine unerwartet wichtige Rolle für das erstlen der \textsc{Renew} Plugins. Denn, Ant verwaltet nicht nur das Kompilieren und Erstellen von ausführbaren Archiven, sondern ist zuständig für die Verwaltung der zusätzlichen Ausführungschritte, die \textsc{Renew} Code sowie Resourcen generieren. Zum Teil sind es Drittanbieter Werkzeuge, wie der \textit{JavaCC} Compile und zum Teil speziel für \textsc{Renew} entwickelte Verfahren. \bigbreak
+
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=\textwidth]{material/images/gradle/javacc.pdf}
@@ -322,7 +324,20 @@
 	  \label{fig:javacc}
 	\end{figure}
 
-	Für die Konfiguration der einzelnen Plugins spielt der \textit{JavaCC} Parser eine große Rolle, denn dieser wandelt eine Grammatikspezifikation in ausführbaren Java Code um. Die genannte Technik wird in dem \textit{Formalism}, \textit{Feature Structures}, \textit{CH} und in dem \textit{Misc} Plugin verwendet. Der \textit{JavaCC} Parser erstellt Java Klassen, die obligatorisch präsent für die Ausführung von \textsc{Renew} sein müssen. Dementsprechend werden diese als generierte Ressourcen im \textit{build} Verzeichnis abgelegt und dem Java \textit{SourceSet} beigefügt. \bigbreak
+	Für die Konfiguration der auserwählten Plugins spielt der \textit{JavaCC} Parser eine große Rolle, denn dieser wandelt eine Grammatikspezifikation in ausführbaren Java Code um. Die genannte Technik wird in dem \textit{Formalism}, \textit{Feature Structures}, \textit{CH} und in dem \textit{Misc} Plugin verwendet. Der \textit{JavaCC} Parser erstellt Java Klassen, die obligatorisch präsent für die Ausführung von \textsc{Renew} sein müssen. Dementsprechend werden diese als generierte Ressourcen im \textit{build} Verzeichnis abgelegt und dem Java \textit{SourceSet} beigefügt. \bigbreak
+
+	Andere Plugins benötigen keine Drittanbieter Software, sondern beruhen auf eigenen Verfahren, die für die Plugins ausführbaren Code und Artefakte heerstellen. Für die Umsetzung der Ausführungsschritte, wurden an Ant angepassten Java Klassen geschrieben, die auf der \textsc{Renew}-Logik beruhen und von Ant aufgerufen und durchgeführt werden können. Inflogedesse stellt sich die Frage wie die Ausführungsschritte aus der Ant in die Gradle Umgebung migriert werden könne. \newline
+	Um die Anwender von Ant und Maven von Gradle zu überzeugen, integriert Gradle beide Systeme und lässt ihre Funktionalität aus Gradle benutzen und steuern. Somit ist ein  nahtlosen übergangn auf Gradle garantiert und überzeugt die Anwender durch die mitgelieferte flexibilität.\bigbreak
+	
+	Um die erstellten \textit{Renew} Verfahren in Gradle zu übernehmen, kann auf eine mitgelieferte \textit{ant} Instanz aus Gradle zugegriffen und für die Konfiguration der Verfahren aufbereitet werden. Anschließend kann über die \textit{ant} Instanz die konfigurierte Logik aufgerungen und ausgeführt werden. Obwohl das Konstrukt beherrschbar erscheint, erfordert dies trotz Allem eine gute Kenntnis der Ant Funktionalität und führt zu irreführenden Annahmen bei unerfahrenen Entwicklern. 
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\textwidth]{material/images/gradle/antTasks.pdf}
+		\caption{Java Compiler Compiler}
+		\label{fig:javacc}
+  	\end{figure}
+
 
 	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
 
