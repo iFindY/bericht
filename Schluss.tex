@@ -17,9 +17,14 @@ Als Konsequenz der Modularisierung der \textsc{Renew} Plugins samt der entsprech
 Angewandt an die \textsc{Renew} Applikation, ist die transitive Deklaration der Modulabhängigkeiten eine großartige Erweiterung der Plugin Architektur, denn ab diesen Zeitpunkt wird der Kontext der zu erweiternden Plugins an den aufbauenden Plugin \textit{automatisch} weitergereicht, ohne dass die aufbauenden Plugins sich um die globale Struktur und Abhängigkeitsverwaltung kümmern müssen. Dazu gehören die Plugin Grundlagen, Drittanbieter Bibliotheken sowie die entsprechende Ver­si­o­nie­rung.\bigbreak
 
 Die \textit{module-info.java} erwirkt weitere Vorteile, die das Verwalten der Plugin Module erleichtern. Dazu zählten native Java API's und Services, die die Administration der angebotenen Schnittstellen, die auslese der Angeforderten Module, die Feststellung des Modultyps, den Aufenthaltsort des Moduls sowie seinen Einstiegspunkt. In der Konsequenz bietet die \textit{module-info.java} eine Alternative für einen großen Teil der \textit{plugin.cfg} Aufgabenbereichs.\newline
-Um den endgültigen Austausch der \textit{plugin.cfg} durchführen zu können, muss der \textsc{Renew} Plugin Manager auf die neue Konfigurationsdatei angepasst werden. Dementsprechend ist die Auslesen der benötigten Information und die neu Implementation und Interpretation der Plugin Organisation ein zentrales Thema für die Übergang auf die \textit{module-inf.java}. Darüber hinaus ist das Konzept der Modulschichten eine anknüpfende Technik, die der Plugin Manager in der Zukunft in Betracht ziehen muss, um die Plugins sowie benötigten Drittanbieter-Bibliotheken auf die Schichten der Abhängigkeitskette entsprechend zu instanziieren. Obwohl die \textit{plugin.cfg} abgelöst werden kann, bleibt der Plugin Manger das Herzstück von \textsc{Renew} und muss sich an die neue Modulumgebung anpassen, um die Integration der neu eingeführten Java Features in \textsc{Renew} durchführen zu können.\bigbreak
+Um den Austausch der \textit{plugin.cfg} durchführen zu können, muss der \textsc{Renew} Plugin Manager auf die neue Konfigurationsdatei angepasst werden. Dementsprechend ist die Auslesen der benötigten Information und die neu Implementation und Interpretation der Plugin Organisation ein zentrales Thema für die Übergang auf die \textit{module-info.java}. Darüber hinaus ist das Konzept der Modulschichten eine anknüpfende Technik, die der Plugin Manager in der Zukunft in Betracht ziehen muss, um die Plugins sowie benötigten Drittanbieter-Bibliotheken auf die Schichten der Abhängigkeitskette entsprechend zu instanziieren.\newline
+Obwohl die \textit{plugin.cfg} abgelöst werden kann, bleibt der Plugin Manger das Herzstück von \textsc{Renew} und bedarf einen erheblichen Umstellungsaufwand für den Umstieg auf die neu eingeführten Java Features.
 
 -> Die Modulschichten 
+-> Plugins als Modulgruppen 
+-> Gradle Problematik 
+-> Mulan Prototyp Probleme(nciht so groß wenn die änderungen renw plugin eins nach dem anderen durchgeführt worden wären) 
+-> anschluss an die Zielsetzung aus dem Anfang 
 
 
 
