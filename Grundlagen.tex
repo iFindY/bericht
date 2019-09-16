@@ -207,7 +207,7 @@
 \section{Gradle}
 Gradle ist ein Build-Tool ähnlich wie Maven und Ant. Gradle ist das neueste dieser drei Build-Tools, und wird zunehmend eingesetzt. Es ist Open Source und hat viel Akzeptanz bei den Entwicklern gefunden, da es auf die Erfahrung aus den vorhandenen genannten Build-Tools zurückgreift. Mehrere bekannte Projekte wie Android, Spring Framework und Hibernate haben ihre Build-Systeme bereits auf Gradle migriert. Einige der Vorteile, die Gradle gegenüber Maven und Ant hat, sind präzisere Erstellungsskripte und eine flexiblere Erstellungssprache.\bigbreak
 
-\subsubsection{Beweggründe für Gradle}
+\subsection{Beweggründe für Gradle}
 Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant gegenüber Gradle aufgelistet.
 \begin{itemize}
   \item Die Verwendung von XML als Definitionssprache für die Erstellungslogik führt zu übermäßig großen und ausführlichen Erstellungsskripten im Vergleich zu Erstellungswerkzeugen mit einer prägnanteren Definitionssprache. \cite{muschko2014gradle}
@@ -217,7 +217,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
   \item Die Verwendung von Ant ohne Ivy erschwert das Verwalten von Abhängigkeiten. In vielen Fällen müssen die JAR-Dateien in die Versionskontrolle eincheckt und deren Organisation manuell verwaltet werden.\cite{varanasi2015introducing}
 \end{itemize}
 
-\subsubsection{Aufbau}
+\subsection{Aufbau der Umgebung}
   Die gradle Umgebung besteht aus mehreren Komponenten. Jede von den Komponenten wird in einem bestimmten Lebenszyklus von Gradle für das Erstellen der Applikation genutzt.\newline
   Um Gradle zu starten, werden zwei Ausführbare Skripte mitgeliefert. Für die Ausführung auf dem \textit{Unix} basierte Systeme kann \textit{gradlew} verwendet werden und für die Windows Ausführung ist das \textit{gradlew.bat} Skript zuständig.\bigbreak
   \begin{figure}[h!]
@@ -243,9 +243,9 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
   Nachdem die Initialisierungsphase beendet ist, werden erstellte Projekte konfiguriert. Die Konfiguration geschieht laut den \textit{build.gradle} Konfigurationsdatei und bereitet die Projekte für die Ausführung vor. Zum Schluss wird das Bauen durchgeführt, indem eine Reihe von Ausführungsschritten (Tasks) von dem Nutzer aufgerufen werden.\cite{mitra2015mastering}
 
 
-\subsubsection{Gradle build Skript}
+\subsection{Gradle build Skript}
 \begin{lstlisting}[caption=Gradle in Aktion \cite{ikkink2015gradle},label=my-grl,captionpos=b]
-  // Deklaration der genutzten Plugins 
+  // Deklaration ders genutzten Plugins 
   plugins {
       id 'java'
   }
