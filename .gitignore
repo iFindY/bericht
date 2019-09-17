@@ -12,6 +12,8 @@
 *.ind
 *.ilg
 *.out
+*.dvi
+.DS_Store
 Thesis.pdf
 Thesis.out
 *.synctex.gz(busy)
