@@ -32,11 +32,12 @@ Durch die variable Anzahl an Modulschichten, können parallel gleichnamige Bibli
 Die Existenz eines Moduls in mehreren Schichten auf den man aufbaut erzeugt keine Probleme, da die Schicht fix und nicht verendest werden kann und die Suche nach den Modulen in einer strikten Ordnung durchgeführt wird. Dennoch können Module ihre Funktionalität transitiv an die darüber liegenden Module und Schichten anknüpfen und somit eine Inkonsistenz erzeugen. Denn, die Suche kann nun nicht entscheiden welches für das Modul zur Verfügung gestellten Implementation ausgewählt werden soll. \newline
 Dennoch ist die Umsetzung des Grundriss-Prototypen vielversprechend und kann das lang gewünschte dynamische Laden und Entladen der Module realisieren. \bigbreak
 
+\section{Gradle Umgebung}
+Gradle ist ein Code Verwaltungswerkzeug, welches sich auf flexible Konfiguration spezialisiert und im Gegenteil zu Maven die vorgesetzte Struktur flexibel anpassen lässt. Die Flexibilität ist ein Schlüsselkriterium für das Plugin Verband von \textsc{Renew}, da die Plugins in ihrer Auswahl der Technologie, Konfiguration und Aufbereitung der Funktionalität nicht eingeschränkt werden dürfen. Somit sollte jedes Plugin ein gängiges Rahmenwerk für die Verarbeitung enthalten, welches an die Bedürfnisse jedes einzelnen Plugins erweitert und angepasst werden kann. Zuvor hat Ant die benötigte Flexibilität geboten, wurde jedoch mit der Zeit groß, komplex und unübersichtlich. Aus den genannten Gründen wurde Ant ersetzt, und durch das Gradle Werkzeug ausgetauscht.\newline
+Der Umstieg von Ant auf Gradle erforderte einen respektablen Aufwand, da man weitgreifende Ant Fachkenntnisse benötigt und von der dürftigen Ant Konvention wenig Unterstützung bekommt. Darüber hinaus muss das Gradle Fachwissen vorhanden sein oder erarbeite werden, um den Übergang einleiten zu können. Somit muss eine Disziplin, nämlich das Bauen einer Applikation, doppelt angeeignet werden und kann folglich nicht jeden Mitarbeiter oder Studenten für die Umsetzung überzeugen. Nichtsdestotrotz ist der Vorteil einer Migrantin auf Gradle enorm und bringt auf lange Sicht eine einfaches, sauberes, wartbares und langlebiges Ergebnis. \bigbreak
 
--> Gradle Problematik 
--> Mulan Prototyp 
--> Anschluss an die Zielsetzung aus dem Anfang 
-
+Durch die Einführung von Gradle, hat sich der integrierte Lebenszyklus sofort bemerkbar gemacht und lies ein globales Gerüst für das Erstellen aller Plugins an Ort und Stelle anfertigen. Dazu zählt das Abbilden der Projektstruktur, das Konfigurieren der fundamentalen Ausführungsschritte wie \textit{compileJava} und \textit{Jar}. Darüber hinaus konnten \textsc{Renew} bezogenen Ausführungsschritte an Ort und Stelle integriert und auf alle Plugins übertragen werden. Somit konnten Plugins die bereitgestellten Umgebung weiter verfeinern sowie erweitern mit individuell  relevanten Aufgaben. Der genannte Aufbau hat einen positiven Einfluss auf die Lesbarkeit und den Aufwand für das Nachvollziehen und Konfigurieren der Plugins, sodass neu eingeführten Plugins keine oder nur durch notwendige Ausführungssehritte erweitern müssen, ohne die komplette Umgehung in Betracht zu ziehen. Des Weiteren kann die erstellte Umgebung auf \textit{Mulan} übertragen werden und integriert sich gut in die Entwicklungsumgebung des TGI Forschungsbereichs.\newline
+Bei der Umsetzung sind, nichtsdestotrotz unerwartete Ereignisse eingetroffen. Zum Beispiel die Nutzung von \textit{JavaCC}, die das Einbinden eines Gradle-Plugins benötigt und in den Lebenszyklus an der passenden Stellen eingebettet werden mussten, um Java Code vor dem Kompilieren zu generieren. Darüber hinaus benutzt eine große Plugin Anzahl von \textsc{Renew} selbst erstellten Ant Ausführungsschritte, die verbindlich durchgeführt werden müssen, um alle notwendigen Java Klassen sowie Ressourcen, die während der Laufzeit benötigt werden, zu erstellen. Dazu zählt der \textit{CreateShadownets} sowie der \textit{GenerateFSOntology} Ausführungsschritt, der vor dem Kompilieren des entsprechenden Plugins durchgeführt werden müssen. Die Gradle Umgebung integriert in sich eine Ant Instanz und lies die beiden Ant-Task aus Gradle ausführen und in den Lebenszyklus integrieren. Somit war die unterstützt von Gradle beim Überführen der Build-Umgebung eine gut durchdachtes und willkommenes Leistungsmerkmal.
 
 
 \chapter{Schluss}
@@ -80,7 +81,7 @@ Zum Schluss wird das Ergebnis der Abschlussarbeit evaluiert, zusammengefasst und
 	Das Problem der \textit{Split Packages} ist in \textsc{Renew} weit verbreitet. Durch die Reorganisation der gesplitteten Pakete ändert sich der Paketname der Klassen, die an vielen Stellen im Code mit einem direkten Verwies genutzt werden. Obwohl die Klassen Verweise gepflegt wurden, können bereits erstellte oder generierte Ressourcen auf der lokalen Maschine des Nutzers, wie zum Beispiel die \textsc{Renew} Netze Zeichnungen, nicht korrekt angezeigt werden, da diese auf den veralteten voll-qualifizierten Klassennamen referenzieren.\newline
 	Für die valide Darstellung der \textit{legacy} Zeichnungen, benötigt \textsc{Renew} eine Transferfunktion, die Ressourcen nach funktionsuntüchtigen Klassen abtastet und diese vor dem Öffnen substituiert.
 	
- \subsection*{Migration der Ant Tasks}
+ \subsection*{Migration der Ant Ausführungsschritte}
 	Die Umsetzung des BPMN Plugins beinhaltet die Aufnahme der benötigten Ant Ausführungsschritte in die neue Gradle Build-Umgebung, die Klassen und Ressourcen für den Betrieb generieren. Dank der nahtlosen Integration von Ant in Gradle, war es möglich die Ausführungsschritte mit minimalem Aufwand aus Gradle aufzurufen und die Funktionalität nahtlos in die Produktion der Bibliothek einzubinden. Jedoch wird der Aufruf über eine von Gradle zur Verfügung gestellte Ant Instanz durchgeführt, welche die Arbeitsweise von Ant voraussetzt. Somit muss \textit{Renew} Entwickler zwei Disziplinen beherrschen, die sich im selben Kontext befinden.\newline
 	Die Ant Ausführungsschritte können im \textit{Groovy}, \textit{Java} oder \textit{Kotlin} Format als \textit{Gradle Tasks} umgesetzt werden, um die Prozedur ohne Einschränkungen, zusätzlichen Aufwand und Ant Kenntnisse betreiben zu können. 
 	
@@ -96,81 +97,11 @@ Zum Schluss wird das Ergebnis der Abschlussarbeit evaluiert, zusammengefasst und
 	Für die Integration des Grundrisses in das Plugin Management, muss der Plugin Manager eine neue Aufgabe übernehmen, nämlich die Aufteilung der Plugins auf die Modulschichten mit den dazugehörigen Drittanbieter Bibliotheken, die Verknüpfung der Modulschichten untereinander und das Laden und Entladen von bestehender oder neu hinzugekommener Plugin Schichten. Darüber hinaus müssen für die UI optionale Plugins mit dem \textit{Service Loader} von Java erstellt und verknüpft werden, sodass die UI für sie unbekannte Plugins manipulieren kann. \newline
 	Die Aufgabe beschäftigt sich mit der Umsetzung lang gewünschten Verhalten, welches nun mit Java ohne zusätzlichen Drittanbieter Rahmenwerks angegangen werden kann. 
 
-%- Migtation Einleitungssatz 
-%- Evaluation des Migrationsablaufes
-%	- was wurde dafür getan (modul info)
-%	-  nicht alle charactersitica von den good practice müssen umgesetzt werden
-%	- wie wurde es getan (automatische expletize unbenannte module ( verweise auf Grundlagen Kapitel))
-%	- was für folgen hatte sie (Konfiguration, Transitivität,Kontext, Schichten(Nattürliches ereigniss(hat sich selbst entwicklet)))
-%	- Mehrwert  sichtbar ?
-
-
-
-% PROJEKTSTRUKTUR 
-	% ^-> Anforderungen aus der Modularisierung 
-	% -> Probleme die aufgetaucht sind. erwartet, unerwartet, kritik an das Projekt, lob an das Projekt  (pafad umbau lässt)
-	% -> Was bringt es auf lange Sicht -> erweiterbarkeit war die anforderung (Mehr module im Plugin) 
-	% ^-> Unerwartete mängel wurden behoben ->  stark veraltete und auf zeit unsauberer Projekt aufbau (bilder, resourcen, unterschieldiche Klassen typen und für verschiedenen zweck  im sleben Packet) 
-	% ^-> Konvention der modulanamengenbunf, das auf den source aufbau hinweist 
-	% -> es Felen konventionen die in der AUssicht näher beschprochen werden 
-	% ^-> Konsistenz gegeben, sind die verädnerungen kritisch (Ohne kla defenierte schnissteleln ja (keine schnittstellen verwaltung also ja))?
-	% AUFWAND FÜR DIE UMSTRUKTURIERUNG
-
-% MODULARISIERUNG
-% -> Modularisierung von  passenden Strukturen sehr einfach aber auch sehr schwer.  Auslesen der zugriffe auf das Modul kahn sehr Müsehlig sein und muss plugin weit getestet und angepasst werden
-% -> Die Migration von Modulaen gelingt ohne probleme, jedes MIgrationsszenario kann mit Hilfe der Expliziten automatischen unbenannten und offenen Module abgedeckt werden. Besonders positiv fiel das automaotsiche modul auf, dass  für den Klassenpfad und für den Modulpfad zugägnlich ist und Bausteine einer Bibliothke, schritt für schritt modularisieren lässt.  Modularisierung nicht nur der Code Base sondern der Arbhängigkeiten in kleien Schritten möglich. 
-% -> Die Transitive Konfiguration in einem Modulsystem hat einen erheblichen Postivien einfluss auf die Pluginkopplung( Plugin Schichten (Kontexte/ Abhängigkeiten) werden transitiv wietergereicht ohne Komplikation oder verstündniss oder aurbeitsaufwand für aufgliegende module )
-% -> Was kan der Prototyp leisten ? wie weit geht die Unterstützung lan  man ihn an weitere Studenten delegieren. tut es was ich versprochen habe 
-% -> Konsequenzen für \textsc{Renew} und allgemein für appliaktionen ( was hat \textsc{Renew} erlebt was wird allen zustoßen)
-% -> Mehrwert ist da oder nicht ? was kann man mit dem modulsystem von java erreichen
-% MODULARISIERUNG \textsc{Mulan} 
-% Wleche seite der Modualriseirung hat \textsc{Mulan} gezeigt 
-% -> AUFWAND FÜR DSIE MODULARISIERUNG
-
-
-
-% GRADLE
-% Hat sich das Gradle wärkzueg behauptet ? 
-% verstädnlichkeit, 
-% code menge, 
-% erweiterbarkeit, 
-% konfiguration , 
-% mehrwert in der nutzung 
-
-
-
-
-% Anforderungsanalyse/Spezifikation
-%- Anforderung an Modulariserte Systeme 
-%- Charakterisierung (Aufbau Schnittstellen Umfang)
-%- Aufwand für Modularisierung
-%- Konsequenzen (Zyklen , Splitt Packages ,Alte APIEs)
-%- Konsistenz 
-%- Mehrwert
-%
-%- Übergangsphase Aufwand 
-%
-%- Gradle -> Projektstruktur 
-%- Zusätzliche Module Unterstützen 
-%- gelöst von der Entwiklungsumgebung 
-%- kohärente Arbeitsweise
-%- ältere Verfahren 
-
-
-
-
-% Evaluaiere die Anfprderungsanalyse Übergeordnete Kritik 
-% Hat sich das Gradle wärkzueg behauptet ? verstädnlichkeit, code menge, erweiterbarkeit, konfiguration , mehrwert in der nutzung 
-% Modularisierung konsequenzen für Systeme 
-% 
 
 % Was wollte ich erreichen 
 % Unterziele 
 % Bewertung der Unterziehle 
-
-
-
-
+% Maln Zyclus 
 % Was habe ich erreicht 
 
 
