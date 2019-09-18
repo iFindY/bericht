@@ -9,7 +9,7 @@ Semizerlegbare Legacy-Systeme
 
 Softwaresysteme werden nach dem Chicken-Little-Ansatz in mehrere Migrationspakete zerlegt, die einzeln in kleinen inkrementellen Schritten in die neue Zielumgebung überführt werden. Während der Migration existieren altes und neues System nebeneinander. Die korrekte Synchronisation beider Systeme wird durch Koordinationsbausteine und Gateways sichergestellt. Durch das inkrementelle Vorgehen wird das Risiko von Projektfehlschlägen reduziert, da bei jedem zu migrierenden Teilsystem individuelle oder geänderte Rahmenbedingungen berücksichtigt werden können.
 
-Chicken Little stellt eine flexible, anpassbare und inkrementelle Strategie zur Softwaremigration bereit. Das zugrunde liegende Legacy-System wird in kleine, voneinander unabhängige Pakete (Inkremente) zerlegt, die iterativ in die Zielumgebung migriert werden. Während der Dauer der Migration wird die Aufrechterhaltung des Systembetriebs durch Koexistenz von Legacyund Zielsystem über den Einsatz von Gateways ermöglicht.
+Chicken Little stellt eine flexible, anpassbare und inkrementelle Strategie zur Softwaremigration bereit. Das zugrundeliegende Legacy-System wird in kleine, voneinander unabhängige Pakete (Inkremente) zerlegt, die iterativ in die Zielumgebung migriert werden. Während der Dauer der Migration wird die Aufrechterhaltung des Systembetriebs durch Koexistenz von Legacyund Zielsystem über den Einsatz von Gateways ermöglicht.
 
 
 

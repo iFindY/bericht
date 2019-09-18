@@ -1,8 +1,40 @@
 \input{./config/model/layout.tex}% layout
+\usepackage{colortbl}	
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+
 \begin{document}
 %\input{./config/model/hyphefrnation.tex} %word division
+
 \selectlanguage{ngerman}
-\input{./coverpage.tex} 
+%\input{./coverpage.tex} 
+\definecolor{uhhred}{cmyk}{0,100,100,0}
+\begin{titlepage}
+\includegraphics[scale=0.3]{material/up-uhh-logo-u-2010-u-farbe-u-cmyk.pdf}
+%\vspace*{2cm}
+\Large
+\begin{center}
+              {\color{uhhred}\textbf{\so{MASTERTHESIS}}}
+\vspace*{2.0cm}\\
+{\LARGE \textbf{Modularisierung des \textsc{Renew} Plugin Systems}}
+\vspace*{2.0cm}\\
+vorgelegt von
+\vspace*{0.4cm}\\
+Arkadij Daschkewitsch
+\end{center}
+\vspace*{3.7cm}
+
+\noindent
+MIN-Fakultät \vspace*{0.25cm} \\
+Fachbereich ART \vspace*{0.25cm} \\
+%Ggf. Professur/Institut \vspace*{0.25cm} \\       %TODO Optional, entweder "Ggf. " oder ganze Zeile löschen
+Studiengang: Informatik \vspace*{0.25cm} \\
+Matrikelnummer: 6428634\vspace*{0.5cm} \\
+%Ggf. Abgabedatum: XX.XX.20XX \vspace*{0.5cm} \\  %TODO Optional, entweder "Ggf. " oder ganze Zeile löschen
+Erstgutachterin: Prof. Dr.  Danie Moldt \vspace*{0.25cm} \\
+Zweitgutachter: Michael Haustermann               %TODO Bei Bedarf Geschlechter der Gutachter/innen anpassen
+\end{titlepage}
+\patchcmd{\abstract}{\null\vfil}{}{}{}
 \newpage
 %\chapter*{Kurzfassung}
 %\addcontentsline{toc}{chapter}{Kurzfassung} 
@@ -13,7 +45,7 @@
 Die Digitalisierung innerhalb der Gesellschaft durchdringt jeden Bereich unseres Lebens. Vom Web, Smartphones, \textit{Augmented Reality} bis zu \textit{Smart Cities} wird die Entwicklung und Beherrschung komplexer Softwaresysteme eine bedeutende Aufgabe sein. Dementsprechend spielt der Wartungsaufwand, die Erweiterbarkeit und die Flexibilität des Systems eine zentrale Rolle für die Softwareentwicklung. Diesen wichtigen Aufgaben hat sich das Modulsystem von Java gewidmet und ermöglicht das Erstellen von Modulen, die spezifische Aufgaben kapseln und die Komplexität innerhalb einer Applikation bändigt.\bigbreak
 
 % Problem zu lösen
-\textsc{Renew} ist ein Petrinetz Simulator, der für die Modellierung von komplexen und verteilten Systemen entwickelt worden ist. Dieser setzt auf eine Plugin-Architektur auf, die mithilfe von Plugins die Applikation mit zusätzlicher Funktionalität anreichern lässt, ohne den Kern zu beeinflussen.\newline
+\textsc{Renew} ist ein mit Java implementierter Petrinetz Simulator, der für die Modellierung von komplexen und verteilten Systemen entwickelt worden ist. Dieser setzt auf eine Plugin-Architektur auf, die mithilfe von Plugins die Applikation mit zusätzlicher Funktionalität anreichern lässt, ohne den Kern zu beeinflussen.\newline
 Obwohl die Plugin-Architektur sich langfristig bewährte, ist sie nicht für die modernen Herausforderungen gewappnet, denn das Modulsystem von Java führt ein obligatorisches Konzept der Module ein, das den Betrieb von Altsoftware in absehbarer Zeit aufhebt. Dementsprechend muss \textsc{Renew} sich dieser Herausforderung stellen und an die neue Umgebung anpassen. Zusätzlich wird Gradle als unterstützendes Werkzeug in die Projektumgebung eingeführt.\bigbreak
 % Lösungsansatz
 Zuerst werden die Grundlagen der Java Laufzeitumgebung erarbeitet. Anschließend werden aufbauende Konzepte der Modularisierung von Java diskutiert, die im Folgenden die Migration von bestehenden Applikationen auf das Modulsystem von Java einleiten. Für die Umsetzung der erarbeiteten Konzepte entsteht eine Spezifikation, die von zwei Prototypen erfüllt wird. Zum Schluss folgt eine Evaluation der gesetzten Ziele.\bigbreak
@@ -63,6 +95,7 @@ The modular system of Java reduces the complexity of Renew and thus supports the
 \blankpage
       
 \begin{appendices}
+\input{AppendixB.tex}
 \end{appendices}
 
 \blankpage

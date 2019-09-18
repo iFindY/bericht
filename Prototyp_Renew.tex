@@ -3,11 +3,11 @@
 	Für die Umsetzung des Prototyps werden zuerst Anforderungen erfasst, die der modularisierte \textsc{Renew} Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
 
 \section{Anforderungen} \label{sec:anforderungen}
-	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunter liegende theoretische Grundlage in Takt bleibt. 
+	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunterliegende theoretische Grundlage in Takt bleibt. 
 
 % Was soll der Prototyp leisten 
 \subsection{Interaktion}
-	Der erste modulare \textsc{Renew} Prototyp soll mit einer minimalen Plugin Anzahl auf dem Modulpfad betriebsfähig sein und eine Möglichkeit bieten, Petrinetze zu erstellen, zu simulieren und zu serialisieren. Das heißt, es muss eine UI zu sehen sein, die mit den nötigen Werkzeugen und der darunter liegenden Logik ausgestattet ist. 
+	Der erste modulare \textsc{Renew} Prototyp soll mit einer minimalen Plugin Anzahl auf dem Modulpfad betriebsfähig sein und eine Möglichkeit bieten, Petrinetze zu erstellen, zu simulieren und zu serialisieren. Das heißt, es muss eine UI zu sehen sein, die mit den nötigen Werkzeugen und der darunterliegenden Logik ausgestattet ist. 
 
 \subsection{Projektstruktur}
 	Für die Umsetzung des modularen \textsc{Renews} wird für jedes Plugin eine moderne Projektstruktur benötigt, die den Inhalt entsprechend dem etablierten Maven Standardverzeichnislayout auf Java Module und die dafür benötigten Ressourcen aufteilt. 
@@ -256,7 +256,7 @@
 
 	In der Abbildung \ref{fig:antscript} ist ein Modell für die Erstellung eines Plugins mit dem Ant Werkzeug dargestellt. Ant initiiert das Skript mit Feldern und benötigten Variablen aus einer globalen Konfiguration, generiert Java Daten mit dem \textit{jj Target}, kompiliert und verpackt die ausführbaren Klassen. \bigbreak
 	
-	Für die Gradle Umsetzung werden Schritte, die über die etablierten Operationen zum Erstellen einer Ausführbaren Java Applikation wahrgenommen und in der folgenden Gradle Umgebung eingebunden.\newline
+	Für die Gradle Umsetzung werden Schritte, die über die etablierten Operationen zum Erstellen einer ausführbaren Java Applikation wahrgenommen und in der folgenden Gradle Umgebung eingebunden.\newline
 	Dafür wird zuerst ein übergeordneter Gradle Projekt deklariert, das Subprojekte aus allen Plugin Verzeichnissen erstellt.\bigbreak
 
 	\begin{figure}[h!]
@@ -347,7 +347,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-module-info.pdf}
+	  \includegraphics[scale=0.42, angle=90]{material/images/renew_plugin_dependencies-module-info.pdf}
 	  \caption{Kompilation Abhängigkeiten}
 	  \label{fig:mod_deps}
 	\end{figure}
@@ -411,7 +411,7 @@
 	Des Weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zur Folge, dass der generierte Code umgeleitet werden muss, um an der entsprechenden Position die Funktion zu erfüllen. Zusätzlich muss JavaCC den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generierten Java Klassen bilden die Basis für die Plugins und somit sind sie zwingend erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich eine Komplexität, die neu für \textsc{Renew} ist und in der Zukunft sorgfältig gewartet werden muss. \bigbreak
 
 \subsection{Verwaltung} \label{sub:verwaltung}
-	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwicklers in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und den darunter liegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. \newline
+	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwicklers in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und den darunterliegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. \newline
 
 	Die Verwaltung der Bibliotheken spielt eine große Rolle für Renew, da im Verlauf der Entwicklung, Drittanbieter-Bibliotheken angepasst wurden und somit keine Möglichkeit besteht eine saubere Version der Bibliothek einzubinden. Infolgedessen entstehen  unsaubere Abhängigkeiten, die nicht aktualisiert werden können. Diese werden wie zuvor durch das Auslesen aus einem lokalen \textit{libs} Verzeichnis in das Projekt eingebunden und müssen in der Zukunft für die saubere Umsetzung von der benutzerdefinierten Logik befreit werden.\bigbreak
 
@@ -421,7 +421,7 @@
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.5\textwidth]{material/images/Remote_config.png}
-	  \caption{Remote Plugin Konfiguration}
+	  \caption{Remote Plugin-Konfiguration}
 	  \label{fig:remote_config}
 	\end{figure}	
 
@@ -437,7 +437,7 @@
 	  \label{fig:gui_config}
 	\end{figure}
 
-	Des Weiteren wird klar, dass die \textsc{Renew} Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt Plugins, die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunter liegenden Schichten. Dies hat zur Folge, dass das \textit{Util} Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
+	Des Weiteren wird klar, dass die \textsc{Renew} Applikation in einer hierarchischen Plugin Architektur aufgebaut ist. Das heißt Plugins, die von anderen Plugins abhängig sind, erfordern das Einbinden aller darunterliegenden Schichten. Dies hat zur Folge, dass das \textit{Util} Plugin in jedem Plugin, das auf diesen und seinen Nachfolger aufbaut, eine Deklaration benötigt. \newline
 
 	Um die Übersicht über die unmittelbar genutzten Module zu behalten, kann mithilfe des \textit{transitiv}  Schlüssels eine angeforderte Bibliothek für alle Nutzer-Plugins offengelegt werden. Demzufolge kann ein Plugin nicht nur ein anderes Plugin erweitern und nutzen, sondern seinen Kontext in die Umsetzung miteinbeziehen. \bigbreak
 
