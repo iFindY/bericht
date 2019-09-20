@@ -12,8 +12,12 @@
 %\input{./coverpage.tex} 
 \definecolor{uhhred}{cmyk}{0,100,100,0}
 \begin{titlepage}
-\includegraphics[scale=0.3]{material/up-uhh-logo-u-2010-u-farbe-u-cmyk.pdf}
-%\vspace*{2cm}
+
+\AddToShipoutPicture*
+	{\put(80,700){\includegraphics[scale=0.3]{material/up-uhh-logo-u-2010-u-farbe-u-cmyk.pdf}}}
+%\includegraphics[scale=0.3]{material/up-uhh-logo-u-2010-u-farbe-u-cmyk.pdf}
+
+\vspace*{2cm}
 \Large
 \begin{center}
               {\color{uhhred}\textbf{{MASTERTHESIS}}}
@@ -95,6 +99,7 @@ The modular system of Java reduces the complexity of Renew and thus supports the
 \input{Ausgangssituation.tex}
 \input{Prototyp_Renew.tex} 
 \input{Prototyp_Mulan.tex} 
+\input{Grundriss.tex}
 \input{Schluss.tex}
 \blankpage
       

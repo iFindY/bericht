@@ -1,4 +1,5 @@
 \chapter{Grundlagen} \label{cha:Grundlagen}
+  In diesem Kapitel werden Begriffe und Konzepte vorgestellt, die für die Umsetzung dynamischer Java Systeme notwendig sind. Zuerst wird der Aufgabenbereich der virtuellen Maschine von Java erläutert, die für den Betrieb jeder Java-Applikation eine Grundlage liefert. Folgend werden einzelne Aufgabenbereiche und Konzepte der JVM(virtuellen Maschine von Java) in einzelnem betrachtet und das Arbeiten mit dem Java-Code vorgestellt. Dafür werden Konzepte des Klassenpfads, Klassenladers, Delegation, Schnittstellen und Reflektion präsentiert, die das Arbeiten mit dynamischem Java-Code ermöglichen und eine Grundalge für die \textsc{Renew} Plugin-Architektur darstellen. Darüber hinaus wird das \textit{Gradle} Werkzeug eingeführt, welches für das Erstellen ausführbarer Software zuständig ist und zukünftig eingesetzt werden soll. 
 
 \section{Java Virtual Machine} \label{sec:JVM}
 
@@ -7,8 +8,7 @@
   Einer der wichtigen Bausteine von Java, ist die virtuelle Maschine, die das Suchen, Laden und Ausführen einer Codebasis auf allen gängigen Betriebssystemen erlaubt. Demzufolge spielt das Laden von Klassen aus örtlich unabhängigen Komponenten eine große Rolle für die entstandene \textsc{Renew} Architektur, denn die Plugins müssen gefunden, geladen und kommunikationsfähig eingerichtet werden, sodass sie sich gegenseitig nutzen und beeinflussen können.\bigbreak
 
   % Kapitelübersicht
-  In diesem Kapitel werden grundlegende Konzepte des \textit{ Klassenpfads, Klassenladers} und \textit{Reflektion} erläutert, mithilfe dessen die \textsc{Renew} Plugin- Architektur umgesetzt wurde.
-
+  %In diesem Kapitel werden grundlegende Konzepte des \textit{ Klassenpfads, Klassenladers} und \textit{Reflektion} erläutert, mithilfe dessen die \textsc{Renew} Plugin- Architektur umgesetzt wurde.
 
 \section{Klassenpfad} \label{sec:K}
 
@@ -133,6 +133,17 @@
   % Dynamische Klassenbindung 
   Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen der unbekannten \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit können dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden, ohne dass die Applikation verändert wird. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instanziieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter, ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
 
+\section{Plugin Konzept} \label{sec:pm}
+  Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diese zu einem später Zeitpunkt entfernt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins einem Kommunikationsvertrag eingehen und befolgen, um eine Kommunikation mit der Kernapplikation aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{Interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht die Beziehung zwischen den Plugins und dem Plugin-Manager der Kernapplikation. \bigbreak
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
+    \caption{UML Diagramm für das Plugin-Muster \cite{tubiblio36573}}
+    \label{fig:pluginUMLD}
+  \end{figure}
+  % Der Plugin Manager % einer der aufgaben 
+  Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus mit allen möglichen Plugin Zuständen währender der Laufzeit. Für aufeinander basierende Plugins ist die Struktur strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlesereihenfolge der Plugins nicht stimmt oder erwartete Plugins nicht präsent sind, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
+
 \section{Reflektion}\label{sec:refl}
   % Kurze einleitung 
   Reflektion ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu analysieren und zu ändern. 
@@ -204,10 +215,12 @@
     \item JUnit verwendet Reflektion, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
   \end{itemize}
 
+
+
 \section{Gradle}
 Gradle ist ein Build-Tool ähnlich wie Maven und Ant. Gradle ist das neueste dieser drei Build-Tools, und wird zunehmend eingesetzt. Es ist Open Source und hat viel Akzeptanz bei den Entwicklern gefunden, da es auf die Erfahrung aus den vorhandenen genannten Build-Tools zurückgreift. Mehrere bekannte Projekte wie Android, Spring Framework und Hibernate haben ihre Build-Systeme bereits auf Gradle migriert. Einige der Vorteile, die Gradle gegenüber Maven und Ant hat, sind präzisere Erstellungsskripte und eine flexiblere Erstellungssprache.\bigbreak
 
-\subsection{Beweggründe für Gradle}
+\subsection{Beweggründe}
 Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant gegenüber Gradle aufgelistet.
 \begin{itemize}
   \item Die Verwendung von XML als Definitionssprache für die Erstellungslogik führt zu übermäßig großen und ausführlichen Erstellungsskripten im Vergleich zu Erstellungswerkzeugen mit einer prägnanteren Definitionssprache. \cite{muschko2014gradle}
@@ -243,7 +256,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
   Nachdem die Initialisierungsphase beendet ist, werden erstellte Projekte konfiguriert. Die Konfiguration geschieht laut den \textit{build.gradle} Konfigurationsdatei und bereitet die Projekte für die Ausführung vor. Zum Schluss wird das Bauen durchgeführt, indem eine Reihe von Ausführungsschritten (Tasks) von dem Nutzer aufgerufen werden.\cite{mitra2015mastering}
 
 
-\subsection{Gradle build Skript}
+\subsection{Beispiel Skript}
 \begin{lstlisting}[caption=Gradle in Aktion \cite{ikkink2015gradle},label=my-grl,captionpos=b]
   // Deklaration ders genutzten Plugins 
   plugins {

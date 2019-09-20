@@ -3,7 +3,7 @@
 	Für die Umsetzung des Prototyps werden zuerst Anforderungen erfasst, die der modularisierte \textsc{Renew} Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
 
 \section{Anforderungen} \label{sec:anforderungen}
-	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunterliegende theoretische Grundlage in Takt bleibt. 
+	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunterliegende konzeptionelle Grundlage in Takt bleibt. 
 
 % Was soll der Prototyp leisten 
 \subsection{Interaktion}
@@ -315,7 +315,7 @@
 
 	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{build.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagement Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
 
-	Ant spielt eine unerwartet wichtige Rolle für das erstlen der \textsc{Renew} Plugins. Denn, Ant verwaltet nicht nur das Kompilieren und Erstellen von ausführbaren Archiven, sondern ist zuständig für die Verwaltung der zusätzlichen Ausführungschritte, die \textsc{Renew} Code sowie Resourcen generieren. Zum Teil sind es Drittanbieter Werkzeuge, wie der \textit{JavaCC} Compile und zum Teil speziel für \textsc{Renew} entwickelte Verfahren. \bigbreak
+	Ant spielt eine unerwartet wichtige Rolle für das erstlen der \textsc{Renew} Plugins. Denn Ant verwaltet nicht nur das Kompilieren und Erstellen von ausführbaren Archiven, sondern ist zuständig für die Verwaltung der zusätzlichen Ausführungschritte, die \textsc{Renew} Code sowie Resourcen generieren. Zum Teil sind es Drittanbieter Werkzeuge, wie der \textit{JavaCC} Compile und zum Teil speziel für \textsc{Renew} entwickelte Verfahren. \bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -347,7 +347,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[scale=0.42, angle=90]{material/images/renew_plugin_dependencies-module-info.pdf}
+	  \includegraphics[scale=0.45, angle=90]{material/images/renew_plugin_dependencies-module-info.pdf}
 	  \caption{Kompilation Abhängigkeiten}
 	  \label{fig:mod_deps}
 	\end{figure}
@@ -382,25 +382,21 @@
 
 	In der folgenden Abbildung wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und nicht aus dem Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad angewiesen sind. Das wären der \textit{Simulator} sowie \textit{JHotDraw} Plugin. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  \bigbreak
 
-	\begin{figure}[h!] 
+	\begin{figure}[hbt!] 
 	  \centering
-	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_1b.pdf}
-	 \end{figure}
-	\begin{figure}[h!] 
-	  \centering
-	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_2b.pdf}
-	  \end{figure}
-	 \begin{figure}[h!] 
-	  \centering
-  	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_3b.pdf}
-  	  \end{figure}
-  	 \begin{figure}[h!] 
+	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_1b.pdf}\bigbreak\bigbreak
+	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_2b.pdf}\bigbreak\bigbreak
+  	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_3b.pdf}\bigbreak\bigbreak
+  	\end{figure}
+  	\begin{figure}[t!] 
 	  \centering
   	  \includegraphics[width=0.997\textwidth]{material/images/renew_plugin_dependencies-migrate_4b.pdf}
   	  \caption{Migration}
 	  \label{fig:mig}
 	\end{figure}
 
+\newpage  
+\phantom{This text will be invisible}
 \newpage
 \section{Evaluation}
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen \textsc{Renew} Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
@@ -462,7 +458,7 @@
 
 	\begin{figure}[h!]
 	  \centering
-	  \includegraphics[width=0.63\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
+	  \includegraphics[width=\textwidth]{material/images/renew_plugin_dependencies-migrate_opt.pdf}
 	  \caption{Minimale modulare \textsc{Renew} Version}
 	  \label{fig:fin_res}
 	\end{figure}

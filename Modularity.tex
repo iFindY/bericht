@@ -29,7 +29,7 @@
       Mit der Autonomie werden unnötige Abhängigkeiten aufgelöst und nur die nötige Funktionalität für die entsprechende Aufgabe in einem Modul abgelegt. Somit können einzelne Module im Betrieb auch dann bleiben, wenn Teile des Systems nicht reagieren.
 
   % Modulaufbau 
-  \section{Modulstruktur}
+  \section{Grobe Modulstruktur}
       Die zuvor aufgeführten Ziele der Modularisierung liefern bereits eine Vorstellung der Modulanforderungen.
         \begin{figure}[h!] 
         \centering
@@ -124,7 +124,7 @@
 
     Nichtsdestotrotz bietet das automatische sowie das unbenannte Modul diverse Migrationsszenarien, die flexible Wege für die Modernisierung der Applikation anbieten. 
 
-  \section{Modulkopplung} \label{sec:mod_kop}
+  \section{Kopplung zwischen den Modulen} \label{sec:mod_kop}
     Die Einführung des Modulsystems in Java 9 integriert das Konzept der Aufteilung einer monolithischen Softwareumsetzung in übersichtliche mit einander sachlich verbunden Modulen. Diese Idee wird zuerst von Java selbst umgesetzt, um als Beispiel für den aufbauenden Code zu fungieren. In der praktischen Umsetzung formuliert Java die Modulbeschreibung mithilfe der \textit{module-info.java} Datei, die drei Kopplungstypen enthalten kann: die durch \textit{requires, exports} und \textit{opens} Deskriptoren beschrieben wird.
 
     \begin{figure}[h!]
@@ -134,7 +134,7 @@
       \label{fig:module-info}
     \end{figure}
 
-    Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken. Diese können ihre Schnittstelle exklusiven Modulen öffnen, die fortan als eine transitive Verbindung weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren. Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Serviceanfrage sowie einen Serviceangebot, die durch den \textit{Java ServiceLoader} mit einender verknüpft werden.\newline
+    Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken. Diese können ihre Schnittstelle exklusiven Modulen öffnen, die fortan als eine transitive Verbindung weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren. Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Dienstanfrage sowie einen Dienstangebot, die durch den Java \textit{Service-Lader} mit einender verknüpft werden.\newline
     Der \textit{ServiceLoader} übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. Das Konzept der Dienstregistrierung und der Dienstverwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \cite{softModDes,modulMitJava9} \bigbreak
 
       \begin{figure}[h!]
@@ -178,7 +178,7 @@
 
     Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Klassenlader-Systems} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten Klassenlader zugewiesen werden. Der \textit{Bootstrap}-Klassenlader ist der Klassenlader der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension-Klassenlader wurde von dem Plattform-Klassenlader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation-Klassenlader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
-  \section{Modulschichten} \label{sec:module_layers}
+  \section{Das Modulschichten Konzept} \label{sec:module_layers}
      Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen.\newline 
      Mit dem Modulsystem von Java wird ein neues Konzept der Modulschichten eingeführt, das für das Laden von Java Code während der Laufzeit verantwortlich ist. Die Modulschichten kapseln, validieren und laden bestimmte Modulgruppen, die während der Laufzeit in die Applikation integriert werden können. Dazu zählen explizite, offene sowie unbenannte Module. \newline 
      Das Laden von zusätzlichem Code war bereits mit dem Klassenlader-System möglich indem zusätzliche Klassenlader instanziiert und ausgetauscht werden konnten, jedoch besitzen die Klassenlader keine Mechanismen zum Validieren des eingelesenen Codes, sodass unerwartetes Verhalten im Betrieb der Applikation zu jedem Zeitpunkt passieren kann. \newline
@@ -191,7 +191,7 @@
       \label{fig:module-graph}
     \end{figure}
 
-     Das Laden von zusätzlichen Modulen geschieht in zwei Phasen. Zuerst wird eine Konfiguration erstellt, die ausgewählte Module für das Laden in die Applikation beschreibt. Die Konfiguration benötigt eine Modulmenge sowie die ausgewählte Wurzel-Module, aus den anschließend alle Modulabhängigkeiten ermittelt und validiert werden. Dafür wird ein neu eingeführtes Objekt genutzt, nämlich der \textit{ModulFinder}, der für ein gegebenes Verzeichnis die Meta-Informationen aller Module ausliest und für die Nutzung bereitstellt. \newline
+     Das Laden von zusätzlichen Modulen geschieht in zwei Phasen. Zuerst wird eine Konfiguration erstellt, die ausgewählte Module für das Laden in die Applikation aufnimmt. Die Konfiguration benötigt eine Modulmenge sowie die ausgewählte Wurzel-Module, aus den anschließend alle Modulabhängigkeiten ermittelt und validiert werden. Dafür wird ein neu eingeführtes Objekt genutzt, nämlich der \textit{ModulFinder}, der für ein gegebenes Verzeichnis die Meta-Informationen aller Module ausliest und für die Nutzung bereitstellt. \newline
      Im nächsten Schritt müssen die gefundenen Module auf Konsistenten geprüft werden. Dazu wird ein Modul Graph \ref{fig:module-graph} erzeugt, der aus den gegebenen Wurzel-Modulen alle geforderten Modulbeziehungen auflöst, auf \textit{Zyklen}, \textit{Split Packages} sowie valide Zugriffsrechte inspiziert und im Anschluss den Code für ausführbar erklärt. Der Prozess stellt sicher, dass alle Abhängigkeiten, einschließlich der indirekten Abhängigkeiten, aufgelöst werden können.\newline
      Das Ergebnis besteht aus einer betriebsfähigen Konfiguration mit einem Strukturgraphen der aufgelösten Abhängigkeiten, die für die Ausführung im Applikationskontext benötigt werden. \cite{java9modRevealed}\bigbreak 
 
@@ -202,16 +202,31 @@
       \label{fig:module-layer}
     \end{figure}
 
-    Nachdem die Konfiguration ausgewertet wurde, kann eine Modulschicht erstellt werden, die alle Module der konsistenten Konfiguration instanziiert. Dafür wird ein neuer von der Modulschicht erstellt und eine Hierarchie aufgebaut, die auf übergeordnete Modulschichten sowie Klassenlader verweist. Dementsprechend referenziert der Modulschicht-Klassenlader immer auf einen übergeordneten Klassenlader, um dem ehemaligen Delegierungsmodell zu entsprechen und die Funktionalität der \textit{unbenannten Module} weiterhin erfüllen zu können. Des Weiteren referenziert die Modulschicht selbst auf eine variable Menge von übergeordneten Modulschichten, die das Auflösen der benötigten benannten Modulabhängigkeiten unterstützen und die Modulsuche an entsprechen Modulschichten weiterleitet. \bigbreak
+    Nachdem die Konfiguration ausgewertet wurde, kann eine Modulschicht erstellt werden, die alle Module der konsistenten Konfiguration instanziiert. Dafür wird ein neuer Klassenlader von der Modulschicht erstellt und eine Hierarchie aufgebaut, die auf meherere übergeordnete Modulschichten sowie einen Klassenlader verweist. Dementsprechend referenziert der Modulschicht-Klassenlader immer auf einen übergeordneten Klassenlader, um dem ehemaligen Delegierungsmodell zu entsprechen und die Funktionalität der \textit{unbenannten Module} weiterhin erfüllen zu können. Des Weiteren referenziert die Modulschicht selbst auf eine variable Menge von übergeordneten Modulschichten, die das Auflösen der benötigten benannten Modulabhängigkeiten unterstützen und die Modulsuche an entsprechen Modulschichten weiterleitet. \bigbreak
 
     Das neue Konzept der Modulschichten erweitert das bestehende System der selbst erstellten hierarchischen Namensräume, indem Modulabhängigkeiten beim Laden in die Applikation validiert, gruppiert und aktiv verwaltet werden können. Darüber hinaus enthält die Modulschicht-Konfiguration die komplette Information über den Inhalt ihrer Schicht sowie der darunterliegenden Modulschichten. \newline
-    Die Konfiguration von dem dynamisch nachgeladenen Code, der Schichtenübergreifend validiert wird, verhindert das überlagern der bereits integriertem Code und ändert die Art und Weise wie die Suche nach Modulklassen durchgeführt wird. \newline
+    Die Konfiguration von dem dynamisch nachgeladenen Code, der Schichtenübergreifend validiert wird, verhindert das Überlagern den bereits integrierten Code und ändert die Art und Weise wie die Suche nach Modulklassen durchgeführt wird. \newline
     Die Klassensuche wird nun mit der \textit{direkten Delegation} durchgeführt, die zuerst die eigene Schicht bevorzugt bevor die Anfrage an die darüberliegende Schicht weiterleitet wird. Die übergeordnete Schicht verhält sich nach demselben Prinzip und versucht zuerst selbst die Klasse zu laden bevor die nächste Delegation durchgeführt wird. \bigbreak
 
     Kurzgefasst gehören Schichten zu Modulen wie Klassenlader zu Klassen. Ein Mechanismus zum Laden und Instanziieren von Elementen mit erweiterten Services und Sicherheitsbestimmungen.\cite{javaMod9,parentDelegationModel,modulMitJava9}
 
+  \section{Service-Lader} \label{sec:servLoad} 
+    Die Java Version 1.6 führt ein Konzept der Dienste ein, die eine bessere Entkopplung zwischen Klassen unterstützt, indem Klassenabhängigkeiten erst zur Laufzeit aufgelöst werden können. Dadurch wird eine Entkopplung zwischen den Anbieter-Klassen und den später auf diese zugreifenden Nutzer-Klassen erreicht, indem die Klassenbindung nicht über eine direkte Implementierung, sondern über eine Schnittstelle umgesetzt wird. Über den \textit{Service-Lader} kann anschließend auf die einzelnen Implementierung-Instanz zugegriffen werden. \bigbreak
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.8\textwidth]{material/images/ServiceLoadingMulti.pdf}
+      \caption{Service-Lader Konzept}
+      \label{fig:serviceLoaderMulti}
+    \end{figure}
+    Die Dienst–Anbieter und Dienst-Nutzer lassen sich in der \textit{module-info.java} Konfigurationsdatei definieren und zur Laufzeit die Implementierung eines bestimmten Dienste von der Applikation wählen lassen, ohne dass zuvor eine explizite Abhängigkeit zwischen diesen Modulen deklariert wurde. \bigbreak
 
-\section{JDK Modulsystem} \label{sec:modular_java_base}
+    Der Java \textit{Service-Lader} spielt eine wichtige Rolle für die Entkopplung der Module. Dieser sucht in der Applikation nach angebotenen Diensten für eine entsprechende Schnittstelle ab und versorgt den Nutzer mit einer möglichen Umsetzung. Somit können mehrere gleiche oder unterschiedliche Dienste in der Applikation existieren und von den Nutzer entkoppelt abgefragt und ausgeführt werden. Dafür wird in der \textit{module-info.java} mit den \textit{provides with} und \textit{uses} Schlüssel die Dienst Kommunikation etabliert und über den \textit{Service-Lader} umgesetzt. Somit dient die \textit{Service-Lader} Instanz innerhalb der Applikation als ein Registrierungsdienst.\bigbreak
+
+
+    In der Abbildung \ref{fig:serviceLoaderMulti} ist ein Nutzermodul abgebildet welches ein Dienst des Schnittstellen-Moduls anfordert. Die Suche nach einem Dienst für die angefragte Schnittstelle übernimmt der \textit{Service-Lader} und instaziirt eine List an möglichen Anbietern. Der Nutzer kann anschließend entscheiden welche Implementation er nutzen möchte.   
+
+
+\section{Der modularisierte JDK} \label{sec:modular_java_base}
   Um die Aufgestellten Regeln und Konzepte des entworfenen Modulsystems in Java zu integrieren, muss die Java Plattform diese selbst als Vorreiter erfüllen. \bigbreak
   Demnach wurde die Laufzeitumgebung (\textit{Run-Time}), die aus der \textit{rt.jar} besteht, auf Module aufgeteilt und mit einander über Kommunikationsregeln und Schnittstellen verknüpft. Das Ergebnis der modularisierten \textit{rt.jar} ergab 70 Module, die sich gegenseitig ergänzen. \newline
   In der Konsequenz ist eine kleine Applikation, die sich nur an dem \textit{base} Modul bedient, mit einem Speicherbedarf von 16 MB umsetzbar. Im Gegensatz dazu müssten für ein paar Zeilen Code in der 8 Version von Java, 160 MB der \textit{rt.jar} in die Laufzeitumgebung miteinbezogen werden, um den Laufzeitanforderungen zu entsprechenden.\bigbreak
