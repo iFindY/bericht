@@ -9,7 +9,7 @@
 
   % Moduleigenschaften 
   \section{Ziele der Modularisierung} \label{sec:ZdM}
-    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. Darüber hinaus vereinfachen die von der Modularität geforderte Schnittstellen Spezifizierung die Kommunikation zwischen den Modulen und fördert damit die Erweiterbarkeit des Systems. Da die Module austauschbar sind und unabhängig voneinander betrieben werden können, eröffnen sich neue Möglichkeiten der Softwareentwicklung. Wie zum Beispiel die Erstellung verschiedenen Varianten der Umsetzung, durch die Rekombination existierender Module, ohne die ganze Applikation zu in Betracht zu ziehen.\cite{javaMod9,java9modRevealed,explorJava9}\bigbreak
+    Die Modularisierung beschäftigt sich mit der Aufteilung eines Systems in Module, die Komplexität verringern, indem die einzelnen Module getrennt voneinander betrachtet und verstanden werden. Dies wiederum unterstützt die Wartbarkeit der einzelnen Module. Darüber hinaus vereinfachen die von der Modularität geforderte Schnittstellenspezifizierung die Kommunikation zwischen den Modulen und fördert damit die Erweiterbarkeit des Systems. Da die Module austauschbar sind und unabhängig voneinander betrieben werden können, eröffnen sich neue Möglichkeiten der Softwareentwicklung. Wie zum Beispiel die Erstellung verschiedenen Varianten der Umsetzung, durch die Rekombination existierender Module, ohne die ganze Applikation zu in Betracht zu ziehen.\cite{javaMod9,java9modRevealed,explorJava9}\bigbreak
 
     Um die Aufgabe des Java Modularisierung zu verstehen, bedarf es einer Aufstellung von Zielen und Qualitäten, denen sich die Modularisierung stellt. Für JPMS sind diese eindeutig in der \textit{JSR 376} \cite{jmsOracle,java9modRevealed} beschrieben und spezifizieren die Folgenden Qualitäten.
 
@@ -135,7 +135,7 @@
     \end{figure}
 
     Die in der Abbildung \ref{fig:module-info} dargestellten und vorher diskutierten Kopplungsarten, können die Zugriffsberechtigungen ferner einschränken. Diese können ihre Schnittstelle exklusiven Modulen öffnen, die fortan als eine transitive Verbindung weiterreichen und obendrein als eine optionale Abhängigkeit deklarieren. Die \textit{uses} und \textit{provides} Schlüssel beschreiben eine Dienstanfrage sowie einen Dienstangebot, die durch den Java \textit{Service-Lader} mit einender verknüpft werden.\newline
-    Der \textit{ServiceLoader} übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. Das Konzept der Dienstregistrierung und der Dienstverwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \cite{softModDes,modulMitJava9} \bigbreak
+    Der \textit{Service-Lader} übernimmt in diesem Fall die Rolle des Registrierungsdienstes und vermittelt das Angebot und die Nachfrage nach Funktionalität innerhalb der Applikation. Das Konzept der Dienstregistrierung und der Dienstverwaltung geht über die Grundlagen hinaus und wird hier nicht weiter diskutiert, dessen ungeachtet ist es eine zusätzliche Möglichkeit die Modulkopplung zu minimieren. \cite{softModDes,modulMitJava9} \bigbreak
 
       \begin{figure}[h!]
       \centering
@@ -159,9 +159,9 @@
       \newline \textit{opens} Packet
       \newline \textit{opens} Packet \textit{to} Modul-1, Modul-2
       \item [uses]\hfill
-      \newline \textit{uses} Service-Schnittstelle 
+      \newline \textit{uses} Dienst-Schnittstelle 
       \item[provides]\hfill
-        \newline \textit{provides} Service-Schnittstelle \textit{with} Service-Impl-1, Service-Impl-2
+        \newline \textit{provides} Dienst-Schnittstelle \textit{with} Service-Impl-1, Service-Impl-2
   \end{description}
 
 
@@ -191,7 +191,7 @@
       \label{fig:module-graph}
     \end{figure}
 
-     Das Laden von zusätzlichen Modulen geschieht in zwei Phasen. Zuerst wird eine Konfiguration erstellt, die ausgewählte Module für das Laden in die Applikation aufnimmt. Die Konfiguration benötigt eine Modulmenge sowie die ausgewählte Wurzel-Module, aus den anschließend alle Modulabhängigkeiten ermittelt und validiert werden. Dafür wird ein neu eingeführtes Objekt genutzt, nämlich der \textit{ModulFinder}, der für ein gegebenes Verzeichnis die Meta-Informationen aller Module ausliest und für die Nutzung bereitstellt. \newline
+     Das Laden von zusätzlichen Modulen geschieht in zwei Phasen. Zuerst wird eine Konfiguration erstellt, die ausgewählte Module für das Laden in die Applikation aufnimmt. Die Konfiguration benötigt eine Modulmenge sowie die ausgewählte Wurzel-Module, aus den anschließend alle Modulabhängigkeiten ermittelt und validiert werden. Dafür wird ein neu eingeführtes Objekt genutzt, nämlich der \textit{Modul-Sucher}, der für ein gegebenes Verzeichnis die Meta-Informationen aller Module ausliest und für die Nutzung bereitstellt. \newline
      Im nächsten Schritt müssen die gefundenen Module auf Konsistenten geprüft werden. Dazu wird ein Modul Graph \ref{fig:module-graph} erzeugt, der aus den gegebenen Wurzel-Modulen alle geforderten Modulbeziehungen auflöst, auf \textit{Zyklen}, \textit{Split Packages} sowie valide Zugriffsrechte inspiziert und im Anschluss den Code für ausführbar erklärt. Der Prozess stellt sicher, dass alle Abhängigkeiten, einschließlich der indirekten Abhängigkeiten, aufgelöst werden können.\newline
      Das Ergebnis besteht aus einer betriebsfähigen Konfiguration mit einem Strukturgraphen der aufgelösten Abhängigkeiten, die für die Ausführung im Applikationskontext benötigt werden. \cite{java9modRevealed}\bigbreak 
 
@@ -208,7 +208,7 @@
     Die Konfiguration von dem dynamisch nachgeladenen Code, der Schichtenübergreifend validiert wird, verhindert das Überlagern den bereits integrierten Code und ändert die Art und Weise wie die Suche nach Modulklassen durchgeführt wird. \newline
     Die Klassensuche wird nun mit der \textit{direkten Delegation} durchgeführt, die zuerst die eigene Schicht bevorzugt bevor die Anfrage an die darüberliegende Schicht weiterleitet wird. Die übergeordnete Schicht verhält sich nach demselben Prinzip und versucht zuerst selbst die Klasse zu laden bevor die nächste Delegation durchgeführt wird. \bigbreak
 
-    Kurzgefasst gehören Schichten zu Modulen wie Klassenlader zu Klassen. Ein Mechanismus zum Laden und Instanziieren von Elementen mit erweiterten Services und Sicherheitsbestimmungen.\cite{javaMod9,parentDelegationModel,modulMitJava9}
+    Kurzgefasst gehören Schichten zu Modulen wie Klassenlader zu Klassen. Ein Mechanismus zum Laden und Instanziieren von Elementen mit erweiterten Diensten und Sicherheitsbestimmungen.\cite{javaMod9,parentDelegationModel,modulMitJava9}
 
   \section{Service-Lader} \label{sec:servLoad} 
     Die Java Version 1.6 führt ein Konzept der Dienste ein, die eine bessere Entkopplung zwischen Klassen unterstützt, indem Klassenabhängigkeiten erst zur Laufzeit aufgelöst werden können. Dadurch wird eine Entkopplung zwischen den Anbieter-Klassen und den später auf diese zugreifenden Nutzer-Klassen erreicht, indem die Klassenbindung nicht über eine direkte Implementierung, sondern über eine Schnittstelle umgesetzt wird. Über den \textit{Service-Lader} kann anschließend auf die einzelnen Implementierung-Instanz zugegriffen werden. \bigbreak

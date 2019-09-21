@@ -90,7 +90,7 @@
 	Die \textit{Bottom Up} Migration behandelt lose Module zuerst, denn diese haben keine Abhängigkeiten und bieten eine gekapselte Funktionalität an. Um herauszufinden, welche Module sich für den initialen Migrationsschritt eignen, kann der Abhängigkeitsgraph mithilfe des \textit{JDepth} erstellt werden. Module, die als Blätter aufzufinden sind, können zuerst migriert werden, da sie keine Kinderknoten und somit keine Abhängigkeiten besitzen. Im weiteren Verlauf der Migration werden die übrig gebliebenen und neu entstandenen Blätter des Abhängigkeitsbaums abgearbeitet, bis die ganze Applikation, samt der Drittanbieter Bibliotheken, sich auf dem Modulpfad befindet. Während der Migration müssen natürlich die im Kapitel \ref{sec:MEK} besprochenen Kriterien erfüllt werden, um eine robuste Umsetzung zu erreichen. \cite{javaMod9,modulProgJava9,java9modRevealed,modulMitJava9,masteringJava9} \bigbreak
 	\begin{figure}[h]
 		\centering
-	    \includegraphics[width=0.8\textwidth]{material/images/down-up-migrate.pdf}
+	    \includegraphics[width=0.8\textwidth]{material/images/bottom-up-migrate.pdf}
 	    \caption{\textit{Bottom Up} Migration \cite{modulMitJava9}}
 	    \label{fig:BUM}
   	\end{figure}
