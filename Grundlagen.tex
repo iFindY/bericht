@@ -1,5 +1,5 @@
 \chapter{Grundlagen} \label{cha:Grundlagen}
-  In diesem Kapitel werden Begriffe und Konzepte vorgestellt, die für die Umsetzung dynamischer Java Systeme notwendig sind. Zuerst wird der Aufgabenbereich der virtuellen Maschine von Java erläutert, die für den Betrieb jeder Java-Applikation eine Grundlage liefert. Folgend werden einzelne Aufgabenbereiche und Konzepte der JVM(virtuellen Maschine von Java) in einzelnem betrachtet und das Arbeiten mit dem Java-Code vorgestellt. Dafür werden Konzepte des Klassenpfads, Klassenladers, Delegation, Schnittstellen und Reflektion präsentiert, die das Arbeiten mit dynamischem Java-Code ermöglichen und eine Grundalge für die \textsc{Renew} Plugin-Architektur darstellen. Darüber hinaus wird das \textit{Gradle} Werkzeug eingeführt, welches für das Erstellen ausführbarer Software zuständig ist und zukünftig eingesetzt werden soll. 
+  In diesem Kapitel werden Begriffe und Konzepte vorgestellt, die für die Umsetzung dynamischer Java Systeme notwendig sind. Zuerst wird der Aufgabenbereich der virtuellen Maschine von Java erläutert, die für den Betrieb jeder Java-Applikation eine Grundlage liefert. Folgend werden einzelne Aufgabenbereiche und Konzepte der JVM(virtuellen Maschine von Java) in einzelnem betrachtet und das Arbeiten mit dem Java-Code vorgestellt. Dafür werden Konzepte des Klassenpfads, Klassenladers, Delegation, Schnittstellen und Reflexion präsentiert, die das Arbeiten mit dynamischem Java-Code ermöglichen und eine Grundalge für die \textsc{Renew} Plugin-Architektur darstellen. Darüber hinaus wird das \textit{Gradle} Werkzeug eingeführt, welches für das Erstellen ausführbarer Software zuständig ist und zukünftig eingesetzt werden soll. 
 
 \section{Java Virtual Machine} \label{sec:JVM}
 
@@ -8,7 +8,7 @@
   Einer der wichtigen Bausteine von Java, ist die virtuelle Maschine, die das Suchen, Laden und Ausführen einer Codebasis auf allen gängigen Betriebssystemen erlaubt. Demzufolge spielt das Laden von Klassen aus örtlich unabhängigen Komponenten eine große Rolle für die entstandene \textsc{Renew} Architektur, denn die Plugins müssen gefunden, geladen und kommunikationsfähig eingerichtet werden, sodass sie sich gegenseitig nutzen und beeinflussen können.\bigbreak
 
   % Kapitelübersicht
-  %In diesem Kapitel werden grundlegende Konzepte des \textit{ Klassenpfads, Klassenladers} und \textit{Reflektion} erläutert, mithilfe dessen die \textsc{Renew} Plugin- Architektur umgesetzt wurde.
+  %In diesem Kapitel werden grundlegende Konzepte des \textit{ Klassenpfads, Klassenladers} und \textit{Reflexion} erläutert, mithilfe dessen die \textsc{Renew} Plugin- Architektur umgesetzt wurde.
 
 \section{Klassenpfad} \label{sec:K}
 
@@ -40,11 +40,11 @@
   \end{figure}
 
   % Erweitere Klassenpfad mit dem Manifest 
-  Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Meta-Information über den Container in sich trägt. 
+  Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Metainformation über den Container in sich trägt. 
   
-  % Manifest Meta-information 
+  % Manifest Metainformation 
   Dank der Java Strukturrichtlinie, befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist.\newline
-  Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferte Meta-Information komplett ist. \cite{classLoadingOracle}
+  Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferte Metainformation komplett ist. \cite{classLoadingOracle}
 
 
 \section{Klassenlader}\label{sec:cl}
@@ -144,13 +144,13 @@
   % Der Plugin Manager % einer der aufgaben 
   Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus mit allen möglichen Plugin Zuständen währender der Laufzeit. Für aufeinander basierende Plugins ist die Struktur strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlesereihenfolge der Plugins nicht stimmt oder erwartete Plugins nicht präsent sind, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
 
-\section{Reflektion}\label{sec:refl}
+\section{Reflexion}\label{sec:refl}
   % Kurze einleitung 
-  Reflektion ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu analysieren und zu ändern. 
-  Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mithilfe der Reflektion-API während der Laufzeit instanziiert, bearbeitet und genutzt werden. Somit ermöglicht Reflektion das Arbeiten mit Klassen, von denen man im Voraus nicht wissen kann, wie zum Beispiel von Klassen, die in der Zeit nach der Applikation entstanden sind.\bigbreak 
+  Reflexion ist die Fähigkeit eines laufenden Programms, sich selbst und seine Softwareumgebung zu analysieren und zu ändern. 
+  Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mithilfe der Reflexion-API während der Laufzeit instanziiert, bearbeitet und genutzt werden. Somit ermöglicht Reflexion das Arbeiten mit Klassen, von denen man im Voraus nicht wissen kann, wie zum Beispiel von Klassen, die in der Zeit nach der Applikation entstanden sind.\bigbreak 
  % Überblick: Problemstellung die Reflexion löst 
   In vielen Fällen der Applikationsentwicklung möchte man die Applikation von anderen Nutzern und Entwicklern erweitern lassen, ohne dass diese bei jeder Änderung die komplette Applikation umbauen müssen. Somit stellt sich die Frage, wie erstellt man ein Mechanismus, der mit beliebigen Klassen arbeiten kann.\newline
-  Man könnte mit den zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus dem Kern und Drittanbieter Bibliotheken, über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. Dementsprechend sollte Reflektion genutzt werden. Diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
+  Man könnte mit den zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus dem Kern und Drittanbieter Bibliotheken, über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. Dementsprechend sollte Reflexion genutzt werden. Diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
 
   \begin{figure}[h!]
     \centering
@@ -160,10 +160,10 @@
   \end{figure}
 
   % Sequenzdiagram 
-  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflektion visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur für den Stammobjekt Typen deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection} 
+  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflexion visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur für den Stammobjekt Typen deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection} 
 
  % Nutzen: Felder Methode, Konstruktoren
-  \bigbreak Somit sind die drei Hauptmerkmale einer Klasse ihre Felder, Methoden sowie Konstruktoren durch eine entsprechendes Java Objekt aus der Reflektion-API repräsentiert. 
+  \bigbreak Somit sind die drei Hauptmerkmale einer Klasse ihre Felder, Methoden sowie Konstruktoren durch eine entsprechendes Java Objekt aus der Reflexion-API repräsentiert. 
 
   \begin{itemize}
     \item java.lang.reflect.Field
@@ -180,10 +180,10 @@
   \end{itemize}
   \bigbreak 
 
-  Um den Zusammenhang und den Nutzen von Reflektion darzustellen, wird in der Abbildung \ref{my-refl} ein Szenario durchgespielt, das eine unbekannten Typen mithilfe des Konstruktors initialisiert, dessen Methoden aufruft, das Feld bearbeitet und wiedergibt, ohne die Objektstruktur im Voraus zu kennen. Des Weiteren ist zu beachten, dass statische Klassenmethoden sowie private Felder und Methoden mithilfe von Reflektion offen zugänglich gemacht werden können.\cite{Forman04javareflection}\bigbreak 
+  Um den Zusammenhang und den Nutzen von Reflexion darzustellen, wird in der Abbildung \ref{my-refl} ein Szenario durchgespielt, das eine unbekannten Typen mithilfe des Konstruktors initialisiert, dessen Methoden aufruft, das Feld bearbeitet und wiedergibt, ohne die Objektstruktur im Voraus zu kennen. Des Weiteren ist zu beachten, dass statische Klassenmethoden sowie private Felder und Methoden mithilfe von Reflexion offen zugänglich gemacht werden können.\cite{Forman04javareflection}\bigbreak 
 
   % Bild mit Code der eine Objekt erstellt und Methoden aufruft. Mit Kommentaren zwischen den Zeilen.
-  \begin{lstlisting}[caption=Reflektion in Aktion,label=my-refl,captionpos=b]
+  \begin{lstlisting}[caption=Reflexion in Aktion,label=my-refl,captionpos=b]
     public static void getMethods(@NotNull Class clazz) throws
             NoSuchMethodException, NoSuchFieldException,
            InvocationTargetException, InstantiationException,
@@ -205,14 +205,14 @@
     }
   \end{lstlisting}
 
- % Wo wird Reflektion genutzt, wieso ist es so nützlich in der Modernen Software-Entwicklung 
-  Wie in der Abbildung \ref{my-refl} dargestellt ist Reflektion ein mächtiges Werkzeug, das aus der morden Softwareentwicklung nicht wegzudenken ist und wird in zahlreichen Framework's verwendet, um den Entwickler zu unterstützen. 
+ % Wo wird Reflexion genutzt, wieso ist es so nützlich in der Modernen Software-Entwicklung 
+  Wie in der Abbildung \ref{my-refl} dargestellt ist Reflexion ein mächtiges Werkzeug, das aus der morden Softwareentwicklung nicht wegzudenken ist und wird in zahlreichen Framework's verwendet, um den Entwickler zu unterstützen. 
 
   \begin{itemize}
-    \item Zum Beispiel wird \textit{Dependency Injection} mithilfe von Reflektion realisiert, indem ein Framework, wie zum Beispiel Spring, die entsprechende Implementierung für ein Interface sucht und initiiert. In Diesem Zusammenhang wird Anhand des \textit{implement} Schlüssels und zusätzlicher Meta-Information aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
+    \item Zum Beispiel wird \textit{Dependency Injection} mithilfe von Reflexion realisiert, indem ein Framework, wie zum Beispiel Spring, die entsprechende Implementierung für ein Interface sucht und initiiert. In Diesem Zusammenhang wird Anhand des \textit{implement} Schlüssels und zusätzlicher Metainformation aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
     \item Beim Serialisieren und Deserialisieren von Objekten werden die Objektfelder in JSON und wieder zurück konvertiert, ohne die Feldnamen sowie ihre Anzahl zu kennen.
     \item Die Web-Container Tomcat oder WildFly leiteten die Web-Anfragen an das entsprechende Modul durch das Analysieren der \textit{web.xml} und Anfordern der passenden URI.
-    \item JUnit verwendet Reflektion, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
+    \item JUnit verwendet Reflexion, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
   \end{itemize}
 
 

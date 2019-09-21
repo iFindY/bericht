@@ -96,7 +96,7 @@
   	\end{figure}
 	In der Abbildung \ref{fig:BUM} wird der erste Schritt der \textit{Bottom Up} Migration angedeutet, indem die \textit{lib B} als erste auf den Modulpfad migriert wird. Diese hat keine Abhängigkeiten und ist der perfekte Kandidat für den initialen Schritt. Als Nächstes bietet sich die \textit{lib} Bibliothek für die Migration an, da sie keine weiteren Abhängigkeiten in den Klassenpfad besitzt. Jedoch ist sie eine Drittanbieter Bibliothek und kann von uns nicht bearbeitet werden. Aufgrund dessen wird die \textit{lib C} für  den nächsten Migrationsschritt ausgewählt und als ein \textit{automatisches Modul} auf den Modulpfad migriert. Somit kann dieses die \textit{lib} und \textit{lib B} zugleich nutzen. Als Nächstes ist die \textit{lib A} an der Reihe, dessen komplette Abhängigkeiten sich bereits auf dem Modulpfad befinden. In der Konsequenz befinden sich alle Applikationsbibliotheken auf dem Modulpfad. \cite{javaMod9,modulProgJava9,java9modRevealed,modulMitJava9,masteringJava9} \bigbreak
 
-	Die \textit{Bottom Up} Migration bietet sich bei bereits aufgeteilten Applikationsarchitektur an, die über eine Menge von \textit{Jar} Bibliotheken betrieben wird. Diese braucht weniger Aufwand, um den Monolithen zu zerlegen und sind bereits über Schnittstellen mit einander Verbunden. \cite{modulProgJava9,modulMitJava9}
+	Die \textit{Bottom Up} Migration bietet sich bei bereits aufgeteilten Applikationsarchitektur an, die über eine Menge von \textit{Jar} Bibliotheken betrieben wird. Diese braucht weniger Aufwand, um den Monolithen zu zerlegen und sind bereits über Schnittstellen miteinander Verbunden. \cite{modulProgJava9,modulMitJava9}
 
 
 
