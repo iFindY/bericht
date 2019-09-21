@@ -1,10 +1,10 @@
 \chapter{Grundlagen} \label{cha:Grundlagen}
-  In diesem Kapitel werden Begriffe und Konzepte vorgestellt, die für die Umsetzung dynamischer Java Systeme notwendig sind. Zuerst wird der Aufgabenbereich der virtuellen Maschine von Java erläutert, die für den Betrieb jeder Java-Applikation eine Grundlage liefert. Folgend werden einzelne Aufgabenbereiche und Konzepte der JVM(virtuellen Maschine von Java) in einzelnem betrachtet und das Arbeiten mit dem Java-Code vorgestellt. Dafür werden Konzepte des Klassenpfads, Klassenladers, Delegation, Schnittstellen und Reflexion präsentiert, die das Arbeiten mit dynamischem Java-Code ermöglichen und eine Grundalge für die \textsc{Renew} Plugin-Architektur darstellen. Darüber hinaus wird das \textit{Gradle} Werkzeug eingeführt, welches für das Erstellen ausführbarer Software zuständig ist und zukünftig eingesetzt werden soll. 
+  In diesem Kapitel werden Begriffe und Konzepte vorgestellt, die für die Umsetzung dynamischer Java Systeme notwendig sind. Zuerst wird der Aufgabenbereich der virtuellen Maschine von Java erläutert, die für den Betrieb jeder Java-Applikation eine Grundlage liefert. Folgend werden einzelne Aufgabenbereiche und Konzepte der JVM(virtuellen Maschine von Java) in einzelnem betrachtet und das Arbeiten mit dem Java-Code vorgestellt. Dafür werden Konzepte des Klassenpfads, Klassenladers, Delegation, Schnittstellen und Reflexion präsentiert, die das Arbeiten mit dynamischem Java-Code ermöglichen und eine Grundlage für die \textsc{Renew} Plugin-Architektur darstellen. Darüber hinaus wird das \textit{Gradle} Werkzeug eingeführt, welches für das Erstellen ausführbarer Software zuständig ist und zukünftig eingesetzt werden soll. 
 
 \section{Java Virtual Machine} \label{sec:JVM}
 
   % java einleitung
-  Gemessen am Interesse der Anwender und an ihrer Verbreitung ist Java die erfolgreichste Programmiersprache der letzten Jahre. Der Erfolg kam mit der Objektorientierung sowie der Plattformunabhängigkeit. Diese Fähigkeiten brachten eine große und fähige Kommune zusammen, die sowohl aus der Wirtschaft als auch aus dem Forschungsbereich stammt. Dementsprechend ist Java im Laufe der Zeit durch Designmuster, Architekturkonzepte, Paradigmen und aktuellen Sicherheit- sowie Industriestandrats erweitert worden. Da \textsc{Renew} mithilfe der Java Plattform umgesetzt wurde, kann sie sie sich alle gegebenen Vorteile zunutze machen. \newline
+  Gemessen am Interesse der Anwender und an ihrer Verbreitung ist Java die erfolgreichste Programmiersprache der letzten Jahre. Der Erfolg kam mit der Objektorientierung sowie der Plattformunabhängigkeit. Diese Fähigkeiten brachten eine große und fähige Kommune zusammen, die sowohl aus der Wirtschaft als auch aus dem Forschungsbereich stammt. Dementsprechend ist Java im Laufe der Zeit durch Designmuster, Architekturkonzepte, Paradigmen und aktuellen Sicherheit- sowie Industriestandrats erweitert worden. Da \textsc{Renew} mithilfe der Java Plattform umgesetzt wurde, kann sie sich alle gegebenen Vorteile zunutze machen. \newline
   Einer der wichtigen Bausteine von Java, ist die virtuelle Maschine, die das Suchen, Laden und Ausführen einer Codebasis auf allen gängigen Betriebssystemen erlaubt. Demzufolge spielt das Laden von Klassen aus örtlich unabhängigen Komponenten eine große Rolle für die entstandene \textsc{Renew} Architektur, denn die Plugins müssen gefunden, geladen und kommunikationsfähig eingerichtet werden, sodass sie sich gegenseitig nutzen und beeinflussen können.\bigbreak
 
   % Kapitelübersicht
@@ -16,7 +16,7 @@
   Jede Java-Anwendung wird zuerst in einer für menschlich verständlichen Sprache geschrieben und anschließend in Byte-Code übersetzt. Infolgedessen ist der Code einsatzbereit für die Ausführung und wird an die virtuelle Maschine weiter gereicht.
 
   % Aufgabe des Klassenpfads 
-  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{ClassPath} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokalen Dateisystem, das Netzwerk oder sogar die Datenbank. 
+  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{ClassPath} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokale Dateisystem, das Netzwerk oder sogar die Datenbank. 
 
   % Ergebnis des Klassenpfad
   Nachdem der Klassenpfad für die entsprechenden Klassenlader gesetzt ist, kann das \textit{Klassenlader-System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
@@ -28,7 +28,7 @@
   \end{figure}
 
   % Klassenpfad Zusammensetzbar  
-  Im Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, so dass der \textit{Applikation Klassenlader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
+  Im Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, sodass der \textit{Applikation Klassenlader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
 
   % Classloading mit Richtung 
   Beim Starten der Applikation werden Klassen instanziiert, indem der Klassenpfad, von links nach rechts, nach dem benötigten Typ durchsucht und diese erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
@@ -43,7 +43,7 @@
   Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Metainformation über den Container in sich trägt. 
   
   % Manifest Metainformation 
-  Dank der Java Strukturrichtlinie, befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, der auf eine Klasse mit der \textit{main} Methode verweist.\newline
+  Dank der Java Strukturrichtlinie, befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, die auf eine Klasse mit der \textit{main} Methode verweist.\newline
   Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferte Metainformation komplett ist. \cite{classLoadingOracle}
 
 
@@ -66,7 +66,7 @@
     \end{figure}
     
     % Aufbau
-    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Klassenlader}. Dieser Klassenlader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Klassenlader für Erweiterungen kann Klassen  aus dem Standarderweiterungspaket im Erweiterungsverzeichnis \textit{lib/ext} dazu laden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunterliegende \textit{Applikation Klassenlader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad einschließlich der zu startenden Anwendung. Zuletzt können benutzerdefinierte Klassenlader erstellt werden, die sich auf der unteren Ebene der Klassenlader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug, um eine große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Klassenlader}.\bigbreak 
+    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Klassenlader}. Dieser Klassenlader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Klassenlader für Erweiterungen kann Klassen  aus dem Standarderweiterungspaket im Erweiterungsverzeichnis \textit{lib/ext} dazu laden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunterliegende \textit{Applikation Klassenlader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad, einschließlich der zu startenden Anwendung. Zuletzt können benutzerdefinierte Klassenlader erstellt werden, die sich auf der unteren Ebene der Klassenlader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug, um eine große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Klassenlader}.\bigbreak 
     % Delegierungsmodell übergang
     Das in \ref{fig:cl} abgebildete Klassenlader-System verhindert, dass der Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem derselbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welches eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Klassenlader-Hierarchie abgearbeitet wird.  \cite{classLoadingIntro} 
     
@@ -87,7 +87,7 @@
     \end{figure}
 
     % Sichtbarkeit und Hierarchie 
-    Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wird diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige Klassenlader als letzter die Klasse selbstständig zu laden. Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem Klassenlader sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem Klassenlader in einem Baum geladen werden kann, wird immer die Klasse des übergeordneten Klassenlader eingelesen priorisiert. Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des Klassenladers nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten Klassenlader außer dem jetzigen war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Typ sofort zurückgegeben wird. \cite{parentDelegationModel}
+    Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wird diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige Klassenlader, als letzter die Klasse selbstständig zu laden. Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem Klassenlader sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem Klassenlader in einem Baum geladen werden kann, wird immer die Klasse des übergeordneten Klassenlader eingelesen priorisiert. Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des Klassenladers nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten Klassenlader außer dem jetzigen war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Typ sofort zurückgegeben wird. \cite{parentDelegationModel}
 
 
   \subsection{Namensräume} \label{sec:nam}
@@ -105,7 +105,7 @@
     \end{figure}
 
     % Ungleichheit identischer Klassen 
-    Die Abbildung \ref{fig:nam} zeigt ein Beispiel für eine Klassenidentitätskrise, die sich ergibt, wenn eine Schnittstelle und die zugehörige Implementierung jeweils von zwei separaten Klassenlader geladen werden. Obwohl die Namen und binären Implementierungen der Schnittstellen und Klassen gleich sind, kann eine Instanz der Klasse von einem Klassenlader nicht als Implementierung des Interfaces von dem anderen Klassenlader erkannt werden. Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von den Applikation Klassenlader geladen wird. Somit implementieren beide \textit{Print} Klassen dieselbe Schnittstelle.\bigbreak 
+    Die Abbildung \ref{fig:nam} zeigt ein Beispiel für eine Klassenidentitätskrise, die sich ergibt, wenn eine Schnittstelle und die zugehörige Implementierung jeweils von zwei separaten Klassenlader geladen werden. Obwohl die Namen und binären Implementierungen der Schnittstellen und Klassen gleich sind, kann eine Instanz der Klasse von einem Klassenlader nicht als Implementierung des Interfaces von dem anderen Klassenlader erkannt werden. Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von dem Applikation Klassenlader geladen wird. Somit implementieren beide \textit{Print} Klassen dieselbe Schnittstelle.\bigbreak 
 
     % Schutz des Codes 
     Der Klassen Namensraum bietet zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Denn die Namensräume verhindern, dass der weniger vertrauenswürdige Code, der aus der Applikation oder benutzerdefinierte Klassenlader geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Klassenlader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende Klassenlader weitergereicht wird.
@@ -134,7 +134,7 @@
   Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen der unbekannten \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit können dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden, ohne dass die Applikation verändert wird. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instanziieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter, ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
 
 \section{Plugin Konzept} \label{sec:pm}
-  Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diese zu einem später Zeitpunkt entfernt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins einem Kommunikationsvertrag eingehen und befolgen, um eine Kommunikation mit der Kernapplikation aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{Interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht die Beziehung zwischen den Plugins und dem Plugin-Manager der Kernapplikation. \bigbreak
+  Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diese zu einem späteren Zeitpunkt entfernt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins einem Kommunikationsvertrag eingehen und befolgen, um eine Kommunikation mit der Kernapplikation aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{Interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht die Beziehung zwischen den Plugins und dem Plugin-Manager der Kernapplikation. \bigbreak
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{material/images/pluginKonzept.pdf}
@@ -142,7 +142,7 @@
     \label{fig:pluginUMLD}
   \end{figure}
   % Der Plugin Manager % einer der aufgaben 
-  Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus mit allen möglichen Plugin Zuständen währender der Laufzeit. Für aufeinander basierende Plugins ist die Struktur strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlesereihenfolge der Plugins nicht stimmt oder erwartete Plugins nicht präsent sind, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. 
+  Der \textit{Plugin Manager} ist zuständig für das Erfassen sowie Einlesen der Plugin Codebasis in dem Arbeitsspeicher und für die Verwaltung des dazugehörigen Lebenszyklus mit allen möglichen Plugin Zuständen währender der Laufzeit. Für aufeinander basierende Plugins ist die Struktur strikt, da die Plugins auf bestimmten Drittanbieter sowie Plugin-Bibliotheken aufgebaut sind und diese für die Ausführung benötigten. Wenn die Einlesereihenfolge der Plugins nicht stimmt oder erwartete Plugins nicht präsent sind, vermisst der Klassenpfad die von dem Plugin angeforderte Klasse und führt zu einem Startabbruch der gesamten Applikation. Daher ist das Laden der Drittanbieter-Bibliotheken sowie der Plugins in der vorgegebenen Reihenfolge eine verantwortungsvolle Aufgabe. \cite{tubiblio36573} 
 
 \section{Reflexion}\label{sec:refl}
   % Kurze einleitung 
@@ -160,7 +160,7 @@
   \end{figure}
 
   % Sequenzdiagram 
-  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflexion visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur für den Stammobjekt Typen deklarieren Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection} 
+  In der Abbildung \ref{fig:refl-fluss} wird ein Ablauf eines Methodenaufrufs mithilfe von Reflexion visualisiert. Im ersten Schritt muss die Methode gefunden werden. Da wir den Typen nicht kennen und nur für den Stammobjekttypen deklarierten Methoden nutzen können, lassen wir das Objekt sich selbst inspizieren und die geforderte Methode finden. Dafür wird nach einer bestimmten Methode der Klasse gesucht und bei Erfolg ein Objekt von Typ \textit{Method} zurückgegeben. Das Methodenobjekt enthält die ganze Information über die gesuchte Methode, wie zum Beispiel Parameter und Rückgabewerte. Ausgerüstet mit der benötigten Information kann die Methode ausgeführt werden. Dafür braucht das Methodenobjekt eine Instanz der passenden Klasse sowie für die Ausführung benötigten Parameter. Nach der Abwickelung wird das Ergebnis der Ausführung vom der Objektinstanz über das Methodenobjekt zurück in den Programmfluss delegiert. \cite{Forman04javareflection} 
 
  % Nutzen: Felder Methode, Konstruktoren
   \bigbreak Somit sind die drei Hauptmerkmale einer Klasse ihre Felder, Methoden sowie Konstruktoren durch eine entsprechendes Java Objekt aus der Reflexion-API repräsentiert. 
@@ -171,7 +171,7 @@
     \item java.lang.reflect.Constructor
   \end{itemize}
 
-  Mithilfe des Klassen Typs können die oben genannten Objekte erzeugt und manipuliert werden. Diese bieten Schnittstellen für das Abfragen der Klassenstruktur an und repräsentieren Charakteristika der entsprechenden Klassen.
+  Mithilfe des Klassentyps können die oben genannten Objekte erzeugt und manipuliert werden. Diese bieten Schnittstellen für das Abfragen der Klassenstruktur an und repräsentieren Charakteristika der entsprechenden Klassen.
 
   \begin{itemize}
     \item Field[ ] *.class.getFields();
@@ -209,8 +209,8 @@
   Wie in der Abbildung \ref{my-refl} dargestellt ist Reflexion ein mächtiges Werkzeug, das aus der morden Softwareentwicklung nicht wegzudenken ist und wird in zahlreichen Framework's verwendet, um den Entwickler zu unterstützen. 
 
   \begin{itemize}
-    \item Zum Beispiel wird \textit{Dependency Injection} mithilfe von Reflexion realisiert, indem ein Framework, wie zum Beispiel Spring, die entsprechende Implementierung für ein Interface sucht und initiiert. In Diesem Zusammenhang wird Anhand des \textit{implement} Schlüssels und zusätzlicher Metainformation aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
-    \item Beim Serialisieren und Deserialisieren von Objekten werden die Objektfelder in JSON und wieder zurück konvertiert, ohne die Feldnamen sowie ihre Anzahl zu kennen.
+    \item Zum Beispiel wird \textit{Dependency Injection} mithilfe von Reflexion realisiert, indem ein Framework, wie zum Beispiel Spring, die entsprechende Implementierung für ein Interface sucht und initiiert. In diesem Zusammenhang wird anhand des \textit{implement} Schlüssels und zusätzlicher Metainformation aus der Klassen \textit{Annotation} ein eindeutiger Kandidat auserwählt und konstruiert.
+    \item Beim Serialisieren und Deserialisieren von Objekten werden die Objektfelder in JSON und wieder zurückkonvertiert, ohne die Feldnamen sowie ihre Anzahl zu kennen.
     \item Die Web-Container Tomcat oder WildFly leiteten die Web-Anfragen an das entsprechende Modul durch das Analysieren der \textit{web.xml} und Anfordern der passenden URI.
     \item JUnit verwendet Reflexion, um die Methoden einer Klasse nach Test-Annotation zu durchsuchen, um diesen anschließend aufzurufen.
   \end{itemize}
@@ -218,7 +218,7 @@
 
 
 \section{Gradle}
-Gradle ist ein Build-Tool ähnlich wie Maven und Ant. Gradle ist das neueste dieser drei Build-Tools, und wird zunehmend eingesetzt. Es ist Open Source und hat viel Akzeptanz bei den Entwicklern gefunden, da es auf die Erfahrung aus den vorhandenen genannten Build-Tools zurückgreift. Mehrere bekannte Projekte wie Android, Spring Framework und Hibernate haben ihre Build-Systeme bereits auf Gradle migriert. Einige der Vorteile, die Gradle gegenüber Maven und Ant hat, sind präzisere Erstellungsskripte und eine flexiblere Erstellungssprache.\bigbreak
+Gradle ist ein Build-Tool ähnlich wie Maven und Ant. Gradle ist das neueste dieser drei Build-Tools und wird zunehmend eingesetzt. Es ist Open Source und hat viel Akzeptanz bei den Entwicklern gefunden, da es auf die Erfahrung aus den vorhandenen genannten Build-Tools zurückgreift. Mehrere bekannte Projekte wie Android, Spring Framework und Hibernate haben ihre Build-Systeme bereits auf Gradle migriert. Einige der Vorteile, die Gradle gegenüber Maven und Ant hat, sind präzisere Erstellungsskripte und eine flexiblere Erstellungssprache.\bigbreak
 
 \subsection{Beweggründe}
 Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant gegenüber Gradle aufgelistet.
@@ -252,7 +252,7 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
     \label{fig:gradle_project_structure}
   \end{figure}
 
-  Nach dem Anstoßen des Ausführung Skripts, wird Gradle konfiguriert und setzt eine bestimmte Zielversion für die Ausführung fest. Dies geschieht innerhalb der \textit{gradle/wrapper} Ordnerstruktur und initiiert Gradle für die Ausführung. Als nächstes sammelt Gradle die Information über alle Teilnehmer der Projektorganisation und legt eine globale Projektstruktur für die Ausführung fest. Dafür wird in der Initialisierungsphase die \textit{settings.gradle} der Projekte und die Lokale \textit{init.gradle} Konfigurationsdatei ausgelesen. Diese bestimmen Umgebungsvariablen, Eigenschaften und persönlichen Informationen. Des Weiteren werden teilnehmende Projekte gesetzt und instanziiert.\newline
+  Nach dem Anstoßen des Ausführungsskripts, wird Gradle konfiguriert und setzt eine bestimmte Zielversion für die Ausführung fest. Dies geschieht innerhalb der \textit{gradle/wrapper} Ordnerstruktur und initiiert Gradle für die Ausführung. Als nächstes sammelt Gradle die Information über alle Teilnehmer der Projektorganisation und legt eine globale Projektstruktur für die Ausführung fest. Dafür wird in der Initialisierungsphase die \textit{settings.gradle} der Projekte und die Lokale \textit{init.gradle} Konfigurationsdatei ausgelesen. Diese bestimmen Umgebungsvariablen, Eigenschaften und persönlichen Informationen. Des Weiteren werden teilnehmende Projekte gesetzt und instanziiert.\newline
   Nachdem die Initialisierungsphase beendet ist, werden erstellte Projekte konfiguriert. Die Konfiguration geschieht laut den \textit{build.gradle} Konfigurationsdatei und bereitet die Projekte für die Ausführung vor. Zum Schluss wird das Bauen durchgeführt, indem eine Reihe von Ausführungsschritten (Tasks) von dem Nutzer aufgerufen werden.\cite{mitra2015mastering}
 
 
@@ -326,4 +326,4 @@ Für die Migration von Ant auf Gradle werden im Folgenden die Schwächen von Ant
   deploy.dependsOn(war)
 \end{lstlisting}
 
-In der Abbildung \ref{my-grl} ist eine Standard Struktur eines Gradle Build Skript abgebildet, die mit einem Java Plugin arbeitet und ein war Archiv erstellt. 
+In der Abbildung \ref{my-grl} ist eine Standardstruktur eines Gradle-Build-Skript abgebildet, die mit einem Java-Plugin ein war Archiv erstellt. 
