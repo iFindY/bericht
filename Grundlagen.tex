@@ -4,7 +4,7 @@
 \section{Java Virtual Machine} \label{sec:JVM}
 
   % java einleitung
-  Gemessen am Interesse der Anwender und an ihrer Verbreitung ist Java die erfolgreichste Programmiersprache der letzten Jahre. Der Erfolg kam mit der Objektorientierung sowie der Plattformunabhängigkeit. Diese Fähigkeiten brachten eine große und fähige Kommune zusammen, die sowohl aus der Wirtschaft als auch aus dem Forschungsbereich stammt. Dementsprechend ist Java im Laufe der Zeit durch Designmuster, Architekturkonzepte, Paradigmen und aktuellen Sicherheit- sowie Industriestandrats erweitert worden. Da \textsc{Renew} mithilfe der Java Plattform umgesetzt wurde, kann sie sich alle gegebenen Vorteile zunutze machen. \newline
+  Gemessen am Interesse der Anwender und an ihrer Verbreitung ist Java die erfolgreichste Programmiersprache der letzten Jahrzehnten. Der Erfolg kam mit der Objektorientierung sowie der Plattformunabhängigkeit. Diese Fähigkeiten brachten eine große und fähige Kommune zusammen, die sowohl aus der Wirtschaft als auch aus dem Forschungsbereich stammt. Dementsprechend ist Java im Laufe der Zeit durch Designmuster, Architekturkonzepte, Paradigmen und aktuellen Sicherheit- sowie Industriestandrats erweitert worden. Da \textsc{Renew} mithilfe der Java Plattform umgesetzt wurde, kann sie sich alle gegebenen Vorteile zunutze machen. \newline
   Einer der wichtigen Bausteine von Java, ist die virtuelle Maschine, die das Suchen, Laden und Ausführen einer Codebasis auf allen gängigen Betriebssystemen erlaubt. Demzufolge spielt das Laden von Klassen aus örtlich unabhängigen Komponenten eine große Rolle für die entstandene \textsc{Renew} Architektur, denn die Plugins müssen gefunden, geladen und kommunikationsfähig eingerichtet werden, sodass sie sich gegenseitig nutzen und beeinflussen können.\bigbreak
 
   % Kapitelübersicht
@@ -13,10 +13,10 @@
 \section{Klassenpfad} \label{sec:K}
 
   % Klassenpfad Einleitung
-  Jede Java-Anwendung wird zuerst in einer für menschlich verständlichen Sprache geschrieben und anschließend in Byte-Code übersetzt. Infolgedessen ist der Code einsatzbereit für die Ausführung und wird an die virtuelle Maschine weiter gereicht.
+  Jede Java-Anwendung wird zuerst in einer für Menschen verständlichen Sprache geschrieben und anschließend in Byte-Code übersetzt. Infolgedessen ist der Code einsatzbereit für die Ausführung und wird an die virtuelle Maschine weiter gereicht.
 
   % Aufgabe des Klassenpfads 
-  Um die kompilierten Klassen zu laden, wird von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{ClassPath} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokale Dateisystem, das Netzwerk oder sogar die Datenbank. 
+  Um die kompilierten Klassen zu laden, werden von der virtuellen Maschine Ortsangaben mit entsprechendem Code erwartet. Die Ortsangaben nennt man \textit{ClassPath} oder Klassenpfad. Dieser beschreibt eine Liste von Orten, an denen sich die zur Ausführung benötigten Klassen befinden, wie zum Beispiel das lokale Dateisystem, das Netzwerk oder sogar die Datenbank. 
 
   % Ergebnis des Klassenpfad
   Nachdem der Klassenpfad für die entsprechenden Klassenlader gesetzt ist, kann das \textit{Klassenlader-System} die gewünschten Klassen erfassen und in die virtuelle Maschine laden.
@@ -28,10 +28,10 @@
   \end{figure}
 
   % Klassenpfad Zusammensetzbar  
-  Im Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis sowie einem JAR Archive, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, sodass der \textit{Applikation Klassenlader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
+  Im Beispiel \ref{fig:cps} besteht der Klassenpfad aus einem Verzeichnis \textit{classes} sowie einem JAR Archive \textit{Print.jar}, die für die Ausführung nötige Klassen umfassen. Da beide Orte eine Dateistruktur beinhalten, unterliegen sie einer Einschränkung: beide müssen die Paketstruktur der Java Klassen widerspiegeln, sodass der \textit{Applikation Klassenlader} diese durchsuchen kann. Abschließend braucht Java einen Startpunkt, mit dem die Applikation ihre Ausführung beginnt. 
 
   % Classloading mit Richtung 
-  Beim Starten der Applikation werden Klassen instanziiert, indem der Klassenpfad, von links nach rechts, nach dem benötigten Typ durchsucht und diese erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
+  Beim Starten der Applikation werden Klassen instanziiert, indem der Klassenpfad, von links nach rechts, nach dem benötigten Typ durchsucht und diesen erstellt. Somit hat der Klassenpfad eine interne Ordnung und eine Abarbeitungsreihenfolge. 
 
   \begin{figure}[h]
     \includegraphics[width=\textwidth]{material/images/Classpath-Manifest2.pdf}
@@ -40,23 +40,23 @@
   \end{figure}
 
   % Erweitere Klassenpfad mit dem Manifest 
-  Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit viele Abhängigkeiten kann dieser ausgedehnt und chaotisch werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Metainformation über den Container in sich trägt. 
+  Im Beispiel \ref{fig:cps} wurde explizit ein Applikationsklassenpfad gesetzt, der für die Ausführung benötigten Klassen zuständig ist. Für den Ablauf großer Applikationen mit vielen Abhängigkeiten kann dieser ausgedehnt und komplex werden. Von daher bietet Java eine Archivstruktur, die einen standardisierten Aufbau sowie zusätzliche Metainformation über den Container in sich trägt. 
   
   % Manifest Metainformation 
-  Dank der Java Strukturrichtlinie, befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, die auf eine Klasse mit der \textit{main} Methode verweist.\newline
+  Dank der Java Strukturrichtlinie \cite{classLoadingOracle}, befindet sich der komplette Inhalt eines Archivs auf dem Applikationsklassenpfad und kann zusätzlich in der \textit{manifest.mf} Datei erweitert werden. Die \textit{manifest.mf} spielt eine große Rolle in der Entwicklung von Java Applikation, diese kann den Namen, die Version, den Entwickler und die Sicherheitsattribute tragen, die während der Laufzeit ausgewertet werden können. Zum Beispiel wird in \ref{fig:cpa} der Klassenpfad durch ein Archiv aus dem Web erweitert und für die Ausführung genutzt. Des Weiteren hält die \textit{manifest.mf} einen Einstiegspunkt für die Ausführung, die auf eine Klasse mit der \textit{main} Methode verweist.\newline
   Somit kann die Applikation in einer kurzen und einfachen Form gestartet werden, da der Ausführungskontext durch die Struktur und die mitgelieferte Metainformation komplett ist. \cite{classLoadingOracle}
 
 
 \section{Klassenlader}\label{sec:cl}
 
   % Aufteilung der Verantwortung 
-  In den vorherigen Beispielen [\ref{fig:cps}, \ref{fig:cpa}] wurde die Bedeutung und die Rolle des Klassenpfads für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem Klassenlader übernommen, der eine zentrale Rolle in jeder Applikation spielt, weil er nach benötigten Java Klassen für die Instanziierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von Klassenlader aus dem \textit{Klassenlader-System} aufgeteilt. 
+  In den vorherigen Beispielen [\ref{fig:cps}, \ref{fig:cpa}] wurden die Bedeutungen und die Rollen des Klassenpfads, bis einschließlich Java Version 1.8, für die Applikation beschrieben, dennoch muss dieser zuerst verarbeitet werden. Diese Aufgabe wird von dem Klassenlader übernommen, der eine zentrale Rolle in jeder Applikation spielt, weil er nach benötigten Java Klassen für die Instanziierung der entsprechenden Typen sucht. Da es eine wichtige Aufgabe ist, wird die Verantwortung für das Laden der Klassen über eine Menge von Klassenlader aus dem \textit{Klassenlader-System} aufgeteilt. 
 
 
   \subsection{Klassenlader-System} \label{sec:cls}
 
     % Gründe 
-    Das \textit{Klassenlader-System} besteht aus drei integrierten Klassenlader, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig. 
+    Das \textit{Klassenlader-System} besteht aus drei integrierten Klassenladern, von denen jeder einen anderen Gültigkeitsbereich für das Laden der Klassen besitzt. Beim Abstieg der Hierarchie wird der Umfang der verfügbaren Quellen breiter und weniger vertrauenswürdig. 
 
     \begin{figure}[h!]
       \centering
@@ -66,15 +66,15 @@
     \end{figure}
     
     % Aufbau
-    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Klassenlader}. Dieser Klassenlader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar}. Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Klassenlader für Erweiterungen kann Klassen  aus dem Standarderweiterungspaket im Erweiterungsverzeichnis \textit{lib/ext} dazu laden. Diese können Java-UI wie kryptografische Erweiterungen beinhalten. Der darunterliegende \textit{Applikation Klassenlader} ist zuständig für unseren Code und lädt Klassen aus dem allgemeinen Klassenpfad, einschließlich der zu startenden Anwendung. Zuletzt können benutzerdefinierte Klassenlader erstellt werden, die sich auf der unteren Ebene der Klassenlader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug, um eine große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Klassenlader}.\bigbreak 
+    Oben in der Hierarchie befindet sich der \textit{Bootstrap-Klassenlader}. Dieser Klassenlader ist verantwortlich für das Laden der grundlegenden Java Klassenbibliothek, wie zum Beispiel Java-Core-API aus der \textit{rt.jar} (siehe Abbildung \ref{fig:cl}). Diese Klassen sind am vertrauenswürdigsten und werden zum Starten der virtuellen Maschine verwendet. Der Klassenlader für Erweiterungen kann Klassen  aus dem Standarderweiterungspaket im Erweiterungsverzeichnis \textit{lib/ext} dazu laden. Diese können Java-UI sowie kryptografische Erweiterungen beinhalten. Der darunterliegende \textit{Applikation Klassenlader} ist zuständig für den Code und lädt Klassen aus dem allgemeinen Klassenpfad, einschließlich der zu startenden Anwendung. Zuletzt können benutzerdefinierte Klassenlader erstellt werden, die sich auf der unteren Ebene der Klassenlader-Hierarchie befinden und auf Drittanbieter Bibliotheken zugreifen können. Demzufolge sind diese Quellen nicht sicher genug, um eine große Priorität zuzuweisen, wie zum Beispiel den geladenen Klassen des \textit{Bootstrap-Klassenlader}.\bigbreak 
     % Delegierungsmodell übergang
-    Das in \ref{fig:cl} abgebildete Klassenlader-System verhindert, dass der Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem derselbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welches eindeutige Klassen garantiert, da die Klassensuche von Oben nach Unten der Klassenlader-Hierarchie abgearbeitet wird.  \cite{classLoadingIntro} 
+    Das in \ref{fig:cl} abgebildete Klassenlader-System verhindert, dass der Code aus weniger sicheren Quellen vertrauenswürdige Core-API-Klassen ersetzt, indem derselbe Name als Teil der Core-API angenommen wird. Daraus folgt ein Delegierungsmodell, welches eindeutige Klassen garantiert, da die Klassensuche von oben nach unten die Klassenlader-Hierarchie abarbeitet. \cite{classLoadingIntro} 
     
 
   \subsection{Delegierungsmodell} \label{sec:dm}
     
     % Suchalgorithmus  
-    Das \textit{Klassenlader-System} delegiert jede Anfrage zum Laden einer bestimmten Klasse zuerst an seinen übergeordneten Klassenlader, bevor der angeforderte Klassenlader versucht die Klasse selbst zu laden. Jeder Klassenlader hält somit einen Verweis auf einen übergeordneten Klassenlader und ist Teil eines Klassenlader Baums mit dem \textit{Bootstrap-Klassenlader} an der Wurzel. 
+    Das \textit{Klassenlader-System} aus der Abbildung \ref{fig:deligation} delegiert jede Anfrage zum Laden einer bestimmten Klasse zuerst an seinen übergeordneten Klassenlader, bevor der angeforderte Klassenlader versucht die Klasse selbst zu laden. Jeder Klassenlader hält somit einen Verweis auf einen übergeordneten Klassenlader und ist Teil eines Klassenlader Baums mit dem \textit{Bootstrap-Klassenlader} an der Wurzel. 
 
     % Rekursiv 
     Wenn eine Instanz einer bestimmten Klasse benötigt wird, prüft der Klassenlader, der die Anfrage bearbeitet, normalerweise mit seinem übergeordneten Klassenlader vorab. Der übergeordnete Klassenlader durchläuft wiederum den gleichen Prozess bis die Delegierungskette den \textit{Bootstrap-Klassenlader} erreicht. Sobald der \textit{Bootstrap-Klassenlader} erreicht wurde, beginnt die tatsächliche Suche nach der gewünschten Klasse.
@@ -87,7 +87,7 @@
     \end{figure}
 
     % Sichtbarkeit und Hierarchie 
-    Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wird diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige Klassenlader, als letzter die Klasse selbstständig zu laden. Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem Klassenlader sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem Klassenlader in einem Baum geladen werden kann, wird immer die Klasse des übergeordneten Klassenlader eingelesen priorisiert. Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des Klassenladers nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten Klassenlader außer dem jetzigen war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Typ sofort zurückgegeben wird. \cite{parentDelegationModel}
+    Wenn während der Suche ein übergeordneter Knoten eine bestimmte Klasse findet, dann wird diese Klasse die Baumhierarchie herunter zu der Anfrage delegiert. Andernfalls versucht der zuständige Klassenlader, als letzter die Klasse selbstständig zu laden. Dies bedeutet, dass eine Klasse normalerweise nicht nur in dem Klassenlader sichtbar ist, der sie geladen hat, sondern auch für alle untergeordneten Instanzen. Dies bedeutet auch, wenn eine Klasse von mehr als einem Klassenlader in einem Baum geladen werden kann, wird immer die Klasse des übergeordneten Klassenlader eingelesen priorisiert. Dennoch wird vor jedem Laden der Klasse der Cash-Speicher des Klassenladers nach der gewünschten Instanz durchsucht. Wenn diese existiert, wurde die Suche bereits zuvor durchgeführt und keiner der übergeordneten Klassenlader außer dem Jetzigen war fähig die Anfrage zu beantworten. Somit kann die Suche beschleunigt werden, indem der Typ sofort zurückgegeben wird. \cite{parentDelegationModel}
 
 
   \subsection{Namensräume} \label{sec:nam}
@@ -105,20 +105,20 @@
     \end{figure}
 
     % Ungleichheit identischer Klassen 
-    Die Abbildung \ref{fig:nam} zeigt ein Beispiel für eine Klassenidentitätskrise, die sich ergibt, wenn eine Schnittstelle und die zugehörige Implementierung jeweils von zwei separaten Klassenlader geladen werden. Obwohl die Namen und binären Implementierungen der Schnittstellen und Klassen gleich sind, kann eine Instanz der Klasse von einem Klassenlader nicht als Implementierung des Interfaces von dem anderen Klassenlader erkannt werden. Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von dem Applikation Klassenlader geladen wird. Somit implementieren beide \textit{Print} Klassen dieselbe Schnittstelle.\bigbreak 
+    Die Abbildung \ref{fig:nam} zeigt ein Beispiel für eine Klassenidentitätskrise, die sich ergibt, wenn eine Schnittstelle und die zugehörige Implementierung jeweils von zwei separaten Klassenladern geladen werden. Obwohl die Namen und binären Implementierungen der Schnittstellen und Klassen gleich sind, kann eine Instanz der Klasse von einem Klassenlader nicht als Implementierung des Interfaces von dem anderen Klassenlader erkannt werden (siehe Abbildung \ref{fig:nam} \textit{MyPrint instanceof iPrint} Vergleich). Bei Wunsch kann dieser Umstand gelöst werden, indem das Interface eine Ebene höher rutscht und von dem Applikation Klassenlader geladen wird. Somit implementieren beide \textit{Print} Klassen dieselbe Schnittstelle.\bigbreak 
 
     % Schutz des Codes 
-    Der Klassen Namensraum bietet zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Denn die Namensräume verhindern, dass der weniger vertrauenswürdige Code, der aus der Applikation oder benutzerdefinierte Klassenlader geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Klassenlader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegende Klassenlader weitergereicht wird.
+    Der Klassen Namensraum bietet zusätzliche Sicherheitsfunktionen wie die Kapselung privat deklarierter Pakete. Denn die Namensräume verhindern, dass der weniger vertrauenswürdiger Code, der aus der Applikation oder benutzerdefinierte Klassenlader geladen worden ist, direkt mit mehr vertrauenswürdigen Klassen interagieren kann. Beispielsweise wird die Kern-API vom \textit{Bootstrap-Klassenlader} geladen, diese kann \textit{package private} Code enthalten, der bei Anfrage nicht an die unterliegenden Klassenlader weitergereicht wird.
 
 
     % Schutz der privaten Pakete 
-    Auch wenn ein untergeordneter Klassenlader die Paketstruktur der Core-API nachahmt, wird diese nicht als Teil der Java Core-API anerkannt, da dieser von den falschen Klassenlader geladen wurde. Somit verhindert die Verwendung von Namensräumen die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist. \cite{Forman04javareflection}
+    Auch wenn ein untergeordneter Klassenlader die Paketstruktur der Core-API nachahmt, wird diese nicht als Teil der Java Core-API anerkannt, da dieser von dem falschen Klassenlader geladen wurde. Somit verhindert die Verwendung von Namensräumen die Möglichkeit spezielle Zugriffsberechtigungen auf private Pakete zu erhalten, indem man selbst geschriebenen Code diesen zuweist. \cite{Forman04javareflection}
 
 
 \section{Schnittstellen} \label{sec:kap}
   
   % Funktion 
-  Die Schnittstelle und dessen Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit. Eine Schnittstelle ist ein Vertrag, die die Funktionalität aller Klassen, die dieses implementieren beschreibt. Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die Umsetzung aller in der Schnittstelle deklarierten Methoden.
+  Die Schnittstelle und dessen Implementierung spielt eine entscheide Rolle für das Nutzen der Klassenfähigkeit. Eine Schnittstelle ist ein Vertrag, der die Funktionalität aller Klassen, die den Vertrag implementieren beschreibt. Wenn eine Klasse eine bestimmte Schnittstelle implementiert, verspricht sie die Umsetzung aller in der Schnittstelle deklarierten Methoden.
 
   \begin{figure}[h!]
     \centering
@@ -128,10 +128,10 @@
   \end{figure}
 
   % ist ein Garantie
-  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags ein mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert. Daraus folgt ein Kommunikationsvertrag zwischen zwei Objekten, denn wenn eine Klasse eine Schnittstelle implementiert, implementiert diese alle in dieser Schnittstelle deklarierten Methoden und der Methodenaufruf an dieser Klasse wird garantiert ausgeführt.\cite{bloch2017effective}\bigbreak 
+  Somit wird durch die eigene Umsetzung des Schnittstellenvertrags ein mögliches Verhalten für die Nutzer der Schnittstellenbeschreibung implementiert und garantiert den vereinbarten Rückgabewert für die angeforderte Funktion. \cite{bloch2017effective}\bigbreak 
   
   % Dynamische Klassenbindung 
-  Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen der unbekannten \textit{PrintImpl} Umsetzung, durch eine einfache Schnittstellenbeschreibung \textit{IPrint} garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit können dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden, ohne dass die Applikation verändert wird. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instanziieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter, ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
+  Im Beispiel \ref{fig:schnitt} wird der Vorteil des Schnittstellenvertrags demonstriert, der das Ausführen der unbekannten \textit{PrintImpl} Umsetzung durch eine einfache \textit{IPrint}-Schnittstellenbeschreibung garantiert. Solange die Implementation sich auf derselben Klassenpfadhierarchie befindet wie die Schnittstelle, wird diese während der Laufzeit auf Kompatibilität geprüft und angewandt. Somit können dynamische Klassenbindungen während der Laufzeit entstehen und Laufzeitbibliotheken ausgetauscht werden, ohne dass die Applikation verändert wird. Hätte man die Schnittstelle nicht genutzt, würde man die Implementation nur als ein Objekt Type instanziieren können und hätte keinen einfachen Zugriff auf ihre Methoden. In der Konsequenz verbirgt die Schnittstelle ihre Implementierungsdetails der Methoden und gewährt den Vertragspartner keinen Einblick in ihre Umsetzung. Daraus folgt eine einfache Ersetzbarkeit der Implementationsvertreter, ohne den Klienten anpassen zu müssen. \cite{Forman04javareflection}
 
 \section{Plugin Konzept} \label{sec:pm}
   Eine Plugin-Architektur definiert eine Erweiterungsspezifikation, die externen Code in die Applikation lädt und diese zu einem späteren Zeitpunkt entfernt, ohne alle Details der Codebasis im Voraus zu kennen \cite{Duvigneau09}. Somit müssen die Plugins einem Kommunikationsvertrag eingehen und befolgen, um eine Kommunikation mit der Kernapplikation aufnehmen zu können. Der Kommunikationsvertrag wird mit einem \textit{Interface} umgesetzt, auf das sich beiden Kommunikationspartner einigen. Das UML-Diagramm \ref{fig:pluginUMLD} veranschaulicht die Beziehung zwischen den Plugins und dem Plugin-Manager der Kernapplikation. \bigbreak
@@ -150,7 +150,7 @@
   Somit hat die Applikation eine Möglichkeit, durch Reflexion, die Information über ihre Struktur und ihr Verhalten zu erhalten, um wichtige Entscheidungen zu treffen. Je nachdem welche Information durch die Untersuchung eigener Klassen ausgelesen wurde, können Objekte, die während der Kompilierung nicht präsent waren, mithilfe der Reflexion-API während der Laufzeit instanziiert, bearbeitet und genutzt werden. Somit ermöglicht Reflexion das Arbeiten mit Klassen, von denen man im Voraus nicht wissen kann, wie zum Beispiel von Klassen, die in der Zeit nach der Applikation entstanden sind.\bigbreak 
  % Überblick: Problemstellung die Reflexion löst 
   In vielen Fällen der Applikationsentwicklung möchte man die Applikation von anderen Nutzern und Entwicklern erweitern lassen, ohne dass diese bei jeder Änderung die komplette Applikation umbauen müssen. Somit stellt sich die Frage, wie erstellt man ein Mechanismus, der mit beliebigen Klassen arbeiten kann.\newline
-  Man könnte mit den zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die unserer Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus dem Kern und Drittanbieter Bibliotheken, über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. Dementsprechend sollte Reflexion genutzt werden. Diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
+  Man könnte mit den zuvor vorgestellten Schnittstellen- und Implementierungsansatz eine gemeinsame Schnittstelle für Erweiterungen definieren, die die Applikation mit einer Implementation erweitern lässt und die entsprechenden Methoden definiert. Nichtsdestotrotz besteht die Applikation nicht nur aus unserem Code, sondern zusätzlich aus dem Kern und Drittanbieter Bibliotheken, über die wir keine Kontrolle verfügen. Somit ist die Erweiterung der gesamten Codebasis mit der entsprechenden Schnittstelle oder eine Verschachtelung von \textit{instanceof} Blöcken keine simple oder saubere Lösung. Dementsprechend sollte Reflexion genutzt werden. Diese ermöglicht den Einblick in die Klassenstruktur, ohne direkten den Typen zu kennen. Die Klassenstruktur enthalten Informationen über die Klasse selbst, zum Beispiel das Paket, die Superklasse der Klasse sowie die von der Klasse implementierten Schnittstellen. Es enthält auch Details zu den von der Klasse definierten Konstruktoren, Feldern und Methoden.\bigbreak
 
   \begin{figure}[h!]
     \centering

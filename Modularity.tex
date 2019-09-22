@@ -176,7 +176,7 @@
     Dieser Anforderung hat sich das Modulsystem von Java gestellt und bietet die phasenübergreifende Wiedergabetreue auf allen Systemen, indem jedes Modul eine Voraussetzung deklariert, die der Modulpfad erfüllen muss, bevor die Applikation ihre Arbeit beginnt. Somit wird das gleiche Verhalten sowie Fehlerprüfungen in der Kompilierungs- und Ausführungsphase erreicht.\newline
     Das zweite Verfahren garantiert die Einhaltung der Nutzungsrechte einer Bibliothek, indem die Nutzung einer Bibliothek über klar definierte Schnittstellen geschieht und unterbindet somit den impliziten Zugriff auf den Inhalt innerhalb eines Namensraums. Beide Verfahren berufen sich auf die \textit{module-info.java} Konfigurationsdatei, die in sich die benötigte Information verankert. \bigbreak
 
-    Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Klassenlader-System} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten Klassenlader zugewiesen werden. Der \textit{Bootstrap}-Klassenlader ist der Klassenlader der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension-Klassenlader wurde von dem Plattform-Klassenlader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation-Klassenlader, der unsere Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
+    Um die Klassen aus dem Modulpfad zu laden, wurde das \textit{Klassenlader-System} an den Modulpfad angepasst und lädt jetzt Module, die nach Sicherheitsberechtigungen bestimmten Klassenlader zugewiesen werden. Der \textit{Bootstrap}-Klassenlader ist der Klassenlader der JVM und genießt alle Sicherheitsprivilegien. Dieser lädt die \textit{Core Java-SE} und \textit{JDK-Module}, wie \textit{java.base} und \textit{java.logging}. Der Extension-Klassenlader wurde von dem Plattform-Klassenlader ersetzt und lädt jetzt die \textit{Plattform Java-SE} Module, wie zum Beispiel die \textit{java.sql}, oder die \textit{java.xml.ws} Bibliotheken. Und zuletzt bleibt der Applikation-Klassenlader, der die Applikationsmodule auf dem Modulpfad verwaltet. \cite{classLoadingOracle,modulMitJava9,java9modRevealed}
 
   \section{Das Modulschichten Konzept} \label{sec:module_layers}
      Obwohl das Klassenlader-Konzept von Java seine Gültigkeit behält, gibt es mit dem Einzug der modularisierten Plattform einige Änderungen.\newline 
@@ -210,7 +210,7 @@
 
     Kurzgefasst gehören Schichten zu Modulen wie Klassenlader zu Klassen. Ein Mechanismus zum Laden und Instanziieren von Elementen mit erweiterten Diensten und Sicherheitsbestimmungen.\cite{javaMod9,parentDelegationModel,modulMitJava9}
 
-  \section{Service-Lader} \label{sec:servLoad} 
+  \section{Der Service-Lader} \label{sec:servLoad} 
     Die Java Version 1.6 führt ein Konzept der Dienste ein, die eine bessere Entkopplung zwischen Klassen unterstützt, indem Klassenabhängigkeiten erst zur Laufzeit aufgelöst werden können. Dadurch wird eine Entkopplung zwischen den Anbieter-Klassen und den später auf diese zugreifenden Nutzer-Klassen erreicht, indem die Klassenbindung nicht über eine direkte Implementierung, sondern über eine Schnittstelle umgesetzt wird. Über den \textit{Service-Lader} kann anschließend auf die einzelne Implementierung-Instanz zugegriffen werden. \bigbreak
     \begin{figure}[h!]
       \centering
