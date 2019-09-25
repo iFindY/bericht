@@ -1,9 +1,9 @@
 \chapter{\textsc{Renew} Prototyp} 
 	In diesem Kapitel entsteht ein Prototyp, der \textsc{Renew} schrittweise modularisiert, bis die Applikation den größten Teil ihre Funktionalität auf dem Modulpfad betreiben kann. \newline
-	Für die Umsetzung des Prototyps werden zuerst Anforderungen erfasst, die der modularisierte \textsc{Renew} Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan sowie ein Prototyp. 
+	Für die Umsetzung des Prototyps werden zuerst Anforderungen erfasst, die der modularisierte \textsc{Renew} Prototyp erfüllen muss, um unserer Vision der Implementation zu entsprechen. Infolgedessen entsteht ein Implementierungsplan, sowie ein Prototyp.
 
 \section{Anforderungen} \label{sec:anforderungen}
-	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunterliegende konzeptionelle Grundlage in Takt bleibt. 
+	Im Kern der Modernisierung von \textsc{Renew} liegt die Anpassung von \textsc{Renew} an das Modulsystem von Java und dessen Anforderungen an Applikationskomponenten. Aus den \textsc{Renew} Plugins sollen explizite Module entstehen, die auf dem Modulpfad betriebsfähig sein müssen. Die Drittanbieter-Bibliotheken sollen mit in den Modulpfad aufgenommen werden und als automatische Module ihre Aufgabe erfüllen. Zusätzlich darf die Migration und damit verbundene Anpassung und Aufbereitung der Mängel die Kommunikation, sowie interne Funktionsweise von \textsc{Renew} nicht verändern. Dementsprechend soll garantiert werden, dass die darunterliegende konzeptionelle Grundlage in Takt bleibt.
 
 % Was soll der Prototyp leisten 
 \subsection{Interaktion}
@@ -24,7 +24,7 @@
 	Die minimale Version von \textsc{Renew} soll sich an einem modernen \textit{build} Werkzeug bedienen und ein ausführbares Ergebnis erzielen.
 
 \section{Spezifikation}
-	Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur.\newline 
+	Um die Anforderungen umzusetzen, wird die erarbeitete minimale Version isoliert, umstrukturiert und mit dem Gradle \textit{build} Werkzeug für das Arbeiten in der Entwicklungsumgebung IDEA aufgerüstet. Da Gradle die Verwaltung des Projekts, sowie das Kompilieren und Erstellen von ausführbaren Paketen übernehmen kann, ist es eine gute Wahl für das Aufsetzen einer modernen modularen Projektstruktur.\newline
 	Dafür muss das bestehende Ant \textit{build} System analysiert und mit dem Gradle Werkzeug wiederaufgebaut werden. Dieses soll so gut wie möglich die bestehenden Drittanbieter-Bibliotheken verwalten, Module kompilieren und die benötigten Erweiterungen, wie das JavaCC Werkzeug, unterstützen.\bigbreak
 
 	Nachdem die Projektstrukturen die passende Form angenommen haben, müssen die Projektabhängigkeiten analysiert und innerhalb der \textit{module-info.java} aufgenommen werden.\bigbreak
@@ -32,7 +32,7 @@
 	Zuletzt entsteht eine bekannte Ordnerstruktur mit Drittanbieter-Bibliotheken, Plugins und Konfigurationsdateien, die mithilfe des \textit{Plugin Managers} verwaltet werden.
 
 \section{Entwurf}
-	Der Entwurf berücksichtigt die schrittweise Migration und lässt die \textsc{Renew} Applikation während der Gesamtmigration betriebsfähig bleiben. Das heißt, Plugins auf den Klassenpfad sowie Modulpfad können nahtlos miteinander kommunizieren und ihre Funktion während der Migration weiterhin erfüllen.\bigbreak
+	Der Entwurf berücksichtigt die schrittweise Migration und lässt die \textsc{Renew} Applikation während der Gesamtmigration betriebsfähig bleiben. Das heißt, Plugins auf den Klassenpfad, sowie Modulpfad können nahtlos miteinander kommunizieren und ihre Funktion während der Migration weiterhin erfüllen.\bigbreak
 
 	\begin{figure}[h!]
 		\centering
@@ -54,7 +54,7 @@
 	\end{figure}
 	Für den ersten Prototypen wird zuerst eine Projektstruktur erstellt, die für jedes Plugin Projekt die Möglichkeit bieten soll, aus mehreren Modulen zu bestehen. Dafür wird eine Struktur \ref{fig:projektstruktur} erstellt, die im Java Verzeichnis alle Module bündelt, die über den Modulnamen disjunkt voneinander verwaltet werden. Nichtsdestotrotz gehören sie zum gleichen Projekt und teilen unter sich das Ressourcenverzeichnis, das im weiteren Verlauf zum Erstellen der ausführbaren Pakete benötigt wird.\bigbreak
 	       
-	Nachdem die Projektstruktur der gewünschten Form entspricht, muss diese in den Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien \ref{fig:gradle_project} festgehalten, indem Java sowie Ressourcen Stammverzeichnisse und Projekte definiert und Drittanbieter-Bibliotheken Abhängigkeiten für den Kompilation-Pfad bestimmt werden. \bigbreak
+	Nachdem die Projektstruktur der gewünschten Form entspricht, muss diese in den Gradle Konfigurationsdateien verankert werden. Hierfür wird für jedes Projekt die Projektstruktur und dessen Abhängigkeiten in der \textit{build.gradle} Konfigurationsdateien \ref{fig:gradle_project} festgehalten, indem Java, sowie Ressourcen Stammverzeichnisse und Projekte definiert und Drittanbieter-Bibliotheken Abhängigkeiten für den Kompilation-Pfad bestimmt werden. \bigbreak
 
  		\begin{figure}[h!]
 		\centering
@@ -102,8 +102,8 @@
 		\label{fig:module_project}
 	\end{figure}
 
-	Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad als automatische Module eingebunden und werden damit aus den Klassen- sowie Modulpfad für die Nutzung zugleich erreichbar sein. Anschließend werden Plugins als explizite Module migriert, die keine Plugin Abhängigkeiten besitzen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen müssen.   Beispielsweise besitzt das \textit{Util} Plugin keine Abhängigkeiten auf \textsc{Renew} Plugins und wird für die Ausführung auf dem Modulpfad, durch eine \textit{module-info.java} Konfigurationsdatei erweitert. Wie in der Abbildung \ref{fig:module_project} dargestellt, muss sich diese im Stammverzeichnis des Moduls befinden und die benötigten automatischen Module deklarieren.\newline
-	In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module sowie explizite Plugin-Module befinden.\bigbreak 
+	Zuerst werden die Drittanbieter-Bibliotheken, wie \textit{log4j}, auf den Modulpfad als automatische Module eingebunden und werden damit aus den Klassen-, sowie Modulpfad für die Nutzung zugleich erreichbar sein. Anschließend werden Plugins als explizite Module migriert, die keine Plugin Abhängigkeiten besitzen und aus dem Modulpfad keine Zugriffe auf den Klassenpfad ausführen müssen.   Beispielsweise besitzt das \textit{Util} Plugin keine Abhängigkeiten auf \textsc{Renew} Plugins und wird für die Ausführung auf dem Modulpfad, durch eine \textit{module-info.java} Konfigurationsdatei erweitert. Wie in der Abbildung \ref{fig:module_project} dargestellt, muss sich diese im Stammverzeichnis des Moduls befinden und die benötigten automatischen Module deklarieren.\newline
+	In den nächsten Schritten werden Plugins Schritt für Schritt auf den Modulpfad migriert, indem für jedes Plugin eine eigene \textit{module-info.java} Konfigurationsdateien angelegt wird, in der sich ihre Abhängigkeiten auf automatische Drittanbieter-Module, sowie explizite Plugin-Module befinden.\bigbreak
 
 	Dieses Vorgehen wird so lange durchgeführt, bis jedes Plugin sich auf dem Modulpfad befindet. 
 
@@ -245,8 +245,8 @@
 
 \subsection{Gradle}
 
- 	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für den Kompilationsschritt definiert und die benötigten Projekte sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Mit der Unterstützung der Gradle Projektumgebung und einer IDE können anschließend alle Abhängigkeiten aufgedeckt und auf Zyklen überprüft werden. \newline
- 	Für die Umsetzung der Gradle Projektumgebung wird zuerst das bestehende Ant System analysiert. Dieses besteht aus Skripten, die sich in jedem Plugin befinden und die entsprechenden Projekte ausführbare Jar's erstellen. Die Ant Skripte sind sehr ähnlich aufgebaut und wiederholen ein Erstellungsmuster für alle Plugins. \newline
+ 	Um die Zyklen zu erkennen, wird ein Gradle \textit{build} Skript erstellt, der die Java \textit{Source Sets} für den Kompilationsschritt definiert und die benötigten Projekte, sowie Drittanbieter-Bibliotheken auf den Projektklassenpfad einbindet. Mit der Unterstützung der Gradle Projektumgebung und einer IDE können anschließend alle Abhängigkeiten aufgedeckt und auf Zyklen überprüft werden. \newline
+ 	Für die Umsetzung der Gradle Projektumgebung wird zuerst das bestehende Ant System analysiert. Dieses besteht aus Skripten, die sich in jedem Plugin befinden und für die entsprechenden Projekte ausführbare Jar's erstellen. Die Ant Skripte sind sehr ähnlich aufgebaut und wiederholen ein Erstellungsmuster für alle Plugins. \newline
 	\begin{figure}[h!]
 	  \centering
 	  \includegraphics[width=0.5\textwidth]{material/images/ant-build.pdf}
@@ -313,9 +313,9 @@
 	  \label{fig:windmang}
 	\end{figure}
 
-	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{build.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagement Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
+	Jedes einzelne Plugin benötigt einen internen Namen für die Verwaltung und die zusätzlichen Drittanbieter-Bibliotheken, sowie Plugin Abhängigkeiten. Dafür wird in der Plugin \textit{build.gradle} Konfigurationsdatei der Name unter den \textit{extension properties} deklariert und die bereits geerbten Abhängigkeiten erweitert. In der Abbildung \ref{fig:windmang} wird das WindowManagement Plugin durch eine lokale, modifizierte Drittanbieter-Bibliotheken und durch das Plugin Projekt erweitert, um alle Benötigen Abhängigkeiten abzudecken.\bigbreak
 
-	Ant spielt eine unerwartet wichtige Rolle für das Erstellen der \textsc{Renew} Plugins. Denn Ant verwaltet nicht nur das Kompilieren und Erstellen von ausführbaren Archiven, sondern ist zuständig für die Verwaltung der zusätzlichen Ausführungsschritte, die \textsc{Renew} Code sowie Ressourcen generieren. Zum Teil sind es Drittanbieter Werkzeuge, wie der \textit{JavaCC}-Compiler und zum Teil speziell für \textsc{Renew} entwickelte Verfahren. \bigbreak
+	Ant spielt eine unerwartet wichtige Rolle für das Erstellen der \textsc{Renew} Plugins. Denn Ant verwaltet nicht nur das Kompilieren und Erstellen von ausführbaren Archiven, sondern ist zuständig für die Verwaltung der zusätzlichen Ausführungsschritte, die \textsc{Renew} Code, sowie Ressourcen generieren. Zum Teil sind es Drittanbieter Werkzeuge, wie der \textit{JavaCC}-Compiler und zum Teil speziell für \textsc{Renew} entwickelte Verfahren. \bigbreak
 
 	\begin{figure}[h!]
 	  \centering
@@ -339,7 +339,7 @@
   	\end{figure}
 
 
-	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Namen sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen. 
+	Jedes einzelne Plugin wird auf diese Weise konfiguriert und enthält einen Name, sowie zusätzliche Abhängigkeiten. Hiermit ist die Vorbereitung für die Modularisierung abgeschlossen.
 
 
 \subsection{Modularisierung}	
@@ -352,11 +352,11 @@
 	  \label{fig:mod_deps}
 	\end{figure}
 
-	Der neu entstandene Graf wurde im Vergleich zu dem Grafen aus der Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader}-Projekt. Des Weiteren sind auf der Abbildung \ref{fig:mod_deps} keine Zyklen in der minimalen Version zu beobachten und dementsprechend müssen auch keine weiteren Anpassungen durchgeführt werden. \bigbreak
+	Der neu entstandene Graf wurde im Vergleich zu dem Grafen aus der Ausgangssituation Abschnitt \ref{fig:plugin_deps} durch ein Plugin erweitert und bindet alle Plugins an das \textit{Loader}-Projekt. Des Weiteren sind auf der Abbildung \ref{fig:mod_deps} keine Zyklen zu beobachten und dementsprechend müssen auch keine weiteren Anpassungen durchgeführt werden. \bigbreak
 
 	Die Migration von der minimalen Version von \textsc{Renew} wird von den \textit{Loader, Util} und \textit{WindowManagement} Plugin eingeleitet. Diese besitzen keine Abhängigkeiten innerhalb der Plugin Menge und brauchen keinen Zugriff auf den Klassenpfad, nachdem sie sich auf dem Modulpfad befinden. Im Gegensatz dazu, behalten Plugins, die sich auf dem Klassenpfad befinden und als ein unbenanntes Modul interpretiert werden, alle Zugriffsrechte auf die interne Struktur migrierter Plugins, wie bereits in den Abschnitt \ref{fig:modacc} beschrieben wurde.\bigbreak
 
-	Da ein Modul seine eigenen Abhängigkeiten verwalten muss, wird für jedes Plugin eine \textit{module-info.java} Konfigurationsdatei angelegt, die alle Java internen sowie Drittanbieter Bibliotheken auflistet. Für die ersten Module werden die erforderlichen Bibliotheken inklusive des \textit{Loader}-Plugins in der Konfigurationsdatei mit dem Schlüssel \textit{requires} verankert und die dazugehörigen Drittanbieter-Bibliotheken aus dem Klassenpfad auf dem Modulpfad als automatische Module aufgesetzt.
+	Da ein Modul seine eigenen Abhängigkeiten verwalten muss, wird für jedes Plugin eine \textit{module-info.java} Konfigurationsdatei angelegt, die alle Java internen, sowie Drittanbieter Bibliotheken auflistet. Für die ersten Module werden die erforderlichen Bibliotheken inklusive des \textit{Loader}-Plugins in der Konfigurationsdatei mit dem Schlüssel \textit{requires} verankert und die dazugehörigen Drittanbieter-Bibliotheken aus dem Klassenpfad auf dem Modulpfad als automatische Module aufgesetzt.
 
 	\begin{figure}[h!]
 	  \centering
@@ -376,11 +376,11 @@
 	  \label{fig:utilCH}
 	\end{figure}
 
-	In der Abbildung \ref{fig:utilCH} wurde das Util Plugin Modul angepasst und bietet jetzt das \textit{de.renew.util} Paket für den Gebrauch an.\newline
+	In der Abbildung \ref{fig:utilCH} wurde das Util-Plugin-Modul angepasst und bietet jetzt das \textit{de.renew.util} Paket für den Gebrauch an.\newline
 	Die Adaption der bestehenden Module muss mit jeder neuen Modulschicht an die angeforderten Pakete und Klassen angepasst werden, bis alle Abhängigkeiten erfüllt sind.\newline
-	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis sich alle Plugins auf dem Modulpfad befinden, durchgeführt werden. Nämlich das Auslesen und Definieren der Plugin Kompilation- sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module mit dem \textit{exports} Schlüssel. \bigbreak
+	Damit sind die notwendigen Schritte für die Modularisierung bestimmt worden und können in einem Zyklus, bis sich alle Plugins auf dem Modulpfad befinden, durchgeführt werden. Nämlich das Auslesen und Definieren der Plugin Kompilation-, sowie Laufzeit Abhängigkeiten aus dem Gradle Build Skript, mit dem Schlüssel \textit{requires} und das Nachrüsten der Schnittstellen bestehender Module, mit dem \textit{exports} Schlüssel. \bigbreak
 
-	In der folgenden Abbildung wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und nicht aus dem Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad angewiesen sind. Das wären der \textit{Simulator} sowie \textit{JHotDraw} Plugin. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  \bigbreak
+	In der folgenden Abbildung wird die komplette Migration in vier Schritten dargestellt. Zuerst wird das \textit{Loader}, das \textit{Utils} und das \textit{Window Management} Plugin migriert, da diese laut der Ausgangssituation keine Abhängigkeiten im Klassenpfad besitzen und nicht aus dem Modulpfad auf den Klassenpfad nicht zugreifen müssen. Im nächsten Schritt werden Plugins modularisiert, die nur auf den Modulpfad angewiesen sind. Das wären die \textit{Simulator}, sowie \textit{JHotDraw} Plugins. Da alle Abhängigkeiten des \textit{Formalism} und \textit{Remote} Plugins auf den Modulpfad bewegt worden sind, können diese der Modulmenge beigefügt werden. Zum Schluss bleiben Plugins, mit weit gefächerten Plugin Abhängigkeiten, wie zum Beispiel das \textit{Misc} oder das \textit{Gui} Plugin.  \bigbreak
 
 	\begin{figure}[hbt!] 
 	  \centering
@@ -402,17 +402,17 @@
 	Die Evaluation des ersten Prototyps bewertet das Ergebnis des gesetzten Ziels, nämlich die Erstellung einer minimalen \textsc{Renew} Version für das Modulsystem von Java. Dafür werden die Schlüsselaktionen der Migration wie Projektstruktur, Projektverwaltung und die Modulumsetzung nacheinander kritisch beleuchtet.
 
 \subsection{Struktur} \label{sub:struktur}
-	Die Anforderung eine minimale Version von \textsc{Renew} zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es unerwartete Strukturänderungen, die durchgeführt werden müssen. Zum Beispiel besitzen einige Plugins wie das Util, Loader und Simulator Plugin Test Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard Layout ein \textit{src/test/java/module.name} Test Ressourcen, mit dem dazugehörigen Test Klassen, angelegt und verwaltet werden. \newline
+	Die Anforderung eine minimale Version von \textsc{Renew} zu modularisieren und mit einem modernen Werkzeug zu verwalten wurde erfüllt. Diese Aufgabe beinhaltete das Umstrukturieren der Plugin Code Basis, die es erlaubt zusätzliche Module innerhalb eines Plugins anzulegen. Jedoch gab es unerwartete Strukturänderungen, die durchgeführt werden mussten. Zum Beispiel besitzen einige Plugins, wie das \textit{Util, Loader} und \textit{Simulator}-Plugin Test-Klassen, die in die neue Struktur eingebunden werden müssen. Demzufolge musste laut dem Maven Standard-Layout, ein \textit{src/test/java/module.name} Test-Ressourcen Verzeichnis, mit dem dazugehörigen Test Klassen, angelegt und verwaltet werden. \newline
 
-	Des Weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zur Folge, dass der generierte Code umgeleitet werden muss, um an der entsprechenden Position die Funktion zu erfüllen. Zusätzlich muss JavaCC den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generierten Java Klassen bilden die Basis für die Plugins und somit sind sie zwingend erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich eine Komplexität, die neu für \textsc{Renew} ist und in der Zukunft sorgfältig gewartet werden muss. \bigbreak
+	Des Weiteren werden JavaCC Klassen separat von den Java Ressourcen untergebracht und von einem Gradle Plugin ausgeführt. Dies hat zur Folge, dass der generierte Code umgeleitet werden muss, um an der entsprechenden Position die Funktion zu erfüllen. Zusätzlich muss der \textit{JavaCC}-Compiler den Java Code generieren, bevor der Java Compiler mit der Übersetzung beginnt, denn die generierten Java Klassen bilden die Basis für die Plugins und somit sind sie zwingend erforderlich für die Kompilation. Dies bezüglich wurde der \textit{Gradle Task Graph} modifiziert, um die entsprechende Reihenfolge zu erfüllen. Daraus ergibt sich eine Komplexität, die neu für \textsc{Renew} ist und in der Zukunft sorgfältig gewartet werden muss. \bigbreak
 
 \subsection{Verwaltung} \label{sub:verwaltung}
 	Ein wesentlicher Vorteil der modernen \textit{build} Tools wie Gradle und Maven, ist die Verwaltung der verwendeten Drittanbieter-Bibliotheken. Diese laden und binden benötigte Bibliotheken mit dem kompletten Abhängigkeitsgraphen in das Projekt ein, ohne den Zwang der Einarbeitung des Entwicklers in die Struktur der genutzten Bibliothek. Somit wird viel Zeit gespart, da man sich mit dem Kontext und den darunterliegenden Bausteinen, wie Core, Common und Util, der genutzten Bibliotheken nicht beschäftigen muss. \newline
 
-	Die Verwaltung der Bibliotheken spielt eine große Rolle für Renew, da im Verlauf der Entwicklung, Drittanbieter-Bibliotheken angepasst wurden und somit keine Möglichkeit besteht eine saubere Version der Bibliothek einzubinden. Infolgedessen entstehen  unsaubere Abhängigkeiten, die nicht aktualisiert werden können. Diese werden wie zuvor durch das Auslesen aus einem lokalen \textit{libs} Verzeichnis in das Projekt eingebunden und müssen in der Zukunft für die saubere Umsetzung von der benutzerdefinierten Logik befreit werden.\bigbreak
+	Die Verwaltung der Bibliotheken spielt eine große Rolle für Renew, da im Verlauf der Entwicklung, Drittanbieter-Bibliotheken angepasst wurden und somit keine Möglichkeit besteht, eine saubere Version der Bibliothek einzubinden. Infolgedessen entstehen unsaubere Abhängigkeiten, die nicht aktualisiert werden können. Diese werden wie zuvor, durch das Auslesen aus einem lokalen \textit{libs} Verzeichnis in das Projekt eingebunden und müssen in der Zukunft für die saubere Umsetzung, von der benutzerdefinierten Logik befreit werden.\bigbreak
 
-	Ein zusätzlicher Vorteil der neuen Projektverwaltung liegt an der neuen Umsetzung mit einer Programmiersprache, die es erlaubt, mit Feldern, Variablen, Schleifen und Objekten zu arbeiten. Dies hat zur Folge, dass der Übergang von den \textsc{Renew} Java Code zu den \textit{build} Skript von Gradle für den Entwickler leichter nachzuvollziehen ist und somit Akzeptanz und Anpassungsfähigkeit mit sich bringt. \newline
-	Hierzu kann die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeugs an der benötigten Codemenge, die geschrieben werden muss, verglichen werden. Zum Beispiel benötigt die Ant Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von \textsc{Renew} 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden.
+	Ein zusätzlicher Vorteil der neuen Projektverwaltung liegt an der neuen Umsetzung mit einer Programmiersprache, die es erlaubt, mit Feldern, Variablen, Schleifen und Objekten zu arbeiten. Dies hat zur Folge, dass der Übergang von den \textsc{Renew} Java-Code, zu den \textit{Build}-Skript von Gradle, für den Entwickler leichter nachzuvollziehen ist und somit Akzeptanz und Anpassungsfähigkeit mit sich bringt. \newline
+	Hierzu kann die Verständlichkeit des Gradle Werkzeug gegenüber dem Ant Werkzeugs an der benötigten Codemenge, die geschrieben werden muss, verglichen werden. Zum Beispiel benötigt die Ant-Version von Renew, die zurzeit alle Plugins und den kompletten Umfang der Applikation verpackt, um die 740 Zeilen für die globale Konfiguration und 135 Zeilen für jedes Projekt. Im Gegensatz dazu wiegt die minimale Gradle Version von \textsc{Renew} 136 Zeilen für die globale Konfiguration und nur 20 Zeilen für jedes Plugin im Durchschnitt. Zusätzlich ist die Konfiguration von simplen Plugins mit vier Zeilen möglich und kann von jedem Entwickler erstellt und angepasst werden.
 
 	\begin{figure}[h!]
 	  \centering
